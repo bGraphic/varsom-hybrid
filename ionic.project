@@ -1,5 +1,9 @@
 {
   "name": "Varsom",
   "app_id": "f11eace1",
-  "gulpStartupTasks": ["scripts", "sass", "watch"]
+  "gulpStartupTasks": [
+    "scripts",
+    "sass",
+    "watch"
+  ]
 }

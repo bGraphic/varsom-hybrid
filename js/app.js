@@ -10,17 +10,19 @@ angular.module('Varsom', ['ionic'])
 
     /**
      * State configuration
-    .config(function($stateProvider) {
+     */
+    .config(function($stateProvider, $urlRouterProvider) {
+        $urlRouterProvider.otherwise('/');
         $stateProvider
             .state('home', {
                 url: '/',
-                templateUrl: 'home.html'
+                templateUrl: 'templates/home.html'
             })
             .state('county', {
-                url: '/:county/',
-                templateUrl: 'music.html'
+                url: '/county',
+                templateUrl: 'templates/county.html'
             });
-    })*/
+    })
 
     .run(function($ionicPlatform, $http) {
         $ionicPlatform.ready(function() {

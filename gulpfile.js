@@ -30,7 +30,7 @@ gulp.task('sass', function (done) {
 
 gulp.task('scripts', function(done){
     gulp.src(paths.js)
-        .pipe(concat('dist.js'))
+        .pipe(concat('app.js'))
         .pipe(gulp.dest('./www/js/'))
         .on('end', done);
 });

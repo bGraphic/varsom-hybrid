@@ -24,7 +24,7 @@
                     // Iteratoration for class object.
                     countyArray.push({
                         name: results[i].get('name'),
-                        geojson: results[i].get('geoJSONmed').url()
+                        geojson: results[i].get('geoJSONmin').url()
                     });
                 }
                 countiesDeferred.resolve(countyArray);

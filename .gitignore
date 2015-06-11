@@ -5,6 +5,6 @@ node_modules/
 platforms/
 plugins/
 .idea/
-js/config.keys.js
-www/js/dist*.js
+www/js/app.js
 www/css/ionic.app*.css
+js/config.keys.js
