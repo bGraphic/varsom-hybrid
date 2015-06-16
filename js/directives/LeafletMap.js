@@ -27,25 +27,37 @@
             var styles = {
                 '0': {
                     weight: 3,
-                    color: '#387ef5',
+                    color: '#C8C8C8',
                     dashArray: '',
                     fillOpacity: 0.7
                 },
                 '1': {
                     weight: 3,
-                    color: '#00ff00',
+                    color: '#75B100',
                     dashArray: '',
                     fillOpacity: 0.7
                 },
                 '2': {
                     weight: 3,
-                    color: '#ffff00',
+                    color: '#FFCC33',
                     dashArray: '',
                     fillOpacity: 0.7
                 },
                 '3': {
                     weight: 3,
-                    color: '#ff0000',
+                    color: '#E46900',
+                    dashArray: '',
+                    fillOpacity: 0.7
+                },
+                '4': {
+                    weight: 3,
+                    color: '#D21523',
+                    dashArray: '',
+                    fillOpacity: 0.7
+                },
+                '5': {
+                    weight: 3,
+                    color: '#3E060B',
                     dashArray: '',
                     fillOpacity: 0.7
                 },
