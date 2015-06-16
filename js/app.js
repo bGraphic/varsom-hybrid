@@ -19,7 +19,7 @@ angular.module('Varsom', ['ionic'])
                 templateUrl: 'templates/home.html'
             })
             .state('county', {
-                url: '/county',
+                url: '/:countyName',
                 templateUrl: 'templates/county.html'
             });
     })

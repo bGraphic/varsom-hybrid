@@ -25,9 +25,27 @@
             var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}@2x.png');
 
             var styles = {
-                default: {
+                '0': {
                     weight: 3,
                     color: '#387ef5',
+                    dashArray: '',
+                    fillOpacity: 0.7
+                },
+                '1': {
+                    weight: 3,
+                    color: '#00ff00',
+                    dashArray: '',
+                    fillOpacity: 0.7
+                },
+                '2': {
+                    weight: 3,
+                    color: '#ffff00',
+                    dashArray: '',
+                    fillOpacity: 0.7
+                },
+                '3': {
+                    weight: 3,
+                    color: '#ff0000',
                     dashArray: '',
                     fillOpacity: 0.7
                 },
@@ -53,13 +71,13 @@
                         .success(function(data){
                             L.geoJson(data, {
                                 onEachFeature: function (feature, layer) {
-                                    layer.setStyle(styles.default);
+                                    layer.setStyle(styles[county.forecasts.maxLevel]);
                                     layer.on('click', function(event){
-                                        $state.go('county');
+                                        $state.go('county', {countyName: county.name});
                                         layer.setStyle(styles.clicked);
 
                                         $timeout(function(){
-                                            layer.setStyle(styles.default);
+                                            layer.setStyle(styles[county.forecasts.maxLevel]);
                                         }, 500);
                                     });
                                 }

@@ -3,7 +3,7 @@
     <ion-content>
         <div leaflet-map=""></div>
         <ion-list>
-            <ion-item ng-repeat="county in ::home.counties" ui-sref="county">{{::county.name}}</ion-item>
+            <ion-item ng-repeat="county in ::home.counties" ui-sref="county({countyName:county.name})">{{::county.name}}</ion-item>
         </ion-list>
     </ion-content>
 </ion-view>
