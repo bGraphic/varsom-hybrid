@@ -34,7 +34,7 @@
                     };
                     var tempBiggestLevel = -1;
 
-                    for(var j = 3; --j;){
+                    for(var j = obj.forecasts.flood.length; j--;){
                         if(obj.forecasts.flood[j].attributes.activityLevel > tempBiggestLevel)
                             tempBiggestLevel = obj.forecasts.flood[j].attributes.activityLevel;
                         if(obj.forecasts.landslide[j].attributes.activityLevel > tempBiggestLevel)
