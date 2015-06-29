@@ -6,12 +6,12 @@
 var env = "debug";
 Parse.initialize(appKeys[env].appId, appKeys[env].javascriptKey);
 
-angular.module('Varsom', ['ionic'])
+angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics'])
 
     /**
      * State configuration
      */
-    .config(function($stateProvider, $urlRouterProvider) {
+    .config(function($stateProvider, $urlRouterProvider, $ionicAppProvider) {
         $urlRouterProvider.otherwise('/');
         $stateProvider
             .state('home', {
@@ -22,10 +22,16 @@ angular.module('Varsom', ['ionic'])
                 url: '/:countyName',
                 templateUrl: 'templates/county.html'
             });
+
+        $ionicAppProvider.identify({
+            app_id: 'f11eace1',
+            api_key: '2db186347847c5d1e3dacea7bd2d1cc5465980bf2cfff335'
+        });
     })
 
-    .run(function($ionicPlatform, $http) {
+    .run(function($ionicPlatform, $ionicAnalytics) {
         $ionicPlatform.ready(function() {
+            $ionicAnalytics.register();
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
             if(window.cordova && window.cordova.plugins.Keyboard) {
