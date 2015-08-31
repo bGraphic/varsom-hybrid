@@ -9,8 +9,10 @@
         .controller('CountyCtrl', CountyCtrl);
 
     function CountyCtrl($stateParams){
-        var vm = this;
+        var model = this;
 
-        vm.name = $stateParams.countyName;
+        model.county = $stateParams.county;
+        //$scope.county = $stateParams.county;
+        console.log(model.county);
     }
 })();

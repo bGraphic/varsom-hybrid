@@ -9,11 +9,11 @@
         .controller('HomeCtrl', HomeCtrl);
 
     function HomeCtrl(County){
-        var vm = this;
+        var HomeModel = this;
 
         County.countiesLoaded.then(function(counties){
             console.log(counties);
-            vm.counties = counties;
+            HomeModel.counties = counties;
         });
     }
 })();

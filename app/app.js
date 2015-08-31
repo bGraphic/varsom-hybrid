@@ -11,27 +11,31 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
     /**
      * State configuration
      */
-    .config(function($stateProvider, $urlRouterProvider, $ionicAppProvider) {
+    .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+
+        if (ionic.Platform.isAndroid()) {
+            $ionicConfigProvider.scrolling.jsScrolling(false);
+        }
+
         $urlRouterProvider.otherwise('/');
         $stateProvider
             .state('home', {
                 url: '/',
-                templateUrl: 'templates/home.html'
+                templateUrl: 'home/home.html',
+                controller: 'HomeCtrl as HomeModel'
             })
             .state('county', {
-                url: '/:countyName',
-                templateUrl: 'templates/county.html'
+                url: '/county',
+                params : { county: null },
+                templateUrl: 'county/county.html',
+                controller: 'CountyCtrl as CountyModel'
             });
 
-        $ionicAppProvider.identify({
-            app_id: 'f11eace1',
-            api_key: '2db186347847c5d1e3dacea7bd2d1cc5465980bf2cfff335'
-        });
     })
 
     .run(function($ionicPlatform, $ionicAnalytics) {
         $ionicPlatform.ready(function() {
-            $ionicAnalytics.register();
+            //$ionicAnalytics.register();
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
             if(window.cordova && window.cordova.plugins.Keyboard) {

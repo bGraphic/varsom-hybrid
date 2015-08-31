@@ -3,51 +3,77 @@ var gutil = require('gulp-util');
 var bower = require('bower');
 var concat = require('gulp-concat');
 var sass = require('gulp-sass');
+var uglify = require('gulp-uglify');
+var ngAnnotate = require('gulp-ng-annotate');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
+var templateCache = require('gulp-angular-templatecache');
+var minifyHTML = require('gulp-htmlmin');
 
 var paths = {
-    sass: ['./scss/**/*.scss'],
-    js: ['./js/config.keys.js', './js/app.js', './js/**/*js']
+    sass: ['./scss/ionic.app.scss', './app/**/*.scss'],
+    js:   ['./app/config.keys.js','./app/app.js', './app/**/*.js'],
+    html: ['./app/**/*.html'],
+    dist: './www/dist/'
 };
 
-gulp.task('default', ['sass']);
+gulp.task('default', ['sass', 'scripts']);
 
-gulp.task('sass', function (done) {
+gulp.task('sass', function(done) {
     gulp.src(paths.sass)
+        .pipe(concat('app.scss'))
         .pipe(sass({
             errLogToConsole: true
         }))
-        .pipe(gulp.dest('./www/css/'))
+        .pipe(gulp.dest(paths.dist))
         .pipe(minifyCss({
             keepSpecialComments: 0
         }))
-        .pipe(rename({extname: '.min.css'}))
-        .pipe(gulp.dest('./www/css/'))
+        .pipe(rename({ extname: '.min.css' }))
+        .pipe(gulp.dest(paths.dist))
         .on('end', done);
 });
 
-gulp.task('scripts', function(done){
+gulp.task('templates', function (cb) {
+
+    gulp.src(paths.html)
+        .pipe(minifyHTML({ collapseWhitespace: true, keepClosingSlash: true }))
+        .pipe(templateCache('templates.js', { module: 'Varsom' }))
+        .pipe(gulp.dest('./app/templates/'))
+        .on('error', gutil.log)
+        .on('finish', function(){
+            return cb();
+        });
+
+});
+
+gulp.task('scripts', function (done) {
     gulp.src(paths.js)
         .pipe(concat('app.js'))
-        .pipe(gulp.dest('./www/js/'))
+        .pipe(gulp.dest(paths.dist))
+        .pipe(rename({ suffix: '.min' }))
+        //.pipe(stripDebug())
+        .pipe(ngAnnotate())
+        .pipe(uglify())
+        .pipe(gulp.dest(paths.dist))
         .on('end', done);
 });
 
-gulp.task('watch', function () {
+gulp.task('watch', function() {
     gulp.watch(paths.sass, ['sass']);
+    gulp.watch(paths.html, ['templates']);
     gulp.watch(paths.js, ['scripts']);
 });
 
-gulp.task('install', ['git-check'], function () {
+gulp.task('install', ['git-check'], function() {
     return bower.commands.install()
-        .on('log', function (data) {
+        .on('log', function(data) {
             gutil.log('bower', gutil.colors.cyan(data.id), data.message);
         });
 });
 
-gulp.task('git-check', function (done) {
+gulp.task('git-check', function(done) {
     if (!sh.which('git')) {
         console.log(
             '  ' + gutil.colors.red('Git is not installed.'),

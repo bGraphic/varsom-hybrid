@@ -3,7 +3,13 @@
   "private": "true",
   "devDependencies": {
     "ionic": "driftyco/ionic-bower#1.0.0",
-    "ionic-service-core": "~0.1.7",
-    "ionic-service-analytics": "~0.1.2"
+    "ionic-service-analytics": "~0.1.2",
+    "ionic-service-core": "~0.1.10"
+  },
+  "resolutions": {
+    "ionic": "~1.1.0",
+    "angular": ">= 1.0.8",
+    "angular-animate": "1.4.3",
+    "angular-sanitize": "1.4.3"
   }
 }
