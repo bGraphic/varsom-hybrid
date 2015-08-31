@@ -9,13 +9,58 @@
         .directive('leafletMap', LeafletMap);
 
     function LeafletMap(County, $http, $state, $timeout){
-        return {
-            restrict: 'A',
-            link: link
+        var styles = {
+            '0': {
+                weight: 3,
+                color: '#C8C8C8',
+                dashArray: '',
+                fillOpacity: 0.7
+            },
+            '1': {
+                weight: 3,
+                color: '#75B100',
+                dashArray: '',
+                fillOpacity: 0.7
+            },
+            '2': {
+                weight: 3,
+                color: '#FFCC33',
+                dashArray: '',
+                fillOpacity: 0.7
+            },
+            '3': {
+                weight: 3,
+                color: '#E46900',
+                dashArray: '',
+                fillOpacity: 0.7
+            },
+            '4': {
+                weight: 3,
+                color: '#D21523',
+                dashArray: '',
+                fillOpacity: 0.7
+            },
+            '5': {
+                weight: 3,
+                color: '#3E060B',
+                dashArray: '',
+                fillOpacity: 0.7
+            },
+            clicked: {
+                weight: 3,
+                color: '#666',
+                dashArray: '',
+                fillOpacity: 0.7
+            }
         };
 
         function link(scope, elem, attrs){
-            elem.css('height', '480px');
+            var options = scope.leafletMap;
+
+            if(options.small)
+                elem.css('height', '200px');
+            else
+                elem.css('height', '100%');
 
             var map = L.map(elem[0], {
                 center: [64.871, 16.949],
@@ -24,58 +69,19 @@
 
             var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}@2x.png');
 
-            var styles = {
-                '0': {
-                    weight: 3,
-                    color: '#C8C8C8',
-                    dashArray: '',
-                    fillOpacity: 0.7
-                },
-                '1': {
-                    weight: 3,
-                    color: '#75B100',
-                    dashArray: '',
-                    fillOpacity: 0.7
-                },
-                '2': {
-                    weight: 3,
-                    color: '#FFCC33',
-                    dashArray: '',
-                    fillOpacity: 0.7
-                },
-                '3': {
-                    weight: 3,
-                    color: '#E46900',
-                    dashArray: '',
-                    fillOpacity: 0.7
-                },
-                '4': {
-                    weight: 3,
-                    color: '#D21523',
-                    dashArray: '',
-                    fillOpacity: 0.7
-                },
-                '5': {
-                    weight: 3,
-                    color: '#3E060B',
-                    dashArray: '',
-                    fillOpacity: 0.7
-                },
-                clicked: {
-                    weight: 3,
-                    color: '#666',
-                    dashArray: '',
-                    fillOpacity: 0.7
-                }
-            };
-
             map.addLayer(layer);
 
-            map.dragging.disable();
-            map.touchZoom.disable();
-            map.doubleClickZoom.disable();
-            map.scrollWheelZoom.disable();
-            if (map.tap) map.tap.disable();
+            if(options.small){
+                map.dragging.disable();
+                map.touchZoom.disable();
+                map.doubleClickZoom.disable();
+                map.scrollWheelZoom.disable();
+                if (map.tap) map.tap.disable();
+            }
+            if(options.userPos){
+                map.locate({setView: true, maxZoom: 6});
+                map.on('locationfound', onLocationFound);
+            }
 
             County.countiesLoaded.then(function(counties){
                 counties.forEach(function(county){
@@ -85,7 +91,7 @@
                                 onEachFeature: function (feature, layer) {
                                     layer.setStyle(styles[county.forecasts.maxLevel]);
                                     layer.on('click', function(event){
-                                        $state.go('county', {countyName: county.name});
+                                        $state.go('county', {county: county});
                                         layer.setStyle(styles.clicked);
 
                                         $timeout(function(){
@@ -97,6 +103,26 @@
                         });
                 });
             });
+
+            function onLocationFound(e) {
+                var radius = e.accuracy / 2;
+
+                /*L.marker(e.latlng).addTo(map)
+                    .bindPopup("You are within " + radius + " meters from this point").openPopup();*/
+
+                L.circle(e.latlng, radius).addTo(map);
+            }
         }
+
+
+
+        return {
+            restrict: 'A',
+            link: link,
+            scope: {
+                leafletMap: '='
+            }
+        };
+
     }
 })();

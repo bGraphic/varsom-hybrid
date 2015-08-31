@@ -13,7 +13,25 @@
 
         County.countiesLoaded.then(function(counties){
             console.log(counties);
-            HomeModel.counties = counties;
+            HomeModel.counties = counties.sort(function(a,b){
+                if (a.forecasts.maxLevel > b.forecasts.maxLevel) {
+                    return -1;
+                }
+                if (a.forecasts.maxLevel < b.forecasts.maxLevel) {
+                    return 1;
+                }
+                // a must be equal to b
+                return 0;
+            });
         });
+
+        HomeModel.warningClasses = [
+            'stable', //Warning level 0
+            'calm',
+            'balanced',
+            'energized',
+            'assertive',
+            'royal'
+        ];
     }
 })();
