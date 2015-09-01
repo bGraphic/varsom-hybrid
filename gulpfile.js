@@ -8,13 +8,10 @@ var ngAnnotate = require('gulp-ng-annotate');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
-var templateCache = require('gulp-angular-templatecache');
-var minifyHTML = require('gulp-htmlmin');
 
 var paths = {
-    sass: ['./scss/ionic.app.scss', './app/**/*.scss'],
-    js:   ['./app/config.keys.js','./app/app.js', './app/**/*.js'],
-    html: ['./app/**/*.html'],
+    sass: ['./scss/ionic.app.scss', './www/app/**/*.scss'],
+    js:   ['./www/app/config.keys.js','./www/app/app.js', './www/app/**/*.js'],
     dist: './www/dist/'
 };
 
@@ -35,19 +32,6 @@ gulp.task('sass', function(done) {
         .on('end', done);
 });
 
-gulp.task('templates', function (cb) {
-
-    gulp.src(paths.html)
-        .pipe(minifyHTML({ collapseWhitespace: true, keepClosingSlash: true }))
-        .pipe(templateCache('templates.js', { module: 'Varsom' }))
-        .pipe(gulp.dest('./app/templates/'))
-        .on('error', gutil.log)
-        .on('finish', function(){
-            return cb();
-        });
-
-});
-
 gulp.task('scripts', function (done) {
     gulp.src(paths.js)
         .pipe(concat('app.js'))
@@ -62,7 +46,6 @@ gulp.task('scripts', function (done) {
 
 gulp.task('watch', function() {
     gulp.watch(paths.sass, ['sass']);
-    gulp.watch(paths.html, ['templates']);
     gulp.watch(paths.js, ['scripts']);
 });
 

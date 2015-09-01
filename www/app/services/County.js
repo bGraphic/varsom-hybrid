@@ -16,7 +16,7 @@
         query.include('LandSlideWarningForecast');
 
         var countiesDeferred = $q.defer();
-        service.countiesLoaded = countiesDeferred.promise;
+        service.loaded = countiesDeferred.promise;
 
         query.find({
             success: function (results) {
@@ -25,6 +25,7 @@
                 for (var i = 0; i < results.length; i++) {
                     // Iteratoration for class object.
                     var obj = {
+                        countyId: results[i].get('countyId'),
                         name: results[i].get('name'),
                         geojson: results[i].get('geoJSONmin').url(),
                         forecasts: {

@@ -11,7 +11,7 @@
     function HomeCtrl(County){
         var HomeModel = this;
 
-        County.countiesLoaded.then(function(counties){
+        County.loaded.then(function(counties){
             console.log(counties);
             HomeModel.counties = counties.sort(function(a,b){
                 if (a.forecasts.maxLevel > b.forecasts.maxLevel) {

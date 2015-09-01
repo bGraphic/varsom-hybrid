@@ -21,13 +21,13 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
         $stateProvider
             .state('home', {
                 url: '/',
-                templateUrl: 'home/home.html',
+                templateUrl: 'app/home/home.html',
                 controller: 'HomeCtrl as HomeModel'
             })
             .state('county', {
                 url: '/county',
                 params : { county: null },
-                templateUrl: 'county/county.html',
+                templateUrl: 'app/county/county.html',
                 controller: 'CountyCtrl as CountyModel'
             });
 

@@ -14,43 +14,43 @@
                 weight: 3,
                 color: '#C8C8C8',
                 dashArray: '',
-                fillOpacity: 0.7
+                fillOpacity: 0.5
             },
             '1': {
                 weight: 3,
                 color: '#75B100',
                 dashArray: '',
-                fillOpacity: 0.7
+                fillOpacity: 0.5
             },
             '2': {
                 weight: 3,
                 color: '#FFCC33',
                 dashArray: '',
-                fillOpacity: 0.7
+                fillOpacity: 0.5
             },
             '3': {
                 weight: 3,
                 color: '#E46900',
                 dashArray: '',
-                fillOpacity: 0.7
+                fillOpacity: 0.5
             },
             '4': {
                 weight: 3,
                 color: '#D21523',
                 dashArray: '',
-                fillOpacity: 0.7
+                fillOpacity: 0.5
             },
             '5': {
                 weight: 3,
                 color: '#3E060B',
                 dashArray: '',
-                fillOpacity: 0.7
+                fillOpacity: 0.5
             },
             clicked: {
                 weight: 3,
                 color: '#666',
                 dashArray: '',
-                fillOpacity: 0.7
+                fillOpacity: 0.5
             }
         };
 
@@ -67,7 +67,7 @@
                 zoom: 4
             });
 
-            var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}@2x.png');
+            var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png');
 
             map.addLayer(layer);
 
@@ -79,11 +79,12 @@
                 if (map.tap) map.tap.disable();
             }
             if(options.userPos){
-                map.locate({setView: true, maxZoom: 6});
+                console.log(options.userPos);
+                map.locate({setView: true, maxZoom: 8});
                 map.on('locationfound', onLocationFound);
             }
 
-            County.countiesLoaded.then(function(counties){
+            County.loaded.then(function(counties){
                 counties.forEach(function(county){
                     $http.get(county.geojson, {cache: true})
                         .success(function(data){

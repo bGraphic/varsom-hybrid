@@ -2,8 +2,7 @@
   "name": "Varsom",
   "app_id": "f11eace1",
   "gulpStartupTasks": [
-    "scripts",
-    "sass",
+    "default",
     "watch"
   ]
 }
