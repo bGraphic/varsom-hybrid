@@ -1,0 +1,132 @@
+/* 
+  Api.strings
+  varsom
+
+  Created by Benedicte Raae on 13.11.14.
+  Copyright (c) 2014 NVE. All rights reserved.
+*/
+
+// AVALANCHE
+
+"DangerLevelName-0" = "Ikke vurdert";
+"DangerLevelName-1" = "Liten";
+"DangerLevelName-2" = "Moderat";
+"DangerLevelName-3" = "Betydelig";
+"DangerLevelName-4" = "Stor";
+"DangerLevelName-5" = "Meget stor";
+
+// Old
+"AvalancheExt-0" = "Ikke gitt";
+"AvalancheExt-10" = "Tørre løssnøskred";
+"AvalancheExt-15" = "Våte løssnøskred";
+"AvalancheExt-20" = "Tørre flakskred";
+"AvalancheExt-25" = "Våte flakskred";
+"AvalancheExt-30" = "Sørpeskred";
+"AvalancheExt-40" = "Skavl";
+
+// New
+"AvalancheExt-0" = "Ikke gitt";
+"AvalancheExt-50" = "Fokksnø";
+"AvalancheExt-51" = "Nysnø";
+"AvalancheExt-52" = "Vedvarende svakt lag";
+"AvalancheExt-53" = "Vedvarende svakt lag ved bakken";
+"AvalancheExt-54" = "Våt snø";
+"AvalancheExt-55" = "Nysnø";
+"AvalancheExt-56" = "Våt snø";
+
+"AvalCause-0" = "Ikke gitt";
+"AvalCause-10" = "Nedsnødd eller nedføyket svakt lag med løs nysnø.";
+"AvalCause-11" = "Nedsnødd eller nedføyket svakt lag med overflaterim.";
+"AvalCause-12" = "Nedsnødd eller nedføyket svakt lag med sprøhagl.";
+"AvalCause-13" = "Nedsnødd eller nedføyket svakt lag med kantkornet snø.";
+"AvalCause-14" = "Dårlig binding mellom glatt skare og overliggende snø.";
+"AvalCause-15" = "Dårlig binding mellom lag i fokksnøen.";
+"AvalCause-16" = "Svakt lag av kantkornet snø ved bakken.";
+"AvalCause-17" = "Svakt lag av kantkornet snø rundt vegetasjon.";
+"AvalCause-18" = "Svakt lag av kantkornet snø over skarelag.";
+"AvalCause-19" = "Svakt lag av kantkornet snø under skarelag.";
+"AvalCause-20" = "Snødekket er gjennomfuktet og ustabilt fra bakken.";
+"AvalCause-21" = "Snødekket gjennomfuktet og ustabilt fra overflaten.";
+"AvalCause-22" = "Opphopning av vann over skarelag.";
+"AvalCause-23" = "Snødekket er overmettet av vann.";
+"AvalCause-24" = "Ubundet løs snø.";
+// New
+"AvalCause-25" = "Regn og/eller oppvarming.";
+"AvalCause-26" = "Smelting fra bakken.";
+"AvalCause-27" = "Vannmettet snø.";
+"AvalCause-28" = "Løs tørr snø.";
+"AvalCause-29" = "Regn / temperatutstigning / soloppvarming.";
+
+"AvalProbability-Label" = "Sannsynlighet";
+"AvalProbability-0" = "Ikke gitt";
+"AvalProbability-2" = "Lite sannsynlig";
+"AvalProbability-3" = "Mulig";
+"AvalProbability-5" = "Sannsynlig";
+"AvalProbability-7" = "Meget sannsynlig";
+
+"AvalTriggerSimple-0" = "Ikke gitt";
+"AvalTriggerSimple-10" = "Stor tilleggsbelastning";
+"AvalTriggerSimple-21" = "Liten tilleggsbelastning";
+"AvalTriggerSimple-22" = "Naturlig utløst";
+
+"DestructiveSizeExt-Label" = "Skredstørrelse";
+"DestructiveSizeExt-0" = "Ikke gitt";
+"DestructiveSizeExt-1" = "Harmløst";
+"DestructiveSizeExt-2" = "Små skred";
+"DestructiveSizeExt-3" = "Middels skred";
+"DestructiveSizeExt-4" = "Store skred";
+"DestructiveSizeExt-5" = "Svært store skred";
+"DestructiveSizeExt-9" = "Ukjent";
+
+"AvalPropagation-0" = "Ikke vurdert";
+"AvalPropagation-1" = "Isolerte faresoner";
+"AvalPropagation-2" = "Noen bratte heng";
+"AvalPropagation-3" = "Mange bratte heng";
+"AvalPropagation-4" = "De fleste bratte heng";
+"AvalPropagation-5" = "Også i mindre bratte terreng";
+
+"AvalancheType-0" = "Ikke gitt";
+"AvalancheType-10" = "Flakskred";
+"AvalancheType-20" = "Løssnøskred";
+
+"AvalancheProblemType-0" = "Ikke gitt";
+"AvalancheProblemType-10" = "Fokksnø";
+"AvalancheProblemType-20" = "Nysnø";
+"AvalancheProblemType-30" = "Vedvarende svakt lag";
+"AvalancheProblemType-40" = "Våt snø";
+
+"AvalancheExposition-non-given" = "Ikke gitt";
+"AvalancheExposition-0" = "N";
+"AvalancheExposition-1" = "NØ";
+"AvalancheExposition-2" = "Ø";
+"AvalancheExposition-3" = "SØ";
+"AvalancheExposition-4" = "S";
+"AvalancheExposition-5" = "SV";
+"AvalancheExposition-6" = "V";
+"AvalancheExposition-7" = "NV";
+
+"ExposedHeightFill-0" = "Ikke gitt";
+"ExposedHeightFill-1" = "Over %@ moh";
+"ExposedHeightFill-2" = "Under %@ moh";
+"ExposedHeightFill-3" = "Over %@ og under %@ moh";
+"ExposedHeightFill-4" = "Mellom %@ og %@ moh";
+
+// LANDSLIDE AND FLOOD
+
+"cause list" = "Problemer";
+"cause singular" = "Problem";
+
+"CauseName-0" = "Ikke gitt";
+"CauseName-1" = "Regn";
+"CauseName-2" = "Intens regn (bygenedbør)";
+"CauseName-3" = "Snøsmelting";
+"CauseName-4" = "Isgang";
+"CauseName-5" = "Frost og is";
+"CauseName-6" = "Vannmetning (i jord)";
+"CauseName-7" = "Dambrudd/jøkulhlaup";
+
+"LandslideTypeName-0" = "Ikke gitt";
+"LandslideTypeName-1" = "Utgliding";
+"LandslideTypeName-2" = "Jordskred";
+"LandslideTypeName-3" = "Flomskred";
+"LandslideTypeName-4" = "Sørpeskred";

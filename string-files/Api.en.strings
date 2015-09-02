@@ -1,0 +1,138 @@
+/* 
+  Api.strings
+  varsom
+
+  Created by Benedicte Raae on 13.11.14.
+  Copyright (c) 2014 NVE. All rights reserved.
+*/
+
+// AVALANCHE
+
+"DangerLevelName-0" = "Not given";
+"DangerLevelName-1" = "Low";
+"DangerLevelName-2" = "Moderate";
+"DangerLevelName-3" = "Considerable";
+"DangerLevelName-4" = "High";
+"DangerLevelName-5" = "Extreme";
+
+//Old
+"AvalancheExt-0" = "Not given";
+"AvalancheExt-10" = "Loose dry avalanche";
+"AvalancheExt-15" = "Loose wet avalanche";
+"AvalancheExt-20" = "Dry slab avalanche";
+"AvalancheExt-25" = "Wet slab avalanche";
+"AvalancheExt-30" = "Slush avalanche";
+"AvalancheExt-40" = "Cornice";
+
+//New
+"AvalancheExt-0" = "Not given";
+"AvalancheExt-50" = "Wind slab";
+"AvalancheExt-51" = "New snow";
+"AvalancheExt-52" = "Persistent weak layer";
+"AvalancheExt-53" = "Persistent weak layer";
+"AvalancheExt-54" = "Wet snow";
+"AvalancheExt-55" = "New snow";
+"AvalancheExt-56" = "Wet snow";
+
+
+"AvalCause-0" = "Not given";
+"AvalCause-10" = "Buried weak layer of new snow.";
+"AvalCause-11" = "Buried weak layer of surface hoar.";
+"AvalCause-12" = "Buried weak layer of graupel.";
+"AvalCause-13" = "Buried weak layer of faceted snow near surface.";
+"AvalCause-14" = "Poor bonding between buried crust and overlying snow.";
+"AvalCause-15" = "Poor bonding between layers in wind deposited snow.";
+"AvalCause-16" = "Buried weak layer of faceted snow near the ground.";
+"AvalCause-17" = "Buried weak layer of faceted snow near vegetation.";
+"AvalCause-18" = "Buried weak layer of faceted snow above a crust.";
+"AvalCause-19" = "Buried weak layer of faceted snow under a crust.";
+"AvalCause-20" = "Snødekket er gjennomfuktet og ustabilt fra bakken.";
+"AvalCause-21" = "Wet snow on the surface.";
+"AvalCause-22" = "Free water above crusts.";
+"AvalCause-23" = "Water-saturated snow.";
+"AvalCause-24" = "Loose snow.";
+// New
+"AvalCause-25" = "Rain and/or heating";
+"AvalCause-26" = "Mealting from the ground up.";
+"AvalCause-27" = "Water-saturated snow.";
+"AvalCause-28" = "Loose dry snow.";
+"AvalCause-29" = "Rain / rise in temperature / solar heating.";
+
+"AvalTriggerSimple-0" = "Not given";
+"AvalTriggerSimple-10" = "Large additional load";
+"AvalTriggerSimple-21" = "Small additional load";
+"AvalTriggerSimple-22" = "Naturally released";
+
+"AvalProbability-Label" = "Likelihood";
+"AvalProbability-0" = "Not given";
+"AvalProbability-2" = "Low probability";
+"AvalProbability-3" = "Possible";
+"AvalProbability-5" = "Probable";
+"AvalProbability-7" = "Very probable";
+
+"DestructiveSizeExt-Label" = "Expected Size";
+"DestructiveSizeExt-0" = "Not given";
+"DestructiveSizeExt-1" = "Harmless aval";
+"DestructiveSizeExt-2" = "Small aval";
+"DestructiveSizeExt-3" = "Medium aval";
+"DestructiveSizeExt-4" = "Large aval";
+"DestructiveSizeExt-5" = "Very large aval";
+"DestructiveSizeExt-9" = "Unknown";
+
+"AvalPropagation-0" = "Not given";
+"AvalPropagation-1" = "Single hazard sites";
+"AvalPropagation-2" = "Some steep slopes";
+"AvalPropagation-3" = "Many steep slopes";
+"AvalPropagation-4" = "Most steep slopes";
+"AvalPropagation-5" = "Also in moderately steep slopes";
+
+"AvalancheType-0" = "Not given";
+"AvalancheType-10" = "Slab avalanche";
+"AvalancheType-20" = "Loose snow avalanche";
+
+"AvalancheProblemType-0" = "Not given";
+"AvalancheProblemType-10" = "Wind slab";
+"AvalancheProblemType-20" = "New snow";
+"AvalancheProblemType-30" = "Persistent weak layer";
+"AvalancheProblemType-40" = "Wet snow";
+
+"AvalancheExposition-non-given" = "Ikke gitt";
+"AvalancheExposition-0" = "N";
+"AvalancheExposition-1" = "NØ";
+"AvalancheExposition-2" = "Ø";
+"AvalancheExposition-3" = "SØ";
+"AvalancheExposition-4" = "S";
+"AvalancheExposition-5" = "SV";
+"AvalancheExposition-6" = "V";
+"AvalancheExposition-7" = "NV";
+
+"ExposedHeightFill-0" = "Ikke gitt";
+"ExposedHeightFill-1" = "Over %@ moh";
+"ExposedHeightFill-2" = "Under %@ moh";
+"ExposedHeightFill-3" = "Over %@ og under %@ moh";
+"ExposedHeightFill-4" = "Mellom %@ og %@ moh";
+
+"AvalancheExt-0" = "Ikke gitt";
+"AvalancheExt-10" = "Tørre løssnøskred";
+"AvalancheExt-15" = "Våte løssnøskred";
+"AvalancheExt-20" = "Tørre flakskred";
+"AvalancheExt-25" = "Våte flakskred";
+"AvalancheExt-30" = "Sørpeskred";
+"AvalancheExt-40" = "Skavl";
+
+// LANDSLIDE AND FLOOD
+
+"CauseName-0" = "Ikke gitt";
+"CauseName-1" = "Regn";
+"CauseName-2" = "Intens regn (bygenedbør)";
+"CauseName-3" = "Snøsmelting";
+"CauseName-4" = "Isgang";
+"CauseName-5" = "Frost og is";
+"CauseName-6" = "Vannmetning (i jord)";
+"CauseName-7" = "Dambrudd/jøkulhlaup";
+
+"LandslideTypeName-0" = "Ikke gitt";
+"LandslideTypeName-1" = "Utgliding";
+"LandslideTypeName-2" = "Jordskred";
+"LandslideTypeName-3" = "Flomskred";
+"LandslideTypeName-4" = "Sørpeskred";

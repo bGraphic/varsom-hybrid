@@ -1,0 +1,65 @@
+/* 
+  InfoPage.strings
+  varsom
+
+  Created by Benedicte Raae on 09.04.14.
+  Copyright (c) 2014 NVE. All rights reserved.
+*/
+
+"warning levels" = "Warning Levels";
+"avalanche warning levels" = "Avalanche Danger Scale";
+
+"phone numbers" = "Contact Information";
+
+"all hours" = "All hours";
+"work hours" = "Work hours";
+
+"varsom.no facebook" = "Varsom Facebook Page";
+"varsom.no facebook comment" = "Search for \"varsom.no\"";
+"avalanche facebook" = "Avalanche Facebook Page";
+"avalanche facebook comment" = "Search for \"Snøskredvarslingen i Norge\"";
+"avalanche school" = "The avalanche school";
+"avalanche school comment" = "@ varsom.no (in norwegian only)";
+
+"call" = "Call now";
+"open" = "Open";
+
+
+"FloodWarningDescription-0" = "Ikke vurdert";
+
+"FloodWarningDescription-1" = "Generelt trygge forhold/ingen spesiell fare.";
+
+"FloodWarningDescription-2" = "Raskt økende vannføring som kan medføre lokale oversvømmelser. Spesielt stor vannføring/vannstand for årstiden, fare for isgang etc. Det kan forekomme store problemer/flomskader lokalt. Vannføring opp til 5 års gjentaksintervall.";
+
+"FloodWarningDescription-3" = "Vannføring som kan medføre omfattende oversvømmelser og flomskader på utsatte steder. Vannføring mellom 5 og 50 års gjentaksintervall.";
+
+"FloodWarningDescription-4" = "Vannføring som kan medføre omfattende oversvømmelser og flomskader på bebyggelse og infrastruktur over store områder. Vannføring med mer enn 50 års gjentaksintervall.";
+
+
+"LandslideWarningDescription-0" = "Ikke vurdert.";
+
+"LandslideWarningDescription-1" = "Generelt trygge forhold. Ingen spesielle forholdsregler er nødvendig.";
+
+"LandslideWarningDescription-2" = "Det ventes noen jordskred og/eller sørpeskred. Enkelte store hendelser kan forekomme. Vær oppmerksom i utsatte områder (oftest bratt terreng og langs bekker og elveløp). Hold deg oppdatert om utviklingen av været og den hydrologiske situasjonen. Forebyggende tiltak, som rensing av dreneringsveier i spesielt utsatte områder, anbefales.";
+
+"LandslideWarningDescription-3" = "Det ventes flere store og små jordskred og/eller sørpeskred. Vær oppmerksom og følg oppfordringer fra myndighetene. Forebyggende tiltak som rensing av dreneringsveier bør utføres.";
+
+"LandslideWarningDescription-4" = "Det ventes mange store jordskred og/eller sørpeskred. Følg med i media, og følg oppfordringer og råd fra myndighetene. Sikkerhetstiltak som vegstenging og evakuering kan skje på kort varsel.";
+
+
+"AvalancheWarningDescription-0" = "No rating";
+
+"AvalancheWarningTitle-1" = "Low";
+"AvalancheWarningDescription-1" = "The snowpack is well bonded and stable in general. Triggering is generally possible only from high additional loads in isolated areas of very steep, extreme terrain. Only sluffs and small-sized natural avalanches are possible.";
+
+"AvalancheWarningTitle-2" = "Moderate";
+"AvalancheWarningDescription-2" = "The snowpack is only moderately well bonded on some steep slopes, otherwise well bonded in general. Triggering is possible primarily from high additional loads, particularly on the indicated steep slopes*. Large-sized natural avalanches are unlikely.";
+
+"AvalancheWarningTitle-3" = "Considerable";
+"AvalancheWarningDescription-3" = "The snowpack is moderately to poorly bonded on many steep slopes. Triggering is possible, even from low additional loads particularly on the indicated steep slopes. In some cases medium-sized, in isolated cases large-sized natural avalanches are possible.";
+
+"AvalancheWarningTitle-4" = "High";
+"AvalancheWarningDescription-4" = "The snowpack is poorly bonded on most steep slopes. Triggering is likely even from low additional loads** on many steep slopes. In some cases, numerous medium-sized and often large-sized natural avalanches can be expected.";
+
+"AvalancheWarningTitle-5" = "Very high";
+"AvalancheWarningDescription-5" = "The snowpack is poorly bonded and largely unstable in general. Numerous large-sized and often very large-sized natural avalanches can be expected, even in moderately steep terrain";

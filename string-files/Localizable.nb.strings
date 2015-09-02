@@ -1,0 +1,65 @@
+/* 
+  Localizable.strings
+  varsom
+
+  Created by Benedicte Raae on 14.11.13.
+  Copyright (c) 2013 NVE. All rights reserved.
+*/
+
+
+"avalanche tab title" = "Snøskred";
+"flood tab title" = "Flom";
+"landslide tab title" = "Jordskred";
+"favorites tab title" = "Favoritter";
+
+"overview view title" = "Oversikt";
+"favorites view title" = "Favoritter";
+
+"map view" = "I kart";
+"table view" = "Som liste";
+
+"favorites header for warningType 1" = "Flom";
+"favorites header for warningType 2" = "Jordskred";
+"favorites header for warningType 3" = "Snøskred";
+
+"published" = "Publisert: %@";
+"next warning" = "Neste varsel før: %@";
+
+"no main text" = "Ingen oppsummering";
+
+"warning text back button title" = "Varsel";
+
+"empty favorites table" = "Dine stjernede favorittområder vil dukke opp i denne listen.";
+
+"empty avalanche warnings table" = "Kom tilbake etter 1. desember";
+"empty flood warnings table" = "Ingen flomvarsel for i dag eller de neste to dagene";
+"empty landslide warnings table" = "Ingen jordskredvarsel for i dag eller de neste to dagene";
+
+// PUSH WARNINGS
+
+"AvalancheWarning problem changed" = "%@ - snøskred: Endring i det viktigste snøskredproblemet.";
+"AvalancheWarning forecast changed" = "%@ - snøskred: Høyeste varslingsnivå endret fra %@ til %@ for de neste tre dagene.";
+"FloodWarning forecast changed" = "%@ - flom: Høyeste varslingsnivå endret fra %@ til %@ for de neste tre dagene.";
+"LandSlideWarning forecast changed" = "%@ - jordskred: Høyeste varslingsnivå endret fra %@ til %@ for de neste tre dagene.";
+"FloodWarning MicroBlogPosts have changed" = "%@ - flom: Ny varslingsoppdatering.";
+"LandSlideWarning MicroBlogPosts have changed" = "%@ - jordskred: Ny varslingsoppdatering.";
+
+// AVALANCHE
+
+"regobs link" = "Gå til regionen på regobs.no";
+
+"emergency warning" = "Beredskapsmelding";
+
+"avalanche problems" = "Skredproblemer";
+"avalanche problem" = "Skredproblem";
+
+// LANDSLIDE AND FLOOD
+
+"cause list" = "Problemer";
+"cause singular" = "Problem";
+
+"landslide types" = "Skredtyper";
+"landslide type" = "Skredtype";
+
+"micro blog posts" = "Oppdateringer";
+"micro blog post" = "Oppdatering";

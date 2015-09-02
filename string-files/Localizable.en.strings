@@ -1,0 +1,65 @@
+/* 
+  Localizable.strings
+  varsom
+
+  Created by Benedicte Raae on 14.11.13.
+  Copyright (c) 2013 NVE. All rights reserved.
+*/
+
+
+"avalanche tab title" = "Avalanche";
+"flood tab title" = "Flood";
+"landslide tab title" = "Landslide";
+"favorites tab title" = "Favorites";
+
+"overview view title" = "Overview";
+"favorites view title" = "Favorites";
+
+"map view" = "In Map";
+"table view" = "As Table";
+
+"favorites header for warningType 1" = "Flood";
+"favorites header for warningType 2" = "Landslide";
+"favorites header for warningType 3" = "Avalanche";
+
+"published" = "Published: %@";
+"next warning" = "Next warning before: %@";
+
+"no main text" = "No summary";
+
+"warning text back button title" = "Forecast";
+
+"empty favorites table" = "Star an area and it will show up in this table.";
+
+"empty avalanche warnings table" = "Check back after December 1st";
+"empty flood warnings table" = "No flood warnings issued for today or the next two days";
+"empty landslide warnings table" = "No landslide warnings issued for today or the next two days";
+
+// PUSH WARNINGS
+
+"AvalancheWarning problem changed" = "%@ - avalanche: Most important avalanche problem changed.";
+"AvalancheWarning forecast changed" = "%@ - avalanche: Highest warning level changed from %@ to %@ for the next three days.";
+"FloodWarning forecast changed" = "%@ - flood: Highest warning level changed from %@ to %@ for the next three days.";
+"LandSlideWarning forecast changed" = "%@ - landslide: Highest warning level changed from %@ to %@ for the next three days.";
+"FloodWarning MicroBlogPosts have changed" = "%@ - flood: New update for warning.";
+"LandSlideWarning MicroBlogPosts have changed" = "%@ - landslide: New update for warning.";
+
+// AVALANCHE
+
+"regobs link" = "View region on regobs.no";
+
+"emergency warning" = "Emergency Warning";
+
+"avalanche problems" = "Avalanche Problems";
+"avalanche problem" = "Avalanche Problem";
+
+// LANDSLIDE AND FLOOD
+
+"cause list" = "Problems";
+"cause singular" = "Problem";
+
+"landslide types" = "Landslide types";
+"landslide type" = "Landslide type";
+
+"micro blog posts" = "Updates";
+"micro blog post" = "Update";
