@@ -2,9 +2,27 @@
 Hybrid app version of varsom.no.
 > More information about Varsom projects can be found at https://github.com/bgraphic/varsom-apps
 
+## Requirements to get up and running
+These are required to start developing:
+
+* Node.js
+* Gulp
+* Bower
+* Cordova
+* Ionic
+
+### Installation
+After you have installed latest version of [node.js](https://nodejs.org/en/), boot up a command prompt and run the following (make sure to use sudo, if you are on mac/linux):
+
+    npm install -g gulp
+    npm install -g bower
+    npm install -g cordova
+    npm install -g ionic
+
 ## Getting Started
 1. Clone the repo `git clone https://github.com/bgraphic/varsom-hybrid`
 2. Add environment variables file(s)
+3. Run `npm install`
 
 ### Environment variables file `config.keys.js`
 Add a file `config.keys.js` under `.js/`

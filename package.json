@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Varsom: An Ionic project",
   "scripts": {
-    "post-install": "ionic state reset && bower install"
+    "postinstall": "ionic state reset && bower install && gulp"
   },
   "dependencies": {
     "gulp": "^3.5.6",
