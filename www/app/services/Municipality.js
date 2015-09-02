@@ -17,6 +17,7 @@
             var deferred = $q.defer();
             service.loaded = deferred.promise;
             query.equalTo('countyId', countyID);
+            query.ascending('name');
 
             query.find({
                 success: function (results) {

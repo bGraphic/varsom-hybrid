@@ -14,6 +14,7 @@
         var query = new Parse.Query(County);
         query.include('FloodWarningForecast');
         query.include('LandSlideWarningForecast');
+        query.descending('countyId');
 
         var countiesDeferred = $q.defer();
         service.loaded = countiesDeferred.promise;
