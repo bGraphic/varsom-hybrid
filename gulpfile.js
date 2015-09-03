@@ -11,7 +11,7 @@ var sh = require('shelljs');
 
 var paths = {
     sass: ['./scss/ionic.app.scss', './www/app/**/*.scss'],
-    js:   ['./www/app/config.keys.js','./www/app/app.js', './www/app/**/*.js'],
+    js:   ['./www/app/app.js', './www/app/**/*.js'],
     dist: './www/dist/'
 };
 

@@ -1,14 +1,10 @@
 /**
  * Created by storskel on 03.06.2015.
  */
-(function() {
-    'use strict';
 
-    angular
-        .module('Varsom')
-        .factory('County', County);
-
-    function County($q) {
+angular
+    .module('Varsom')
+    .factory('County', function County($q) {
         var service = {};
         var County = Parse.Object.extend('County');
         var query = new Parse.Query(County);
@@ -36,10 +32,10 @@
                     };
                     var tempBiggestLevel = -1;
 
-                    for(var j = obj.forecasts.flood.length; j--;){
-                        if(obj.forecasts.flood[j].attributes.activityLevel > tempBiggestLevel)
+                    for (var j = obj.forecasts.flood.length; j--;) {
+                        if (obj.forecasts.flood[j].attributes.activityLevel > tempBiggestLevel)
                             tempBiggestLevel = obj.forecasts.flood[j].attributes.activityLevel;
-                        if(obj.forecasts.landslide[j].attributes.activityLevel > tempBiggestLevel)
+                        if (obj.forecasts.landslide[j].attributes.activityLevel > tempBiggestLevel)
                             tempBiggestLevel = obj.forecasts.landslide[j].attributes.activityLevel;
                     }
 
@@ -56,5 +52,4 @@
         });
 
         return service;
-    }
-})();
+    });

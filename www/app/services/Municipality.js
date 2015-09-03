@@ -1,19 +1,14 @@
 /**
  * Created by storskel on 03.06.2015.
  */
-(function() {
-    'use strict';
-
-    angular
-        .module('Varsom')
-        .factory('Municipality', Municipality);
-
-    function Municipality($q) {
+angular
+    .module('Varsom')
+    .factory('Municipality', function Municipality($q) {
         var service = {};
         var Municipality = Parse.Object.extend('Municipality');
         var query = new Parse.Query(Municipality);
 
-        service.loadMunicipalities = function(countyID) {
+        service.loadMunicipalities = function (countyID) {
             var deferred = $q.defer();
             service.loaded = deferred.promise;
             query.equalTo('countyId', countyID);
@@ -30,7 +25,6 @@
 
                         };
 
-
                         arr.push(obj);
                     }
                     deferred.resolve(arr);
@@ -43,8 +37,5 @@
 
         };
 
-
-
         return service;
-    }
-})();
+    });

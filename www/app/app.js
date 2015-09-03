@@ -1,17 +1,13 @@
-// Ionic Starter App
-
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-var env = "debug";
-Parse.initialize(appKeys[env].appId, appKeys[env].javascriptKey);
+"use strict";
 
 angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics'])
 
     /**
      * State configuration
      */
-    .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+    .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, AppKeys) {
+
+        Parse.initialize(AppKeys['debug'].appId, appKeys['debug'].javascriptKey);
 
         if (ionic.Platform.isAndroid()) {
             $ionicConfigProvider.scrolling.jsScrolling(false);

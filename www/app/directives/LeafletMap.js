@@ -1,14 +1,9 @@
 /**
  * Created by storskel on 03.06.2015.
  */
-(function() {
-    'use strict';
-
-    angular
-        .module('Varsom')
-        .directive('leafletMap', LeafletMap);
-
-    function LeafletMap(County, $http, $state, $timeout){
+angular
+    .module('Varsom')
+    .directive('leafletMap', function LeafletMap(County, $http, $state, $timeout) {
         var styles = {
             '0': {
                 weight: 3,
@@ -54,10 +49,10 @@
             }
         };
 
-        function link(scope, elem, attrs){
+        function link(scope, elem, attrs) {
             var options = scope.leafletMap;
 
-            if(options.small)
+            if (options.small)
                 elem.css('height', '200px');
             else
                 elem.css('height', '100%');
@@ -71,31 +66,31 @@
 
             map.addLayer(layer);
 
-            if(options.small){
+            if (options.small) {
                 map.dragging.disable();
                 map.touchZoom.disable();
                 map.doubleClickZoom.disable();
                 map.scrollWheelZoom.disable();
                 if (map.tap) map.tap.disable();
             }
-            if(options.userPos){
+            if (options.userPos) {
                 console.log(options.userPos);
                 map.locate({setView: true, maxZoom: 8});
                 map.on('locationfound', onLocationFound);
             }
 
-            County.loaded.then(function(counties){
-                counties.forEach(function(county){
+            County.loaded.then(function (counties) {
+                counties.forEach(function (county) {
                     $http.get(county.geojson, {cache: true})
-                        .success(function(data){
+                        .success(function (data) {
                             L.geoJson(data, {
                                 onEachFeature: function (feature, layer) {
                                     layer.setStyle(styles[county.forecasts.maxLevel]);
-                                    layer.on('click', function(event){
+                                    layer.on('click', function (event) {
                                         $state.go('county', {county: county});
                                         layer.setStyle(styles.clicked);
 
-                                        $timeout(function(){
+                                        $timeout(function () {
                                             layer.setStyle(styles[county.forecasts.maxLevel]);
                                         }, 500);
                                     });
@@ -109,13 +104,11 @@
                 var radius = e.accuracy / 2;
 
                 /*L.marker(e.latlng).addTo(map)
-                    .bindPopup("You are within " + radius + " meters from this point").openPopup();*/
+                 .bindPopup("You are within " + radius + " meters from this point").openPopup();*/
 
                 L.circle(e.latlng, radius).addTo(map);
             }
         }
-
-
 
         return {
             restrict: 'A',
@@ -125,5 +118,4 @@
             }
         };
 
-    }
-})();
+    });
