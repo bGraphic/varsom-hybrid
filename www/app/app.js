@@ -7,7 +7,7 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
      */
     .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, AppKeys) {
 
-        Parse.initialize(AppKeys['debug'].appId, appKeys['debug'].javascriptKey);
+        Parse.initialize(AppKeys['debug'].appId, AppKeys['debug'].javascriptKey);
 
         if (ionic.Platform.isAndroid()) {
             $ionicConfigProvider.scrolling.jsScrolling(false);

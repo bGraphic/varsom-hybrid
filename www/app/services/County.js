@@ -5,9 +5,28 @@
 angular
     .module('Varsom')
     .factory('County', function County($q) {
-        var service = {};
-        var County = Parse.Object.extend('County');
-        var query = new Parse.Query(County);
+        //var service = {};
+        var County = Parse.Object.extend('County', {
+            // Instance methods
+            initialize: function (attrs, options) {
+
+            }
+        }, {
+            //Class methods
+            listAll: function (options) {
+                var query = new Parse.Query(this);
+                query.limit(100);
+                query.descending('countyId');
+                query.include('FloodWarningForecast');
+                query.include('LandSlideWarningForecast');
+                return query.find();
+            }
+        });
+
+        return County;
+
+
+        /*var query = new Parse.Query(County);
         query.include('FloodWarningForecast');
         query.include('LandSlideWarningForecast');
         query.descending('countyId');
@@ -51,5 +70,5 @@ angular
             }
         });
 
-        return service;
+        return service;*/
     });

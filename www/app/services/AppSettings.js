@@ -1,5 +1,9 @@
 angular
     .module('Varsom')
-    .provider('AppSettings', function(){
+    .provider('AppSettings', function AppSettingsProvider(){
 
+
+        this.$get = function AppSettingsFactory(){
+
+        };
     });
