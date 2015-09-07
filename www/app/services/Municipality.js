@@ -9,7 +9,7 @@ angular
             initialize: function (attrs, options) { }
         },{
             listAll: function (countyId) {
-                $ionicLoading.show({delay: 100});
+                $ionicLoading.show({delay: 100, template: 'Loading...'});
                 var defer = $q.defer();
                 var query = new Parse.Query(this);
                 query.equalTo('countyId', countyId);
@@ -21,7 +21,8 @@ angular
                     },
                     error: function (error) {
                         defer.reject(error);
-                        alert(error);
+                        alert('Could not fetch municipalities');
+                        console.log(error);
                     }
                 }).then(function(){
                     $ionicLoading.hide();

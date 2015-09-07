@@ -7,6 +7,7 @@ angular
         return {
             set: function (key, value) {
                 $window.localStorage[key] = value;
+                return value;
             },
             get: function (key, defaultValue) {
                 return $window.localStorage[key] || defaultValue;

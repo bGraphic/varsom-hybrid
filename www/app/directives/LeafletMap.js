@@ -60,8 +60,6 @@ angular
                 });
             });
 
-
-
             function onLocationFound(e) {
                 var radius = e.accuracy / 2;
 

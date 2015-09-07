@@ -21,7 +21,8 @@ angular
                     })
                     .error(function (error) {
                         defer.reject(error);
-                        alert(error);
+                        alert('Could not fetch GeoJSON');
+                        console.log(error);
                     });
 
                 return defer.promise;
@@ -29,7 +30,7 @@ angular
         }, {
             //Class methods
             listAll: function () {
-                $ionicLoading.show({delay: 100});
+                $ionicLoading.show({delay: 100, template: 'Loading...'});
                 var defer = $q.defer();
                 var query = new Parse.Query(this);
                 query.limit(100);
@@ -42,7 +43,8 @@ angular
                     },
                     error: function (error) {
                         defer.reject(error);
-                        alert(error);
+                        alert('Could not fetch counties');
+                        console.log(error);
                     }
                 }).then(function () {
                     $ionicLoading.hide();
@@ -61,7 +63,8 @@ angular
                     },
                     error: function (error) {
                         defer.reject(error);
-                        alert(error);
+                        alert('Could not fetch county');
+                        console.log(error);
                     }
                 });
 

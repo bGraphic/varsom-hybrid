@@ -3,6 +3,10 @@ angular
     .provider('AppSettings', function AppSettingsProvider(){
 
         var settings = {};
+        var locale = {
+            value: undefined,
+            storageKey: 'varsomLocale'
+        };
         settings.warningStyles = {
             '0': {
                 weight: 3,
@@ -52,7 +56,17 @@ angular
             settings.warningStyles = newStyle;
         };
 
-        this.$get = function AppSettingsFactory(){
+        this.$get = function AppSettingsFactory(LocalStorage){
+            settings.getLocale = function(){
+                if(!locale.value)
+                    locale.value = LocalStorage.get(locale.storageKey, 'nb');
+                return locale.value;
+            };
+
+            settings.setLocale = function (newLocale) {
+                locale.value = LocalStorage.set(locale.storageKey, newLocale);
+            };
+
             return settings;
         };
     });

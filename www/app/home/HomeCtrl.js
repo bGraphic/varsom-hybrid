@@ -3,8 +3,9 @@
  */
 angular
     .module('Varsom')
-    .controller('HomeCtrl', function HomeCtrl($q, County) {
+    .controller('HomeCtrl', function HomeCtrl($q, Localization, County) {
         var HomeModel = this;
+        var trans = Localization.getTranslations();
 
         County.listAll().then(function (counties) {
             console.log(counties);
