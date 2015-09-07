@@ -6,9 +6,11 @@ angular
     .controller('HomeCtrl', function HomeCtrl(County) {
         var HomeModel = this;
 
-        County.loaded.then(function (counties) {
+        County.listAll().then(function (counties) {
             console.log(counties);
             HomeModel.counties = counties;
+        }, function(error){
+            alert(error);
         });
 
         HomeModel.warningClasses = [

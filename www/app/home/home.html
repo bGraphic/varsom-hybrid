@@ -2,7 +2,7 @@
     <ion-content>
         <div leaflet-map="{userPos:true, small:true}"></div>
         <ion-list>
-            <ion-item class="item-icon-right" ng-repeat="county in ::HomeModel.counties" ui-sref="county({county:county})">
+            <ion-item class="item-icon-right" ng-repeat="county in ::HomeModel.counties" ui-sref="county({county:county, countyId: county.countyId})">
 
                 {{::county.name}}
 

@@ -4,50 +4,7 @@
 angular
     .module('Varsom')
     .directive('leafletMap', function LeafletMap(County, $http, $state, $timeout) {
-        var styles = {
-            '0': {
-                weight: 3,
-                color: '#C8C8C8',
-                dashArray: '',
-                fillOpacity: 0.5
-            },
-            '1': {
-                weight: 3,
-                color: '#75B100',
-                dashArray: '',
-                fillOpacity: 0.5
-            },
-            '2': {
-                weight: 3,
-                color: '#FFCC33',
-                dashArray: '',
-                fillOpacity: 0.5
-            },
-            '3': {
-                weight: 3,
-                color: '#E46900',
-                dashArray: '',
-                fillOpacity: 0.5
-            },
-            '4': {
-                weight: 3,
-                color: '#D21523',
-                dashArray: '',
-                fillOpacity: 0.5
-            },
-            '5': {
-                weight: 3,
-                color: '#3E060B',
-                dashArray: '',
-                fillOpacity: 0.5
-            },
-            clicked: {
-                weight: 3,
-                color: '#666',
-                dashArray: '',
-                fillOpacity: 0.5
-            }
-        };
+
 
         function link(scope, elem, attrs) {
             var options = scope.leafletMap;
@@ -79,24 +36,10 @@ angular
                 map.on('locationfound', onLocationFound);
             }
 
-            County.loaded.then(function (counties) {
+            County.listAll().then(function (counties) {
                 counties.forEach(function (county) {
-                    $http.get(county.geojson, {cache: true})
-                        .success(function (data) {
-                            L.geoJson(data, {
-                                onEachFeature: function (feature, layer) {
-                                    layer.setStyle(styles[county.forecasts.maxLevel]);
-                                    layer.on('click', function (event) {
-                                        $state.go('county', {county: county});
-                                        layer.setStyle(styles.clicked);
-
-                                        $timeout(function () {
-                                            layer.setStyle(styles[county.forecasts.maxLevel]);
-                                        }, 500);
-                                    });
-                                }
-                            }).addTo(map);
-                        });
+                    console.log(county.geoJsonMinUrl);
+                    county.addGeoJsonToMap(map);
                 });
             });
 

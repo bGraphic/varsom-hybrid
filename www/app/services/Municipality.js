@@ -3,39 +3,40 @@
  */
 angular
     .module('Varsom')
-    .factory('Municipality', function Municipality($q) {
-        var service = {};
-        var Municipality = Parse.Object.extend('Municipality');
-        var query = new Parse.Query(Municipality);
+    .factory('Municipality', function Municipality($q, $ionicLoading) {
 
-        service.loadMunicipalities = function (countyID) {
-            var deferred = $q.defer();
-            service.loaded = deferred.promise;
-            query.equalTo('countyId', countyID);
-            query.ascending('name');
+        var Municipality = Parse.Object.extend('Municipality', {
+            initialize: function (attrs, options) { }
+        },{
+            listAll: function (countyId) {
+                $ionicLoading.show({delay: 100});
+                var defer = $q.defer();
+                var query = new Parse.Query(this);
+                query.equalTo('countyId', countyId);
+                query.ascending('name');
 
-            query.find({
-                success: function (results) {
-                    var arr = [];
-
-                    for (var i = 0; i < results.length; i++) {
-                        // Iteratoration for class object.
-                        var obj = {
-                            name: results[i].get('name')
-
-                        };
-
-                        arr.push(obj);
+                query.find({
+                    success: function (results) {
+                        defer.resolve(results);
+                    },
+                    error: function (error) {
+                        defer.reject(error);
                     }
-                    deferred.resolve(arr);
-                },
-                error: function (error) {
-                    deferred.reject();
-                    alert("Error: " + error.code + " " + error.message);
+                }).then(function(){
+                    $ionicLoading.hide();
+                });
+
+                return defer.promise;
+            }
+        });
+
+        Object.defineProperties(Municipality.prototype, {
+            'name': {
+                get: function () {
+                    return this.get('name');
                 }
-            });
+            }
+        });
 
-        };
-
-        return service;
+        return Municipality;
     });

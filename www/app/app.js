@@ -21,7 +21,7 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
                 controller: 'HomeCtrl as HomeModel'
             })
             .state('county', {
-                url: '/county',
+                url: '/county/:countyId',
                 params : { county: null },
                 templateUrl: 'app/county/county.html',
                 controller: 'CountyCtrl as CountyModel'

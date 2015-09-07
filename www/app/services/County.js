@@ -1,74 +1,140 @@
 /**
- * Created by storskel on 03.06.2015.
+ * County Parse model
  */
 
 angular
     .module('Varsom')
-    .factory('County', function County($q) {
-        //var service = {};
+    .factory('County', function County($q, $http, $state, $timeout, $ionicLoading, AppSettings) {
+
         var County = Parse.Object.extend('County', {
             // Instance methods
             initialize: function (attrs, options) {
 
+            },
+            addGeoJsonToMap: function (map) {
+                var self = this;
+                var styles = AppSettings.warningStyles;
+
+                function onEachFeature(feature, layer) {
+                    layer.setStyle(styles[self.maxLevel]);
+                    layer.on('click', function (event) {
+                        $state.go('county', {county: self});
+                        layer.setStyle(styles.clicked);
+
+                        $timeout(function () {
+                            layer.setStyle(styles[self.maxLevel]);
+                        }, 500);
+                    });
+                }
+
+                /*
+                 * This does the following:
+                 * 1. Fetches geoJSON file
+                 * 2. Caches it with angular $http built-in cache
+                 * 3. Binds onEachFeature to every geoJSON polygon (color and click event)
+                 * 4. Draws polygons on the leaflet map
+                 */
+                $http.get(self.geoJsonMinUrl, {cache: true})
+                    .success(function (data) {
+                        L.geoJson(data, {
+                            onEachFeature: onEachFeature
+                        }).addTo(map);
+                    });
             }
         }, {
             //Class methods
-            listAll: function (options) {
+            listAll: function () {
+                $ionicLoading.show({delay: 100});
+                var defer = $q.defer();
                 var query = new Parse.Query(this);
                 query.limit(100);
                 query.descending('countyId');
                 query.include('FloodWarningForecast');
                 query.include('LandSlideWarningForecast');
-                return query.find();
+                query.find({
+                    success: function (counties) {
+                        defer.resolve(counties)
+                    },
+                    error: function (error) {
+                        defer.reject(error);
+                    }
+                }).then(function () {
+                    $ionicLoading.hide();
+                });
+
+                return defer.promise;
+            },
+            getById: function (countyId) {
+                var defer = $q.defer();
+                var query = new Parse.Query(this);
+                query.equalTo('countyId', countyId);
+
+                query.first({
+                    success: function (results) {
+                        defer.resolve(results);
+                    },
+                    error: function (error) {
+                        defer.reject(error);
+                    }
+                });
+
+                return defer.promise;
+            }
+
+        });
+
+        Object.defineProperties(County.prototype, {
+            'countyId': {
+                get: function () {
+                    return this.get('countyId');
+                }
+            },
+            'name': {
+                get: function () {
+                    return this.get('name');
+                }
+            },
+            'geoJsonMinUrl': {
+                get: function () {
+                    return this.get('geoJSONmin').url();
+                }
+            },
+
+            'floodForecast': {
+                get: function () {
+                    return this.get('FloodWarningForecast');
+                }
+            },
+
+            'landSlideForecast': {
+                get: function () {
+                    return this.get('LandSlideWarningForecast');
+                }
+            },
+
+            'maxLevel': {
+                get: function () {
+
+                    var floodForecast = this.floodForecast,
+                        landSlideForecast = this.landSlideForecast;
+
+                    var tempBiggestLevel = -1;
+
+                    for (var j = floodForecast.length; j--;) {
+                        var curFloodLevel = floodForecast[j].get('activityLevel'),
+                            curLandSlideLevel = landSlideForecast[j].get('activityLevel');
+
+                        if (curFloodLevel > tempBiggestLevel)
+                            tempBiggestLevel = curFloodLevel;
+                        if (curLandSlideLevel > tempBiggestLevel)
+                            tempBiggestLevel = curLandSlideLevel;
+                    }
+
+                    return tempBiggestLevel;
+                }
             }
         });
 
         return County;
 
-
-        /*var query = new Parse.Query(County);
-        query.include('FloodWarningForecast');
-        query.include('LandSlideWarningForecast');
-        query.descending('countyId');
-
-        var countiesDeferred = $q.defer();
-        service.loaded = countiesDeferred.promise;
-
-        query.find({
-            success: function (results) {
-                var countyArray = [];
-
-                for (var i = 0; i < results.length; i++) {
-                    // Iteratoration for class object.
-                    var obj = {
-                        countyId: results[i].get('countyId'),
-                        name: results[i].get('name'),
-                        geojson: results[i].get('geoJSONmin').url(),
-                        forecasts: {
-                            flood: results[i].get('FloodWarningForecast'),
-                            landslide: results[i].get('LandSlideWarningForecast')
-                        }
-                    };
-                    var tempBiggestLevel = -1;
-
-                    for (var j = obj.forecasts.flood.length; j--;) {
-                        if (obj.forecasts.flood[j].attributes.activityLevel > tempBiggestLevel)
-                            tempBiggestLevel = obj.forecasts.flood[j].attributes.activityLevel;
-                        if (obj.forecasts.landslide[j].attributes.activityLevel > tempBiggestLevel)
-                            tempBiggestLevel = obj.forecasts.landslide[j].attributes.activityLevel;
-                    }
-
-                    obj.forecasts.maxLevel = tempBiggestLevel;
-
-                    countyArray.push(obj);
-                }
-                countiesDeferred.resolve(countyArray);
-            },
-            error: function (error) {
-                countiesDeferred.reject();
-                alert("Error: " + error.code + " " + error.message);
-            }
-        });
-
-        return service;*/
     });
