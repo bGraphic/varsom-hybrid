@@ -192,6 +192,7 @@ angular
 
                 },
                 general: {
+                    "loading...": "Laster...",
 
                     "avalanche tab title": "Snøskred",
                     "flood tab title": "Flom",
@@ -456,7 +457,7 @@ angular
                      Created by Benedicte Raae on 14.11.13.
                      Copyright (c) 2013 NVE. All rights reserved.
                      */
-
+                    "loading...": "Loading...",
 
                     "avalanche tab title": "Avalanche",
                     "flood tab title": "Flood",

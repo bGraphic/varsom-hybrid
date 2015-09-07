@@ -4,7 +4,7 @@
 
 angular
     .module('Varsom')
-    .factory('County', function County($q, $http, $state, $timeout, $ionicLoading, AppSettings) {
+    .factory('County', function County($q, $http) {
 
         var County = Parse.Object.extend('County', {
             // Instance methods
@@ -30,7 +30,7 @@ angular
         }, {
             //Class methods
             listAll: function () {
-                $ionicLoading.show({delay: 100, template: 'Loading...'});
+
                 var defer = $q.defer();
                 var query = new Parse.Query(this);
                 query.limit(100);
@@ -46,8 +46,6 @@ angular
                         alert('Could not fetch counties');
                         console.log(error);
                     }
-                }).then(function () {
-                    $ionicLoading.hide();
                 });
 
                 return defer.promise;

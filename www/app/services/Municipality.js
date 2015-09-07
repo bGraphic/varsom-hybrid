@@ -3,13 +3,12 @@
  */
 angular
     .module('Varsom')
-    .factory('Municipality', function Municipality($q, $ionicLoading) {
+    .factory('Municipality', function Municipality($q) {
 
         var Municipality = Parse.Object.extend('Municipality', {
             initialize: function (attrs, options) { }
         },{
             listAll: function (countyId) {
-                $ionicLoading.show({delay: 100, template: 'Loading...'});
                 var defer = $q.defer();
                 var query = new Parse.Query(this);
                 query.equalTo('countyId', countyId);
@@ -24,8 +23,6 @@ angular
                         alert('Could not fetch municipalities');
                         console.log(error);
                     }
-                }).then(function(){
-                    $ionicLoading.hide();
                 });
 
                 return defer.promise;

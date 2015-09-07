@@ -3,13 +3,20 @@
  */
 angular
     .module('Varsom')
-    .controller('HomeCtrl', function HomeCtrl($q, Localization, County) {
+    .controller('HomeCtrl', function HomeCtrl($scope, $q, $ionicLoading, Localization, County) {
         var HomeModel = this;
-        var trans = Localization.getTranslations();
+        var translation = Localization.getTranslations();
 
         County.listAll().then(function (counties) {
             console.log(counties);
             HomeModel.counties = counties;
+            $ionicLoading.hide();
+        });
+
+        $scope.$on('$ionicView.afterEnter', function() {
+            // the view should be ready and transition done
+            if(!HomeModel.counties)
+                $ionicLoading.show({template: translation.general['loading...']});
         });
 
         HomeModel.warningClasses = [
