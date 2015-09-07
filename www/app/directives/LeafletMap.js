@@ -3,22 +3,21 @@
  */
 angular
     .module('Varsom')
-    .directive('leafletMap', function LeafletMap(County, $http, $state, $timeout) {
+    .directive('leafletMap', function LeafletMap(County, AppSettings, $http, $state, $timeout) {
 
 
         function link(scope, elem, attrs) {
             var options = scope.leafletMap;
-
             if (options.small)
                 elem.css('height', '200px');
             else
                 elem.css('height', '100%');
 
+            var styles = AppSettings.warningStyles;
             var map = L.map(elem[0], {
                 center: [64.871, 16.949],
                 zoom: 4
             });
-
             var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png');
 
             map.addLayer(layer);
@@ -37,11 +36,31 @@ angular
             }
 
             County.listAll().then(function (counties) {
+
                 counties.forEach(function (county) {
-                    console.log(county.geoJsonMinUrl);
-                    county.addGeoJsonToMap(map);
+                    county.fetchGeoJson().then(function (geojson) {
+                        L.geoJson(geojson, {
+                            onEachFeature: onEachFeature
+                        }).addTo(map);
+                    });
+
+                    function onEachFeature(feature, layer) {
+                        layer.setStyle(styles[county.maxLevel]);
+                        if(!options.small){
+                            layer.on('click', function (event) {
+                                $state.go('county', {county: county});
+                                layer.setStyle(styles.clicked);
+
+                                $timeout(function () {
+                                    layer.setStyle(styles[county.maxLevel]);
+                                }, 500);
+                            });
+                        }
+                    }
                 });
             });
+
+
 
             function onLocationFound(e) {
                 var radius = e.accuracy / 2;

@@ -13,8 +13,6 @@ angular
             County.getById($stateParams.countyId).then(function(result){
                 model.county = result;
                 init();
-            }, function(error) {
-                alert(error);
             });
         }
 

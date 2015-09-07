@@ -21,6 +21,7 @@ angular
                     },
                     error: function (error) {
                         defer.reject(error);
+                        alert(error);
                     }
                 }).then(function(){
                     $ionicLoading.hide();

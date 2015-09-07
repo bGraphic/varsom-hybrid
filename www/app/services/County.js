@@ -11,35 +11,20 @@ angular
             initialize: function (attrs, options) {
 
             },
-            addGeoJsonToMap: function (map) {
+            fetchGeoJson: function () {
+                var defer = $q.defer();
                 var self = this;
-                var styles = AppSettings.warningStyles;
 
-                function onEachFeature(feature, layer) {
-                    layer.setStyle(styles[self.maxLevel]);
-                    layer.on('click', function (event) {
-                        $state.go('county', {county: self});
-                        layer.setStyle(styles.clicked);
-
-                        $timeout(function () {
-                            layer.setStyle(styles[self.maxLevel]);
-                        }, 500);
-                    });
-                }
-
-                /*
-                 * This does the following:
-                 * 1. Fetches geoJSON file
-                 * 2. Caches it with angular $http built-in cache
-                 * 3. Binds onEachFeature to every geoJSON polygon (color and click event)
-                 * 4. Draws polygons on the leaflet map
-                 */
                 $http.get(self.geoJsonMinUrl, {cache: true})
                     .success(function (data) {
-                        L.geoJson(data, {
-                            onEachFeature: onEachFeature
-                        }).addTo(map);
+                        defer.resolve(data);
+                    })
+                    .error(function (error) {
+                        defer.reject(error);
+                        alert(error);
                     });
+
+                return defer.promise;
             }
         }, {
             //Class methods
@@ -57,6 +42,7 @@ angular
                     },
                     error: function (error) {
                         defer.reject(error);
+                        alert(error);
                     }
                 }).then(function () {
                     $ionicLoading.hide();
@@ -75,6 +61,7 @@ angular
                     },
                     error: function (error) {
                         defer.reject(error);
+                        alert(error);
                     }
                 });
 
