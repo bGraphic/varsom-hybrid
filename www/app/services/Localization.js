@@ -265,7 +265,7 @@ angular
                     "DangerLevelName-5": "Extreme",
 
 //Old
-                    "AvalancheExt-0": "Not given",
+
                     "AvalancheExt-10": "Loose dry avalanche",
                     "AvalancheExt-15": "Loose wet avalanche",
                     "AvalancheExt-20": "Dry slab avalanche",
@@ -359,14 +359,6 @@ angular
                     "ExposedHeightFill-2": "Under %@ moh",
                     "ExposedHeightFill-3": "Over %@ og under %@ moh",
                     "ExposedHeightFill-4": "Mellom %@ og %@ moh",
-
-                    "AvalancheExt-0": "Ikke gitt",
-                    "AvalancheExt-10": "Tørre løssnøskred",
-                    "AvalancheExt-15": "Våte løssnøskred",
-                    "AvalancheExt-20": "Tørre flakskred",
-                    "AvalancheExt-25": "Våte flakskred",
-                    "AvalancheExt-30": "Sørpeskred",
-                    "AvalancheExt-40": "Skavl",
 
 // LANDSLIDE AND FLOOD
 
