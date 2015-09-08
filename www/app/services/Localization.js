@@ -19,44 +19,44 @@ angular
                     "DangerLevelName-5": "Meget stor",
 
                     // Old
-                    "AvalancheExt-10": "Tørre løssnøskred",
-                    "AvalancheExt-15": "Våte løssnøskred",
-                    "AvalancheExt-20": "Tørre flakskred",
-                    "AvalancheExt-25": "Våte flakskred",
-                    "AvalancheExt-30": "Sørpeskred",
+                    "AvalancheExt-10": "TÃ¸rre lÃ¸ssnÃ¸skred",
+                    "AvalancheExt-15": "VÃ¥te lÃ¸ssnÃ¸skred",
+                    "AvalancheExt-20": "TÃ¸rre flakskred",
+                    "AvalancheExt-25": "VÃ¥te flakskred",
+                    "AvalancheExt-30": "SÃ¸rpeskred",
                     "AvalancheExt-40": "Skavl",
 
                     // New
                     "AvalancheExt-0": "Ikke gitt",
-                    "AvalancheExt-50": "Fokksnø",
-                    "AvalancheExt-51": "Nysnø",
+                    "AvalancheExt-50": "FokksnÃ¸",
+                    "AvalancheExt-51": "NysnÃ¸",
                     "AvalancheExt-52": "Vedvarende svakt lag",
                     "AvalancheExt-53": "Vedvarende svakt lag ved bakken",
-                    "AvalancheExt-54": "Våt snø",
-                    "AvalancheExt-55": "Nysnø",
-                    "AvalancheExt-56": "Våt snø",
+                    "AvalancheExt-54": "VÃ¥t snÃ¸",
+                    "AvalancheExt-55": "NysnÃ¸",
+                    "AvalancheExt-56": "VÃ¥t snÃ¸",
 
                     "AvalCause-0": "Ikke gitt",
-                    "AvalCause-10": "Nedsnødd eller nedføyket svakt lag med løs nysnø.",
-                    "AvalCause-11": "Nedsnødd eller nedføyket svakt lag med overflaterim.",
-                    "AvalCause-12": "Nedsnødd eller nedføyket svakt lag med sprøhagl.",
-                    "AvalCause-13": "Nedsnødd eller nedføyket svakt lag med kantkornet snø.",
-                    "AvalCause-14": "Dårlig binding mellom glatt skare og overliggende snø.",
-                    "AvalCause-15": "Dårlig binding mellom lag i fokksnøen.",
-                    "AvalCause-16": "Svakt lag av kantkornet snø ved bakken.",
-                    "AvalCause-17": "Svakt lag av kantkornet snø rundt vegetasjon.",
-                    "AvalCause-18": "Svakt lag av kantkornet snø over skarelag.",
-                    "AvalCause-19": "Svakt lag av kantkornet snø under skarelag.",
-                    "AvalCause-20": "Snødekket er gjennomfuktet og ustabilt fra bakken.",
-                    "AvalCause-21": "Snødekket gjennomfuktet og ustabilt fra overflaten.",
+                    "AvalCause-10": "NedsnÃ¸dd eller nedfÃ¸yket svakt lag med lÃ¸s nysnÃ¸.",
+                    "AvalCause-11": "NedsnÃ¸dd eller nedfÃ¸yket svakt lag med overflaterim.",
+                    "AvalCause-12": "NedsnÃ¸dd eller nedfÃ¸yket svakt lag med sprÃ¸hagl.",
+                    "AvalCause-13": "NedsnÃ¸dd eller nedfÃ¸yket svakt lag med kantkornet snÃ¸.",
+                    "AvalCause-14": "DÃ¥rlig binding mellom glatt skare og overliggende snÃ¸.",
+                    "AvalCause-15": "DÃ¥rlig binding mellom lag i fokksnÃ¸en.",
+                    "AvalCause-16": "Svakt lag av kantkornet snÃ¸ ved bakken.",
+                    "AvalCause-17": "Svakt lag av kantkornet snÃ¸ rundt vegetasjon.",
+                    "AvalCause-18": "Svakt lag av kantkornet snÃ¸ over skarelag.",
+                    "AvalCause-19": "Svakt lag av kantkornet snÃ¸ under skarelag.",
+                    "AvalCause-20": "SnÃ¸dekket er gjennomfuktet og ustabilt fra bakken.",
+                    "AvalCause-21": "SnÃ¸dekket gjennomfuktet og ustabilt fra overflaten.",
                     "AvalCause-22": "Opphopning av vann over skarelag.",
-                    "AvalCause-23": "Snødekket er overmettet av vann.",
-                    "AvalCause-24": "Ubundet løs snø.",
+                    "AvalCause-23": "SnÃ¸dekket er overmettet av vann.",
+                    "AvalCause-24": "Ubundet lÃ¸s snÃ¸.",
                     // New
                     "AvalCause-25": "Regn og/eller oppvarming.",
                     "AvalCause-26": "Smelting fra bakken.",
-                    "AvalCause-27": "Vannmettet snø.",
-                    "AvalCause-28": "Løs tørr snø.",
+                    "AvalCause-27": "Vannmettet snÃ¸.",
+                    "AvalCause-28": "LÃ¸s tÃ¸rr snÃ¸.",
                     "AvalCause-29": "Regn / temperatutstigning / soloppvarming.",
 
                     "AvalProbability-Label": "Sannsynlighet",
@@ -69,15 +69,15 @@ angular
                     "AvalTriggerSimple-0": "Ikke gitt",
                     "AvalTriggerSimple-10": "Stor tilleggsbelastning",
                     "AvalTriggerSimple-21": "Liten tilleggsbelastning",
-                    "AvalTriggerSimple-22": "Naturlig utløst",
+                    "AvalTriggerSimple-22": "Naturlig utlÃ¸st",
 
-                    "DestructiveSizeExt-Label": "Skredstørrelse",
+                    "DestructiveSizeExt-Label": "SkredstÃ¸rrelse",
                     "DestructiveSizeExt-0": "Ikke gitt",
-                    "DestructiveSizeExt-1": "Harmløst",
-                    "DestructiveSizeExt-2": "Små skred",
+                    "DestructiveSizeExt-1": "HarmlÃ¸st",
+                    "DestructiveSizeExt-2": "SmÃ¥ skred",
                     "DestructiveSizeExt-3": "Middels skred",
                     "DestructiveSizeExt-4": "Store skred",
-                    "DestructiveSizeExt-5": "Svært store skred",
+                    "DestructiveSizeExt-5": "SvÃ¦rt store skred",
                     "DestructiveSizeExt-9": "Ukjent",
 
                     "AvalPropagation-0": "Ikke vurdert",
@@ -85,23 +85,23 @@ angular
                     "AvalPropagation-2": "Noen bratte heng",
                     "AvalPropagation-3": "Mange bratte heng",
                     "AvalPropagation-4": "De fleste bratte heng",
-                    "AvalPropagation-5": "Også i mindre bratte terreng",
+                    "AvalPropagation-5": "OgsÃ¥ i mindre bratte terreng",
 
                     "AvalancheType-0": "Ikke gitt",
                     "AvalancheType-10": "Flakskred",
-                    "AvalancheType-20": "Løssnøskred",
+                    "AvalancheType-20": "LÃ¸ssnÃ¸skred",
 
                     "AvalancheProblemType-0": "Ikke gitt",
-                    "AvalancheProblemType-10": "Fokksnø",
-                    "AvalancheProblemType-20": "Nysnø",
+                    "AvalancheProblemType-10": "FokksnÃ¸",
+                    "AvalancheProblemType-20": "NysnÃ¸",
                     "AvalancheProblemType-30": "Vedvarende svakt lag",
-                    "AvalancheProblemType-40": "Våt snø",
+                    "AvalancheProblemType-40": "VÃ¥t snÃ¸",
 
                     "AvalancheExposition-non-given": "Ikke gitt",
                     "AvalancheExposition-0": "N",
-                    "AvalancheExposition-1": "NØ",
-                    "AvalancheExposition-2": "Ø",
-                    "AvalancheExposition-3": "SØ",
+                    "AvalancheExposition-1": "NÃ˜",
+                    "AvalancheExposition-2": "Ã˜",
+                    "AvalancheExposition-3": "SÃ˜",
                     "AvalancheExposition-4": "S",
                     "AvalancheExposition-5": "SV",
                     "AvalancheExposition-6": "V",
@@ -120,81 +120,81 @@ angular
 
                     "CauseName-0": "Ikke gitt",
                     "CauseName-1": "Regn",
-                    "CauseName-2": "Intens regn (bygenedbør)",
-                    "CauseName-3": "Snøsmelting",
+                    "CauseName-2": "Intens regn (bygenedbÃ¸r)",
+                    "CauseName-3": "SnÃ¸smelting",
                     "CauseName-4": "Isgang",
                     "CauseName-5": "Frost og is",
                     "CauseName-6": "Vannmetning (i jord)",
-                    "CauseName-7": "Dambrudd/jøkulhlaup",
+                    "CauseName-7": "Dambrudd/jÃ¸kulhlaup",
 
                     "LandslideTypeName-0": "Ikke gitt",
                     "LandslideTypeName-1": "Utgliding",
                     "LandslideTypeName-2": "Jordskred",
                     "LandslideTypeName-3": "Flomskred",
-                    "LandslideTypeName-4": "Sørpeskred"
+                    "LandslideTypeName-4": "SÃ¸rpeskred"
                 },
                 infoPage: {
 
-                    "warning levels": "Aktsomhetsnivåer",
-                    "avalanche warning levels": "Snøskredfareskala",
+                    "warning levels": "AktsomhetsnivÃ¥er",
+                    "avalanche warning levels": "SnÃ¸skredfareskala",
 
                     "contact information": "Kontaktinformasjon",
 
-                    "all hours": "Døgnbemannet",
+                    "all hours": "DÃ¸gnbemannet",
                     "work hours": "(i arbeidstiden)",
 
-                    "varsom.no facebook": "Varsom på Facebook",
-                    "varsom.no facebook comment": "Søk etter \"varsom.no\"",
-                    "avalanche facebook": "Snøskredvarslingen på Facebook",
-                    "avalanche facebook comment": "Søk etter \"Snøskredvarslingen i Norge\"",
-                    "avalanche school": "Snøskredskolen",
+                    "varsom.no facebook": "Varsom pÃ¥ Facebook",
+                    "varsom.no facebook comment": "SÃ¸k etter \"varsom.no\"",
+                    "avalanche facebook": "SnÃ¸skredvarslingen pÃ¥ Facebook",
+                    "avalanche facebook comment": "SÃ¸k etter \"SnÃ¸skredvarslingen i Norge\"",
+                    "avalanche school": "SnÃ¸skredskolen",
                     "avalanche school comment": "En del av varsom.no",
 
-                    "call": "Ring nå",
-                    "open": "Åpne",
+                    "call": "Ring nÃ¥",
+                    "open": "Ã…pne",
 
                     "FloodWarningDescription-0": "Ikke vurdert",
 
                     "FloodWarningDescription-1": "Generelt trygge forhold/ingen spesiell fare.",
 
-                    "FloodWarningDescription-2": "Raskt økende vannføring som kan medføre lokale oversvømmelser. Spesielt stor vannføring/vannstand for årstiden, fare for isgang etc. Det kan forekomme store problemer/flomskader lokalt. Vannføring opp til 5 års gjentaksintervall.",
+                    "FloodWarningDescription-2": "Raskt Ã¸kende vannfÃ¸ring som kan medfÃ¸re lokale oversvÃ¸mmelser. Spesielt stor vannfÃ¸ring/vannstand for Ã¥rstiden, fare for isgang etc. Det kan forekomme store problemer/flomskader lokalt. VannfÃ¸ring opp til 5 Ã¥rs gjentaksintervall.",
 
-                    "FloodWarningDescription-3": "Vannføring som kan medføre omfattende oversvømmelser og flomskader på utsatte steder. Vannføring mellom 5 og 50 års gjentaksintervall.",
+                    "FloodWarningDescription-3": "VannfÃ¸ring som kan medfÃ¸re omfattende oversvÃ¸mmelser og flomskader pÃ¥ utsatte steder. VannfÃ¸ring mellom 5 og 50 Ã¥rs gjentaksintervall.",
 
-                    "FloodWarningDescription-4": "Vannføring som kan medføre omfattende oversvømmelser og flomskader på bebyggelse og infrastruktur over store områder. Vannføring med mer enn 50 års gjentaksintervall.",
+                    "FloodWarningDescription-4": "VannfÃ¸ring som kan medfÃ¸re omfattende oversvÃ¸mmelser og flomskader pÃ¥ bebyggelse og infrastruktur over store omrÃ¥der. VannfÃ¸ring med mer enn 50 Ã¥rs gjentaksintervall.",
 
                     "LandslideWarningDescription-0": "Ikke vurdert.",
 
-                    "LandslideWarningDescription-1": "Generelt trygge forhold. Ingen spesielle forholdsregler er nødvendig.",
+                    "LandslideWarningDescription-1": "Generelt trygge forhold. Ingen spesielle forholdsregler er nÃ¸dvendig.",
 
-                    "LandslideWarningDescription-2": "Det ventes noen jordskred og/eller sørpeskred. Enkelte store hendelser kan forekomme. Vær oppmerksom i utsatte områder (oftest bratt terreng og langs bekker og elveløp). Hold deg oppdatert om utviklingen av været og den hydrologiske situasjonen. Forebyggende tiltak, som rensing av dreneringsveier i spesielt utsatte områder, anbefales.",
+                    "LandslideWarningDescription-2": "Det ventes noen jordskred og/eller sÃ¸rpeskred. Enkelte store hendelser kan forekomme. VÃ¦r oppmerksom i utsatte omrÃ¥der (oftest bratt terreng og langs bekker og elvelÃ¸p). Hold deg oppdatert om utviklingen av vÃ¦ret og den hydrologiske situasjonen. Forebyggende tiltak, som rensing av dreneringsveier i spesielt utsatte omrÃ¥der, anbefales.",
 
-                    "LandslideWarningDescription-3": "Det ventes flere store og små jordskred og/eller sørpeskred. Vær oppmerksom og følg oppfordringer fra myndighetene. Forebyggende tiltak som rensing av dreneringsveier bør utføres.",
+                    "LandslideWarningDescription-3": "Det ventes flere store og smÃ¥ jordskred og/eller sÃ¸rpeskred. VÃ¦r oppmerksom og fÃ¸lg oppfordringer fra myndighetene. Forebyggende tiltak som rensing av dreneringsveier bÃ¸r utfÃ¸res.",
 
-                    "LandslideWarningDescription-4": "Det ventes mange store jordskred og/eller sørpeskred. Følg med i media, og følg oppfordringer og råd fra myndighetene. Sikkerhetstiltak som vegstenging og evakuering kan skje på kort varsel.",
+                    "LandslideWarningDescription-4": "Det ventes mange store jordskred og/eller sÃ¸rpeskred. FÃ¸lg med i media, og fÃ¸lg oppfordringer og rÃ¥d fra myndighetene. Sikkerhetstiltak som vegstenging og evakuering kan skje pÃ¥ kort varsel.",
 
                     "AvalancheWarningDescription-0": "Ikke vurdert",
 
                     "AvalancheWarningTitle-1": "Liten",
-                    "AvalancheWarningDescription-1": "Enkelte spesielt utsatte områder vil kunne være skredutsatte. I disse områdene, vær oppmerksom på mulig skredproblem. Generelt stabile forhold. Generelt sterke bindinger og stabilt. Utløsning generelt kun mulig ved stor tilleggsbelastning i noen få ekstreme heng. Kun små naturlig utløste skred er mulig.",
+                    "AvalancheWarningDescription-1": "Enkelte spesielt utsatte omrÃ¥der vil kunne vÃ¦re skredutsatte. I disse omrÃ¥dene, vÃ¦r oppmerksom pÃ¥ mulig skredproblem. Generelt stabile forhold. Generelt sterke bindinger og stabilt. UtlÃ¸sning generelt kun mulig ved stor tilleggsbelastning i noen fÃ¥ ekstreme heng. Kun smÃ¥ naturlig utlÃ¸ste skred er mulig.",
 
                     "AvalancheWarningTitle-2": "Moderat",
-                    "AvalancheWarningDescription-2": "Ferdsel i skredterreng krever kunnskap, erfaring i rutevalg og evne til å identifisere skredproblem. Generelt anbefales det å unngå terreng brattere enn 30 grader. Lokalt ustabile forhold. Moderate bindinger i noen brattheng, for øvrig sterke bindinger. Utløsning mulig, spesielt ved stor tilleggsbelastning i brattheng. Store naturlig utløste skred forventes ikke.",
+                    "AvalancheWarningDescription-2": "Ferdsel i skredterreng krever kunnskap, erfaring i rutevalg og evne til Ã¥ identifisere skredproblem. Generelt anbefales det Ã¥ unngÃ¥ terreng brattere enn 30 grader. Lokalt ustabile forhold. Moderate bindinger i noen brattheng, for Ã¸vrig sterke bindinger. UtlÃ¸sning mulig, spesielt ved stor tilleggsbelastning i brattheng. Store naturlig utlÃ¸ste skred forventes ikke.",
 
                     "AvalancheWarningTitle-3": "Betydelig",
-                    "AvalancheWarningDescription-3": "Ferdsel i skredterreng krever solid kunnskap, erfaring i rutevalg og evne til å identifisere skredproblem. Generelt anbefales det å unngå terreng brattere enn 30 grader og holde avstand til utløpsområder. Generelt ustabile forhold. Moderat til svake bindinger i mange brattheng. Utløsning mulig, selv ved liten tilleggsbelastning i brattheng. Fjernutløsning mulig. Under spesielle forhold kan det forekomme noen middels store og enkelte store naturlig utløste skred.",
+                    "AvalancheWarningDescription-3": "Ferdsel i skredterreng krever solid kunnskap, erfaring i rutevalg og evne til Ã¥ identifisere skredproblem. Generelt anbefales det Ã¥ unngÃ¥ terreng brattere enn 30 grader og holde avstand til utlÃ¸psomrÃ¥der. Generelt ustabile forhold. Moderat til svake bindinger i mange brattheng. UtlÃ¸sning mulig, selv ved liten tilleggsbelastning i brattheng. FjernutlÃ¸sning mulig. Under spesielle forhold kan det forekomme noen middels store og enkelte store naturlig utlÃ¸ste skred.",
 
                     "AvalancheWarningTitle-4": "Stor",
-                    "AvalancheWarningDescription-4": "Ferdsel i skredterreng anbefales ikke. Skred som løsner av seg selv forventes. Unngå løsne- og utløpsområder. Omfattende ustabile forhold. Svake bindinger i de fleste brattheng. Utløsning sannsynlig selv ved liten tilleggsbelastning i mange brattheng. Fjernutløsning sannsynlig. Under spesielle forhold forventes det mange middels store og noen store naturlig utløste skred.",
+                    "AvalancheWarningDescription-4": "Ferdsel i skredterreng anbefales ikke. Skred som lÃ¸sner av seg selv forventes. UnngÃ¥ lÃ¸sne- og utlÃ¸psomrÃ¥der. Omfattende ustabile forhold. Svake bindinger i de fleste brattheng. UtlÃ¸sning sannsynlig selv ved liten tilleggsbelastning i mange brattheng. FjernutlÃ¸sning sannsynlig. Under spesielle forhold forventes det mange middels store og noen store naturlig utlÃ¸ste skred.",
 
                     "AvalancheWarningTitle-5": "Meget stor",
-                    "AvalancheWarningDescription-5": "Ferdsel i skredterreng frarådes! Ekstremt ustabile forhold. Generelt svake bindinger og svært ustabilt. Mange store, også svært store, naturlig utløste skred forventes, selv i moderat bratt terreng. Fjernutløsning meget sannsynlig."
+                    "AvalancheWarningDescription-5": "Ferdsel i skredterreng frarÃ¥des! Ekstremt ustabile forhold. Generelt svake bindinger og svÃ¦rt ustabilt. Mange store, ogsÃ¥ svÃ¦rt store, naturlig utlÃ¸ste skred forventes, selv i moderat bratt terreng. FjernutlÃ¸sning meget sannsynlig."
 
                 },
                 general: {
                     "loading...": "Laster...",
 
-                    "avalanche tab title": "Snøskred",
+                    "avalanche tab title": "SnÃ¸skred",
                     "flood tab title": "Flom",
                     "landslide tab title": "Jordskred",
                     "favorites tab title": "Favoritter",
@@ -207,16 +207,16 @@ angular
 
                     "favorites header for warningType 1": "Flom",
                     "favorites header for warningType 2": "Jordskred",
-                    "favorites header for warningType 3": "Snøskred",
+                    "favorites header for warningType 3": "SnÃ¸skred",
 
                     "published": "Publisert: %@",
-                    "next warning": "Neste varsel før: %@",
+                    "next warning": "Neste varsel fÃ¸r: %@",
 
                     "no main text": "Ingen oppsummering",
 
                     "warning text back button title": "Varsel",
 
-                    "empty favorites table": "Dine stjernede favorittområder vil dukke opp i denne listen.",
+                    "empty favorites table": "Dine stjernede favorittomrÃ¥der vil dukke opp i denne listen.",
 
                     "empty avalanche warnings table": "Kom tilbake etter 1. desember",
                     "empty flood warnings table": "Ingen flomvarsel for i dag eller de neste to dagene",
@@ -224,16 +224,16 @@ angular
 
 // PUSH WARNINGS
 
-                    "AvalancheWarning problem changed": "%@ - snøskred: Endring i det viktigste snøskredproblemet.",
-                    "AvalancheWarning forecast changed": "%@ - snøskred: Høyeste varslingsnivå endret fra %@ til %@ for de neste tre dagene.",
-                    "FloodWarning forecast changed": "%@ - flom: Høyeste varslingsnivå endret fra %@ til %@ for de neste tre dagene.",
-                    "LandSlideWarning forecast changed": "%@ - jordskred: Høyeste varslingsnivå endret fra %@ til %@ for de neste tre dagene.",
+                    "AvalancheWarning problem changed": "%@ - snÃ¸skred: Endring i det viktigste snÃ¸skredproblemet.",
+                    "AvalancheWarning forecast changed": "%@ - snÃ¸skred: HÃ¸yeste varslingsnivÃ¥ endret fra %@ til %@ for de neste tre dagene.",
+                    "FloodWarning forecast changed": "%@ - flom: HÃ¸yeste varslingsnivÃ¥ endret fra %@ til %@ for de neste tre dagene.",
+                    "LandSlideWarning forecast changed": "%@ - jordskred: HÃ¸yeste varslingsnivÃ¥ endret fra %@ til %@ for de neste tre dagene.",
                     "FloodWarning MicroBlogPosts have changed": "%@ - flom: Ny varslingsoppdatering.",
                     "LandSlideWarning MicroBlogPosts have changed": "%@ - jordskred: Ny varslingsoppdatering.",
 
 // AVALANCHE
 
-                    "regobs link": "Gå til regionen på regobs.no",
+                    "regobs link": "GÃ¥ til regionen pÃ¥ regobs.no",
 
                     "emergency warning": "Beredskapsmelding",
 
@@ -294,7 +294,7 @@ angular
                     "AvalCause-17": "Buried weak layer of faceted snow near vegetation.",
                     "AvalCause-18": "Buried weak layer of faceted snow above a crust.",
                     "AvalCause-19": "Buried weak layer of faceted snow under a crust.",
-                    "AvalCause-20": "Snødekket er gjennomfuktet og ustabilt fra bakken.",
+                    "AvalCause-20": "SnÃ¸dekket er gjennomfuktet og ustabilt fra bakken.",
                     "AvalCause-21": "Wet snow on the surface.",
                     "AvalCause-22": "Free water above crusts.",
                     "AvalCause-23": "Water-saturated snow.",
@@ -346,9 +346,9 @@ angular
 
                     "AvalancheExposition-non-given": "Ikke gitt",
                     "AvalancheExposition-0": "N",
-                    "AvalancheExposition-1": "NØ",
-                    "AvalancheExposition-2": "Ø",
-                    "AvalancheExposition-3": "SØ",
+                    "AvalancheExposition-1": "NÃ˜",
+                    "AvalancheExposition-2": "Ã˜",
+                    "AvalancheExposition-3": "SÃ˜",
                     "AvalancheExposition-4": "S",
                     "AvalancheExposition-5": "SV",
                     "AvalancheExposition-6": "V",
@@ -361,29 +361,29 @@ angular
                     "ExposedHeightFill-4": "Mellom %@ og %@ moh",
 
                     "AvalancheExt-0": "Ikke gitt",
-                    "AvalancheExt-10": "Tørre løssnøskred",
-                    "AvalancheExt-15": "Våte løssnøskred",
-                    "AvalancheExt-20": "Tørre flakskred",
-                    "AvalancheExt-25": "Våte flakskred",
-                    "AvalancheExt-30": "Sørpeskred",
+                    "AvalancheExt-10": "TÃ¸rre lÃ¸ssnÃ¸skred",
+                    "AvalancheExt-15": "VÃ¥te lÃ¸ssnÃ¸skred",
+                    "AvalancheExt-20": "TÃ¸rre flakskred",
+                    "AvalancheExt-25": "VÃ¥te flakskred",
+                    "AvalancheExt-30": "SÃ¸rpeskred",
                     "AvalancheExt-40": "Skavl",
 
 // LANDSLIDE AND FLOOD
 
                     "CauseName-0": "Ikke gitt",
                     "CauseName-1": "Regn",
-                    "CauseName-2": "Intens regn (bygenedbør)",
-                    "CauseName-3": "Snøsmelting",
+                    "CauseName-2": "Intens regn (bygenedbÃ¸r)",
+                    "CauseName-3": "SnÃ¸smelting",
                     "CauseName-4": "Isgang",
                     "CauseName-5": "Frost og is",
                     "CauseName-6": "Vannmetning (i jord)",
-                    "CauseName-7": "Dambrudd/jøkulhlaup",
+                    "CauseName-7": "Dambrudd/jÃ¸kulhlaup",
 
                     "LandslideTypeName-0": "Ikke gitt",
                     "LandslideTypeName-1": "Utgliding",
                     "LandslideTypeName-2": "Jordskred",
                     "LandslideTypeName-3": "Flomskred",
-                    "LandslideTypeName-4": "Sørpeskred"
+                    "LandslideTypeName-4": "SÃ¸rpeskred"
                 },
                 infoPage: {
                     /*
@@ -405,7 +405,7 @@ angular
                     "varsom.no facebook": "Varsom Facebook Page",
                     "varsom.no facebook comment": "Search for \"varsom.no\"",
                     "avalanche facebook": "Avalanche Facebook Page",
-                    "avalanche facebook comment": "Search for \"Snøskredvarslingen i Norge\"",
+                    "avalanche facebook comment": "Search for \"SnÃ¸skredvarslingen i Norge\"",
                     "avalanche school": "The avalanche school",
                     "avalanche school comment": "@ varsom.no (in norwegian only)",
 
@@ -416,21 +416,21 @@ angular
 
                     "FloodWarningDescription-1": "Generelt trygge forhold/ingen spesiell fare.",
 
-                    "FloodWarningDescription-2": "Raskt økende vannføring som kan medføre lokale oversvømmelser. Spesielt stor vannføring/vannstand for årstiden, fare for isgang etc. Det kan forekomme store problemer/flomskader lokalt. Vannføring opp til 5 års gjentaksintervall.",
+                    "FloodWarningDescription-2": "Raskt Ã¸kende vannfÃ¸ring som kan medfÃ¸re lokale oversvÃ¸mmelser. Spesielt stor vannfÃ¸ring/vannstand for Ã¥rstiden, fare for isgang etc. Det kan forekomme store problemer/flomskader lokalt. VannfÃ¸ring opp til 5 Ã¥rs gjentaksintervall.",
 
-                    "FloodWarningDescription-3": "Vannføring som kan medføre omfattende oversvømmelser og flomskader på utsatte steder. Vannføring mellom 5 og 50 års gjentaksintervall.",
+                    "FloodWarningDescription-3": "VannfÃ¸ring som kan medfÃ¸re omfattende oversvÃ¸mmelser og flomskader pÃ¥ utsatte steder. VannfÃ¸ring mellom 5 og 50 Ã¥rs gjentaksintervall.",
 
-                    "FloodWarningDescription-4": "Vannføring som kan medføre omfattende oversvømmelser og flomskader på bebyggelse og infrastruktur over store områder. Vannføring med mer enn 50 års gjentaksintervall.",
+                    "FloodWarningDescription-4": "VannfÃ¸ring som kan medfÃ¸re omfattende oversvÃ¸mmelser og flomskader pÃ¥ bebyggelse og infrastruktur over store omrÃ¥der. VannfÃ¸ring med mer enn 50 Ã¥rs gjentaksintervall.",
 
                     "LandslideWarningDescription-0": "Ikke vurdert.",
 
-                    "LandslideWarningDescription-1": "Generelt trygge forhold. Ingen spesielle forholdsregler er nødvendig.",
+                    "LandslideWarningDescription-1": "Generelt trygge forhold. Ingen spesielle forholdsregler er nÃ¸dvendig.",
 
-                    "LandslideWarningDescription-2": "Det ventes noen jordskred og/eller sørpeskred. Enkelte store hendelser kan forekomme. Vær oppmerksom i utsatte områder (oftest bratt terreng og langs bekker og elveløp). Hold deg oppdatert om utviklingen av været og den hydrologiske situasjonen. Forebyggende tiltak, som rensing av dreneringsveier i spesielt utsatte områder, anbefales.",
+                    "LandslideWarningDescription-2": "Det ventes noen jordskred og/eller sÃ¸rpeskred. Enkelte store hendelser kan forekomme. VÃ¦r oppmerksom i utsatte omrÃ¥der (oftest bratt terreng og langs bekker og elvelÃ¸p). Hold deg oppdatert om utviklingen av vÃ¦ret og den hydrologiske situasjonen. Forebyggende tiltak, som rensing av dreneringsveier i spesielt utsatte omrÃ¥der, anbefales.",
 
-                    "LandslideWarningDescription-3": "Det ventes flere store og små jordskred og/eller sørpeskred. Vær oppmerksom og følg oppfordringer fra myndighetene. Forebyggende tiltak som rensing av dreneringsveier bør utføres.",
+                    "LandslideWarningDescription-3": "Det ventes flere store og smÃ¥ jordskred og/eller sÃ¸rpeskred. VÃ¦r oppmerksom og fÃ¸lg oppfordringer fra myndighetene. Forebyggende tiltak som rensing av dreneringsveier bÃ¸r utfÃ¸res.",
 
-                    "LandslideWarningDescription-4": "Det ventes mange store jordskred og/eller sørpeskred. Følg med i media, og følg oppfordringer og råd fra myndighetene. Sikkerhetstiltak som vegstenging og evakuering kan skje på kort varsel.",
+                    "LandslideWarningDescription-4": "Det ventes mange store jordskred og/eller sÃ¸rpeskred. FÃ¸lg med i media, og fÃ¸lg oppfordringer og rÃ¥d fra myndighetene. Sikkerhetstiltak som vegstenging og evakuering kan skje pÃ¥ kort varsel.",
 
                     "AvalancheWarningDescription-0": "No rating",
 
