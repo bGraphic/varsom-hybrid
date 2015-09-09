@@ -34,8 +34,15 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
 
     })
 
-    .run(function($ionicPlatform, $ionicAnalytics, $ionicDeploy) {
+    .run(function($ionicPlatform, $ionicAnalytics, $ionicUser, $ionicDeploy) {
         $ionicPlatform.ready(function() {
+
+            var user = $ionicUser.get();
+            if(!user.user_id) {
+                // Set your user_id here, or generate a random one.
+                user.user_id = $ionicUser.generateGUID();
+            }
+            $ionicUser.identify(user);
 
             $ionicDeploy.update().then(function(res) {
                 console.log('Ionic Deploy: Update Success! ', res);
