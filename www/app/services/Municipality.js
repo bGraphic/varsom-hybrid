@@ -3,39 +3,29 @@
  */
 angular
     .module('Varsom')
-    .factory('Municipality', function Municipality($q) {
+    .factory('Municipality', function Municipality($resource, AppSettings) {
+        console.log('Creating municipality');
 
-        var Municipality = Parse.Object.extend('Municipality', {
-            initialize: function (attrs, options) { }
-        },{
-            listAll: function (countyId) {
-                var defer = $q.defer();
-                var query = new Parse.Query(this);
-                query.equalTo('countyId', countyId);
-                query.ascending('name');
-
-                query.find({
-                    success: function (results) {
-                        defer.resolve(results);
-                    },
-                    error: function (error) {
-                        defer.reject(error);
-                        alert('Could not fetch municipalities');
-                        console.log(error);
-                    }
-                });
-
-                return defer.promise;
-            }
-        });
-
-        Object.defineProperties(Municipality.prototype, {
-            'name': {
-                get: function () {
-                    return this.get('name');
+        var Municipality = $resource(AppSettings.getParseClassUrl('Municipality'), {}, {
+            get: {
+                headers: AppSettings.getParseHeader()
+            },
+            query: {
+                headers:AppSettings.getParseHeader(),
+                params: {
+                    where: '@where',
+                    order: 'name',
+                    include:''
                 }
             }
         });
 
+        Municipality.listAllForCounty = function (countyId) {
+            return Municipality.query({
+                where: {'countyId': countyId}
+            });
+        };
+
         return Municipality;
+
     });

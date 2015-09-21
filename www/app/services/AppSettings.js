@@ -7,6 +7,12 @@ angular
             value: undefined,
             storageKey: 'varsomLocale'
         };
+        var parseRestApi = {
+            url: 'https://api.parse.com/',
+            version: '1',
+            header: {}
+        };
+
         settings.warningStyles = {
             '0': {
                 weight: 3,
@@ -56,6 +62,10 @@ angular
             settings.warningStyles = newStyle;
         };
 
+        this.setParseApiHeader = function (header) {
+            parseRestApi.header = header;
+        };
+
         this.$get = function AppSettingsFactory(LocalStorage){
             settings.getLocale = function(){
                 if(!locale.value)
@@ -65,6 +75,18 @@ angular
 
             settings.setLocale = function (newLocale) {
                 locale.value = LocalStorage.set(locale.storageKey, newLocale);
+            };
+
+            settings.getParseUrl = function (path) {
+                return parseRestApi.url + parseRestApi.version + path;
+            };
+
+            settings.getParseClassUrl = function (path) {
+                return parseRestApi.url + parseRestApi.version + '/classes/' + path;
+            };
+
+            settings.getParseHeader = function () {
+                return parseRestApi.header;
             };
 
             return settings;

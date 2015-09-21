@@ -1,8 +1,8 @@
 <ion-view title="{{CountyModel.county.name}}">
     <ion-content>
-        <ion-list>
-            <ion-item class="item-divider">{{CountyModel.county.name}}</ion-item>
-            <ion-item ng-repeat="mun in CountyModel.municipalities">{{mun.name}}</ion-item>
-        </ion-list>
+        <div class="list">
+            <div class="item item-divider">{{::CountyModel.county.name}}</div>
+            <a class="item" collection-repeat="mun in ::CountyModel.municipalities.results">{{::mun.name}}</a>
+        </div>
     </ion-content>
 </ion-view>

@@ -1,17 +1,17 @@
 <ion-view title="Varsom">
     <ion-content>
-        <div leaflet-map="{userPos:true, small:true}"></div>
-        <ion-list>
-            <ion-item class="item-icon-right" ng-repeat="county in ::HomeModel.counties" ui-sref="county({county:county, countyId: county.countyId})">
-
+        <div leaflet-map="{userPos:true, small:true}" ui-sref="map" data-tap-disabled="true"></div>
+        <div class="list">
+            <!--<ion-item class="item-icon-right" ng-repeat="county in ::HomeModel.counties"
+                      ui-sref="county({county:county, countyId: county.countyId})">
                 {{::county.name}}
-
-                <span class="badge badge-{{::HomeModel.warningClasses[county.forecasts.maxLevel]}}">{{county.forecasts.maxLevel === 0 ? '?' : county.forecasts.maxLevel}}</span>
-
                 <i class="icon icon-accessory ion-chevron-right"></i>
-
-
-            </ion-item>
-        </ion-list>
+            </ion-item>-->
+            <a class="item item-icon-right" collection-repeat="county in ::HomeModel.counties.results" ui-sref="county({county:county, countyId: county.countyId})">
+                <span ng-bind="::county.name"></span>
+                <span class="badge badge-{{HomeModel.warningClasses[county.maxLevel]}}" ng-bind="county.maxLevel"></span>
+                <i class="icon icon-accessory ion-chevron-right"></i>
+            </a>
+        </div>
     </ion-content>
 </ion-view>

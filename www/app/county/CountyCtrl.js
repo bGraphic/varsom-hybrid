@@ -5,31 +5,32 @@ angular
     .module('Varsom')
     .controller('CountyCtrl', function CountyCtrl($scope, $ionicLoading, $stateParams, County, Municipality, Localization) {
         var model = this;
-        var translation = Localization.getTranslations();
+        var translation;
 
-        if($stateParams.county){
-            model.county = $stateParams.county;
-            init();
-        } else {
-            County.getById($stateParams.countyId).then(function(result){
-                model.county = result;
-                init();
-            });
-        }
 
         function init () {
-            console.log(model.county.countyId);
-            Municipality.listAll(model.county.countyId).then(function (municipalities) {
+            model.municipalities = Municipality.listAllForCounty(model.county.countyId);
+            console.log('MUN', model.municipalities);
+           /* Municipality.listAll(model.county.countyId).then(function (municipalities) {
                 model.municipalities = municipalities;
-                $ionicLoading.hide();
-            });
+                //$ionicLoading.hide();
+            });*/
         }
 
-        $scope.$on('$ionicView.afterEnter', function() {
-            // the view should be ready and transition done
-            if(!model.municipalities)
-                $ionicLoading.show({template: translation.general['loading...']});
+        $scope.$on('$ionicView.loaded', function() {
+            translation = Localization.getTranslations();
+            if($stateParams.county){
+                model.county = $stateParams.county;
+                init();
+            } else {
+                County.getById($stateParams.countyId).$promise.then(function(data){
+                    model.county = data.results[0];
+                    init();
+                });
+            }
         });
+
+
 
 
         //$scope.county = $stateParams.county;

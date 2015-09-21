@@ -4,27 +4,31 @@
 angular
     .module('Varsom')
     .controller('HomeCtrl', function HomeCtrl($scope, $q, $ionicLoading, Localization, County) {
-        var HomeModel = this;
-        var translation = Localization.getTranslations();
+        var model = this;
+        var translation;
 
-        County.listAll().then(function (counties) {
-            console.log(counties);
-            HomeModel.counties = counties;
-            $ionicLoading.hide();
+        $scope.$on('$ionicView.loaded', function() {
+            translation = Localization.getTranslations();
+            model.warningClasses = [
+                'stable', //Warning level 0
+                'calm',
+                'balanced',
+                'energized',
+                'assertive',
+                'royal'
+            ];
+
+            model.counties = County.allCounties;
+
         });
 
-        $scope.$on('$ionicView.afterEnter', function() {
-            // the view should be ready and transition done
-            if(!HomeModel.counties)
-                $ionicLoading.show({template: translation.general['loading...']});
+/*        $scope.$on('$ionicView.beforeEnter', function() {
+            $ionicLoading.show({template: translation.general['loading...']});
         });
 
-        HomeModel.warningClasses = [
-            'stable', //Warning level 0
-            'calm',
-            'balanced',
-            'energized',
-            'assertive',
-            'royal'
-        ];
+        $scope.$on('$ionicView.beforeLeave', function() {
+            $ionicLoading.show({template: translation.general['loading...']});
+        });*/
+
+
     });

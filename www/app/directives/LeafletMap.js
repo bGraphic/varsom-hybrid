@@ -4,10 +4,9 @@
 angular
     .module('Varsom')
     .directive('leafletMap', function LeafletMap(County, AppSettings, $http, $state, $timeout) {
-
-
         function link(scope, elem, attrs) {
             var options = scope.leafletMap;
+            console.log(options);
             if (options.small)
                 elem.css('height', '200px');
             else
@@ -16,7 +15,8 @@ angular
             var styles = AppSettings.warningStyles;
             var map = L.map(elem[0], {
                 center: [64.871, 16.949],
-                zoom: 4
+                zoom: 4,
+                zoomControl:false
             });
             var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png');
 
@@ -28,6 +28,12 @@ angular
                 map.doubleClickZoom.disable();
                 map.scrollWheelZoom.disable();
                 if (map.tap) map.tap.disable();
+            } else {
+                map.dragging.enable();
+                map.touchZoom.enable();
+                map.doubleClickZoom.enable();
+                map.scrollWheelZoom.enable();
+                if (map.tap) map.tap.enable();
             }
             if (options.userPos) {
                 console.log(options.userPos);
@@ -35,29 +41,39 @@ angular
                 map.on('locationfound', onLocationFound);
             }
 
-            County.listAll().then(function (counties) {
+            County.allCounties.$promise.then(function (counties) {
+                console.log('Snizzle', counties);
 
-                counties.forEach(function (county) {
-                    county.fetchGeoJson().then(function (geojson) {
-                        L.geoJson(geojson, {
+                counties.results.forEach(function (county) {
+                    $http.get(county.geoJSONmin.url,{cache:true}).then(function (geojson) {
+                        L.geoJson(geojson.data, {
                             onEachFeature: onEachFeature
                         }).addTo(map);
                     });
 
                     function onEachFeature(feature, layer) {
                         layer.setStyle(styles[county.maxLevel]);
+
                         if(!options.small){
                             layer.on('click', function (event) {
-                                $state.go('county', {county: county});
+                                $state.go('county', {county: county, countyId: county.countyId});
                                 layer.setStyle(styles.clicked);
 
                                 $timeout(function () {
                                     layer.setStyle(styles[county.maxLevel]);
                                 }, 500);
                             });
+                        } else {
+                            layer.on('click', function (event) {
+                                $state.go('map');
+                            });
                         }
                     }
                 });
+            });
+
+            scope.$on('$destroy', function() {
+                map.remove();
             });
 
             function onLocationFound(e) {

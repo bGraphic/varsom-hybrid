@@ -28,5 +28,7 @@
     "cordova-plugin-statusbar",
     "ionic-plugin-deploy"
   ],
-  "cordovaPlatforms": []
+  "cordovaPlatforms": [
+    "android"
+  ]
 }
