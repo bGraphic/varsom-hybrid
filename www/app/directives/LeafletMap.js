@@ -12,11 +12,12 @@ angular
             else
                 elem.css('height', '100%');
 
-            var styles = AppSettings.warningStyles;
+            var styles = AppSettings.hazardRatingStyles;
             var map = L.map(elem[0], {
                 center: [64.871, 16.949],
                 zoom: 4,
-                zoomControl:false
+                zoomControl:false,
+                attributionControl: false
             });
             var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png');
 
@@ -37,7 +38,7 @@ angular
             }
             if (options.userPos) {
                 console.log(options.userPos);
-                map.locate({setView: true, maxZoom: 8});
+                map.locate({setView: true, maxZoom: 7});
                 map.on('locationfound', onLocationFound);
             }
 
@@ -56,16 +57,16 @@ angular
 
                         if(!options.small){
                             layer.on('click', function (event) {
-                                $state.go('county', {county: county, countyId: county.countyId});
+                                //$state.go('county', {county: county, countyId: county.countyId});
                                 layer.setStyle(styles.clicked);
-
                                 $timeout(function () {
                                     layer.setStyle(styles[county.maxLevel]);
-                                }, 500);
+                                }, 100);
+                                scope.clickHandler({event: event, county: county});
                             });
                         } else {
                             layer.on('click', function (event) {
-                                $state.go('map');
+                                $state.go('app.map');
                             });
                         }
                     }
@@ -90,7 +91,8 @@ angular
             restrict: 'A',
             link: link,
             scope: {
-                leafletMap: '='
+                leafletMap: '=',
+                clickHandler: '&'
             }
         };
 

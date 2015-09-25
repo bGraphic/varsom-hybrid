@@ -25,11 +25,13 @@ $assertive:                       #D21523 !default;
 $royal:                           #3E060B !default;
 $dark:                            #444 !default;
 
+//$font-family-sans-serif: "Lato", sans-serif !default;
 
 
 
 
-// The path for our ionicons font files, relative to the built CSS in www/css
+
+    // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include all of Ionic

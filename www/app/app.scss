@@ -1,11 +1,47 @@
-/*html, body {
-    height: 100%;
-    width: 100%;
-}
-[ng-app]{
-    height:100%;
-}*/
+
 
 .leaflet-container {
     transform: translatez(0);
+}
+
+.varsom-menu {
+    display: block;
+    padding: 30px;
+
+    li {
+        vertical-align: top;
+        margin-bottom: 20px;
+        a {
+            display: block;
+            color: #fff;
+            line-height: 39px;
+            height: 40px;
+            vertical-align: top;
+            font-size: 20px;
+            font-weight: 200;
+            text-decoration: none;
+            &.active {
+                color: lighten($energized,15%);
+            }
+
+            .ion-ios-settings {
+                font-size: 22px;
+            }
+        }
+    }
+
+
+    .icon {
+        float: left;
+        display: inline-block;
+        margin-right: 10px;
+        vertical-align: top;
+        font-size: 30px;
+        width: 40px;
+        line-height: 39px;
+        height: 40px;
+        text-align: center;
+        border-radius: 50%;
+        border: 1px solid #fff;
+    }
 }

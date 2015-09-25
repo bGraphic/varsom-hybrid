@@ -1,0 +1,53 @@
+<!--<ion-tabs>
+    <ion-tab title="Skred" icon="" href="">
+        <ion-nav-view name="landslide-tab"></ion-nav-view>
+    </ion-tab>
+    <ion-tab title="Snøskred" icon="" href="">
+        <ion-nav-view name="avalanche-tab"></ion-nav-view>
+    </ion-tab>
+</ion-tabs>-->
+<ion-side-menus enable-menu-with-back-views="true">
+    <ion-side-menu-content >
+        <ion-nav-bar class="bar-positive">
+            <ion-nav-back-button>
+            </ion-nav-back-button>
+
+            <ion-nav-buttons side="right">
+                <button class="button button-icon button-clear ion-navicon" menu-toggle="right">
+                </button>
+            </ion-nav-buttons>
+        </ion-nav-bar>
+        <ion-nav-view name="menuContent"></ion-nav-view>
+    </ion-side-menu-content>
+
+    <ion-side-menu side="right">
+
+        <ion-content class="dark-bg">
+            <ul class="varsom-menu">
+                <li>
+                    <a menu-close
+                       ui-sref="app.landslide"
+                       ui-sref-active="active">
+                        Landslide / flood <i class="icon ion-ios-rainy-outline"></i>
+                    </a>
+
+                </li>
+                <li>
+                    <a menu-close
+                       ui-sref="app.landslide"
+                       ui-sref-active="active">
+                        Avalanche <i class="icon ion-ios-snowy"></i>
+                    </a>
+                </li>
+                <li>
+                    <a menu-close
+                       ui-sref="app.landslide"
+                       ui-sref-active="active">
+                        Settings <i class="icon ion-ios-settings"></i>
+                    </a>
+                </li>
+            </ul>
+
+        </ion-content>
+    </ion-side-menu>
+</ion-side-menus>

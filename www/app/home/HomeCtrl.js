@@ -3,20 +3,13 @@
  */
 angular
     .module('Varsom')
-    .controller('HomeCtrl', function HomeCtrl($scope, $q, $ionicLoading, Localization, County) {
+    .controller('HomeCtrl', function HomeCtrl($scope, $q, $ionicLoading, Localization, AppSettings, County) {
         var model = this;
         var translation;
 
         $scope.$on('$ionicView.loaded', function() {
             translation = Localization.getTranslations();
-            model.warningClasses = [
-                'stable', //Warning level 0
-                'calm',
-                'balanced',
-                'energized',
-                'assertive',
-                'royal'
-            ];
+            model.hazardRatingStyles = AppSettings.hazardRatingStyles;
 
             model.counties = County.allCounties;
 

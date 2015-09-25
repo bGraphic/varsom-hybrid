@@ -1,6 +1,15 @@
 <ion-view title="Map">
     <ion-content scroll="false">
-    <div leaflet-map="{userPos:false, small:false}" data-tap-disabled="true"></div>
-        </ion-content>
-
+        <div leaflet-map="{userPos:false, small:false}"
+             data-tap-disabled="true"
+             data-click-handler="MapModel.countyClicked(event, county)"
+             ng-click="MapModel.clickOutside()"></div>
+        <div class="varsom-map-overlay ng-hide" ng-show="MapModel.showMapInfo">
+            <h3 ng-bind="MapModel.chosenCounty.name"></h3>
+            <span class="varsom-label {{MapModel.chosenCountyClass}}-bg" ng-bind="MapModel.chosenCounty.maxLevel"></span>
+            <div>
+                Her er warning greier
+            </div>
+        </div>
+    </ion-content>
 </ion-view>

@@ -13,53 +13,64 @@ angular
             header: {}
         };
 
-        settings.warningStyles = {
+        settings.hazardRatingStyles = {
             '0': {
                 weight: 3,
                 color: '#C8C8C8',
                 dashArray: '',
-                fillOpacity: 0.5
+                fillOpacity: 0.5,
+                opacity: 0.4,
+                className: 'stable'
             },
             '1': {
                 weight: 3,
                 color: '#75B100',
                 dashArray: '',
-                fillOpacity: 0.5
+                fillOpacity: 0.5,
+                opacity: 0.4,
+                className: 'calm'
             },
             '2': {
                 weight: 3,
                 color: '#FFCC33',
                 dashArray: '',
-                fillOpacity: 0.5
+                fillOpacity: 0.5,
+                opacity: 0.4,
+                className: 'balanced'
             },
             '3': {
                 weight: 3,
                 color: '#E46900',
                 dashArray: '',
-                fillOpacity: 0.5
+                fillOpacity: 0.5,
+                opacity: 0.4,
+                className: 'energized'
             },
             '4': {
                 weight: 3,
                 color: '#D21523',
                 dashArray: '',
-                fillOpacity: 0.5
+                fillOpacity: 0.5,
+                opacity: 0.4,
+                className: 'assertive'
             },
             '5': {
                 weight: 3,
                 color: '#3E060B',
                 dashArray: '',
-                fillOpacity: 0.5
+                fillOpacity: 0.5,
+                opacity: 0.4,
+                className: 'royal'
             },
             clicked: {
-                weight: 3,
-                color: '#666',
-                dashArray: '',
-                fillOpacity: 0.5
+
+                fillOpacity: 0.8,
+                opacity: 0.9
             }
         };
 
-        this.setWarningStyles = function(newStyle){
-            settings.warningStyles = newStyle;
+        this.setHazardRatingStyles = function(newStyle){
+            settings.hazardRatingStyles = newStyle;
         };
 
         this.setParseApiHeader = function (header) {

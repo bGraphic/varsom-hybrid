@@ -14,7 +14,7 @@ angular
                 headers:AppSettings.getParseHeader(),
                 params: {
                     where: '@where',
-                    order: '-countyId',
+                    order: '-countyId', //Ascending
                     include:'LandSlideWarningForecast,FloodWarningForecast'
                 }
             }

@@ -2,7 +2,7 @@
     <ion-content>
         <div class="list">
             <div class="item item-divider">{{::CountyModel.county.name}}</div>
-            <a class="item" collection-repeat="mun in ::CountyModel.municipalities.results">{{::mun.name}}</a>
+            <a class="item" ng-repeat="mun in ::CountyModel.municipalities.results">{{::mun.name}}</a>
         </div>
     </ion-content>
 </ion-view>
