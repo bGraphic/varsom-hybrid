@@ -2,9 +2,17 @@
 
 angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics', 'ionic.service.deploy', 'ngResource'])
 
-    .controller('AppCtrl', function(){
+    .controller('AppCtrl', function($scope, $ionicHistory, Localization){
         var appVm = this;
-        appVm.smelly = "You be smelly fool";
+
+        $scope.$on('$ionicView.loaded', function() {
+            appVm.text = Localization.getTranslations();
+        });
+
+        $scope.$on('varsom.translations.changed', function () {
+            appVm.text = Localization.getTranslations();
+            $ionicHistory.clearCache();
+        });
 
     })
 

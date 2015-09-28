@@ -1,5 +1,10 @@
-<ion-view view-title="Settings">
+<ion-view view-title="{{appVm.text['settings']}}">
     <ion-content>
-        <h1>Settings coming here</h1>
+        <div class="list">
+            <div class="item item-divider"
+                 ng-bind="appVm.text['language']">
+            </div>
+            <ion-radio ng-repeat="loc in vm.locale.available" ng-model="vm.locale.value" ng-value="loc.key" ng-change="vm.setLocale(loc.key)">{{loc.name}}</ion-radio>
+        </div>
     </ion-content>
 </ion-view>

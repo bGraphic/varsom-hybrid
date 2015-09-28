@@ -5,21 +5,16 @@ angular
     .module('Varsom')
     .controller('CountyMapCtrl', function CountyMapCtrl($scope, $ionicLoading, AppSettings) {
         var vm = this;
-/*        $scope.$on('$ionicView.afterEnter', function () {
+        $scope.$on('$ionicView.loaded', function () {
+            vm.countyClicked = function (event, county) {
+                vm.chosenCounty = county;
+                vm.chosenCountyClass = AppSettings.hazardRatingStyles[county.maxLevel].className;
+                vm.showMapInfo = true;
+            };
 
-            $ionicLoading.hide();
-        });*/
-
-
-
-        vm.countyClicked = function (event, county) {
-            vm.chosenCounty = county;
-            vm.chosenCountyClass = AppSettings.hazardRatingStyles[county.maxLevel].className;
-            vm.showMapInfo = true;
-        };
-
-        vm.clickOutside = function () {
-            vm.showMapInfo = false;
-        };
+            vm.clickOutside = function () {
+                vm.showMapInfo = false;
+            };
+        });
 
     });

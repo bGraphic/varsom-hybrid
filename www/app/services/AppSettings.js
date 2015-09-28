@@ -5,6 +5,10 @@ angular
         var settings = {};
         var locale = {
             value: undefined,
+            available: [
+                {key: 'nb', name: 'Norsk'},
+                {key: 'en', name:'English'}
+            ],
             storageKey: 'varsomLocale'
         };
         var parseRestApi = {
@@ -80,8 +84,8 @@ angular
         this.$get = function AppSettingsFactory(LocalStorage){
             settings.getLocale = function(){
                 if(!locale.value)
-                    locale.value = LocalStorage.get(locale.storageKey, 'nb');
-                return locale.value;
+                    locale.value = LocalStorage.get(locale.storageKey, locale.available[0].key);
+                return locale;
             };
 
             settings.setLocale = function (newLocale) {
