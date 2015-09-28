@@ -4,27 +4,27 @@
 angular
     .module('Varsom')
     .controller('CountyCtrl', function CountyCtrl($scope, $ionicLoading, $stateParams, County, Municipality, Localization) {
-        var model = this;
+        var vm = this;
         var translation;
 
 
-        function init () {
-            model.municipalities = Municipality.listAllForCounty(model.county.countyId);
-            console.log('MUN', model.municipalities);
+        var init = function () {
+            vm.municipalities = Municipality.listAllForCounty(vm.county.countyId);
+            console.log('MUN', vm.municipalities);
            /* Municipality.listAll(model.county.countyId).then(function (municipalities) {
                 model.municipalities = municipalities;
                 //$ionicLoading.hide();
             });*/
-        }
+        };
 
         $scope.$on('$ionicView.loaded', function() {
             translation = Localization.getTranslations();
             if($stateParams.county){
-                model.county = $stateParams.county;
+                vm.county = $stateParams.county;
                 init();
             } else {
                 County.getById($stateParams.countyId).$promise.then(function(data){
-                    model.county = data.results[0];
+                    vm.county = data.results[0];
                     init();
                 });
             }

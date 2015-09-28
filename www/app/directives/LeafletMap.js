@@ -66,7 +66,7 @@ angular
                             });
                         } else {
                             layer.on('click', function (event) {
-                                $state.go('app.map');
+                                $state.go('app.countymap');
                             });
                         }
                     }

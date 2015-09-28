@@ -3,6 +3,8 @@
 angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics', 'ionic.service.deploy', 'ngResource'])
 
     .controller('AppCtrl', function(){
+        var appVm = this;
+        appVm.smelly = "You be smelly fool";
 
     })
 
@@ -25,20 +27,20 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
            $ionicConfigProvider.scrolling.jsScrolling(false);
         }
 
-        $urlRouterProvider.otherwise('/app/landslide');
+        $urlRouterProvider.otherwise('/app/counties');
         $stateProvider
             .state('app', {
                 url: '/app',
                 abstract: true,
                 templateUrl: 'app/app.html',
-                controller: 'AppCtrl as AppModel'
+                controller: 'AppCtrl as appVm'
             })
-            .state('app.landslide', {
-                url: '/landslide',
+            .state('app.counties', {
+                url: '/counties',
                 views: {
                     'menuContent': {
-                        templateUrl: 'app/home/home.html',
-                        controller: 'HomeCtrl as HomeModel'
+                        templateUrl: 'app/counties/counties.html',
+                        controller: 'CountiesCtrl as vm'
                     }
                 }
 
@@ -49,16 +51,34 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
                 views: {
                     'menuContent': {
                         templateUrl: 'app/county/county.html',
-                        controller: 'CountyCtrl as CountyModel'
+                        controller: 'CountyCtrl as vm'
                     }
                 }
             })
-            .state('app.map', {
-                url: '/map',
+            .state('app.countymap', {
+                url: '/countymap',
                 views: {
                     'menuContent': {
-                        templateUrl: 'app/map/map.html',
-                        controller: 'MapCtrl as MapModel'
+                        templateUrl: 'app/countymap/countymap.html',
+                        controller: 'CountyMapCtrl as vm'
+                    }
+                }
+            })
+            .state('app.avalancheregions', {
+                url: '/avalancheregions',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'app/avalancheregions/avalancheregions.html',
+                        controller: 'AvalancheRegionsCtrl as vm'
+                    }
+                }
+            })
+            .state('app.settings', {
+                url: '/settings',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'app/settings/settings.html',
+                        controller: 'SettingsCtrl as vm'
                     }
                 }
             });

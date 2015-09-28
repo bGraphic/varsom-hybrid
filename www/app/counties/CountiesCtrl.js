@@ -3,15 +3,15 @@
  */
 angular
     .module('Varsom')
-    .controller('HomeCtrl', function HomeCtrl($scope, $q, $ionicLoading, Localization, AppSettings, County) {
-        var model = this;
+    .controller('CountiesCtrl', function CountiesCtrl($scope, $q, $ionicLoading, Localization, AppSettings, County) {
+        var vm = this;
         var translation;
 
         $scope.$on('$ionicView.loaded', function() {
             translation = Localization.getTranslations();
-            model.hazardRatingStyles = AppSettings.hazardRatingStyles;
+            vm.hazardRatingStyles = AppSettings.hazardRatingStyles;
 
-            model.counties = County.allCounties;
+            vm.counties = County.allCounties;
 
         });
 
