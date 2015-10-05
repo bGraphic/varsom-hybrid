@@ -3,13 +3,19 @@
         <div leaflet-map="{userPos:false, small:false}"
              data-tap-disabled="true"
              data-click-handler="vm.countyClicked(event, county)"
-             ng-click="vm.clickOutside()"></div>
-        <div class="varsom-map-overlay ng-hide" ng-show="vm.showMapInfo">
+             ng-click="vm.clickOutside($event)"></div>
+
+        <a class="varsom-map-overlay ng-hide item item-icon-right row-no-padding" ng-show="vm.showMapInfo" ui-sref="app.county({county:vm.chosenCounty, countyId: vm.chosenCounty.countyId})">
+
+            <hazard-rating varsom-rating="vm.chosenCounty.maxLevel"></hazard-rating>
             <h3 ng-bind="vm.chosenCounty.name"></h3>
-            <span class="varsom-label {{vm.chosenCountyClass}}-bg" ng-bind="vm.chosenCounty.maxLevel"></span>
             <div>
-                Her er warning greier
+                <hazard-rating ng-repeat="forecast in vm.chosenCounty.FloodWarningForecast" varsom-rating="forecast.activityLevel"></hazard-rating> {{::appVm.text['flood']}}
             </div>
-        </div>
+            <div>
+                <hazard-rating ng-repeat="forecast in vm.chosenCounty.LandSlideWarningForecast" varsom-rating="forecast.activityLevel"></hazard-rating> {{::appVm.text['landslide']}}
+            </div>
+            <i class="icon icon-accessory ion-chevron-right"></i>
+        </a>
     </ion-content>
 </ion-view>

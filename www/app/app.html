@@ -23,7 +23,9 @@
     <ion-side-menu side="right">
 
         <ion-content class="dark-bg">
+
             <ul class="varsom-menu">
+
                 <li>
                     <a menu-close
                        ui-sref="app.counties"
@@ -40,8 +42,7 @@
                     </a>
                 </li>
                 <li>
-                    <a menu-close
-                       ui-sref="app.settings"
+                    <a ui-sref="app.settings" ng-click="appVm.gotoSettings()"
                        ui-sref-active="active">
                         {{appVm.text['settings']}} <i class="icon ion-ios-settings"></i>
                     </a>

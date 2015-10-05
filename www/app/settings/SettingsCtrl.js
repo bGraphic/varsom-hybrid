@@ -9,7 +9,7 @@ angular
             vm.setLocale = function (newLoc) {
                 AppSettings.setLocale(newLoc);
                 $scope.$emit('varsom.translations.changed');
-            }
+            };
 
         });
 

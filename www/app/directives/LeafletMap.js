@@ -20,6 +20,7 @@ angular
                 attributionControl: false
             });
             var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png');
+            //var geoLayer = L.geoJson()
 
             map.addLayer(layer);
 
@@ -43,7 +44,6 @@ angular
             }
 
             County.allCounties.$promise.then(function (counties) {
-                console.log('Snizzle', counties);
 
                 counties.results.forEach(function (county) {
                     $http.get(county.geoJSONmin.url,{cache:true}).then(function (geojson) {
@@ -54,10 +54,13 @@ angular
 
                     function onEachFeature(feature, layer) {
                         layer.setStyle(styles[county.maxLevel]);
+                       // console.log(layer.getBounds().contains());
 
                         if(!options.small){
                             layer.on('click', function (event) {
                                 //$state.go('county', {county: county, countyId: county.countyId});
+                                console.log(event);
+                                event.originalEvent.preventDefault();
                                 layer.setStyle(styles.clicked);
                                 $timeout(function () {
                                     layer.setStyle(styles[county.maxLevel]);

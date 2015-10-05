@@ -14,6 +14,8 @@ angular
                 "landslide-flood":"Jordskred / flom",
                 "avalanche":"Snøskred",
                 "map":"Kart",
+                "landslide":"Jordskred",
+                "flood":"Flom",
                 "dummy":"dummy"
             },
             en: {
@@ -23,6 +25,8 @@ angular
                 "landslide-flood":"Landslide / flood",
                 "avalanche":"Avalanche",
                 "map":"Map",
+                "landslide":"Landslide",
+                "flood":"Flood",
                 "dummy":"dummy"
             }
         };

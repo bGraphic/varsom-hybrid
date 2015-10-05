@@ -5,8 +5,7 @@ angular
     .module('Varsom')
     .controller('CountyCtrl', function CountyCtrl($scope, $ionicLoading, $stateParams, County, Municipality, Localization) {
         var vm = this;
-        var translation;
-
+        vm.county = $stateParams.county;
 
         var init = function () {
             vm.municipalities = Municipality.listAllForCounty(vm.county.countyId);
@@ -18,7 +17,7 @@ angular
         };
 
         $scope.$on('$ionicView.loaded', function() {
-            translation = Localization.getTranslations();
+
             if($stateParams.county){
                 vm.county = $stateParams.county;
                 init();

@@ -1,14 +1,14 @@
-<ion-view view-title="Varsom">
+<ion-view view-title="{{appVm.text['landslide-flood']}}">
     <ion-content>
         <div leaflet-map="{userPos:true, small:true}" ui-sref="app.countymap"></div>
-        <div class="list">
+        <div class="list row-no-padding">
             <!--<ion-item class="item-icon-right" ng-repeat="county in ::vm.counties"
                       ui-sref="county({county:county, countyId: county.countyId})">
                 {{::county.name}}
                 <i class="icon icon-accessory ion-chevron-right"></i>
             </ion-item>-->
-            <a class="item item-icon-right" ng-repeat="county in ::vm.counties.results" ui-sref="app.county({county:county, countyId: county.countyId})">
-                <span class="varsom-label {{vm.hazardRatingStyles[county.maxLevel].className}}-bg" ng-bind="county.maxLevel || '?'"></span>
+            <a class="item item-icon-right row-no-padding" ng-repeat="county in ::vm.counties.results" ui-sref="app.county({county:county, countyId: county.countyId})">
+                <hazard-rating varsom-rating="::county.maxLevel"></hazard-rating>
                 <span class="varsom-warning-text" ng-bind="::county.name"></span>
 
                 <i class="icon icon-accessory ion-chevron-right"></i>

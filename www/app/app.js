@@ -1,12 +1,19 @@
 "use strict";
-
 angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics', 'ionic.service.deploy', 'ngResource'])
 
-    .controller('AppCtrl', function($scope, $ionicHistory, Localization){
+    .controller('AppCtrl', function($scope, $ionicHistory, $ionicSideMenuDelegate, Localization){
         var appVm = this;
 
         $scope.$on('$ionicView.loaded', function() {
             appVm.text = Localization.getTranslations();
+
+            appVm.gotoSettings = function () {
+                $ionicSideMenuDelegate.toggleRight();
+                $ionicHistory.nextViewOptions({
+                    disableAnimate: true
+                });
+
+            };
         });
 
         $scope.$on('varsom.translations.changed', function () {
@@ -60,6 +67,16 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
                     'menuContent': {
                         templateUrl: 'app/county/county.html',
                         controller: 'CountyCtrl as vm'
+                    }
+                }
+            })
+            .state('app.municipality', {
+                url: '/municipality/:municipalityId',
+                params : { municipality: null },
+                views: {
+                    'menuContent': {
+                        templateUrl: 'app/municipality/municipality.html',
+                        controller: 'MunicipalityCtrl as vm'
                     }
                 }
             })
