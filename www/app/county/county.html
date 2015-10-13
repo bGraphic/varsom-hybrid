@@ -1,7 +1,10 @@
 <ion-view view-title="{{::vm.county.name}}">
-    <ion-content>
+    <ion-content id="county_view">
+
+        <flood-landslide-forecast county="vm.county" translations="appVm.text"></flood-landslide-forecast>
+
         <div class="list">
-            <div class="item item-divider">{{::vm.county.name}}</div>
+            <div class="item item-divider">{{appVm.text['municipalities']}}</div>
             <a class="item" ng-repeat="mun in ::vm.municipalities.results" ui-sref="app.municipality({municipality: mun})">{{::mun.name}}</a>
         </div>
     </ion-content>

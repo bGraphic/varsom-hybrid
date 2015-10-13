@@ -5,8 +5,17 @@ angular
     .module('Varsom')
     .controller('CountyMapCtrl', function CountyMapCtrl($scope, $timeout, $ionicLoading, AppSettings) {
         var vm = this;
+        var chosenLayer = undefined;
         $scope.$on('$ionicView.loaded', function () {
-            vm.countyClicked = function (event, county) {
+            var styles = AppSettings.hazardRatingStyles;
+            vm.countyClicked = function (event, county, layer) {
+                event.originalEvent.preventDefault();
+                if(chosenLayer) {
+                    chosenLayer.setStyle(styles[vm.chosenCounty.maxLevel]);
+                }
+                chosenLayer = layer;
+                chosenLayer.setStyle(styles.clicked);
+
                 console.log(county);
                 vm.chosenCounty = county;
                 vm.chosenCountyClass = AppSettings.hazardRatingStyles[county.maxLevel].className;
@@ -16,9 +25,14 @@ angular
             vm.clickOutside = function (event) {
                // event.cancelBubble();
                 console.log('Click outside', event);
+
                 $timeout(function(){
-                    if(!event.defaultPrevented)
+                    if(!event.isDefaultPrevented()) {
                         vm.showMapInfo = false;
+                        chosenLayer.setStyle(styles[vm.chosenCounty.maxLevel]);
+                    }
+
+
                 });
 
             };

@@ -14,8 +14,12 @@ angular
                 "landslide-flood":"Jordskred / flom",
                 "avalanche":"Snøskred",
                 "map":"Kart",
+                "municipalities":"Kommuner",
                 "landslide":"Jordskred",
                 "flood":"Flom",
+                "forecastFor":"Varsel for",
+                "avalancheSeasonStart":"Snøskredvarslingen starter 1. desember",
+                "days": ["Søn", "Man", "Tir", "Ons", "Tor", "Fre", "Lør"],
                 "dummy":"dummy"
             },
             en: {
@@ -25,8 +29,12 @@ angular
                 "landslide-flood":"Landslide / flood",
                 "avalanche":"Avalanche",
                 "map":"Map",
+                "municipalities":"Municipalities",
                 "landslide":"Landslide",
                 "flood":"Flood",
+                "forecastFor":"Forecast for",
+                "avalancheSeasonStart":"Avalanche warnings commence december 1st",
+                "days": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
                 "dummy":"dummy"
             }
         };

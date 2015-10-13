@@ -6,12 +6,17 @@ angular
     .controller('CountiesCtrl', function CountiesCtrl($scope, $q, $ionicLoading, Localization, AppSettings, County) {
         var vm = this;
         var translation;
+        $ionicLoading.show();
 
         $scope.$on('$ionicView.loaded', function() {
             translation = Localization.getTranslations();
             vm.hazardRatingStyles = AppSettings.hazardRatingStyles;
 
             vm.counties = County.allCounties;
+            vm.counties.$promise.then(function(){
+                $ionicLoading.hide();
+            });
+
 
         });
 

@@ -33,7 +33,7 @@ This file should look like this:
         .constant('AppKeys', {
             debug: {
                 "appId": "[Varsom Parse APP ID]",
-                "javascriptKey": "[Varsom Parse Javascript Key]"
+                "restKey": "[Varsom Parse REST API Key]"
             }
         });
 

@@ -36,6 +36,12 @@ angular
                         tempBiggestLevel = curFloodLevel;
                     if (curLandSlideLevel > tempBiggestLevel)
                         tempBiggestLevel = curLandSlideLevel;
+
+                    //Get day
+                    var floodDate = new Date(floodForecast[j].validTo);
+                    var landDate = new Date(landSlideForecast[j].validTo);
+                    floodForecast[j].validDay = floodDate.getDay();
+                    landSlideForecast[j].validDay = landDate.getDay();
                 }
                 county.maxLevel = tempBiggestLevel;
             });

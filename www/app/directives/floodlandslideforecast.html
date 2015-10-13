@@ -1,0 +1,35 @@
+
+<div class="row">
+
+    <div class="col col-20 text-center" ng-bind="translations['days'][days[0]]"></div>
+    <div class="col col-20 text-center" ng-bind="translations['days'][days[1]]"></div>
+    <div class="col col-20 text-center" ng-bind="translations['days'][days[2]]"></div>
+
+</div>
+<div class="row">
+
+    <div class="col col-20 text-center">
+        <hazard-rating  varsom-rating="county.FloodWarningForecast[0].activityLevel"></hazard-rating>
+    </div>
+    <div class="col col-20 text-center">
+        <hazard-rating  varsom-rating="county.FloodWarningForecast[1].activityLevel"></hazard-rating>
+    </div>
+    <div class="col col-20 text-center">
+        <hazard-rating  varsom-rating="county.FloodWarningForecast[2].activityLevel"></hazard-rating>
+    </div>
+    <div class="col col-center">{{::translations['flood']}}</div>
+</div>
+<div class="row">
+
+    <div class="col col-20 text-center">
+        <hazard-rating  varsom-rating="county.LandSlideWarningForecast[0].activityLevel"></hazard-rating>
+    </div>
+    <div class="col col-20 text-center">
+        <hazard-rating  varsom-rating="county.LandSlideWarningForecast[1].activityLevel"></hazard-rating>
+    </div>
+    <div class="col col-20 text-center">
+        <hazard-rating  varsom-rating="county.LandSlideWarningForecast[2].activityLevel"></hazard-rating>
+    </div>
+    <div class="col col-center">{{::translations['landslide']}}</div>
+</div>
+

@@ -6,14 +6,20 @@ angular
     .controller('CountyCtrl', function CountyCtrl($scope, $ionicLoading, $stateParams, County, Municipality, Localization) {
         var vm = this;
         vm.county = $stateParams.county;
+        $ionicLoading.show();
+
 
         var init = function () {
             vm.municipalities = Municipality.listAllForCounty(vm.county.countyId);
             console.log('MUN', vm.municipalities);
+            console.log(vm.county);
            /* Municipality.listAll(model.county.countyId).then(function (municipalities) {
                 model.municipalities = municipalities;
                 //$ionicLoading.hide();
             });*/
+            $ionicLoading.hide();
+
+
         };
 
         $scope.$on('$ionicView.loaded', function() {

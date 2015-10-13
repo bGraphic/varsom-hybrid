@@ -22,6 +22,7 @@ angular
             var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png');
             //var geoLayer = L.geoJson()
 
+
             map.addLayer(layer);
 
             if (options.small) {
@@ -37,11 +38,7 @@ angular
                 map.scrollWheelZoom.enable();
                 if (map.tap) map.tap.enable();
             }
-            if (options.userPos) {
-                console.log(options.userPos);
-                map.locate({setView: true, maxZoom: 7});
-                map.on('locationfound', onLocationFound);
-            }
+
 
             County.allCounties.$promise.then(function (counties) {
 
@@ -60,12 +57,8 @@ angular
                             layer.on('click', function (event) {
                                 //$state.go('county', {county: county, countyId: county.countyId});
                                 console.log(event);
-                                event.originalEvent.preventDefault();
-                                layer.setStyle(styles.clicked);
-                                $timeout(function () {
-                                    layer.setStyle(styles[county.maxLevel]);
-                                }, 100);
-                                scope.clickHandler({event: event, county: county});
+
+                                scope.clickHandler({event: event, county: county, layer: layer});
                             });
                         } else {
                             layer.on('click', function (event) {
@@ -74,6 +67,11 @@ angular
                         }
                     }
                 });
+                if (options.userPos) {
+                    console.log(options.userPos);
+                    map.locate({setView: true, maxZoom: 7});
+                    map.on('locationfound', onLocationFound);
+                }
             });
 
             scope.$on('$destroy', function() {

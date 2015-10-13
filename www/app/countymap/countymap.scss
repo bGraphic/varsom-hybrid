@@ -6,7 +6,7 @@
 
     background-color: rgba(255,255,255,0.8);
     //transform: translateY(50px);
-    max-height: 25%;
+    max-height: 50%;
 
     h3 {
         padding-left: 20px;
@@ -21,14 +21,14 @@
         opacity: 0.8;
     }
     &.ng-hide-add-active {
-        transform: translateY(100px);
+        transform: translateY(200px);
         opacity: 0;
     }
 
     /* The finishing CSS styles for the enter animation */
     &.ng-hide-remove {
         transition:0.2s ease-out all;
-        transform: translateY(100px);
+        transform: translateY(200px);
         opacity: 0;
     }
     &.ng-hide-remove-active {

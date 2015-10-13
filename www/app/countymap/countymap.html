@@ -2,20 +2,22 @@
     <ion-content scroll="false">
         <div leaflet-map="{userPos:false, small:false}"
              data-tap-disabled="true"
-             data-click-handler="vm.countyClicked(event, county)"
+             data-click-handler="vm.countyClicked(event, county, layer)"
              ng-click="vm.clickOutside($event)"></div>
 
-        <a class="varsom-map-overlay ng-hide item item-icon-right row-no-padding" ng-show="vm.showMapInfo" ui-sref="app.county({county:vm.chosenCounty, countyId: vm.chosenCounty.countyId})">
+        <ion-list class="varsom-map-overlay" ng-show="vm.showMapInfo">
+            <ion-item class="item-divider">{{::appVm.text['forecastFor']}} {{vm.chosenCounty.name}}</ion-item>
+            <ion-item class="item-icon-right" ui-sref="app.county({county:vm.chosenCounty, countyId: vm.chosenCounty.countyId})">
+                <flood-landslide-forecast county="vm.chosenCounty" translations="appVm.text"></flood-landslide-forecast>
+                <i class="icon icon-accessory ion-chevron-right"></i>
+            </ion-item>
+        </ion-list>
+
+       <!-- <a class="varsom-map-overlay ng-hide item item-icon-right row-no-padding" ng-show="vm.showMapInfo" ui-sref="app.county({county:vm.chosenCounty, countyId: vm.chosenCounty.countyId})">
 
             <hazard-rating varsom-rating="vm.chosenCounty.maxLevel"></hazard-rating>
-            <h3 ng-bind="vm.chosenCounty.name"></h3>
-            <div>
-                <hazard-rating ng-repeat="forecast in vm.chosenCounty.FloodWarningForecast" varsom-rating="forecast.activityLevel"></hazard-rating> {{::appVm.text['flood']}}
-            </div>
-            <div>
-                <hazard-rating ng-repeat="forecast in vm.chosenCounty.LandSlideWarningForecast" varsom-rating="forecast.activityLevel"></hazard-rating> {{::appVm.text['landslide']}}
-            </div>
+            <flood-landslide-forecast county="vm.chosenCounty" translations="appVm.text"></flood-landslide-forecast>
             <i class="icon icon-accessory ion-chevron-right"></i>
-        </a>
+        </a>-->
     </ion-content>
 </ion-view>
