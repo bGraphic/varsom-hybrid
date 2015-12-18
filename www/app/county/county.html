@@ -1,6 +1,7 @@
 <ion-view view-title="{{::vm.county.name}}">
     <ion-content id="county_view">
-
+        <ion-refresher pulling-text="{{appVm.text['pullToRefresh']}}" on-refresh="vm.pullToRefresh()">
+        </ion-refresher>
         <flood-landslide-forecast county="vm.county" translations="appVm.text"></flood-landslide-forecast>
 
         <div class="list">

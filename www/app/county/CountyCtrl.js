@@ -17,12 +17,18 @@ angular
                 model.municipalities = municipalities;
                 //$ionicLoading.hide();
             });*/
-            $ionicLoading.hide();
-
+            vm.municipalities.$promise.then(function(){
+                $ionicLoading.hide();
+                $scope.$broadcast('scroll.refreshComplete');
+            });
 
         };
 
         $scope.$on('$ionicView.loaded', function() {
+
+            vm.pullToRefresh = function () {
+                init();
+            };
 
             if($stateParams.county){
                 vm.county = $stateParams.county;
