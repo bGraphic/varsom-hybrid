@@ -6,8 +6,10 @@ angular
     .controller('CountyMapCtrl', function CountyMapCtrl($scope, $timeout, $ionicLoading, AppSettings) {
         var vm = this;
         var chosenLayer = undefined;
+
         $scope.$on('$ionicView.loaded', function () {
             var styles = AppSettings.hazardRatingStyles;
+
             vm.countyClicked = function (event, county, layer) {
                 event.originalEvent.preventDefault();
                 if(chosenLayer) {
@@ -23,16 +25,14 @@ angular
             };
 
             vm.clickOutside = function (event) {
-               // event.cancelBubble();
                 console.log('Click outside', event);
 
+                //Hack to make this get called in the next tick, as the function fires before countyClicked
                 $timeout(function(){
                     if(!event.isDefaultPrevented()) {
                         vm.showMapInfo = false;
                         chosenLayer.setStyle(styles[vm.chosenCounty.maxLevel]);
                     }
-
-
                 });
 
             };

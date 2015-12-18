@@ -4,7 +4,7 @@
             <div class="item item-divider"
                  ng-bind="appVm.text['language']">
             </div>
-            <ion-radio ng-repeat="loc in vm.locale.available" ng-model="vm.locale.value" ng-value="loc.key" ng-change="vm.setLocale(loc.key)">{{loc.name}}</ion-radio>
+            <ion-radio-fix ng-repeat="loc in vm.locale.available" ng-model="vm.locale.value" ng-value="loc.key" ng-change="vm.setLocale(loc.key)">{{loc.name}}</ion-radio-fix>
         </div>
     </ion-content>
 </ion-view>

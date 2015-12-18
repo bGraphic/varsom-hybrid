@@ -1,5 +1,7 @@
 <ion-view view-title="{{appVm.text['landslide-flood']}}">
     <ion-content>
+        <ion-refresher pulling-text="{{appVm.text['pullToRefresh']}}" on-refresh="vm.pullToRefresh()">
+        </ion-refresher>
         <div leaflet-map="{userPos:true, small:true}" ui-sref="app.countymap"></div>
         <div class="list row-no-padding">
             <!--<ion-item class="item-icon-right" ng-repeat="county in ::vm.counties"

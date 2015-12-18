@@ -20,32 +20,35 @@ angular
             }
         });
 
-        County.allCounties = County.query(function() {
-            County.allCounties.results.forEach(function(county){
+        County.refreshAllCounties = function(){
+            County.allCounties = County.query(function() {
+                County.allCounties.results.forEach(function(county){
 
-                var floodForecast = county.FloodWarningForecast,
-                    landSlideForecast = county.LandSlideWarningForecast;
+                    var floodForecast = county.FloodWarningForecast,
+                        landSlideForecast = county.LandSlideWarningForecast;
 
-                var tempBiggestLevel = -1;
+                    var tempBiggestLevel = -1;
 
-                for (var j = floodForecast.length; j--;) {
-                    var curFloodLevel = floodForecast[j].activityLevel,
-                        curLandSlideLevel = landSlideForecast[j].activityLevel;
+                    for (var j = floodForecast.length; j--;) {
+                        var curFloodLevel = floodForecast[j].activityLevel,
+                            curLandSlideLevel = landSlideForecast[j].activityLevel;
 
-                    if (curFloodLevel > tempBiggestLevel)
-                        tempBiggestLevel = curFloodLevel;
-                    if (curLandSlideLevel > tempBiggestLevel)
-                        tempBiggestLevel = curLandSlideLevel;
+                        if (curFloodLevel > tempBiggestLevel)
+                            tempBiggestLevel = curFloodLevel;
+                        if (curLandSlideLevel > tempBiggestLevel)
+                            tempBiggestLevel = curLandSlideLevel;
 
-                    //Get day
-                    var floodDate = new Date(floodForecast[j].validTo);
-                    var landDate = new Date(landSlideForecast[j].validTo);
-                    floodForecast[j].validDay = floodDate.getDay();
-                    landSlideForecast[j].validDay = landDate.getDay();
-                }
-                county.maxLevel = tempBiggestLevel;
+                        //Get day
+                        var floodDate = new Date(floodForecast[j].validTo);
+                        var landDate = new Date(landSlideForecast[j].validTo);
+                        floodForecast[j].validDay = floodDate.getDay();
+                        landSlideForecast[j].validDay = landDate.getDay();
+                    }
+                    county.maxLevel = tempBiggestLevel;
+                });
             });
-        });
+            return County.allCounties.$promise;
+        };
 
         County.getById = function (countyId){
             return County.query({
@@ -53,6 +56,7 @@ angular
             });
         };
 
+        County.refreshAllCounties();
 
         return County;
 

@@ -8,6 +8,7 @@ angular
 
         var translations = {
             nb: {
+                "pullToRefresh": "Dra for å oppdatere",
                 "language": "Språk",
                 "loading...": "Laster...",
                 "settings":"Innstillinger",
@@ -23,6 +24,7 @@ angular
                 "dummy":"dummy"
             },
             en: {
+                "pullToRefresh": "Pull to refresh",
                 "language": "Language",
                 "loading...": "Loading...",
                 "settings":"Settings",
