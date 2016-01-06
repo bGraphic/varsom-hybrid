@@ -19,57 +19,64 @@ angular
 
         settings.hazardRatingStyles = {
             '0': {
-                weight: 3,
+                weight: 2,
                 color: '#C8C8C8',
+                fillColor: '#C8C8C8',
                 dashArray: '',
                 fillOpacity: 0.5,
                 opacity: 0.4,
                 className: 'stable'
             },
             '1': {
-                weight: 3,
+                weight: 2,
                 color: '#75B100',
+                fillColor: '#75B100',
                 dashArray: '',
                 fillOpacity: 0.5,
                 opacity: 0.4,
                 className: 'calm'
             },
             '2': {
-                weight: 3,
+                weight: 2,
                 color: '#FFCC33',
+                fillColor: '#FFCC33',
                 dashArray: '',
                 fillOpacity: 0.5,
                 opacity: 0.4,
                 className: 'balanced'
             },
             '3': {
-                weight: 3,
+                weight: 2,
                 color: '#E46900',
+                fillColor: '#E46900',
                 dashArray: '',
                 fillOpacity: 0.5,
                 opacity: 0.4,
                 className: 'energized'
             },
             '4': {
-                weight: 3,
+                weight: 2,
                 color: '#D21523',
+                fillColor: '#D21523',
                 dashArray: '',
                 fillOpacity: 0.5,
                 opacity: 0.4,
                 className: 'assertive'
             },
             '5': {
-                weight: 3,
+                weight: 2,
                 color: '#3E060B',
+                fillColor: '#3E060B',
                 dashArray: '',
                 fillOpacity: 0.5,
                 opacity: 0.4,
                 className: 'royal'
             },
             clicked: {
-
-                fillOpacity: 0.8,
-                opacity: 0.9
+                weight: 5,
+                color: '#666',
+                fillOpacity: 0.9,
+                opacity: 0.5
             }
         };
 

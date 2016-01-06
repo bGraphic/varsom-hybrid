@@ -1,5 +1,20 @@
 <ion-view view-title="{{appVm.text['avalanche']}}">
     <ion-content scroll="false" id="avalanche_view">
-        <h1 ng-bind="appVm.text['avalancheSeasonStart']"></h1>
+        <ion-refresher pulling-text="{{appVm.text['pullToRefresh']}}" on-refresh="vm.pullToRefresh()">
+        </ion-refresher>
+        <div leaflet-map="{userPos:true, small:true}" ui-sref="app.avalanchemap"></div>
+        <div class="list row-no-padding">
+            <!--<ion-item class="item-icon-right" ng-repeat="county in ::vm.counties"
+                      ui-sref="county({county:county, countyId: county.countyId})">
+                {{::county.name}}
+                <i class="icon icon-accessory ion-chevron-right"></i>
+            </ion-item>-->
+            <a class="item item-icon-right row-no-padding" ng-repeat="region in ::vm.regions.results" ui-sref="app.avalancheregion({region:region, regionId: region.regionId})">
+                <hazard-rating varsom-rating="::region.maxLevel"></hazard-rating>
+                <span class="varsom-warning-text" ng-bind="::region.name"></span>
+
+                <i class="icon icon-accessory ion-chevron-right"></i>
+            </a>
+        </div>
     </ion-content>
 </ion-view>

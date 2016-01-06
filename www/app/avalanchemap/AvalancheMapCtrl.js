@@ -3,16 +3,16 @@
  */
 angular
     .module('Varsom')
-    .controller('CountyMapCtrl', function CountyMapCtrl($scope, $http, $ionicSideMenuDelegate, $timeout, $ionicLoading, County, AppSettings) {
+    .controller('AvalancheMapCtrl', function AvalancheMapCtrl($scope, $http, $ionicSideMenuDelegate, $timeout, $ionicLoading, AvalancheRegion, AppSettings) {
         var vm = this;
         var chosenLayer = undefined;
 
         $scope.$on('leafletMap.loaded', function (event, map) {
 
-            County.allCounties.$promise.then(function (counties) {
+            AvalancheRegion.allRegions.$promise.then(function (region) {
 
-                counties.results.forEach(function (county) {
-                    $http.get(county.geoJSONmin.url,{cache:true}).then(function (geojson) {
+                region.results.forEach(function (region) {
+                    $http.get(region.geoJSONmin.url,{cache:true}).then(function (geojson) {
                         L.geoJson(geojson.data, {
                             onEachFeature: onEachFeature
                         }).addTo(map);
@@ -20,14 +20,14 @@ angular
 
                     function onEachFeature(feature, layer) {
 
-                        layer.setStyle(AppSettings.hazardRatingStyles[county.maxLevel]);
+                        layer.setStyle(AppSettings.hazardRatingStyles[region.maxLevel]);
                         // console.log(layer.getBounds().contains());
 
                         layer.on('click', function (event) {
-                            //$state.go('county', {county: county, countyId: county.countyId});
+                            //$state.go('region', {region: region, regionId: region.regionId});
                             console.log(event);
 
-                            vm.countyClicked(event, county, layer);
+                            vm.regionClicked(event, region, layer);
                         });
 
                     }
@@ -48,29 +48,29 @@ angular
 
             var styles = AppSettings.hazardRatingStyles;
 
-            vm.countyClicked = function (event, county, layer) {
+            vm.regionClicked = function (event, region, layer) {
 
                 event.originalEvent.preventDefault();
                 if(chosenLayer) {
-                    chosenLayer.setStyle(styles[vm.chosenCounty.maxLevel]);
+                    chosenLayer.setStyle(styles[vm.chosenRegion.maxLevel]);
                 }
                 chosenLayer = layer;
                 chosenLayer.setStyle(styles.clicked);
 
-                console.log(county);
-                vm.chosenCounty = county;
-                vm.chosenCountyClass = AppSettings.hazardRatingStyles[county.maxLevel].className;
+                console.log(region);
+                vm.chosenRegion = region;
+                vm.chosenRegionClass = styles[region.maxLevel].className;
                 vm.showMapInfo = true;
             };
 
             vm.clickOutside = function (event) {
                 console.log('Click outside', event);
 
-                //Hack to make this get called in the next tick, as the function fires before countyClicked
+                //Hack to make this get called in the next tick, as the function fires before regionClicked
                 $timeout(function(){
                     if(!event.isDefaultPrevented()) {
                         vm.showMapInfo = false;
-                        if(chosenLayer) chosenLayer.setStyle(styles[vm.chosenCounty.maxLevel]);
+                        if(chosenLayer) chosenLayer.setStyle(styles[vm.chosenRegion.maxLevel]);
                     }
                 });
 

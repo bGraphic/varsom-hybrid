@@ -26,6 +26,11 @@ angular
 
         $scope.$on('$ionicView.loaded', function() {
 
+            vm.clickMap = function (event, county, layer) {
+                event.originalEvent.preventDefault();
+
+            };
+
             vm.pullToRefresh = function () {
                 init();
             };

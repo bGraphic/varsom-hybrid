@@ -23,6 +23,22 @@ span.varsom-warning-text {
     padding-left: 20px;
 }
 
+.row{
+    .varsom-label {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+    }
+}
+
+.item-no-padding {
+    .item-content {
+        padding: 0;
+
+    }
+
+}
+
 .varsom-menu {
     display: block;
     padding: 30px;

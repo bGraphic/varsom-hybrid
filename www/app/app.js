@@ -98,6 +98,25 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
                     }
                 }
             })
+            .state('app.avalancheregion', {
+                url: '/avalancheregion',
+                params : { region: null },
+                views: {
+                    'menuContent': {
+                        templateUrl: 'app/avalancheregion/avalancheregion.html',
+                        controller: 'AvalancheRegionCtrl as vm'
+                    }
+                }
+            })
+            .state('app.avalanchemap', {
+                url: '/avalanchemap',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'app/avalanchemap/avalanchemap.html',
+                        controller: 'AvalancheMapCtrl as vm'
+                    }
+                }
+            })
             .state('app.settings', {
                 url: '/settings',
                 views: {

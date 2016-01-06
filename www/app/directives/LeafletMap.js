@@ -3,7 +3,7 @@
  */
 angular
     .module('Varsom')
-    .directive('leafletMap', function LeafletMap(County, AppSettings, $http, $state, $timeout) {
+    .directive('leafletMap', function LeafletMap() {
         function link(scope, elem, attrs) {
             var options = scope.leafletMap;
             console.log(options);
@@ -12,7 +12,7 @@ angular
             else
                 elem.css('height', '100%');
 
-            var styles = AppSettings.hazardRatingStyles;
+
             var map = L.map(elem[0], {
                 center: [64.871, 16.949],
                 zoom: 4,
@@ -39,40 +39,14 @@ angular
                 if (map.tap) map.tap.enable();
             }
 
+            if (options.userPos) {
+                console.log(options.userPos);
+                map.locate({setView: true, maxZoom: 7});
+                map.on('locationfound', onLocationFound);
+            }
 
-            County.allCounties.$promise.then(function (counties) {
 
-                counties.results.forEach(function (county) {
-                    $http.get(county.geoJSONmin.url,{cache:true}).then(function (geojson) {
-                        L.geoJson(geojson.data, {
-                            onEachFeature: onEachFeature
-                        }).addTo(map);
-                    });
-
-                    function onEachFeature(feature, layer) {
-                        layer.setStyle(styles[county.maxLevel]);
-                       // console.log(layer.getBounds().contains());
-
-                        if(!options.small){
-                            layer.on('click', function (event) {
-                                //$state.go('county', {county: county, countyId: county.countyId});
-                                console.log(event);
-
-                                scope.clickHandler({event: event, county: county, layer: layer});
-                            });
-                        } else {
-                            layer.on('click', function (event) {
-                                $state.go('app.countymap');
-                            });
-                        }
-                    }
-                });
-                if (options.userPos) {
-                    console.log(options.userPos);
-                    map.locate({setView: true, maxZoom: 7});
-                    map.on('locationfound', onLocationFound);
-                }
-            });
+            scope.$emit('leafletMap.loaded', map);
 
             scope.$on('$destroy', function() {
                 map.remove();
@@ -92,8 +66,7 @@ angular
             restrict: 'A',
             link: link,
             scope: {
-                leafletMap: '=',
-                clickHandler: '&'
+                leafletMap: '='
             }
         };
 

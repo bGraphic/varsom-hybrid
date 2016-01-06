@@ -19,7 +19,7 @@ angular
                 "landslide":"Jordskred",
                 "flood":"Flom",
                 "forecastFor":"Varsel for",
-                "avalancheSeasonStart":"Snøskredvarslingen starter 1. desember",
+                "avalancheSeasonStart":"Snøskredsdelen av appen er ikke klar enda.",
                 "days": ["Søn", "Man", "Tir", "Ons", "Tor", "Fre", "Lør"],
                 "dummy":"dummy"
             },
@@ -35,7 +35,7 @@ angular
                 "landslide":"Landslide",
                 "flood":"Flood",
                 "forecastFor":"Forecast for",
-                "avalancheSeasonStart":"Avalanche warnings commence december 1st",
+                "avalancheSeasonStart":"Avalanche warnings is not yet implemented.",
                 "days": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
                 "dummy":"dummy"
             }

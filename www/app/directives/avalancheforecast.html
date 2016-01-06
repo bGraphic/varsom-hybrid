@@ -1,0 +1,23 @@
+
+<div class="row">
+
+    <div class="col col-20 text-center" ng-bind="translations['days'][days[0]]"></div>
+    <div class="col col-20 text-center" ng-bind="translations['days'][days[1]]"></div>
+    <div class="col col-20 text-center" ng-bind="translations['days'][days[2]]"></div>
+
+</div>
+<div class="row">
+
+    <div class="col col-20 text-center">
+        <hazard-rating  varsom-rating="region.AvalancheWarningForecast[0].dangerLevel"></hazard-rating>
+    </div>
+    <div class="col col-20 text-center">
+        <hazard-rating  varsom-rating="region.AvalancheWarningForecast[1].dangerLevel"></hazard-rating>
+    </div>
+    <div class="col col-20 text-center">
+        <hazard-rating  varsom-rating="region.AvalancheWarningForecast[2].dangerLevel"></hazard-rating>
+    </div>
+    <div class="col col-center">{{::translations['avalanche']}}</div>
+</div>
+
+

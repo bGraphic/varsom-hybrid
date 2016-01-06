@@ -19,6 +19,6 @@
     "angular-resource": "~1.4.6",
     "angular-sanitize": "1.4.6",
     "angular-ui-router": "0.2.15",
-    "leaflet": "~0.7.5"
+    "leaflet": "~0.7.7"
   }
 }
