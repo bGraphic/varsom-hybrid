@@ -41,7 +41,7 @@ angular
 
             if (options.userPos) {
                 console.log(options.userPos);
-                map.locate({setView: true, maxZoom: 7});
+                map.locate();
                 map.on('locationfound', onLocationFound);
             }
 
@@ -53,12 +53,19 @@ angular
             });
 
             function onLocationFound(e) {
+                //Make sure location is in Norway
+                if(e.latitude < 57 || e.longitude < 3 || e.latitude > 72 || e.longitude > 34 )
+                    return;
+
+                console.log('Found location',e);
                 var radius = e.accuracy / 2;
 
                 /*L.marker(e.latlng).addTo(map)
                  .bindPopup("You are within " + radius + " meters from this point").openPopup();*/
 
                 L.circle(e.latlng, radius).addTo(map);
+                map.panTo(e.latlng);
+
             }
         }
 
