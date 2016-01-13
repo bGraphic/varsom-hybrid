@@ -30,7 +30,7 @@ angular
                 map.touchZoom.disable();
                 map.doubleClickZoom.disable();
                 map.scrollWheelZoom.disable();
-                if (map.tap) map.tap.disable();
+                //if (map.tap) map.tap.disable();
             } else {
                 map.dragging.enable();
                 map.touchZoom.enable();
@@ -52,6 +52,10 @@ angular
                 map.remove();
             });
 
+            scope.$on('leafletMap.center', function(event, latlng) {
+                map.setView(latlng, 7);
+            });
+
             function onLocationFound(e) {
                 //Make sure location is in Norway
                 if(e.latitude < 57 || e.longitude < 3 || e.latitude > 72 || e.longitude > 34 )
@@ -64,7 +68,7 @@ angular
                  .bindPopup("You are within " + radius + " meters from this point").openPopup();*/
 
                 L.circle(e.latlng, radius).addTo(map);
-                map.panTo(e.latlng);
+                map.setView(e.latlng, 6, {animate:true});
 
             }
         }

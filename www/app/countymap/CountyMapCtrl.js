@@ -3,9 +3,10 @@
  */
 angular
     .module('Varsom')
-    .controller('CountyMapCtrl', function CountyMapCtrl($scope, $http, $ionicSideMenuDelegate, $timeout, $ionicLoading, County, AppSettings) {
+    .controller('CountyMapCtrl', function CountyMapCtrl($scope, $http, $stateParams,$ionicSideMenuDelegate, $timeout, $ionicLoading, County, AppSettings) {
         var vm = this;
-        var chosenLayer = undefined;
+        var chosenLayer;
+        var clickedFeature;
 
         $scope.$on('leafletMap.loaded', function (event, map) {
 
@@ -21,6 +22,12 @@ angular
                     function onEachFeature(feature, layer) {
 
                         layer.setStyle(AppSettings.hazardRatingStyles[county.maxLevel]);
+                        if(clickedFeature && (JSON.stringify(feature) === clickedFeature)){
+                            console.log(layer);
+                            vm.countyClicked(null, $stateParams.county, layer);
+                            $scope.$broadcast('leafletMap.center', $stateParams.latlng);
+                            //layer.map.setView($stateParams.latlng, 7, {animate:true})
+                        }
                         // console.log(layer.getBounds().contains());
 
                         layer.on('click', function (event) {
@@ -48,9 +55,14 @@ angular
 
             var styles = AppSettings.hazardRatingStyles;
 
+            if($stateParams.feature){
+                clickedFeature = JSON.stringify($stateParams.feature);
+            }
+
             vm.countyClicked = function (event, county, layer) {
 
-                event.originalEvent.preventDefault();
+                if(event) event.originalEvent.preventDefault();
+
                 if(chosenLayer) {
                     chosenLayer.setStyle(styles[vm.chosenCounty.maxLevel]);
                 }

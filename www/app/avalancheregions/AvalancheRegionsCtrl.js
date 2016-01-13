@@ -1,6 +1,6 @@
 angular
     .module('Varsom')
-    .controller('AvalancheRegionsCtrl', function AvalancheRegionsCtrl($scope, $http, $q, $ionicLoading, Localization, AppSettings, AvalancheRegion) {
+    .controller('AvalancheRegionsCtrl', function AvalancheRegionsCtrl($scope, $state, $http, $q, $ionicLoading, Localization, LocalStorage, AppSettings, AvalancheRegion) {
         var vm = this;
 
         $ionicLoading.show();
@@ -21,7 +21,12 @@ angular
                         layer.setStyle(AppSettings.hazardRatingStyles[region.maxLevel]);
                         // console.log(layer.getBounds().contains());
 
-
+                        layer.on('click', function (event) {
+                            event.originalEvent.preventDefault();
+                            console.log(event);
+                            console.log('Clicked Avalanche region ' + region.name);
+                            $state.go('app.avalanchemap', {region: region, feature: feature, latlng: event.latlng});
+                        });
 
                     }
                 });
@@ -30,6 +35,8 @@ angular
         });
 
         $scope.$on('$ionicView.loaded', function() {
+
+            AppSettings.setDefaultView('/app/avalancheregions');
 
             vm.hazardRatingStyles = AppSettings.hazardRatingStyles;
 

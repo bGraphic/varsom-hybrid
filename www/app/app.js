@@ -42,7 +42,9 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
            $ionicConfigProvider.scrolling.jsScrolling(false);
         }
 
-        $urlRouterProvider.otherwise('/app/counties');
+        $urlRouterProvider.otherwise(
+            AppSettingsProvider.getDefaultView()
+        );
         $stateProvider
             .state('app', {
                 url: '/app',
@@ -82,6 +84,7 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
             })
             .state('app.countymap', {
                 url: '/countymap',
+                params: {county: null, feature: null, latlng: null},
                 views: {
                     'menuContent': {
                         templateUrl: 'app/countymap/countymap.html',
@@ -110,6 +113,7 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
             })
             .state('app.avalanchemap', {
                 url: '/avalanchemap',
+                params: {region: null, feature: null, latlng: null},
                 views: {
                     'menuContent': {
                         templateUrl: 'app/avalanchemap/avalanchemap.html',

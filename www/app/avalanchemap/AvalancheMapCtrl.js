@@ -3,9 +3,10 @@
  */
 angular
     .module('Varsom')
-    .controller('AvalancheMapCtrl', function AvalancheMapCtrl($scope, $http, $ionicSideMenuDelegate, $timeout, $ionicLoading, AvalancheRegion, AppSettings) {
+    .controller('AvalancheMapCtrl', function AvalancheMapCtrl($scope, $stateParams, $http, $ionicSideMenuDelegate, $timeout, $ionicLoading, AvalancheRegion, AppSettings) {
         var vm = this;
         var chosenLayer = undefined;
+        var clickedFeature;
 
         $scope.$on('leafletMap.loaded', function (event, map) {
 
@@ -22,6 +23,13 @@ angular
 
                         layer.setStyle(AppSettings.hazardRatingStyles[region.maxLevel]);
                         // console.log(layer.getBounds().contains());
+                        if(clickedFeature && (JSON.stringify(feature) === clickedFeature)){
+                            console.log(layer);
+                            vm.regionClicked(null, $stateParams.region, layer);
+                            $scope.$broadcast('leafletMap.center', $stateParams.latlng);
+                            //layer.map.setView($stateParams.latlng, 7, {animate:true})
+                        }
+
 
                         layer.on('click', function (event) {
                             //$state.go('region', {region: region, regionId: region.regionId});
@@ -48,9 +56,13 @@ angular
 
             var styles = AppSettings.hazardRatingStyles;
 
+            if($stateParams.feature){
+                clickedFeature = JSON.stringify($stateParams.feature);
+            }
+
             vm.regionClicked = function (event, region, layer) {
 
-                event.originalEvent.preventDefault();
+                if(event) event.originalEvent.preventDefault();
                 if(chosenLayer) {
                     chosenLayer.setStyle(styles[vm.chosenRegion.maxLevel]);
                 }

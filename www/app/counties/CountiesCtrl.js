@@ -1,7 +1,7 @@
 
 angular
     .module('Varsom')
-    .controller('CountiesCtrl', function CountiesCtrl($scope, $http, $q, $ionicLoading, Localization, AppSettings, County) {
+    .controller('CountiesCtrl', function CountiesCtrl($scope, $http, $q, $state, $ionicLoading, Localization, AppSettings, County) {
         var vm = this;
 
         $ionicLoading.show();
@@ -22,7 +22,12 @@ angular
                         layer.setStyle(AppSettings.hazardRatingStyles[county.maxLevel]);
                         // console.log(layer.getBounds().contains());
 
-
+                        layer.on('click', function (event) {
+                            event.originalEvent.preventDefault();
+                            console.log(event);
+                            console.log('Clicked COUNTY!! ' + county.name);
+                            $state.go('app.countymap', {county: county, feature: feature, latlng: event.latlng});
+                        });
 
                     }
                 });
@@ -31,6 +36,8 @@ angular
         });
 
         $scope.$on('$ionicView.loaded', function() {
+
+            AppSettings.setDefaultView('/app/counties');
 
             vm.hazardRatingStyles = AppSettings.hazardRatingStyles;
 
@@ -50,6 +57,10 @@ angular
 
 
         });
+
+        function countyClicked(event, county, feature){
+
+        }
 
 
     });

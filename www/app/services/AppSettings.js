@@ -80,6 +80,10 @@ angular
             }
         };
 
+        this.getDefaultView = function () {
+            return localStorage.getItem('defaultView') || '/app/counties';
+        };
+
         this.setHazardRatingStyles = function(newStyle){
             settings.hazardRatingStyles = newStyle;
         };
@@ -109,6 +113,10 @@ angular
 
             settings.getParseHeader = function () {
                 return parseRestApi.header;
+            };
+
+            settings.setDefaultView = function(val){
+                LocalStorage.set('defaultView', val);
             };
 
             return settings;
