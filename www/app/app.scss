@@ -39,6 +39,10 @@ span.varsom-warning-text {
 
 }
 
+.scroll {
+    min-height: 100%;
+}
+
 .varsom-menu {
     display: block;
     padding: 30px;
@@ -100,3 +104,46 @@ span.varsom-warning-text {
     visibility: visible;
 
 }
+
+.varsom-map-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+
+    background-color: rgba(255,255,255,0.8);
+    //transform: translateY(50px);
+    max-height: 50%;
+
+    h3 {
+        padding-left: 20px;
+        display: inline-block;
+        margin: 0;
+    }
+
+
+    &.ng-hide-add {
+        transition:0.2s ease-in all;
+        transform: translateY(0);
+        opacity: 0.8;
+    }
+    &.ng-hide-add-active {
+        transform: translateY(200px);
+        opacity: 0;
+    }
+
+    /* The finishing CSS styles for the enter animation */
+    &.ng-hide-remove {
+        transition:0.2s ease-out all;
+        transform: translateY(200px);
+        opacity: 0;
+    }
+    &.ng-hide-remove-active {
+        transform: translateY(0);
+        opacity: 0.8;
+    }
+
+
+}
+

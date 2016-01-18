@@ -82,16 +82,6 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
                     }
                 }
             })
-            .state('app.countymap', {
-                url: '/countymap',
-                params: {county: null, feature: null, latlng: null},
-                views: {
-                    'menuContent': {
-                        templateUrl: 'app/countymap/countymap.html',
-                        controller: 'CountyMapCtrl as vm'
-                    }
-                }
-            })
             .state('app.avalancheregions', {
                 url: '/avalancheregions',
                 views: {
@@ -108,16 +98,6 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
                     'menuContent': {
                         templateUrl: 'app/avalancheregion/avalancheregion.html',
                         controller: 'AvalancheRegionCtrl as vm'
-                    }
-                }
-            })
-            .state('app.avalanchemap', {
-                url: '/avalanchemap',
-                params: {region: null, feature: null, latlng: null},
-                views: {
-                    'menuContent': {
-                        templateUrl: 'app/avalanchemap/avalanchemap.html',
-                        controller: 'AvalancheMapCtrl as vm'
                     }
                 }
             })

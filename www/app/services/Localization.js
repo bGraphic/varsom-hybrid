@@ -20,6 +20,7 @@ angular
                 "flood":"Flom",
                 "forecastFor":"Varsel for",
                 "avalancheSeasonStart":"Snøskredsdelen av appen er ikke klar enda.",
+                "beta":"Dette er en testversjon av Varsom og denne siden er ikke ferdig.",
                 "days": ["Søn", "Man", "Tir", "Ons", "Tor", "Fre", "Lør"],
                 "dummy":"dummy"
             },
@@ -36,6 +37,7 @@ angular
                 "flood":"Flood",
                 "forecastFor":"Forecast for",
                 "avalancheSeasonStart":"Avalanche warnings is not yet implemented.",
+                "beta":"This is a test version of Varsom, and this page is not yet implemented.",
                 "days": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
                 "dummy":"dummy"
             }

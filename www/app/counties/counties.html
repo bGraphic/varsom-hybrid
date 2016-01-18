@@ -2,14 +2,20 @@
     <ion-content>
         <ion-refresher pulling-text="{{appVm.text['pullToRefresh']}}" on-refresh="vm.pullToRefresh()">
         </ion-refresher>
-        <div leaflet-map="{userPos:true, small:true}" ui-sref="app.countymap"></div>
-        <div class="list row-no-padding">
+        <leaflet-map regions="vm.regions" vm="vm" leaflet-id="leaflet-map-county">
+            <div class="item item-divider">{{::appVm.text['forecastFor']}} {{vm.chosenRegion.name}}</div>
+            <a class="item item-icon-right item-no-padding" ui-sref="app.county({county:vm.chosenRegion, countyId: vm.chosenRegion.countyId})">
+                <flood-landslide-forecast county="vm.chosenRegion" translations="appVm.text"></flood-landslide-forecast>
+                <i class="icon icon-accessory ion-chevron-right"></i>
+            </a>
+        </leaflet-map>
+        <div class="list row-no-padding" ng-hide="vm.showList">
             <!--<ion-item class="item-icon-right" ng-repeat="county in ::vm.counties"
                       ui-sref="county({county:county, countyId: county.countyId})">
                 {{::county.name}}
                 <i class="icon icon-accessory ion-chevron-right"></i>
             </ion-item>-->
-            <a class="item item-icon-right row-no-padding" ng-repeat="county in ::vm.counties.results" ui-sref="app.county({county:county, countyId: county.countyId})">
+            <a class="item item-icon-right row-no-padding" ng-repeat="county in ::vm.regions.results" ui-sref="app.county({county:county, countyId: county.countyId})">
                 <hazard-rating varsom-rating="::county.maxLevel"></hazard-rating>
                 <span class="varsom-warning-text" ng-bind="::county.name"></span>
 
