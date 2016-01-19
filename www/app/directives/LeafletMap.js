@@ -5,45 +5,14 @@ angular
     .module('Varsom')
     .directive('leafletMap', function LeafletMap($http, $timeout, AppSettings) {
         function link(scope, elem, attrs) {
-            var options = scope.leafletMap;
-            var chosenLayer = undefined;
-            console.log(options);
+            var chosenLayer, el, map, layer;
             var small = true;
             var styles = AppSettings.hazardRatingStyles;
-            var el;
-
-
-            var map, layer;
-
-            /*
-            if (options.small) {
-                map.dragging.disable();
-                map.touchZoom.disable();
-                map.doubleClickZoom.disable();
-                map.scrollWheelZoom.disable();
-                //if (map.tap) map.tap.disable();
-            } else {
-                map.dragging.enable();
-                map.touchZoom.enable();
-                map.doubleClickZoom.enable();
-                map.scrollWheelZoom.enable();
-                if (map.tap) map.tap.enable();
-            }*/
-
-
-
-
-
-
-            scope.$emit('leafletMap.loaded', map);
-
-            scope.$on('$destroy', function() {
-                map.remove();
-            });
 
             scope.$applyAsync(function(){
 
                 el = document.getElementById(scope.leafletId);
+                angular.element(el).css('z-index', '1');
 
                 map = L.map(el, {
                     center: [64.871, 16.949],
@@ -53,8 +22,6 @@ angular
                 });
                 layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png');
                 //var geoLayer = L.geoJson()
-
-                setSize(small);
 
                 scope.regions.$promise.then(function (regions) {
 
@@ -88,7 +55,6 @@ angular
 
                 });
 
-
                 map.addLayer(layer);
 
                 map.locate();
@@ -97,9 +63,11 @@ angular
 
             });
 
+            scope.$on('$destroy', function() {
+                map.remove();
+            });
 
-
-            var regionClicked = function (event, region, layer) {
+            function regionClicked (event, region, layer) {
 
                 if(event) {
                     event.originalEvent.preventDefault();
@@ -111,7 +79,7 @@ angular
                     small = !small;
                     scope.vm.showList = !scope.vm.showList;
                     //map.setView(event.latlng, 6, {animate:true});
-                    setSize(small);
+
                 }
 
                 if(chosenLayer) {
@@ -124,9 +92,9 @@ angular
                 scope.vm.chosenRegion = region;
                 scope.vm.chosenRegionClass = styles[region.maxLevel].className;
                 scope.showMapInfo = true;
-            };
+            }
 
-            var clickOutside = function (event) {
+            function clickOutside (event) {
                 console.log('Click outside', event);
 
 
@@ -136,35 +104,12 @@ angular
                         scope.vm.showList = !scope.vm.showList;
                         small = !small;
 
-                        setSize(small);
-
-
                         scope.showMapInfo = false;
                         if(chosenLayer)
                             chosenLayer.setStyle(styles[scope.vm.chosenRegion.maxLevel]);
                     }
                 });
 
-            };
-
-            function setSize(small){
-                var elem = angular.element(el);
-
-                if (small) {
-                    elem.css('position', 'static');
-                    elem.css('height', '200px');
-                } else {
-                    elem.css('position', 'absolute');
-                    elem.css('top', '0');
-                    elem.css('bottom', '0');
-                    elem.css('left', '0');
-                    elem.css('right', '0');
-                    elem.css('height', '100%');
-                    elem.css('z-index', '90');
-                }
-
-                //$ionicScrollDelegate.resize();
-                map.invalidateSize(true);
             }
 
             function onLocationFound(e) {

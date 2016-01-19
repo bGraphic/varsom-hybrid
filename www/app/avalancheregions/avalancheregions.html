@@ -1,8 +1,10 @@
 <ion-view view-title="{{appVm.text['avalanche']}}">
-    <ion-content scroll="!vm.showList">
+
+    <ion-content>
         <ion-refresher pulling-text="{{appVm.text['pullToRefresh']}}" on-refresh="vm.pullToRefresh()">
         </ion-refresher>
-        <leaflet-map regions="vm.regions" vm="vm" leaflet-id="leaflet-map-county">
+
+        <leaflet-map regions="vm.regions" vm="vm" leaflet-id="leaflet-map-avalanche" class="varsom-map">
             <div class="item item-divider">{{::appVm.text['forecastFor']}} {{vm.chosenRegion.name}}</div>
             <a class="item item-icon-right item-no-padding" ui-sref="app.avalancheregion({region:vm.chosenRegion, regionId: vm.chosenRegion.regionId})">
                 <avalanche-forecast region="vm.chosenRegion" translations="appVm.text"></avalanche-forecast>
@@ -10,7 +12,7 @@
             </a>
         </leaflet-map>
 
-        <div class="list row-no-padding" ng-hide="vm.showList">
+        <div class="region list row-no-padding" ng-hide="vm.showList">
             <!--<ion-item class="item-icon-right" ng-repeat="county in ::vm.counties"
                       ui-sref="county({county:county, countyId: county.countyId})">
                 {{::county.name}}
