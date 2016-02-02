@@ -1,5 +1,5 @@
 "use strict";
-angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics', 'ionic.service.deploy', 'ngResource'])
+angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics', 'ionic.service.deploy', 'ngResource', 'ngCordova'])
 
     .controller('AppCtrl', function($scope, $ionicHistory, $ionicSideMenuDelegate, Localization){
         var appVm = this;
