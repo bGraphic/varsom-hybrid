@@ -6,7 +6,7 @@ angular
         var locale = {
             value: undefined,
             available: [
-                {key: 'nb', name: 'Norsk'},
+                {key: 'no', name: 'Norsk'},
                 {key: 'en', name:'English'}
             ],
             storageKey: 'varsomLocale'

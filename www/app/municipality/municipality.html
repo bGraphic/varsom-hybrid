@@ -1,6 +1,92 @@
 <ion-view view-title="{{::vm.mun['name']}}">
-    <ion-content padding="true">
+    <ion-content>
         <h1>{{vm.mun.name}}</h1>
         <p>{{::appVm.text['beta']}}</p>
+        <ion-list>
+            <ion-item class="item-divider">
+                {{::appVm.text['days'][vm.days[0]]}}
+            </ion-item>
+            <ion-item class="row item-icon-right">
+                <div class="col col-20">
+                    <hazard-rating varsom-rating="vm.mun.FloodWarningForecast[0].activityLevel"></hazard-rating>
+                </div>
+                <div class="col">
+                    <h2>{{::appVm.text['flood']}}</h2>
+                    <p>
+                        {{vm.mun.FloodWarningForecast[0].mainText[vm.locale]}}
+                    </p>
+                </div>
+                <i class="icon icon-accessory ion-chevron-right"></i>
+            </ion-item>
+            <ion-item class="row item-icon-right">
+                <div class="col col-20">
+                    <hazard-rating varsom-rating="vm.mun.LandSlideWarningForecast[0].activityLevel"></hazard-rating>
+                </div>
+                <div class="col">
+                    <h2>{{::appVm.text['landslide']}}</h2>
+                    <p>
+                        {{vm.mun.LandSlideWarningForecast[0].mainText[vm.locale]}}
+                    </p>
+                </div>
+                <i class="icon icon-accessory ion-chevron-right"></i>
+            </ion-item>
+
+            <ion-item class="item-divider text-center">
+                {{::appVm.text['days'][vm.days[1]]}}
+            </ion-item>
+            <ion-item class="row item-icon-right">
+                <div class="col col-20">
+                    <hazard-rating varsom-rating="vm.mun.FloodWarningForecast[1].activityLevel"></hazard-rating>
+                </div>
+                <div class="col">
+                    <h2>{{::appVm.text['flood']}}</h2>
+                    <p>
+                        {{vm.mun.FloodWarningForecast[1].mainText[vm.locale]}}
+                    </p>
+                </div>
+                <i class="icon icon-accessory ion-chevron-right"></i>
+            </ion-item>
+            <ion-item class="row item-icon-right">
+                <div class="col col-20">
+                    <hazard-rating varsom-rating="vm.mun.LandSlideWarningForecast[1].activityLevel"></hazard-rating>
+                </div>
+                <div class="col">
+                    <h2>{{::appVm.text['landslide']}}</h2>
+                    <p>
+                        {{vm.mun.LandSlideWarningForecast[1].mainText[vm.locale]}}
+                    </p>
+                </div>
+                <i class="icon icon-accessory ion-chevron-right"></i>
+
+            </ion-item>
+
+            <ion-item class="item-divider text-right">
+                {{::appVm.text['days'][vm.days[2]]}}
+            </ion-item>
+            <ion-item class="row item-icon-right">
+                <div class="col col-20">
+                    <hazard-rating varsom-rating="vm.mun.FloodWarningForecast[2].activityLevel"></hazard-rating>
+                </div>
+                <div class="col">
+                    <h2>{{::appVm.text['flood']}}</h2>
+                    <p>
+                        {{vm.mun.FloodWarningForecast[2].mainText[vm.locale]}}
+                    </p>
+                </div>
+                <i class="icon icon-accessory ion-chevron-right"></i>
+            </ion-item>
+            <ion-item class="row item-icon-right">
+                <div class="col col-20">
+                    <hazard-rating varsom-rating="vm.mun.LandSlideWarningForecast[2].activityLevel"></hazard-rating>
+                </div>
+                <div class="col">
+                    <h2>{{::appVm.text['landslide']}}</h2>
+                    <p>
+                        {{vm.mun.LandSlideWarningForecast[2].mainText[vm.locale]}}
+                    </p>
+                </div>
+                <i class="icon icon-accessory ion-chevron-right"></i>
+            </ion-item>
+        </ion-list>
     </ion-content>
 </ion-view>

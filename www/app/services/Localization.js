@@ -7,7 +7,7 @@ angular
         var service = {};
 
         var translations = {
-            nb: {
+            no: {
                 "pullToRefresh": "Dra for å oppdatere",
                 "language": "Språk",
                 "loading...": "Laster...",

@@ -4,7 +4,7 @@
 
 angular
     .module('Varsom')
-    .factory('County', function County($resource, AppSettings) {
+    .factory('County', function County($resource, AppSettings, Utility) {
 
         var County = $resource(AppSettings.getParseClassUrl('County'), {}, {
             get: {
@@ -22,25 +22,28 @@ angular
 
         County.refreshAllCounties = function(){
             County.allCounties = County.query(function() {
+                console.log(County.allCounties.results);
                 County.allCounties.results.forEach(function(county){
 
-                    var floodForecast = county.FloodWarningForecast,
-                        landSlideForecast = county.LandSlideWarningForecast;
+                    var floodForecast = Utility.chooseLanguage(county.floodWarningForecast),
+                        landSlideForecast = Utility.chooseLanguage(county.landslideWarningForecast);
 
                     var tempBiggestLevel = -1;
 
                     for (var j = floodForecast.length; j--;) {
-                        var curFloodLevel = floodForecast[j].activityLevel,
-                            curLandSlideLevel = landSlideForecast[j].activityLevel;
+                        var curFloodLevel = floodForecast[j].ActivityLevel,
+                            curLandSlideLevel = landSlideForecast[j].ActivityLevel;
 
-                        if (curFloodLevel > tempBiggestLevel)
+                        if (curFloodLevel > tempBiggestLevel){
                             tempBiggestLevel = curFloodLevel;
-                        if (curLandSlideLevel > tempBiggestLevel)
+                        }
+                        if (curLandSlideLevel > tempBiggestLevel){
                             tempBiggestLevel = curLandSlideLevel;
+                        }
 
                         //Get day
-                        var floodDate = new Date(floodForecast[j].validTo);
-                        var landDate = new Date(landSlideForecast[j].validTo);
+                        var floodDate = new Date(floodForecast[j].ValidTo);
+                        var landDate = new Date(landSlideForecast[j].ValidTo);
                         floodForecast[j].validDay = floodDate.getDay();
                         landSlideForecast[j].validDay = landDate.getDay();
                     }
