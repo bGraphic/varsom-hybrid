@@ -3,7 +3,7 @@
  */
 angular
     .module('Varsom')
-    .controller('MunicipalityCtrl', function MunicipalityCtrl($scope, $ionicLoading, $stateParams, AppSettings, Municipality) {
+    .controller('MunicipalityCtrl', function MunicipalityCtrl($location, $ionicScrollDelegate, $anchorScroll, $scope, $ionicLoading, $stateParams, AppSettings, Municipality, Utility) {
         var vm = this;
         vm.mun = $stateParams.municipality;
 
@@ -11,14 +11,17 @@ angular
             vm.mun = $stateParams.municipality;
             console.log(vm.mun);
 
-            var floodForecast = vm.mun.FloodWarningForecast;
-            var floodLength = floodForecast.length;
+            vm.floodForecast = Utility.chooseLanguage(vm.mun.floodWarningForecast);
+            vm.landslideForecast = Utility.chooseLanguage(vm.mun.landslideWarningForecast);
+            var floodLength = vm.floodForecast.length;
             var days = [];
+            vm.max = [];
 
             for(var i = 0; i < floodLength; i++){
                 //Get day
-                var floodDate = new Date(floodForecast[i].validTo.iso);
+                var floodDate = new Date(vm.floodForecast[i].ValidTo);
                 days.push(floodDate.getDay());
+                vm.max.push(Math.max(vm.floodForecast[i].ActivityLevel,vm.landslideForecast[i].ActivityLevel));
 
             }
 
@@ -27,6 +30,12 @@ angular
 
         };
 
+        vm.printCauseList = Utility.printCauseList;
+
+        vm.scrollTo = function(id){
+            $location.hash(vm.mun.municipalityId + id);
+            $ionicScrollDelegate.anchorScroll(true);
+        };
 
         $scope.$on('$ionicView.loaded', function() {
             if($stateParams.municipality){
