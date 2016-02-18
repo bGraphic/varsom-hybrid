@@ -1,123 +1,57 @@
 <ion-view view-title="{{::vm.mun['name']}}">
     <ion-content delegate-handle="mainScroll">
         <div class="row">
-            <a class="col text-center" href="" ng-click="vm.scrollTo('day1')">
+            <a class="col text-center" href="" ng-click="vm.scrollTo('day0')">
                 <hazard-rating varsom-rating="vm.max[0]"></hazard-rating><br>
-                <span class="">{{::appVm.text['days'][vm.days[0]]}}</span>
+                <span class="">{{::appVm.text['days'][vm.days[0].getDay()]}}</span>
+            </a>
+            <a class="col text-center" href="" ng-click="vm.scrollTo('day1')">
+                <hazard-rating varsom-rating="vm.max[1]"></hazard-rating><br>
+                <span class="">{{::appVm.text['days'][vm.days[1].getDay()]}}</span>
             </a>
             <a class="col text-center" href="" ng-click="vm.scrollTo('day2')">
-                <hazard-rating varsom-rating="vm.max[1]"></hazard-rating><br>
-                <span class="">{{::appVm.text['days'][vm.days[1]]}}</span>
-            </a>
-            <a class="col text-center" href="" ng-click="vm.scrollTo('day3')">
                 <hazard-rating varsom-rating="vm.max[2]"></hazard-rating><br>
-                <span class="">{{::appVm.text['days'][vm.days[2]]}}</span>
+                <span class="">{{::appVm.text['days'][vm.days[2].getDay()]}}</span>
             </a>
 
         </div>
         <div class="list">
-            <div class="item item-divider" id="{{vm.mun.municipalityId}}day1">
-                {{::appVm.text['days'][vm.days[0]]}}
+            <div ng-repeat="num in ::[0,1,2]">
+            <div class="item item-divider" id="{{vm.mun.municipalityId}}day{{num}}">
+                {{::appVm.text['days'][vm.days[num].getDay()]}} {{vm.days[num].toLocaleDateString()}}
             </div>
             <div class="row item item-icon-right">
-                <div class="col col-20">
-                    <hazard-rating varsom-rating="vm.floodForecast[0].ActivityLevel"></hazard-rating>
+                <div class="col col-20 text-center col-center">
+                    <hazard-rating varsom-rating="vm.floodForecast[num].ActivityLevel"></hazard-rating>
                 </div>
                 <div class="col">
                     <h2>{{::appVm.text['flood']}}</h2>
                     <p>
-                        {{vm.floodForecast[0].MainText}}
+                        {{vm.floodForecast[num].MainText}}
                     </p>
                     <p>
-                        {{vm.printCauseList(vm.floodForecast[0].CauseList)}}
+                        {{vm.printCauseList(vm.floodForecast[num].CauseList)}}
                     </p>
                 </div>
                 <i class="icon icon-accessory ion-chevron-right"></i>
             </div>
             <div class="row item item-icon-right">
-                <div class="col col-20">
-                    <hazard-rating varsom-rating="vm.landslideForecast[0].ActivityLevel"></hazard-rating>
+                <div class="col col-20 text-center col-center">
+                    <hazard-rating varsom-rating="vm.landslideForecast[num].ActivityLevel"></hazard-rating>
                 </div>
                 <div class="col">
                     <h2>{{::appVm.text['landslide']}}</h2>
                     <p>
-                        {{vm.landslideForecast[0].MainText}}
+                        {{vm.landslideForecast[num].MainText}}
                     </p>
                     <p>
-                        {{vm.printCauseList(vm.landslideForecast[0].CauseList)}}
+                        {{vm.printCauseList(vm.landslideForecast[num].CauseList)}}
                     </p>
                 </div>
                 <i class="icon icon-accessory ion-chevron-right"></i>
+            </div>
             </div>
 
-            <div class="item item-divider" id="{{vm.mun.municipalityId}}day2">
-                {{::appVm.text['days'][vm.days[1]]}}
-            </div>
-            <div class="row item item-icon-right">
-                <div class="col col-20">
-                    <hazard-rating varsom-rating="vm.floodForecast[1].ActivityLevel"></hazard-rating>
-                </div>
-                <div class="col">
-                    <h2>{{::appVm.text['flood']}}</h2>
-                    <p>
-                        {{vm.floodForecast[1].MainText}}
-                    </p>
-                    <p>
-                        {{vm.printCauseList(vm.floodForecast[1].CauseList)}}
-                    </p>
-                </div>
-                <i class="icon icon-accessory ion-chevron-right"></i>
-            </div>
-            <div class="row item item-icon-right">
-                <div class="col col-20">
-                    <hazard-rating varsom-rating="vm.landslideForecast[1].ActivityLevel"></hazard-rating>
-                </div>
-                <div class="col">
-                    <h2>{{::appVm.text['landslide']}}</h2>
-                    <p>
-                        {{vm.landslideForecast[1].MainText}}
-                    </p>
-                    <p>
-                        {{vm.printCauseList(vm.landslideForecast[1].CauseList)}}
-                    </p>
-                </div>
-                <i class="icon icon-accessory ion-chevron-right"></i>
-
-            </div>
-
-            <div class="item item-divider" id="{{vm.mun.municipalityId}}day3">
-                {{::appVm.text['days'][vm.days[2]]}}
-            </div>
-            <div class="row item item-icon-right">
-                <div class="col col-20">
-                    <hazard-rating varsom-rating="vm.floodForecast[2].ActivityLevel"></hazard-rating>
-                </div>
-                <div class="col">
-                    <h2>{{::appVm.text['flood']}}</h2>
-                    <p>
-                        {{vm.floodForecast[2].MainText}}
-                    </p>
-                    <p>
-                        {{vm.printCauseList(vm.floodForecast[2].CauseList)}}
-                    </p>
-                </div>
-                <i class="icon icon-accessory ion-chevron-right"></i>
-            </div>
-            <div class="row item item-icon-right">
-                <div class="col col-20">
-                    <hazard-rating varsom-rating="vm.landslideForecast[2].ActivityLevel"></hazard-rating>
-                </div>
-                <div class="col">
-                    <h2>{{::appVm.text['landslide']}}</h2>
-                    <p>
-                        {{vm.landslideForecast[2].MainText}}
-                    </p>
-                    <p>
-                        {{vm.printCauseList(vm.landslideForecast[2].CauseList)}}
-                    </p>
-                </div>
-                <i class="icon icon-accessory ion-chevron-right"></i>
-            </div>
         </div>
     </ion-content>
 </ion-view>

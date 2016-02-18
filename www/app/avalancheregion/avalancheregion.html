@@ -1,40 +1,43 @@
 <ion-view  view-title="{{::vm.region['name']}}">
     <ion-content>
         <div class="row">
-            <a class="col text-center" href="" ng-click="vm.scrollTo('day1')">
+            <a class="col text-center" href="" ng-click="vm.scrollTo('day0')">
                 <hazard-rating varsom-rating="vm.avalancheForecast[0].DangerLevel"></hazard-rating><br>
-                <span class="">{{::appVm.text['days'][vm.days[0]]}}</span>
+                <span class="">{{::appVm.text['days'][vm.days[0].getDay()]}}</span>
+            </a>
+            <a class="col text-center" href="" ng-click="vm.scrollTo('day1')">
+                <hazard-rating varsom-rating="vm.avalancheForecast[1].DangerLevel"></hazard-rating><br>
+                <span class="">{{::appVm.text['days'][vm.days[1].getDay()]}}</span>
             </a>
             <a class="col text-center" href="" ng-click="vm.scrollTo('day2')">
-                <hazard-rating varsom-rating="vm.avalancheForecast[1].DangerLevel"></hazard-rating><br>
-                <span class="">{{::appVm.text['days'][vm.days[1]]}}</span>
-            </a>
-            <a class="col text-center" href="" ng-click="vm.scrollTo('day3')">
                 <hazard-rating varsom-rating="vm.avalancheForecast[2].DangerLevel"></hazard-rating><br>
-                <span class="">{{::appVm.text['days'][vm.days[2]]}}</span>
+                <span class="">{{::appVm.text['days'][vm.days[2].getDay()]}}</span>
             </a>
 
         </div>
 
         <div class="list">
-            <div class="item item-divider" id="{{vm.region.regionId}}day1">
-                {{::appVm.text['days'][vm.days[0]]}}
+        <div ng-repeat="num in [0,1,2]">
+            <div class="item item-divider" id="{{vm.region.regionId}}day{{num}}">
+                {{appVm.text['days'][vm.days[num].getDay()]}} {{vm.days[num].toLocaleDateString()}}
             </div>
-            <div class="row item item-icon-right">
-                <div class="col col-20">
-                    <hazard-rating varsom-rating="vm.avalancheForecast[0].DangerLevel"></hazard-rating>
-                </div>
-                <div class="col">
-                    <h2>{{::appVm.text['avalanche']}}</h2>
-                    <p>
-                        {{vm.avalancheForecast[0].MainText}}
-                    </p>
-                    <p>
-                        {{vm.printCauseList(vm.avalancheForecast[0].CauseList)}}
-                    </p>
-                </div>
+            <div class="item item-icon-right item-text-wrap">
+                <span>
+                    {{vm.avalancheForecast[num].MainText || vm.avalancheForecast[num].AvalancheDanger}}
+                </span>
+
                 <i class="icon icon-accessory ion-chevron-right"></i>
             </div>
+            <div class="item item-icon-right" ng-repeat="problem in vm.avalancheForecast[num].AvalancheProblems">
+                <h2>{{problem.AvalancheProblemTypeName}}: {{problem.AvalCauseName}}</h2>
+                <p>{{problem.AvalancheExtName}}</p>
+                <p>{{problem.AvalTriggerSimpleName}}</p>
+                <p>{{problem.AvalPropagationName}}</p>
+                <p>{{::appVm.text['above']}} {{problem.ExposedHeight1}} {{::appVm.text['moh']}}</p>
+                <p>{{problem.DestructiveSizeExtName}} | {{problem.AvalProbabilityName}}</p>
+                <i class="icon icon-accessory ion-chevron-right"></i>
+            </div>
+        </div>
         </div>
     </ion-content>
 </ion-view>

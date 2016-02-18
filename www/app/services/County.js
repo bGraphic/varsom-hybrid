@@ -42,8 +42,8 @@ angular
                         }
 
                         //Get day
-                        var floodDate = new Date(floodForecast[j].ValidTo);
-                        var landDate = new Date(landSlideForecast[j].ValidTo);
+                        var floodDate = new Date(floodForecast[j].ValidFrom);
+                        var landDate = new Date(landSlideForecast[j].ValidFrom);
                         floodForecast[j].validDay = floodDate.getDay();
                         landSlideForecast[j].validDay = landDate.getDay();
                     }

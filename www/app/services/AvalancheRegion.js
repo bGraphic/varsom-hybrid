@@ -32,7 +32,7 @@ angular
                             tempBiggestLevel = curWarnLevel;
 
                         //Get day
-                        var date = new Date(warningForecast[j].ValidTo);
+                        var date = new Date(warningForecast[j].ValidFrom);
                         warningForecast[j].validDay = date.getDay();
                     }
                     region.maxLevel = tempBiggestLevel;

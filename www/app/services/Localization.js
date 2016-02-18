@@ -10,6 +10,8 @@ angular
             no: {
                 "pullToRefresh": "Dra for å oppdatere",
                 "language": "Språk",
+                "above": "Over",
+                "moh": "moh",
                 "loading...": "Laster...",
                 "settings":"Innstillinger",
                 "landslide-flood":"Flom / jordskred",
@@ -27,6 +29,8 @@ angular
             en: {
                 "pullToRefresh": "Pull to refresh",
                 "language": "Language",
+                "above": "Above",
+                "moh": "masl",
                 "loading...": "Loading...",
                 "settings":"Settings",
                 "landslide-flood":"Flood / landslide",

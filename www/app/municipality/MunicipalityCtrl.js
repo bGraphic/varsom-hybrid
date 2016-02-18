@@ -19,8 +19,8 @@ angular
 
             for(var i = 0; i < floodLength; i++){
                 //Get day
-                var floodDate = new Date(vm.floodForecast[i].ValidTo);
-                days.push(floodDate.getDay());
+                var floodDate = new Date(vm.floodForecast[i].ValidFrom);
+                days.push(floodDate);
                 vm.max.push(Math.max(vm.floodForecast[i].ActivityLevel,vm.landslideForecast[i].ActivityLevel));
 
             }
