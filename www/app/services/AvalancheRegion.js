@@ -1,6 +1,6 @@
 angular
     .module('Varsom')
-    .factory('AvalancheRegion', function ($resource, AppSettings) {
+    .factory('AvalancheRegion', function ($resource, Utility, AppSettings) {
 
         var AvalancheRegion = $resource(AppSettings.getParseClassUrl('AvalancheRegion'), {}, {
             get: {
@@ -21,18 +21,18 @@ angular
                 AvalancheRegion.allRegions.results.forEach(function(region){
                     console.log(region);
 
-                    var warningForecast = region.AvalancheWarningForecast;
+                    var warningForecast = Utility.chooseLanguage(region.avalancheWarningForecast);
 
                     var tempBiggestLevel = -1;
 
                     for (var j = warningForecast.length; j--;) {
-                        var curWarnLevel = warningForecast[j].dangerLevel;
+                        var curWarnLevel = warningForecast[j].DangerLevel;
 
                         if (curWarnLevel > tempBiggestLevel)
                             tempBiggestLevel = curWarnLevel;
 
                         //Get day
-                        var date = new Date(warningForecast[j].validTo);
+                        var date = new Date(warningForecast[j].ValidFrom);
                         warningForecast[j].validDay = date.getDay();
                     }
                     region.maxLevel = tempBiggestLevel;

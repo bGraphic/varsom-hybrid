@@ -1,6 +1,43 @@
 <ion-view view-title="{{::vm.mun['name']}}">
-    <ion-content padding="true">
-        <h1>{{vm.mun.name}}</h1>
-        <p>{{::appVm.text['beta']}}</p>
+    <ion-content delegate-handle="mainScroll">
+        
+        <div class="list">
+            <div ng-repeat="num in ::[0,1,2]">
+            <div class="item item-divider" id="{{vm.mun.municipalityId}}day{{num}}">
+                {{::appVm.text['days'][vm.days[num].getDay()]}} {{vm.days[num].toLocaleDateString()}}
+            </div>
+            <div class="row item item-icon-right">
+                <div class="col col-20 text-center col-center">
+                    <hazard-rating varsom-rating="vm.floodForecast[num].ActivityLevel"></hazard-rating>
+                </div>
+                <div class="col">
+                    <h2>{{::appVm.text['flood']}}</h2>
+                    <p>
+                        {{vm.floodForecast[num].MainText}}
+                    </p>
+                    <p>
+                        {{vm.printCauseList(vm.floodForecast[num].CauseList)}}
+                    </p>
+                </div>
+                <i class="icon icon-accessory ion-chevron-right"></i>
+            </div>
+            <div class="row item item-icon-right">
+                <div class="col col-20 text-center col-center">
+                    <hazard-rating varsom-rating="vm.landslideForecast[num].ActivityLevel"></hazard-rating>
+                </div>
+                <div class="col">
+                    <h2>{{::appVm.text['landslide']}}</h2>
+                    <p>
+                        {{vm.landslideForecast[num].MainText}}
+                    </p>
+                    <p>
+                        {{vm.printCauseList(vm.landslideForecast[num].CauseList)}}
+                    </p>
+                </div>
+                <i class="icon icon-accessory ion-chevron-right"></i>
+            </div>
+            </div>
+
+        </div>
     </ion-content>
 </ion-view>

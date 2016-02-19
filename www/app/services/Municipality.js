@@ -15,7 +15,7 @@ angular
                 params: {
                     where: '@where',
                     order: 'name',
-                    include:''
+                    include:'LandSlideWarningForecast,FloodWarningForecast'
                 }
             }
         });
@@ -23,6 +23,12 @@ angular
         Municipality.listAllForCounty = function (countyId) {
             return Municipality.query({
                 where: {'countyId': countyId}
+            });
+        };
+
+        Municipality.getById = function (municipalityId) {
+            return Municipality.get({
+                where: {'municipalityId': municipalityId}
             });
         };
 

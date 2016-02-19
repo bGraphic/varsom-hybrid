@@ -1,20 +1,25 @@
 
 angular
     .module('Varsom')
-    .directive('floodLandslideForecast', function floodLandslidefFrecast(AppSettings) {
+    .directive('floodLandslideForecast', function floodLandslidefFrecast(AppSettings, Utility) {
 
         function link(scope) {
 
             scope.$watch('county', function(county){
+                if(!county){
+                    return;
+                }
 
-                if(county && !county.FloodWarningForecast[0].validDay){
-                    var floodForecast = county.FloodWarningForecast;
-                    var floodLength = floodForecast.length;
+                scope.floodWarningForecast = Utility.chooseLanguage(county.floodWarningForecast);
+                scope.landslideWarningForecast = Utility.chooseLanguage(county.landslideWarningForecast);
+
+                if(!scope.floodWarningForecast[0].validDay){
+                    var floodLength = scope.floodWarningForecast.length;
                     var days = [];
 
                     for(var i = 0; i < floodLength; i++){
                         //Get day
-                        var floodDate = new Date(floodForecast[i].validTo.iso);
+                        var floodDate = new Date(scope.floodWarningForecast[i].ValidTo);
                         days.push(floodDate.getDay());
 
                     }

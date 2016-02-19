@@ -1,4 +1,4 @@
-<ion-view view-title="{{::vm.county.name}}">
+<ion-view view-title="{{vm.county.name}}">
     <ion-content id="county_view">
         <ion-refresher pulling-text="{{appVm.text['pullToRefresh']}}" on-refresh="vm.pullToRefresh()">
         </ion-refresher>
@@ -6,7 +6,10 @@
 
         <div class="list">
             <div class="item item-divider">{{appVm.text['municipalities']}}</div>
-            <a class="item" ng-repeat="mun in ::vm.municipalities.results" ui-sref="app.municipality({municipality: mun})">{{::mun.name}}</a>
+            <a class="item item-icon-right" ng-repeat="mun in ::vm.municipalities.results" ui-sref="app.municipality({municipality: mun})">
+                {{::mun.name}}
+                <i class="icon icon-accessory ion-chevron-right"></i>
+            </a>
         </div>
     </ion-content>
 </ion-view>

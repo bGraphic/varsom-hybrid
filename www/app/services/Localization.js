@@ -7,12 +7,14 @@ angular
         var service = {};
 
         var translations = {
-            nb: {
+            no: {
                 "pullToRefresh": "Dra for å oppdatere",
                 "language": "Språk",
+                "above": "Over",
+                "moh": "moh",
                 "loading...": "Laster...",
                 "settings":"Innstillinger",
-                "landslide-flood":"Jordskred / flom",
+                "landslide-flood":"Flom / jordskred",
                 "avalanche":"Snøskred",
                 "map":"Kart",
                 "municipalities":"Kommuner",
@@ -27,9 +29,11 @@ angular
             en: {
                 "pullToRefresh": "Pull to refresh",
                 "language": "Language",
+                "above": "Above",
+                "moh": "masl",
                 "loading...": "Loading...",
                 "settings":"Settings",
-                "landslide-flood":"Landslide / flood",
+                "landslide-flood":"Flood / landslide",
                 "avalanche":"Avalanche",
                 "map":"Map",
                 "municipalities":"Municipalities",

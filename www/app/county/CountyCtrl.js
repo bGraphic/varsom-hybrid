@@ -12,7 +12,7 @@ angular
         var init = function () {
             vm.municipalities = Municipality.listAllForCounty(vm.county.countyId);
             console.log('MUN', vm.municipalities);
-            console.log(vm.county);
+            console.log('COUNTY', vm.county);
            /* Municipality.listAll(model.county.countyId).then(function (municipalities) {
                 model.municipalities = municipalities;
                 //$ionicLoading.hide();

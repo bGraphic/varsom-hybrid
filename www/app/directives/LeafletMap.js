@@ -3,7 +3,7 @@
  */
 angular
     .module('Varsom')
-    .directive('leafletMap', function LeafletMap($http, $timeout, AppSettings) {
+    .directive('leafletMap', function LeafletMap($http, $timeout, $cordovaGeolocation, AppSettings) {
         function link(scope, elem, attrs) {
             var chosenLayer, el, map, layer;
             var small = true;
@@ -57,8 +57,32 @@ angular
 
                 map.addLayer(layer);
 
-                map.locate();
-                map.on('locationfound', onLocationFound);
+
+                var posOptions = {timeout: 10000, enableHighAccuracy: false};
+                $cordovaGeolocation
+                    .getCurrentPosition(posOptions)
+                    .then(function (position) {
+                        var lat  = position.coords.latitude;
+                        var long = position.coords.longitude;
+                        var latlng = L.latLng(lat, long);
+
+                        //Make sure location is in Norway
+                        if(lat < 57 || long < 3 || lat > 72 || long > 34 )
+                            return;
+
+                        console.log('Found location',position);
+                        var radius = position.coords.accuracy / 2;
+
+                        /*L.marker(e.latlng).addTo(map)
+                         .bindPopup("You are within " + radius + " meters from this point").openPopup();*/
+
+
+                        L.circle(latlng, radius).addTo(map);
+                        map.setView(L.latLng(lat-1.5, long), 6, {animate:true});
+                    }, function(err) {
+                        // error
+                    });
+
                 map.on('click', clickOutside);
 
             });
@@ -113,18 +137,7 @@ angular
             }
 
             function onLocationFound(e) {
-                //Make sure location is in Norway
-                if(e.latitude < 57 || e.longitude < 3 || e.latitude > 72 || e.longitude > 34 )
-                    return;
 
-                console.log('Found location',e);
-                var radius = e.accuracy / 2;
-
-                /*L.marker(e.latlng).addTo(map)
-                 .bindPopup("You are within " + radius + " meters from this point").openPopup();*/
-
-                L.circle(e.latlng, radius).addTo(map);
-                map.setView(e.latlng, 6, {animate:true});
 
             }
         }

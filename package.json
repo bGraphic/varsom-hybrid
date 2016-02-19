@@ -26,7 +26,8 @@
     "cordova-plugin-splashscreen",
     "com.ionic.keyboard",
     "cordova-plugin-statusbar",
-    "ionic-plugin-deploy"
+    "ionic-plugin-deploy",
+    "cordova-plugin-geolocation"
   ],
   "cordovaPlatforms": [
     "android",

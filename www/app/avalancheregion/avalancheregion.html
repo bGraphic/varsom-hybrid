@@ -1,6 +1,29 @@
 <ion-view  view-title="{{::vm.region['name']}}">
-    <ion-content padding="true">
-        <h1>{{vm.region.name}}</h1>
-        <p>{{::appVm.text['beta']}}</p>
+    <ion-content>
+
+
+        <div class="list">
+        <div ng-repeat="num in [0,1,2]">
+            <div class="item item-divider" id="{{vm.region.regionId}}day{{num}}">
+                {{appVm.text['days'][vm.days[num].getDay()]}} {{vm.days[num].toLocaleDateString()}}
+            </div>
+            <div class="item item-icon-right item-text-wrap">
+                <span>
+                    {{vm.avalancheForecast[num].MainText || vm.avalancheForecast[num].AvalancheDanger}}
+                </span>
+
+                <i class="icon icon-accessory ion-chevron-right"></i>
+            </div>
+            <div class="item item-icon-right" ng-repeat="problem in vm.avalancheForecast[num].AvalancheProblems">
+                <h2>{{problem.AvalancheProblemTypeName}}: {{problem.AvalCauseName}}</h2>
+                <p>{{problem.AvalancheExtName}}</p>
+                <p>{{problem.AvalTriggerSimpleName}}</p>
+                <p>{{problem.AvalPropagationName}}</p>
+                <p>{{::appVm.text['above']}} {{problem.ExposedHeight1}} {{::appVm.text['moh']}}</p>
+                <p>{{problem.DestructiveSizeExtName}} | {{problem.AvalProbabilityName}}</p>
+                <i class="icon icon-accessory ion-chevron-right"></i>
+            </div>
+        </div>
+        </div>
     </ion-content>
 </ion-view>
