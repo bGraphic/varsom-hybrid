@@ -1,20 +1,6 @@
 <ion-view view-title="{{::vm.mun['name']}}">
     <ion-content delegate-handle="mainScroll">
-        <div class="row">
-            <a class="col text-center" href="" ng-click="vm.scrollTo('day0')">
-                <hazard-rating varsom-rating="vm.max[0]"></hazard-rating><br>
-                <span class="">{{::appVm.text['days'][vm.days[0].getDay()]}}</span>
-            </a>
-            <a class="col text-center" href="" ng-click="vm.scrollTo('day1')">
-                <hazard-rating varsom-rating="vm.max[1]"></hazard-rating><br>
-                <span class="">{{::appVm.text['days'][vm.days[1].getDay()]}}</span>
-            </a>
-            <a class="col text-center" href="" ng-click="vm.scrollTo('day2')">
-                <hazard-rating varsom-rating="vm.max[2]"></hazard-rating><br>
-                <span class="">{{::appVm.text['days'][vm.days[2].getDay()]}}</span>
-            </a>
-
-        </div>
+        
         <div class="list">
             <div ng-repeat="num in ::[0,1,2]">
             <div class="item item-divider" id="{{vm.mun.municipalityId}}day{{num}}">

@@ -1,20 +1,6 @@
 <ion-view  view-title="{{::vm.region['name']}}">
     <ion-content>
-        <div class="row">
-            <a class="col text-center" href="" ng-click="vm.scrollTo('day0')">
-                <hazard-rating varsom-rating="vm.avalancheForecast[0].DangerLevel"></hazard-rating><br>
-                <span class="">{{::appVm.text['days'][vm.days[0].getDay()]}}</span>
-            </a>
-            <a class="col text-center" href="" ng-click="vm.scrollTo('day1')">
-                <hazard-rating varsom-rating="vm.avalancheForecast[1].DangerLevel"></hazard-rating><br>
-                <span class="">{{::appVm.text['days'][vm.days[1].getDay()]}}</span>
-            </a>
-            <a class="col text-center" href="" ng-click="vm.scrollTo('day2')">
-                <hazard-rating varsom-rating="vm.avalancheForecast[2].DangerLevel"></hazard-rating><br>
-                <span class="">{{::appVm.text['days'][vm.days[2].getDay()]}}</span>
-            </a>
 
-        </div>
 
         <div class="list">
         <div ng-repeat="num in [0,1,2]">
