@@ -13,19 +13,6 @@ angular
                 scope.floodWarningForecast = Utility.chooseLanguage(county.floodWarningForecast);
                 scope.landslideWarningForecast = Utility.chooseLanguage(county.landslideWarningForecast);
 
-                if(!scope.floodWarningForecast[0].validDay){
-                    var floodLength = scope.floodWarningForecast.length;
-                    var days = [];
-
-                    for(var i = 0; i < floodLength; i++){
-                        //Get day
-                        var floodDate = new Date(scope.floodWarningForecast[i].ValidTo);
-                        days.push(floodDate.getDay());
-
-                    }
-
-                    scope.days = days;
-                }
             });
         }
 
@@ -33,6 +20,7 @@ angular
             restrict: 'E',
             link: link,
             scope: {
+                days: '=',
                 county: '=',
                 translations: '='
             },

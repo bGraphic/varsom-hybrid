@@ -1,0 +1,87 @@
+<ion-view>
+    <ion-content padding="true">
+
+        <div class="padding">
+            <strong>{{vm.problem.AvalancheProblemTypeName}}: {{vm.problem.AvalCauseName}}</strong>
+            <h3 ng-show="vm.problem.AvalancheAdvice">{{::appVm.text['advice']}}</h3>
+            <p ng-bind="vm.problem.AvalancheAdvice"></p>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col positive">
+                {{::appVm.text['Høyde']}}
+            </div>
+            <div class="col">
+                {{::vm.printExposedHeight(appVm.text['exposedHeights'],vm.problem.ExposedHeightFill,vm.problem.ExposedHeight1,vm.problem.ExposedHeight2)}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col positive">
+                {{::appVm.text['Eksposisjon']}}
+            </div>
+            <div class="col">
+                {{::vm.printExpositionList(appVm.text['expositions'], vm.problem.ValidExpositions)}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col positive">
+                {{::appVm.text['Skredtype']}}
+            </div>
+            <div class="col">
+                {{vm.problem.AvalancheExtName}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col positive">
+                {{::appVm.text['Utløsningsårsak']}}
+            </div>
+            <div class="col">
+                {{vm.problem.AvalTriggerSimpleName}}
+            </div>
+            </div>
+        <div class="row">
+            <div class="col positive">
+                {{::appVm.text['Utbredelse']}}
+            </div>
+            <div class="col">
+                {{vm.problem.AvalPropagationName}}
+            </div>
+            </div>
+        <div class="row">
+            <div class="col positive">
+                {{::appVm.text['Skredstørrelse']}}
+            </div>
+            <div class="col">
+                {{vm.problem.DestructiveSizeExtName}}
+            </div>
+            </div>
+        <div class="row">
+            <div class="col positive">
+                {{::appVm.text['Sannsynlighet']}}
+            </div>
+            <div class="col">
+                {{vm.problem.AvalProbabilityName}}
+            </div>
+        </div>
+           <!-- <p>{{::appVm.text['Høyde']}}: {{::vm.printExposedHeight(appVm.text['exposedHeights'],vm.problem.ExposedHeightFill,vm.problem.ExposedHeight1,vm.problem.ExposedHeight2)}}</p>
+        <p>{{::appVm.text['Eksposisjon']}}: {{::vm.printExpositionList(appVm.text['expositions'], vm.problem.ValidExpositions)}}</p>
+        <p>{{::appVm.text['Skredtype']}}: {{vm.problem.AvalancheExtName}}</p>
+        <p>{{::appVm.text['Utløsningsårsak']}}: {{vm.problem.AvalTriggerSimpleName}}</p>
+        <p>{{::appVm.text['Utbredelse']}}: {{vm.problem.AvalPropagationName}}</p>
+
+        <p>{{::appVm.text['Skredstørrelse']}}: {{vm.problem.DestructiveSizeExtName}}</p>
+        <p>{{::appVm.text['Sannsynlighet']}}: {{vm.problem.AvalProbabilityName}}</p>-->
+
+
+
+
+    </ion-content>
+</ion-view>
+
+<!--
+MainText (bold)
+AvalancheDanger
+AvalancheWarning
+AlpineWeather-->

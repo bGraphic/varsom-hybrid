@@ -3,7 +3,7 @@
  */
 angular
     .module('Varsom')
-    .controller('CountyCtrl', function CountyCtrl($scope, $ionicLoading, $stateParams, County, Municipality, Localization) {
+    .controller('CountyCtrl', function CountyCtrl($scope, $ionicLoading, $stateParams, County, Municipality, Utility) {
         var vm = this;
         vm.county = $stateParams.county;
         $ionicLoading.show();
@@ -13,6 +13,7 @@ angular
             vm.municipalities = Municipality.listAllForCounty(vm.county.countyId);
             console.log('MUN', vm.municipalities);
             console.log('COUNTY', vm.county);
+            vm.days = Utility.getDays(vm.county.floodWarningForecast);
            /* Municipality.listAll(model.county.countyId).then(function (municipalities) {
                 model.municipalities = municipalities;
                 //$ionicLoading.hide();

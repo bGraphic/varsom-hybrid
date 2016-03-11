@@ -23,7 +23,22 @@ span.varsom-warning-text {
     padding-left: 20px;
 }
 
+h2.danger-level-name {
+    font-size: 12px;
+    text-transform: uppercase;
+
+
+    padding-bottom: 5px;
+}
+
 .row{
+    &.row-no-padding-sides {
+        padding-left: 0;
+        padding-right: 0;
+        .col{
+            padding-left: 0;
+        }
+    }
     .varsom-label {
         width: 35px;
         height: 35px;
@@ -32,6 +47,9 @@ span.varsom-warning-text {
 }
 
 .item-no-padding {
+    padding-left: 0;
+    padding-top: 0;
+    padding-bottom: 5px;
     .item-content {
         padding: 0;
 
@@ -58,10 +76,10 @@ span.varsom-warning-text {
             height: 40px;
             vertical-align: top;
             font-size: 20px;
-            font-weight: 200;
+            font-weight: 400;
             text-decoration: none;
             &.active {
-                color: lighten($energized,15%);
+                color: lighten($energized,20%);
             }
 
             .ion-ios-settings {
@@ -83,6 +101,25 @@ span.varsom-warning-text {
         text-align: center;
         border-radius: 50%;
         border: 1px solid #fff;
+    }
+}
+
+.nve-logo {
+    background-image: url("../img/nve-logo.png");
+    background-repeat: no-repeat;
+    background-position: center bottom 50px;
+    background-size: 50%;
+
+}
+
+.forecast-widget{
+    padding: 5px 0 10px;
+    .row{
+        padding: 2px 2px;
+        .col.col-20 {
+            flex: 0 0 45px;
+        }
+
     }
 }
 
@@ -190,4 +227,41 @@ span.varsom-warning-text {
         z-index: 2;
 
     }
+}
+
+.detail.list {
+    .item-complex {
+        .row {
+
+
+            padding: 11px;
+
+            .col.hazard-rating {
+                flex: 0 0 50px;
+
+            }
+        }
+    }
+}
+
+.varsom-cause {
+    min-height: 70px;
+    padding-bottom: 8px;
+    &.item-thumbnail-left {
+        padding-left: 80px;
+        img {
+            max-height: 50px;
+            max-width: 50px;
+        }
+    }
+    h2 {
+        font-size: 20px;
+        line-height: 50px;
+
+    }
+
+}
+
+.padding-right-30 {
+    padding-right: 30px;
 }

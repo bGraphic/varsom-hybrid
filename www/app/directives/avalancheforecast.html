@@ -1,9 +1,9 @@
 
 <div class="row">
 
-    <div class="col col-20 text-center" ng-bind="translations['days'][days[0]]"></div>
-    <div class="col col-20 text-center" ng-bind="translations['days'][days[1]]"></div>
-    <div class="col col-20 text-center" ng-bind="translations['days'][days[2]]"></div>
+    <div class="col col-20 text-center" ng-bind="translations['days'][days[0].getDay()]"></div>
+    <div class="col col-20 text-center" ng-bind="translations['days'][days[1].getDay()]"></div>
+    <div class="col col-20 text-center" ng-bind="translations['days'][days[2].getDay()]"></div>
 
 </div>
 <div class="row">

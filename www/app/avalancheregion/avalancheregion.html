@@ -2,27 +2,91 @@
     <ion-content>
 
 
-        <div class="list">
+        <div class="detail list">
         <div ng-repeat="num in [0,1,2]">
             <div class="item item-divider" id="{{vm.region.regionId}}day{{num}}">
-                {{appVm.text['days'][vm.days[num].getDay()]}} {{vm.days[num].toLocaleDateString()}}
+
+                {{appVm.text['daysFull'][vm.days[num].getDay()]}} {{vm.util.getDayString(vm.days[num])}}
             </div>
-            <div class="item item-icon-right item-text-wrap">
-                <span>
-                    {{vm.avalancheForecast[num].MainText || vm.avalancheForecast[num].AvalancheDanger}}
-                </span>
+            <a class="item item-complex item-icon-right item-text-wrap" href="" ui-sref="app.avalancheregiondetail({forecast:vm.getAvalancheForecast(num)})">
+
+
+
+                <div class="row">
+                <div class="col col-center hazard-rating">
+
+                    <hazard-rating varsom-rating="::vm.getAvalancheForecast(num).DangerLevel"></hazard-rating>
+                </div>
+                <div class="col padding-right-30">
+                    <h2 class="danger-level-name">{{vm.getAvalancheForecast(num).DangerLevelName}}</h2>
+                    {{vm.getAvalancheForecastText(num)}}
+                </div>
+                </div>
 
                 <i class="icon icon-accessory ion-chevron-right"></i>
-            </div>
-            <div class="item item-icon-right" ng-repeat="problem in vm.avalancheForecast[num].AvalancheProblems">
+            </a>
+            <a class="item item-text-wrap item-icon-right padding-right-30" ng-repeat="problem in vm.getAvalancheForecast(num).AvalancheProblems" href="" ui-sref="app.avalancheregionproblem({problem: problem})">
                 <h2>{{problem.AvalancheProblemTypeName}}: {{problem.AvalCauseName}}</h2>
-                <p>{{problem.AvalancheExtName}}</p>
-                <p>{{problem.AvalTriggerSimpleName}}</p>
-                <p>{{problem.AvalPropagationName}}</p>
-                <p>{{::appVm.text['above']}} {{problem.ExposedHeight1}} {{::appVm.text['moh']}}</p>
-                <p>{{problem.DestructiveSizeExtName}} | {{problem.AvalProbabilityName}}</p>
+
+                <div class="row row-no-padding-sides">
+                    <div class="col positive">
+                        {{::appVm.text['Høyde']}}
+                    </div>
+                    <div class="col">
+                        {{::vm.util.printExposedHeight(appVm.text['exposedHeights'],problem.ExposedHeightFill,problem.ExposedHeight1,problem.ExposedHeight2)}}
+                    </div>
+                </div>
+                <div class="row row-no-padding-sides">
+                    <div class="col positive">
+                        {{::appVm.text['Eksposisjon']}}
+                    </div>
+                    <div class="col">
+                        {{::vm.util.printExpositionList(appVm.text['expositions'], problem.ValidExpositions)}}
+                    </div>
+                </div>
+                <div class="row row-no-padding-sides">
+                    <div class="col positive">
+                        {{::appVm.text['Skredtype']}}
+                    </div>
+                    <div class="col">
+                        {{problem.AvalancheExtName}}
+                    </div>
+                </div>
+                <div class="row row-no-padding-sides">
+                    <div class="col positive">
+                        {{::appVm.text['Utløsningsårsak']}}
+                    </div>
+                    <div class="col">
+                        {{problem.AvalTriggerSimpleName}}
+                    </div>
+                </div>
+                <div class="row row-no-padding-sides">
+                    <div class="col positive">
+                        {{::appVm.text['Utbredelse']}}
+                    </div>
+                    <div class="col">
+                        {{problem.AvalPropagationName}}
+                    </div>
+                </div>
+                <div class="row row-no-padding-sides">
+                    <div class="col positive">
+                        {{::appVm.text['Skredstørrelse']}}
+                    </div>
+                    <div class="col">
+                        {{problem.DestructiveSizeExtName}}
+                    </div>
+                </div>
+                <div class="row row-no-padding-sides">
+                    <div class="col positive">
+                        {{::appVm.text['Sannsynlighet']}}
+                    </div>
+                    <div class="col">
+                        {{problem.AvalProbabilityName}}
+                    </div>
+                </div>
                 <i class="icon icon-accessory ion-chevron-right"></i>
-            </div>
+            </a>
+
         </div>
         </div>
     </ion-content>

@@ -31,9 +31,6 @@ angular
                         if (curWarnLevel > tempBiggestLevel)
                             tempBiggestLevel = curWarnLevel;
 
-                        //Get day
-                        var date = new Date(warningForecast[j].ValidFrom);
-                        warningForecast[j].validDay = date.getDay();
                     }
                     region.maxLevel = tempBiggestLevel;
                 });
@@ -42,8 +39,9 @@ angular
         };
 
         AvalancheRegion.getById = function (regionId){
+
             return AvalancheRegion.query({
-                where: {'regionId':regionId}
+                where: {'regionId':parseInt(30)}
             });
         };
 

@@ -1,13 +1,16 @@
-<ion-view view-title="{{vm.county.name}}">
+<ion-view view-title="{{::vm.county.name}}">
     <ion-content id="county_view">
-        <ion-refresher pulling-text="{{appVm.text['pullToRefresh']}}" on-refresh="vm.pullToRefresh()">
+        <ion-refresher pulling-text="{{::appVm.text['pullToRefresh']}}" on-refresh="vm.pullToRefresh()">
         </ion-refresher>
-        <flood-landslide-forecast county="vm.county" translations="appVm.text"></flood-landslide-forecast>
+        <div class="forecast-widget">
+        <flood-landslide-forecast county="vm.county" translations="appVm.text" days="vm.days"></flood-landslide-forecast>
+            </div>
 
-        <div class="list">
-            <div class="item item-divider">{{appVm.text['municipalities']}}</div>
-            <a class="item item-icon-right" ng-repeat="mun in ::vm.municipalities.results" ui-sref="app.municipality({municipality: mun})">
-                {{::mun.name}}
+        <div class="list row-no-padding">
+            <div class="item item-divider">{{::appVm.text['municipalities']}}</div>
+            <a class="item item-icon-right row-no-padding" ng-repeat="mun in ::vm.municipalities.results" ui-sref="app.municipality({municipality: mun, municipalityId: mun.municipalityId})">
+                <hazard-rating varsom-rating="mun.maxLevel"></hazard-rating>
+                <span class="varsom-warning-text" ng-bind="::mun.name"></span>
                 <i class="icon icon-accessory ion-chevron-right"></i>
             </a>
         </div>

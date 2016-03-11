@@ -1,7 +1,7 @@
 
 angular
     .module('Varsom')
-    .controller('CountiesCtrl', function CountiesCtrl($scope, $http, $q, $state, $ionicLoading, Localization, AppSettings, County) {
+    .controller('CountiesCtrl', function CountiesCtrl($scope, $http, $q, $state, $ionicLoading, Localization, AppSettings, County, Utility) {
         var vm = this;
 
         $ionicLoading.show();
@@ -12,8 +12,14 @@ angular
 
             vm.regions = County.allCounties;
 
+            vm.util = Utility;
+
+
             //Hide loading when promise is resolved
             vm.regions.$promise.then(function(){
+                console.log(vm.regions);
+                vm.days = Utility.getDays(vm.regions.results[0].floodWarningForecast);
+
                 $ionicLoading.hide();
             });
 

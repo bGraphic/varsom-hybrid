@@ -84,6 +84,16 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
                     }
                 }
             })
+            .state('app.municipalitydetail', {
+                url: '/municipality/detail/:municipalityId/:type/:forecastNumber',
+                params : { forecast: null },
+                views: {
+                    'menuContent': {
+                        templateUrl: 'app/municipality/detail/municipalitydetail.html',
+                        controller: 'MunicipalityDetailCtrl as vm'
+                    }
+                }
+            })
             .state('app.avalancheregions', {
                 url: '/avalancheregions',
                 views: {
@@ -94,12 +104,32 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
                 }
             })
             .state('app.avalancheregion', {
-                url: '/avalancheregion',
+                url: '/avalancheregion/:regionId',
                 params : { region: null },
                 views: {
                     'menuContent': {
                         templateUrl: 'app/avalancheregion/avalancheregion.html',
                         controller: 'AvalancheRegionCtrl as vm'
+                    }
+                }
+            })
+            .state('app.avalancheregiondetail', {
+                url: '/avalancheregion/detail/:regionId',
+                params : { forecast: null },
+                views: {
+                    'menuContent': {
+                        templateUrl: 'app/avalancheregion/detail/avalancheregiondetail.html',
+                        controller: 'AvalancheRegionDetailCtrl as vm'
+                    }
+                }
+            })
+            .state('app.avalancheregionproblem', {
+                url: '/avalancheregion/problem/:regionId',
+                params : { problem: null },
+                views: {
+                    'menuContent': {
+                        templateUrl: 'app/avalancheregion/problem/avalancheregionproblem.html',
+                        controller: 'AvalancheRegionProblemCtrl as vm'
                     }
                 }
             })

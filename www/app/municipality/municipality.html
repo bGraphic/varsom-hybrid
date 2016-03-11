@@ -1,41 +1,53 @@
 <ion-view view-title="{{::vm.mun['name']}}">
     <ion-content delegate-handle="mainScroll">
-        
-        <div class="list">
+
+        <div class="detail list">
             <div ng-repeat="num in ::[0,1,2]">
             <div class="item item-divider" id="{{vm.mun.municipalityId}}day{{num}}">
-                {{::appVm.text['days'][vm.days[num].getDay()]}} {{vm.days[num].toLocaleDateString()}}
+                {{::appVm.text['daysFull'][vm.days[num].getDay()]}} {{vm.days[num].toLocaleDateString()}}
             </div>
-            <div class="row item item-icon-right">
-                <div class="col col-20 text-center col-center">
+            <a class="item item-complex item-icon-right" href="" ui-sref="app.municipalitydetail({forecast:vm.floodForecast[num]})">
+                <div class="row row-no-padding" >
+                <div class="col col-center hazard-rating" >
                     <hazard-rating varsom-rating="vm.floodForecast[num].ActivityLevel"></hazard-rating>
                 </div>
-                <div class="col">
+                <div class="col item-content">
                     <h2>{{::appVm.text['flood']}}</h2>
                     <p>
                         {{vm.floodForecast[num].MainText}}
                     </p>
-                    <p>
+                    <p ng-show="vm.floodForecast[num].CauseList.length">
                         {{vm.printCauseList(vm.floodForecast[num].CauseList)}}
                     </p>
-                </div>
+
                 <i class="icon icon-accessory ion-chevron-right"></i>
-            </div>
-            <div class="row item item-icon-right">
-                <div class="col col-20 text-center col-center">
+                </div>
+                </div>
+
+            </a>
+            <a class="item item-complex item-icon-right" href="" ui-sref="app.municipalitydetail({forecast:vm.landslideForecast[num]})">
+                <div class="row row-no-padding">
+                <div class="col col-center hazard-rating">
                     <hazard-rating varsom-rating="vm.landslideForecast[num].ActivityLevel"></hazard-rating>
                 </div>
-                <div class="col">
+                <div class="col item-content">
                     <h2>{{::appVm.text['landslide']}}</h2>
-                    <p>
+                    <p class="">
                         {{vm.landslideForecast[num].MainText}}
                     </p>
-                    <p>
+                    <p ng-show="vm.landslideForecast[num].CauseList.length">
                         {{vm.printCauseList(vm.landslideForecast[num].CauseList)}}
                     </p>
+                    <p ng-show="vm.landslideForecast[num].LandSlideTypeList.length">
+                        {{vm.printCauseList(vm.landslideForecast[num].LandSlideTypeList)}}
+                    </p>
+                    <i class="icon icon-accessory ion-chevron-right"></i>
+
                 </div>
-                <i class="icon icon-accessory ion-chevron-right"></i>
-            </div>
+                </div>
+
+
+            </a>
             </div>
 
         </div>

@@ -8,7 +8,7 @@ angular
         vm.mun = $stateParams.municipality;
 
         var init = function () {
-            vm.mun = $stateParams.municipality;
+
             console.log(vm.mun);
 
             vm.floodForecast = Utility.chooseLanguage(vm.mun.floodWarningForecast);
@@ -39,8 +39,13 @@ angular
 
         $scope.$on('$ionicView.loaded', function() {
             if($stateParams.municipality){
-
+                vm.mun = $stateParams.municipality;
                 init();
+            } else {
+                Municipality.getById($stateParams.municipalityId).$promise.then(function(data){
+                    vm.mun = data.results[0];
+                    init();
+                });
             }
         });
 

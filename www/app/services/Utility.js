@@ -1,18 +1,74 @@
-(function(){
+(function () {
 
-    function Utility(AppSettings){
-        this.chooseLanguage = function(obj){
-            var lang = AppSettings.getLocale()
-            if(obj[lang]){
+    function Utility(AppSettings, Localization) {
+        this.chooseLanguage = function (obj) {
+            var lang = AppSettings.getLocale().value;
+            if(!obj) return;
+            if (obj[lang]) {
                 return obj[lang]
             } else {
                 return obj['no']
             }
-        }
+        };
 
-        this.printCauseList = function(array){
-            return array.join(', ');
-        }
+        this.printCauseList = function (array) {
+            if (angular.isArray(array)) {
+                return array.map(function (elem) {
+                    return elem.Name;
+                }).join(', ');
+            }
+        };
+
+        this.printExpositionList = function (expositionStrings, expositions) {
+            if (!expositions) {
+                return;
+            }
+            var returnValue = [];
+            expositions.split('').forEach(function (val, index) {
+                if (val === '1') {
+                    returnValue.push(expositionStrings[index]);
+                }
+            });
+            console.log(returnValue);
+
+            return returnValue.join(', ');
+
+        };
+
+        this.getDayString = function(day) {
+            if(day){
+                return day.getDate() + '. ' + Localization.getText('months')[day.getMonth()];
+            }
+
+        };
+
+        this.getDayRangeString = function(days){
+            if(days && days.length && days.length >= 3){
+                return this.getDayString(days[0]) + ' - '  + this.getDayString(days[2]);
+            }
+        };
+
+        this.printExposedHeight = function (exposedHeightsStrings, exposedHeightFill, exposedHeight1, exposedHeight2) {
+            return exposedHeightsStrings[exposedHeightFill].replace('%@', exposedHeight1).replace('%@', exposedHeight2);
+        };
+
+        this.getDays = function (forecastObj) {
+            var forecast = this.chooseLanguage(forecastObj);
+
+            var forecastLength = forecast.length;
+            var days = [];
+
+            for (var i = 0; i < forecastLength; i++) {
+                //Get day
+                var forecastDate = new Date(forecast[i].ValidFrom);
+                days.push(forecastDate);
+
+            }
+
+            return days;
+
+        };
+
     }
 
     angular.module('Varsom')

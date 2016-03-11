@@ -1,0 +1,22 @@
+<ion-view>
+    <ion-content padding="true">
+        <div class="padding">
+        <strong ng-bind="vm.forecast.MainText"></strong>
+
+        <h2 ng-show="vm.forecast.AvalancheDanger">{{::appVm.text['skredfare']}}</h2>
+        <p ng-bind="vm.forecast.AvalancheDanger"></p>
+
+        <h2 ng-show="vm.forecast.AvalancheWarning">{{::appVm.text['skredSnoDekke']}}</h2>
+        <p ng-bind="vm.forecast.AvalancheWarning"></p>
+
+        <h2 ng-show="vm.forecast.AlpineWeather">{{::appVm.text['vær']}}</h2>
+        <p ng-bind="vm.forecast.AlpineWeather"></p>
+        </div>
+    </ion-content>
+</ion-view>
+
+<!--
+MainText (bold)
+AvalancheDanger
+AvalancheWarning
+AlpineWeather-->

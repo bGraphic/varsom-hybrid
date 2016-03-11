@@ -1,6 +1,6 @@
 angular
     .module('Varsom')
-    .controller('AvalancheRegionsCtrl', function AvalancheRegionsCtrl($scope, $timeout, $state, $http, $q, $ionicLoading, Localization, LocalStorage, AppSettings, AvalancheRegion) {
+    .controller('AvalancheRegionsCtrl', function AvalancheRegionsCtrl($scope, $ionicLoading, AppSettings, AvalancheRegion, Utility) {
         var vm = this;
 
 
@@ -14,9 +14,11 @@ angular
             //Hide loading when promise is resolved
             AvalancheRegion.allRegions.$promise.then(function(){
                 $ionicLoading.hide();
+                vm.days = Utility.getDays(vm.regions.results[0].avalancheWarningForecast);
             });
 
             vm.regions = AvalancheRegion.allRegions;
+            vm.util = Utility;
 
 
             vm.pullToRefresh = function(){

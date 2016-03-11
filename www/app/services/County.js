@@ -28,6 +28,10 @@ angular
                     var floodForecast = Utility.chooseLanguage(county.floodWarningForecast),
                         landSlideForecast = Utility.chooseLanguage(county.landslideWarningForecast);
 
+                    if(!floodForecast){
+                        floodForecast = [{ActivityLevel: 0},{ActivityLevel: 0},{ActivityLevel: 0}];
+                    }
+
                     var tempBiggestLevel = -1;
 
                     for (var j = floodForecast.length; j--;) {
@@ -41,11 +45,6 @@ angular
                             tempBiggestLevel = curLandSlideLevel;
                         }
 
-                        //Get day
-                        var floodDate = new Date(floodForecast[j].ValidFrom);
-                        var landDate = new Date(landSlideForecast[j].ValidFrom);
-                        floodForecast[j].validDay = floodDate.getDay();
-                        landSlideForecast[j].validDay = landDate.getDay();
                     }
                     county.maxLevel = tempBiggestLevel;
                 });
