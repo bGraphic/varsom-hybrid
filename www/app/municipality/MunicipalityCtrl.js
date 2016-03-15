@@ -30,7 +30,7 @@ angular
 
         };
 
-        vm.printCauseList = Utility.printCauseList;
+        vm.util = Utility;
 
         vm.scrollTo = function(id){
             $location.hash(vm.mun.municipalityId + id);

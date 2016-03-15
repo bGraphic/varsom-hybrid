@@ -23,7 +23,7 @@
         </div>
 
         <div class="list" ng-show="vm.forecast.MicroBlogPostList.length">
-            <div class="item item-divider">Updates</div>
+            <div class="item item-divider">{{::appVm.text['Updates']}}</div>
             <div class="item item-text-wrap" ng-repeat="post in vm.forecast.MicroBlogPostList">
                 <h2>{{post.DateTime | date}}</h2>
                 <p>{{post.Text}}</p>
@@ -33,9 +33,3 @@
     </ion-content>
 </ion-view>
 
-<!--
-MainText
-WarningText
-CauseList
-TypeList (landslide only)
-MicroBlogPostList-->

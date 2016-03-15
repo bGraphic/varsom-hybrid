@@ -41,6 +41,8 @@ angular
                 "days": ["Søn", "Man", "Tir", "Ons", "Tor", "Fre", "Lør"],
                 "daysFull": ["Søndag", "Manda", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag"],
                 "months": ["jan","feb","mar","apr","mai","jun","jul","aug", "sept","okt","nov","des"],
+                "monthsFull": ["januar","februar","mars","april","mai","juni","juli","august", "september","oktober","november","desember"],
+                "Updates": "Oppdateringer",
                 "dummy":"dummy"
             },
             en: {
@@ -77,6 +79,8 @@ angular
                 "days": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
                 "daysFull": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
                 "months": ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug", "Sept","Okt","Nov","Dec"],
+                "monthsFull": ["January","February","March","April","May","June","July","August", "September","October","November","December"],
+                "Updates": "Updates",
                 "dummy":"dummy"
             }
         };

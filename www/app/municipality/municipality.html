@@ -4,7 +4,7 @@
         <div class="detail list">
             <div ng-repeat="num in ::[0,1,2]">
             <div class="item item-divider" id="{{vm.mun.municipalityId}}day{{num}}">
-                {{::appVm.text['daysFull'][vm.days[num].getDay()]}} {{vm.days[num].toLocaleDateString()}}
+                {{::appVm.text['daysFull'][vm.days[num].getDay()]}} {{vm.util.getDayString(vm.days[num], 'monthsFull')}}
             </div>
             <a class="item item-complex item-icon-right" href="" ui-sref="app.municipalitydetail({forecast:vm.floodForecast[num]})">
                 <div class="row row-no-padding" >
@@ -17,7 +17,7 @@
                         {{vm.floodForecast[num].MainText}}
                     </p>
                     <p ng-show="vm.floodForecast[num].CauseList.length">
-                        {{vm.printCauseList(vm.floodForecast[num].CauseList)}}
+                        {{vm.util.printCauseList(vm.floodForecast[num].CauseList)}}
                     </p>
 
                 <i class="icon icon-accessory ion-chevron-right"></i>
@@ -36,10 +36,10 @@
                         {{vm.landslideForecast[num].MainText}}
                     </p>
                     <p ng-show="vm.landslideForecast[num].CauseList.length">
-                        {{vm.printCauseList(vm.landslideForecast[num].CauseList)}}
+                        {{vm.util.printCauseList(vm.landslideForecast[num].CauseList)}}
                     </p>
                     <p ng-show="vm.landslideForecast[num].LandSlideTypeList.length">
-                        {{vm.printCauseList(vm.landslideForecast[num].LandSlideTypeList)}}
+                        {{vm.util.printCauseList(vm.landslideForecast[num].LandSlideTypeList)}}
                     </p>
                     <i class="icon icon-accessory ion-chevron-right"></i>
 

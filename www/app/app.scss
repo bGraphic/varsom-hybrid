@@ -105,7 +105,7 @@ h2.danger-level-name {
 }
 
 .nve-logo {
-    background-image: url("../img/nve-logo.png");
+    background-image: url("../img/nve-logo-bw.png");
     background-repeat: no-repeat;
     background-position: center bottom 50px;
     background-size: 50%;
@@ -121,6 +121,12 @@ h2.danger-level-name {
         }
 
     }
+}
+
+.shadow-top {
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
 }
 
 

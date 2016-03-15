@@ -6,7 +6,7 @@
         <div ng-repeat="num in [0,1,2]">
             <div class="item item-divider" id="{{vm.region.regionId}}day{{num}}">
 
-                {{appVm.text['daysFull'][vm.days[num].getDay()]}} {{vm.util.getDayString(vm.days[num])}}
+                {{appVm.text['daysFull'][vm.days[num].getDay()]}} {{vm.util.getDayString(vm.days[num], 'monthsFull')}}
             </div>
             <a class="item item-complex item-icon-right item-text-wrap" href="" ui-sref="app.avalancheregiondetail({forecast:vm.getAvalancheForecast(num)})">
 

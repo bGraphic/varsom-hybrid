@@ -3,7 +3,7 @@
     function Utility(AppSettings, Localization) {
         this.chooseLanguage = function (obj) {
             var lang = AppSettings.getLocale().value;
-            if(!obj) return;
+            if (!obj) return;
             if (obj[lang]) {
                 return obj[lang]
             } else {
@@ -35,16 +35,20 @@
 
         };
 
-        this.getDayString = function(day) {
-            if(day){
-                return day.getDate() + '. ' + Localization.getText('months')[day.getMonth()];
+        this.getDayString = function (day, localizationKey, skipMonth) {
+            if (day) {
+                return day.getDate() + '.' + (skipMonth ? '' : (' ' + Localization.getText(localizationKey)[day.getMonth()]));
             }
 
         };
 
-        this.getDayRangeString = function(days){
-            if(days && days.length && days.length >= 3){
-                return this.getDayString(days[0]) + ' - '  + this.getDayString(days[2]);
+        this.getDayRangeString = function (days) {
+            var skipMonth = false;
+            if (days && days.length && days.length >= 3) {
+                if (days[0].getMonth() === days[2].getMonth()) {
+                    skipMonth = true;
+                }
+                return this.getDayString(days[0], 'months', skipMonth) + ' - ' + this.getDayString(days[2], 'months');
             }
         };
 

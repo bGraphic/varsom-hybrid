@@ -5,7 +5,7 @@
         </ion-refresher>
 
         <leaflet-map regions="vm.regions" vm="vm" leaflet-id="leaflet-map-avalanche" class="varsom-map">
-            <div class="item item-divider">{{::appVm.text['forecastFor']}} {{vm.chosenRegion.name}}</div>
+            <div class="item item-divider shadow-top">{{vm.chosenRegion.name}} {{vm.util.getDayRangeString(vm.days)}}</div>
             <a class="item item-icon-right item-no-padding" ui-sref="app.avalancheregion({region:vm.chosenRegion, regionId: vm.chosenRegion.regionId})">
                 <avalanche-forecast region="vm.chosenRegion" translations="appVm.text" days="vm.days"></avalanche-forecast>
                 <i class="icon icon-accessory ion-chevron-right"></i>
@@ -13,14 +13,10 @@
         </leaflet-map>
 
         <div class="region list row-no-padding" ng-hide="vm.showList">
-            <div class="item item-divider">
+            <div class="item item-divider shadow-top" ng-show="::vm.regions.results">
                 {{::appVm.text['highestForecast']}} {{vm.util.getDayRangeString(vm.days)}}
             </div>
-            <!--<ion-item class="item-icon-right" ng-repeat="county in ::vm.counties"
-                      ui-sref="county({county:county, countyId: county.countyId})">
-                {{::county.name}}
-                <i class="icon icon-accessory ion-chevron-right"></i>
-            </ion-item>-->
+
             <a class="item item-icon-right row-no-padding" ng-repeat="region in ::vm.regions.results" ui-sref="app.avalancheregion({region:region, regionId: region.regionId})">
                 <hazard-rating varsom-rating="::region.maxLevel"></hazard-rating>
                 <span class="varsom-warning-text" ng-bind="::region.name"></span>

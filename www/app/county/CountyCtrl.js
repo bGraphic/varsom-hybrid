@@ -30,10 +30,15 @@ angular
             vm.clickMap = function (event, county, layer) {
                 event.originalEvent.preventDefault();
 
+
             };
 
             vm.pullToRefresh = function () {
                 init();
+                County.getById($stateParams.countyId).$promise.then(function(data){
+                    vm.county = data.results[0];
+                    vm.days = Utility.getDays(vm.county.floodWarningForecast);
+                });
             };
 
             if($stateParams.county){
