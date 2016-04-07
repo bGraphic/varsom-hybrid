@@ -1,7 +1,7 @@
 <ion-view  view-title="{{::vm.region['name']}}">
     <ion-content>
 
-        <div class="detail list">
+        <div class="avalanche-region list">
         <div class="single-day" ng-repeat="num in [0,1,2]">
             <div class="item item-divider" id="{{vm.region.regionId}}day{{num}}">
                 {{appVm.text['daysFull'][vm.days[num].getDay()]}} {{vm.util.getDayString(vm.days[num], 'monthsFull')}}

@@ -106,6 +106,23 @@ ul.problem {
     .varsom-label {
         margin-right: $item-padding/2;
     }
+}
+
+.municipality.list {
+    .item {
+        display: flex;
+
+        .varsom-label {
+            margin-right: $item-padding;
+        }
+    }
+}
+
+.avalanche-region.list {
+
+    .varsom-label {
+        margin-right: $item-padding/2;
+    }
 
     .warning-level {
         h1 {
@@ -127,6 +144,12 @@ ul.problem {
                 margin-bottom: $item-padding/2;
             }
         }
+    }
+}
+
+.warning-details {
+    section {
+        margin-bottom: $content-padding;
     }
 }
 

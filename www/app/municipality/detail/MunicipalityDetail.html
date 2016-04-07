@@ -1,9 +1,13 @@
 <ion-view>
-    <ion-content padding="true">
-        <div class="padding">
-        <strong ng-bind="vm.forecast.MainText"></strong>
-        <p ng-bind="vm.forecast.WarningText"></p>
-        </div>
+    <ion-content padding="true" class="warning-details">
+
+        <section>
+            <header>
+                <p ng-bind="vm.forecast.MainText"></p>
+            </header>
+
+            <p ng-bind="vm.forecast.WarningText"></p>
+        </section>
 
         <div class="list" ng-show="vm.forecast.CauseList.length">
             <div class="item item-divider">{{::appVm.text['problems']}}</div>
@@ -13,7 +17,6 @@
 
             </div>
         </div>
-
 
         <div class="list" ng-show="vm.forecast.LandSlideTypeList.length">
             <div class="item item-divider">{{::appVm.text['landslideType']}}</div>
