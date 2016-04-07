@@ -1,6 +1,22 @@
 $varsom-label-size: 35px;
 $varsom-label-text-size: 20px;
 
+p {
+    .item & {
+        color: $base-color;
+    }
+
+    header & {
+        font-size: 120%;
+    }
+}
+
+section {
+    .warning-details & {
+        margin-bottom: $content-padding;
+    }
+}
+
 .scroll {
     position: absolute;
     top: 0;
@@ -14,18 +30,21 @@ $varsom-label-text-size: 20px;
     transform: translatez(0);
 }
 
-p {
-    .item & {
-        color: $base-color;
-    }
+.nve-logo {
+    background-image: url("../img/nve-logo-bw.png");
+    background-repeat: no-repeat;
+    background-position: center bottom 50px;
+    background-size: 50%;
 
-    header & {
-        font-size: 120%;
-    }
 }
 
-span.varsom-label {
-    //position: absolute;
+.shadow-top {
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+}
+
+.varsom-label {
     display: inline-block;
     width: $varsom-label-size;
     height: $varsom-label-size;
@@ -35,6 +54,72 @@ span.varsom-label {
     font-weight: bold;
     pointer-events: none;
     text-align: center;
+}
+
+.varsom-map-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+
+    background-color: rgba(255,255,255,0.8);
+    //transform: translateY(50px);
+    max-height: 50%;
+
+    h3 {
+        padding-left: 20px;
+        display: inline-block;
+        margin: 0;
+    }
+
+
+    &.ng-hide-add {
+        transition:0.2s ease-in all;
+        transform: translateY(0);
+        opacity: 0.8;
+    }
+    &.ng-hide-add-active {
+        transform: translateY(200px);
+        opacity: 0;
+    }
+
+    /* The finishing CSS styles for the enter animation */
+    &.ng-hide-remove {
+        transition:0.2s ease-out all;
+        transform: translateY(200px);
+        opacity: 0;
+    }
+    &.ng-hide-remove-active {
+        transform: translateY(0);
+        opacity: 0.8;
+    }
+}
+
+.varsom-map {
+    position: absolute;
+    height:100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.varsom-cause {
+    min-height: 70px;
+    padding-bottom: 8px;
+    &.item-thumbnail-left {
+        padding-left: 80px;
+        img {
+            max-height: 50px;
+            max-width: 50px;
+        }
+    }
+    h2 {
+        font-size: 20px;
+        line-height: 50px;
+
+    }
 }
 
 ul.problem {
@@ -147,12 +232,6 @@ ul.problem {
     }
 }
 
-.warning-details {
-    section {
-        margin-bottom: $content-padding;
-    }
-}
-
 .varsom-menu {
     display: block;
     padding: 30px;
@@ -196,20 +275,6 @@ ul.problem {
     }
 }
 
-.nve-logo {
-    background-image: url("../img/nve-logo-bw.png");
-    background-repeat: no-repeat;
-    background-position: center bottom 50px;
-    background-size: 50%;
-
-}
-
-.shadow-top {
-    box-shadow: 0 0 5px rgba(0,0,0,0.3);
-    -webkit-transform: translate3d(0,0,0);
-    transform: translate3d(0,0,0);
-}
-
 
 /**
  * This CSS uses adjacent selectors instead of general sibling (~) selectors
@@ -227,72 +292,4 @@ ul.problem {
     /* show the checkmark icon when its checked */
     visibility: visible;
 
-}
-
-.varsom-map-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1;
-
-    background-color: rgba(255,255,255,0.8);
-    //transform: translateY(50px);
-    max-height: 50%;
-
-    h3 {
-        padding-left: 20px;
-        display: inline-block;
-        margin: 0;
-    }
-
-
-    &.ng-hide-add {
-        transition:0.2s ease-in all;
-        transform: translateY(0);
-        opacity: 0.8;
-    }
-    &.ng-hide-add-active {
-        transform: translateY(200px);
-        opacity: 0;
-    }
-
-    /* The finishing CSS styles for the enter animation */
-    &.ng-hide-remove {
-        transition:0.2s ease-out all;
-        transform: translateY(200px);
-        opacity: 0;
-    }
-    &.ng-hide-remove-active {
-        transform: translateY(0);
-        opacity: 0.8;
-    }
-
-
-}
-
-.varsom-map {
-    position: absolute;
-    height:100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-}
-
-.varsom-cause {
-    min-height: 70px;
-    padding-bottom: 8px;
-    &.item-thumbnail-left {
-        padding-left: 80px;
-        img {
-            max-height: 50px;
-            max-width: 50px;
-        }
-    }
-    h2 {
-        font-size: 20px;
-        line-height: 50px;
-
-    }
 }
