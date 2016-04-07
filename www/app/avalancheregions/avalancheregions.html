@@ -5,7 +5,7 @@
         </ion-refresher>
 
         <leaflet-map regions="vm.regions" vm="vm" leaflet-id="leaflet-map-avalanche" class="varsom-map">
-            <div class="list">
+            <div class="overview list">
                 <div class="item item-divider shadow-top">{{vm.chosenRegion.name}} {{vm.util.getDayRangeString(vm.days)}}</div>
                 <a class="item item-icon-right item-no-padding" ui-sref="app.avalancheregion({region:vm.chosenRegion, regionId: vm.chosenRegion.regionId})">
                     <avalanche-forecast region="vm.chosenRegion" translations="appVm.text" days="vm.days"></avalanche-forecast>
