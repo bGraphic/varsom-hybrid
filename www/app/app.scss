@@ -1,7 +1,27 @@
 $varsom-label-size: 35px;
+$varsom-label-text-size: 20px;
+
+.scroll {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    min-height: 100%;
+}
 
 .leaflet-container {
     transform: translatez(0);
+}
+
+p {
+    .item & {
+        color: $base-color;
+    }
+
+    header & {
+        font-size: 120%;
+    }
 }
 
 span.varsom-label {
@@ -11,48 +31,103 @@ span.varsom-label {
     height: $varsom-label-size;
     line-height: $varsom-label-size;
     color: white;
-    font-size: 20px;
+    font-size: $varsom-label-text-size;
     font-weight: bold;
     pointer-events: none;
     text-align: center;
 }
 
-.list {
+ul.problem {
 
-    .item {
-        &.region {
-            .varsom-label {
-                margin: -$item-padding/2;
-                margin-right: $item-padding/2;
-            }
+    li {
+        font-size: $font-size-base;
+        color: $dark;
+        padding: $item-padding/4 0;
+
+        .label {
+            color: $positive;
+            display: inline-block;
+            width: 130px;
+            margin-right: $item-padding/4;
         }
+    }
+}
 
-        .forecast-widget{
-            margin: -$item-padding/2;
+.has-map.list{
 
-            .forecast {
-                display: inline-flex;
-                margin-left: -$item-padding/4;
-                margin-right:  $item-padding/4;
+    padding-top: 200px;
 
-                .varsom-label {
-                    margin: $item-padding/4 $item-padding/4;
-                }
+    &.ng-hide-add {
+        transition:0.5s ease-in transform;
+        transform: translateY(0);
+        z-index: 2;
+    }
+    &.ng-hide-add-active {
+        transform: translateY(400px);
+        z-index: 2;
+    }
+
+    /* The finishing CSS styles for the enter animation */
+    &.ng-hide-remove {
+        transition:0.5s ease-out transform;
+        transform: translateY(400px);
+        z-index: 2;
+
+    }
+    &.ng-hide-remove-active {
+        transform: translateY(0);
+        z-index: 2;
+
+    }
+}
+
+.overview.list {
+    .varsom-label {
+        margin: -$item-padding/2;
+        margin-right: $item-padding/2;
+    }
+
+    .forecast-widget{
+        margin: -$item-padding/2;
+
+        .forecast {
+            display: inline-flex;
+            margin-left: -$item-padding/4;
+            margin-right:  $item-padding/4;
+
+            .varsom-label {
+                margin: $item-padding/4 $item-padding/4;
             }
         }
     }
 }
 
-h2.danger-level-name {
-    font-size: 12px;
-    text-transform: uppercase;
+.detail.list {
+    .varsom-label {
+        margin-right: $item-padding/2;
+    }
 
+    .warning-level {
+        h1 {
+            display: inline;
+            font-weight: bold;
+            font-size: $varsom-label-text-size;
+            line-height: $varsom-label-size;
+            margin: 0;
+        }
+    }
 
-    padding-bottom: 5px;
-}
+    .problems {
+        padding-bottom: $item-padding;
 
-.scroll {
-    min-height: 100%;
+        .card {
+            margin: 0;
+
+            &:last-child {
+                margin-bottom: $item-padding/2;
+            }
+        }
+    }
 }
 
 .varsom-menu {
@@ -131,14 +206,6 @@ h2.danger-level-name {
 
 }
 
-.scroll{
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
-
 .varsom-map-overlay {
     position: absolute;
     bottom: 0;
@@ -190,34 +257,6 @@ h2.danger-level-name {
     bottom: 0;
 }
 
-.map.list{
-
-    padding-top: 200px;
-
-    &.ng-hide-add {
-        transition:0.5s ease-in transform;
-        transform: translateY(0);
-        z-index: 2;
-    }
-    &.ng-hide-add-active {
-        transform: translateY(400px);
-        z-index: 2;
-    }
-
-    /* The finishing CSS styles for the enter animation */
-    &.ng-hide-remove {
-        transition:0.5s ease-out transform;
-        transform: translateY(400px);
-        z-index: 2;
-
-    }
-    &.ng-hide-remove-active {
-        transform: translateY(0);
-        z-index: 2;
-
-    }
-}
-
 .varsom-cause {
     min-height: 70px;
     padding-bottom: 8px;
@@ -233,9 +272,4 @@ h2.danger-level-name {
         line-height: 50px;
 
     }
-
-}
-
-.padding-right-30 {
-    padding-right: 30px;
 }

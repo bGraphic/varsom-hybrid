@@ -2,7 +2,7 @@
     <ion-content id="county_view">
         <ion-refresher pulling-text="{{::appVm.text['pullToRefresh']}}" on-refresh="vm.pullToRefresh()"></ion-refresher>
 
-        <div class="list">
+        <div class="overview list">
             <div class="item item-divider">
                 {{::appVm.text['highestForecast']}} {{vm.util.getDayRangeString(vm.days)}}
             </div>
