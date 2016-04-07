@@ -5,23 +5,16 @@
         <div class="detail list">
         <div ng-repeat="num in [0,1,2]">
             <div class="item item-divider" id="{{vm.region.regionId}}day{{num}}">
-
                 {{appVm.text['daysFull'][vm.days[num].getDay()]}} {{vm.util.getDayString(vm.days[num], 'monthsFull')}}
             </div>
-            <a class="item item-complex item-icon-right item-text-wrap" href="" ui-sref="app.avalancheregiondetail({forecast:vm.getAvalancheForecast(num)})">
-
-
-
-                <div class="row">
-                <div class="col col-center hazard-rating">
-
+            <a class="item item-icon-right item-text-wrap" href="" ui-sref="app.avalancheregiondetail({forecast:vm.getAvalancheForecast(num)})">
+                <header>
                     <hazard-rating varsom-rating="::vm.getAvalancheForecast(num).DangerLevel"></hazard-rating>
-                </div>
-                <div class="col padding-right-30">
-                    <h2 class="danger-level-name">{{vm.getAvalancheForecast(num).DangerLevelName}}</h2>
-                    {{vm.getAvalancheForecastText(num)}}
-                </div>
-                </div>
+                    <h2 class="danger-level-name">
+                        {{vm.getAvalancheForecast(num).DangerLevelName}}
+                    </h2>
+                </header>
+                {{vm.getAvalancheForecastText(num)}}
 
                 <i class="icon icon-accessory ion-chevron-right"></i>
             </a>

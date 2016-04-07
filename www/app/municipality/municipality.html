@@ -7,7 +7,7 @@
                 {{::appVm.text['daysFull'][vm.days[num].getDay()]}} {{vm.util.getDayString(vm.days[num], 'monthsFull')}}
             </div>
             <a class="item item-complex item-icon-right" href="" ui-sref="app.municipalitydetail({forecast:vm.floodForecast[num]})">
-                <div class="row row-no-padding" >
+              <div class="row" >
                 <div class="col col-center hazard-rating" >
                     <hazard-rating varsom-rating="vm.floodForecast[num].ActivityLevel"></hazard-rating>
                 </div>
@@ -22,7 +22,7 @@
 
                 <i class="icon icon-accessory ion-chevron-right"></i>
                 </div>
-                </div>
+              </div>
 
             </a>
             <a class="item item-complex item-icon-right" href="" ui-sref="app.municipalitydetail({forecast:vm.landslideForecast[num]})">
