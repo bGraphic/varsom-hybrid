@@ -4,7 +4,7 @@ angular
 
         var settings = {};
         var locale = {
-            value: undefined,
+            value: 'no',
             available: [
                 {key: 'no', name: 'Norsk'},
                 {key: 'en', name:'English'}

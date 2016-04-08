@@ -14,6 +14,7 @@ angular
             console.log('MUN', vm.municipalities);
             console.log('COUNTY', vm.county);
             vm.days = Utility.getDays(vm.county.floodWarningForecast);
+            vm.util = Utility;
            /* Municipality.listAll(model.county.countyId).then(function (municipalities) {
                 model.municipalities = municipalities;
                 //$ionicLoading.hide();
