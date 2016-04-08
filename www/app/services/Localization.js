@@ -35,7 +35,7 @@ angular
                 "landslideType": "Skredtyper",
                 "flood":"Flom",
                 "forecastFor":"Varsel for",
-                "highestForecast": "Høyeste varsel for",
+                "highestForecast": "Varsel for perioden",
                 "avalancheSeasonStart":"Snøskredsdelen av appen er ikke klar enda.",
                 "beta":"Dette er en testversjon av Varsom og denne siden er ikke ferdig.",
                 "days": ["Søn", "Man", "Tir", "Ons", "Tor", "Fre", "Lør"],

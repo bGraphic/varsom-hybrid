@@ -1,17 +1,15 @@
 <ion-view view-title="{{::vm.mun['name']}}">
     <ion-content delegate-handle="mainScroll">
 
-        <div class="detail list">
+        <div class="municipality list">
             <div ng-repeat="num in ::[0,1,2]">
             <div class="item item-divider" id="{{vm.mun.municipalityId}}day{{num}}">
                 {{::appVm.text['daysFull'][vm.days[num].getDay()]}} {{vm.util.getDayString(vm.days[num], 'monthsFull')}}
             </div>
-            <a class="item item-complex item-icon-right" href="" ui-sref="app.municipalitydetail({forecast:vm.floodForecast[num]})">
-                <div class="row row-no-padding" >
-                <div class="col col-center hazard-rating" >
-                    <hazard-rating varsom-rating="vm.floodForecast[num].ActivityLevel"></hazard-rating>
-                </div>
-                <div class="col item-content">
+            <a class="item item-icon-right item-text-wrap" href="" ui-sref="app.municipalitydetail({forecast:vm.floodForecast[num]})">
+
+                <hazard-rating varsom-rating="vm.floodForecast[num].ActivityLevel"></hazard-rating>
+                <div>
                     <h2>{{::appVm.text['flood']}}</h2>
                     <p>
                         {{vm.floodForecast[num].MainText}}
@@ -19,20 +17,17 @@
                     <p ng-show="vm.floodForecast[num].CauseList.length">
                         {{vm.util.printCauseList(vm.floodForecast[num].CauseList)}}
                     </p>
+                </div>
 
                 <i class="icon icon-accessory ion-chevron-right"></i>
-                </div>
-                </div>
 
             </a>
-            <a class="item item-complex item-icon-right" href="" ui-sref="app.municipalitydetail({forecast:vm.landslideForecast[num]})">
-                <div class="row row-no-padding">
-                <div class="col col-center hazard-rating">
-                    <hazard-rating varsom-rating="vm.landslideForecast[num].ActivityLevel"></hazard-rating>
-                </div>
-                <div class="col item-content">
+            <a class="item item-icon-right" href="" ui-sref="app.municipalitydetail({forecast:vm.landslideForecast[num]})">
+
+                <hazard-rating varsom-rating="vm.landslideForecast[num].ActivityLevel"></hazard-rating>
+                <div>
                     <h2>{{::appVm.text['landslide']}}</h2>
-                    <p class="">
+                    <p>
                         {{vm.landslideForecast[num].MainText}}
                     </p>
                     <p ng-show="vm.landslideForecast[num].CauseList.length">
@@ -44,9 +39,6 @@
                     <i class="icon icon-accessory ion-chevron-right"></i>
 
                 </div>
-                </div>
-
-
             </a>
             </div>
 

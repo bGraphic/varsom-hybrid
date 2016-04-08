@@ -31,15 +31,18 @@ $royal:                           #3E060B !default;
 $dark:                            #444 !default;
 
 
+$content-padding: 20px;
+
 //$font-family-sans-serif: "Lato", sans-serif !default;
-
-
-
-
 
     // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
+
+h1, .h1 { font-size: floor($font-size-base * 2.00); } // ~36px
+h2, .h2 { font-size: floor($font-size-base * 1.70); } // ~24px
+h3, .h3 { font-size: ceil($font-size-base * 1.50); } //
+h4, .h4 { font-size: ceil($font-size-base * 1.25); } // ~18px
 

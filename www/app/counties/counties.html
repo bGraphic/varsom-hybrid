@@ -3,13 +3,15 @@
         <ion-refresher pulling-text="{{appVm.text['pullToRefresh']}}" on-refresh="vm.pullToRefresh()">
         </ion-refresher>
         <leaflet-map regions="vm.regions" vm="vm" leaflet-id="leaflet-map-county">
-            <div class="item item-divider shadow-top">{{vm.chosenRegion.name}} {{vm.util.getDayRangeString(vm.days)}}</div>
-            <a class="item item-icon-right item-no-padding" ui-sref="app.county({county:vm.chosenRegion, countyId: vm.chosenRegion.countyId})">
-                <flood-landslide-forecast county="vm.chosenRegion" translations="appVm.text" days="vm.days"></flood-landslide-forecast>
-                <i class="icon icon-accessory ion-chevron-right"></i>
-            </a>
+            <div class="overview list">
+                <div class="item item-divider shadow-top">{{vm.chosenRegion.name}} {{vm.util.getDayRangeString(vm.days)}}</div>
+                <a class="item item-icon-right" ui-sref="app.county({county:vm.chosenRegion, countyId: vm.chosenRegion.countyId})">
+                    <flood-landslide-forecast county="vm.chosenRegion" translations="appVm.text" days="vm.days"></flood-landslide-forecast>
+                    <i class="icon icon-accessory ion-chevron-right"></i>
+                </a>
+            </div>
         </leaflet-map>
-        <div class="region list row-no-padding" ng-hide="vm.showList">
+        <div class="has-map overview list" ng-hide="vm.showList">
             <div class="item item-divider shadow-top" ng-show="::vm.regions.results">
                 {{::appVm.text['highestForecast']}} {{vm.util.getDayRangeString(vm.days)}}
             </div>
@@ -18,7 +20,7 @@
                 {{::county.name}}
                 <i class="icon icon-accessory ion-chevron-right"></i>
             </ion-item>-->
-            <a class="item item-icon-right row-no-padding" ng-repeat="county in ::vm.regions.results" ui-sref="app.county({county:county, countyId: county.countyId})">
+            <a class="item region item-icon-right" ng-repeat="county in ::vm.regions.results" ui-sref="app.county({county:county, countyId: county.countyId})">
                 <hazard-rating varsom-rating="::county.maxLevel"></hazard-rating>
                 <span class="varsom-warning-text" ng-bind="::county.name"></span>
 
