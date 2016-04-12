@@ -14,7 +14,9 @@
                 {{::appVm.text['municipalities']}}
             </div>
             <a class="item region item-icon-right" ng-repeat="mun in ::vm.municipalities.results" ui-sref="app.municipality({municipality: mun, municipalityId: mun.municipalityId})">
-                <hazard-rating varsom-rating="mun.maxLevel"></hazard-rating>
+                <hazard-rating varsom-rating="mun.maxLevels[0]"></hazard-rating>
+                <hazard-rating varsom-rating="mun.maxLevels[1]"></hazard-rating>
+                <hazard-rating varsom-rating="mun.maxLevels[2]"></hazard-rating>
                 <span class="varsom-warning-text" ng-bind="::mun.name"></span>
                 <i class="icon icon-accessory ion-chevron-right"></i>
             </a>

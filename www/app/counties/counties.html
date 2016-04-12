@@ -20,8 +20,10 @@
                 {{::county.name}}
                 <i class="icon icon-accessory ion-chevron-right"></i>
             </ion-item>-->
-            <a class="item region item-icon-right" ng-repeat="county in ::vm.regions.results" ui-sref="app.county({county:county, countyId: county.countyId})">
-                <hazard-rating varsom-rating="::county.maxLevel"></hazard-rating>
+            <a class="item region item-icon-right" ng-repeat="county in ::vm.regions.results" ng-click="vm.goToCounty(county)" href="">
+                <hazard-rating varsom-rating="::county.maxLevels[0]"></hazard-rating>
+                <hazard-rating varsom-rating="::county.maxLevels[1]"></hazard-rating>
+                <hazard-rating varsom-rating="::county.maxLevels[2]"></hazard-rating>
                 <span class="varsom-warning-text" ng-bind="::county.name"></span>
 
                 <i class="icon icon-accessory ion-chevron-right"></i>

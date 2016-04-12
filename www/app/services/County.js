@@ -32,21 +32,25 @@ angular
                         floodForecast = [{ActivityLevel: 0},{ActivityLevel: 0},{ActivityLevel: 0}];
                     }
 
-                    var tempBiggestLevel = -1;
+                    var totalBiggestLevel = -1;
 
-                    for (var j = floodForecast.length; j--;) {
+                    county.maxLevels = [];
+
+                    for (var j = 0; j < floodForecast.length; j++) {
                         var curFloodLevel = floodForecast[j].ActivityLevel,
                             curLandSlideLevel = landSlideForecast[j].ActivityLevel;
 
-                        if (curFloodLevel > tempBiggestLevel){
-                            tempBiggestLevel = curFloodLevel;
+                        if (curFloodLevel > totalBiggestLevel){
+                            totalBiggestLevel = curFloodLevel;
                         }
-                        if (curLandSlideLevel > tempBiggestLevel){
-                            tempBiggestLevel = curLandSlideLevel;
+                        if (curLandSlideLevel > totalBiggestLevel){
+                            totalBiggestLevel = curLandSlideLevel;
                         }
 
+                        county.maxLevels.push(Math.max(curFloodLevel,curLandSlideLevel));
+
                     }
-                    county.maxLevel = tempBiggestLevel;
+                    county.maxLevel = totalBiggestLevel;
                 });
             });
             return County.allCounties.$promise;

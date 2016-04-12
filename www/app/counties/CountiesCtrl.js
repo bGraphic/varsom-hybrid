@@ -28,7 +28,15 @@ angular
                     .then(function(){
                         $scope.$broadcast('scroll.refreshComplete');
                     });
-            }
+            };
+
+            vm.goToCounty = function(county){
+                if(county.countyId !== '03'){
+                    $state.go('app.county', {county:county, countyId: county.countyId});
+                } else {
+                    $state.go('app.municipality', {municipalityId: '0301'});
+                }
+            };
 
 
         });

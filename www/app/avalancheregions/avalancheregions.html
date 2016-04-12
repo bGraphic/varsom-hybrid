@@ -20,7 +20,9 @@
             </div>
 
             <a class="item region item-icon-right" ng-repeat="region in ::vm.regions.results" ui-sref="app.avalancheregion({region:region, regionId: region.regionId})">
-                <hazard-rating varsom-rating="::region.maxLevel"></hazard-rating>
+                <hazard-rating varsom-rating="::vm.util.chooseLanguage(region.avalancheWarningForecast)[0].DangerLevel"></hazard-rating>
+                <hazard-rating varsom-rating="::vm.util.chooseLanguage(region.avalancheWarningForecast)[1].DangerLevel"></hazard-rating>
+                <hazard-rating varsom-rating="::vm.util.chooseLanguage(region.avalancheWarningForecast)[2].DangerLevel"></hazard-rating>
                 <span class="varsom-warning-text" ng-bind="::region.name"></span>
 
                 <i class="icon icon-accessory ion-chevron-right"></i>

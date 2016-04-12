@@ -40,6 +40,12 @@ angular
                                 landslideWarnings[2].ActivityLevel
                             );
 
+                            arr[i].maxLevels = [
+                                Math.max(floodWarnings[0].ActivityLevel,landslideWarnings[0].ActivityLevel),
+                                Math.max(floodWarnings[1].ActivityLevel,landslideWarnings[1].ActivityLevel),
+                                Math.max(floodWarnings[2].ActivityLevel,landslideWarnings[2].ActivityLevel)
+                            ];
+
                         }
                     }
 
