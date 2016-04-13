@@ -1,17 +1,16 @@
 <div class="forecast-widget">
-    <span class="forecast">
+    <div class="forecast">
         <hazard-rating  varsom-rating="floodWarningForecast[0].ActivityLevel"></hazard-rating>
         <hazard-rating  varsom-rating="floodWarningForecast[1].ActivityLevel"></hazard-rating>
         <hazard-rating  varsom-rating="floodWarningForecast[2].ActivityLevel"></hazard-rating>
-    </span>
-    <span class="forecast-type">{{::translations['flood']}}</span>
-    <br>
-    <span class="forecast">
+
+    	<span class="varsom-warning-text">{{::translations['flood']}}</span>
+	</div>
+    <div class="forecast">
         <hazard-rating  varsom-rating="landslideWarningForecast[0].ActivityLevel"></hazard-rating>
         <hazard-rating  varsom-rating="landslideWarningForecast[1].ActivityLevel"></hazard-rating>
         <hazard-rating  varsom-rating="landslideWarningForecast[2].ActivityLevel"></hazard-rating>
-    </span>
-    <span class="forecast-type">{{::translations['landslide']}}</span>
+
+    	<span class="varsom-warning-text">{{::translations['landslide']}}</span>
+	</div>
 </div>
-
-
