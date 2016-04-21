@@ -3,7 +3,7 @@
  */
 angular
     .module('Varsom')
-    .controller('AvalancheRegionCtrl', function AvalancheRegionCtrl($scope, $location, $ionicScrollDelegate, $ionicLoading, $stateParams, AvalancheRegion,Utility) {
+    .controller('AvalancheRegionCtrl', function AvalancheRegionCtrl($scope, $location, $ionicScrollDelegate, $ionicLoading, $stateParams, AvalancheRegion,Localization, Utility) {
         var vm = this;
         vm.region = $stateParams.region;
         vm.days = [];
@@ -34,6 +34,14 @@ angular
                     return forecast.AvalancheDanger;
                 }
             }
+
+        };
+
+        vm.getDangerLevelName = function(num){
+            var forecast = vm.getAvalancheForecast(num);
+            if(forecast && forecast.DangerLevelName)
+                return forecast.DangerLevelName.replace(/[0-9] /, '');
+            else return Localization.getText('ukjent');
 
         };
 

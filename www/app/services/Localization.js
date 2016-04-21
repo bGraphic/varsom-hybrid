@@ -8,6 +8,7 @@ angular
 
         var translations = {
             no: {
+                "ukjent": "Ukjent",
                 "Skredtype": "Skredtype",
                 "skredfare": "Skredfare",
                 "advice": "Råd",
@@ -46,6 +47,7 @@ angular
                 "dummy":"dummy"
             },
             en: {
+                "ukjent": "Unknown",
                 "Skredtype": "Avalanche type",
                 "skredfare": "Avalanche danger",
                 "advice": "Advice",

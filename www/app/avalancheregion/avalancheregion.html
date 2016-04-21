@@ -9,7 +9,7 @@
             <div class="item warning-level" href="" ui-sref="app.avalancheregiondetail({forecast:vm.getAvalancheForecast(num)})">
                 <hazard-rating varsom-rating="::vm.getAvalancheForecast(num).DangerLevel"></hazard-rating>
                 <h1>
-                    {{vm.getAvalancheForecast(num).DangerLevelName}}
+                    {{vm.getDangerLevelName(num)}} {{::(appVm.text['skredfare'] | lowercase)}}
                 </h1>
             </div>
             <a class="item warning-text item-icon-right item-text-wrap" href="" ui-sref="app.avalancheregiondetail({forecast:vm.getAvalancheForecast(num)})">
@@ -24,7 +24,7 @@
                     <a class="item item-text-wrap item-icon-right paspaning-right-30" ng-repeat="problem in vm.getAvalancheForecast(num).AvalancheProblems" href="" ui-sref="app.avalancheregionproblem({problem: problem})">
 
                         <header>
-                            <h2>{{problem.AvalancheProblemTypeName}}</h2>
+                            <h2>{{problem.AvalancheProblemTypeName}} - {{::vm.util.printExposedHeight(appVm.text['exposedHeights'],problem.ExposedHeightFill,problem.ExposedHeight1,problem.ExposedHeight2)}}</h2>
                             <p>{{problem.AvalCauseName}}</p>
                         </header>
 
