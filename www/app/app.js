@@ -85,7 +85,7 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
                 }
             })
             .state('app.municipalitydetail', {
-                url: '/municipality/detail/:municipalityId/:type/:forecastNumber',
+                url: '/municipality/detail/:municipalityId?/:type?/:forecastNumber?',
                 params : { forecast: null },
                 views: {
                     'menuContent': {
