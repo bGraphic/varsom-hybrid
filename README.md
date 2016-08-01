@@ -23,6 +23,7 @@ After you have installed latest version of [node.js](https://nodejs.org/en/), bo
 1. Clone the repo `git clone https://github.com/bgraphic/varsom-hybrid`
 2. Add environment variables file(s)
 3. Run `npm install`
+4. Install bower dependencies `bower install`
 
 ### Environment variables file `config.keys.js`
 Add a file `config.keys.js` under `www/app/`
