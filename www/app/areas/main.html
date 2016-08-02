@@ -1,0 +1,11 @@
+<ion-view view-title="{{appVm.text['avalanche']}}">
+
+    <ion-content>
+        <ion-refresher pulling-text="{{appVm.text['pullToRefresh']}}" on-refresh="areasVm.pullToRefresh()">
+        </ion-refresher>
+
+        <ui-view name="map"></ui-view>
+        <ui-view name="list" ng-hide="areasVm.showList"></ui-view>
+
+    </ion-content>
+</ion-view>

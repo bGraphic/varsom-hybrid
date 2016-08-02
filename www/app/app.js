@@ -1,8 +1,12 @@
 "use strict";
-angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytics', 'ionic.service.deploy', 'ngResource', 'ngCordova'])
+angular.module('Varsom.Areas', ['ionic']);
 
-    .controller('AppCtrl', function ($scope, $ionicHistory, $ionicSideMenuDelegate, Localization, Area) {
+angular.module('Varsom', ['Varsom.Areas', 'ionic', 'ionic.service.core', 'ionic.service.analytics', 'ionic.service.deploy', 'ngResource', 'ngCordova'])
+
+    .controller('AppCtrl', function ($scope, $ionicHistory, $ionicSideMenuDelegate, Localization, Utility) {
         var appVm = this;
+
+        appVm.util = Utility;
 
         $scope.$on('$ionicView.loaded', function () {
             appVm.text = Localization.getTranslations();
@@ -45,25 +49,43 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
             $ionicConfigProvider.scrolling.jsScrolling(false);
         }
 
-        $urlRouterProvider.otherwise(
-            AppSettingsProvider.getDefaultView()
-        );
+        $urlRouterProvider.otherwise('/counties');
+
         $stateProvider
             .state('app', {
-                url: '/app',
                 abstract: true,
                 templateUrl: 'app/app.html',
                 controller: 'AppCtrl as appVm'
             })
-            .state('app.counties', {
-                url: '/counties',
+            .state('app.areas', {
                 views: {
                     'menuContent': {
-                        templateUrl: 'app/counties/counties.html',
-                        controller: 'CountiesCtrl as vm'
+                        templateUrl: 'app/areas/main.html',
+                        controller: 'AreasMainCtrl as mainVm'
                     }
                 }
-
+            })
+            .state('app.areas.counties', {
+                url: '/counties',
+                views: {
+                    'map': {
+                        templateUrl: 'app/areas/map.html',
+                        controller: 'AreasMapCtrl as mapVm'
+                    },
+                    'list': {
+                        templateUrl: 'app/areas/list.html',
+                        controller: 'AreasListCtrl as listVm'
+                    }
+                },
+                resolve: {
+                    areas: function (Area, $ionicLoading) {
+                        $ionicLoading.show();
+                        return Area.getCounties().then(function (areas) {
+                            $ionicLoading.hide();
+                            return areas;
+                        });
+                    }
+                }
             })
             .state('app.county', {
                 url: '/county/:countyId',

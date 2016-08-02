@@ -17,17 +17,19 @@ angular
         }
 
         function loadAreas(areaType, parent) {
-            appstax.findAll(areaType).then(function (areas) {
+            return appstax.findAll(areaType).then(function (areas) {
                 storage[areaType] = areas;
-                console.log("Areas ", areas);
+                console.log("Loaded areas of type " + areaType + ": ", areas);
+                return storage[areaType];
             });
         }
 
         function getAreas(areaType, parent) {
             if (storage[areaType].length == 0) {
-                loadAreas(areaType, parent);
+                return loadAreas(areaType, parent);
+            } else {
+                return storage[areaType];
             }
-            return storage[areaType];
         }
 
         this.setAppKey = function (appKey) {
@@ -45,13 +47,13 @@ angular
         this.$get = function () {
             return {
                 getCounties: function () {
-                    getAreas('counties');
+                    return getAreas('counties');
                 },
                 getMunicipalitiesForCounty: function (county) {
-                    getAreas('municipalities', county);
+                    return getAreas('municipalities', county);
                 },
                 getRegions: function () {
-                    getAreas('regions');
+                    return getAreas('regions');
                 }
             };
         }
