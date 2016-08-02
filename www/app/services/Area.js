@@ -15,7 +15,6 @@ angular
             if (parentId) {
                 return storage[areaType + parentId];
             } else {
-                console.log("Returning storage " + areaType, storage[areaType]);
                 return storage[areaType];
             }
         }
@@ -30,16 +29,13 @@ angular
             }
 
             return appstax.findAll(areaType, options).then(function (areas) {
-                console.log("Loaded Areas: ", areas)
                 setAreas(areas, areaType, parentId);
                 return getAreas(areaType, parentId);
             });
         }
 
         this.setAppKey = function (appKey) {
-            console.log("Setting app key ", appKey);
             appstax.init(appKey);
-            console.log("Appstax ", appstax);
         };
 
         var storage = {};
@@ -53,14 +49,11 @@ angular
                     }
 
                     if (!getAreas(areaType, parentId)) {
-                        console.log("load areas");
                         return loadAreas(areaType, parentId);
                     } else {
-                        console.log("get areas directly ", getAreas(areaType, parentId));
                         var defer;
                         defer = $q.defer();
-                        defer.resolve(getAreas(areaType, parentId));
-                        return defer.promise;
+                        return $q.when(getAreas(areaType, parentId));
                     }
                 },
                 isCounty: function (area) {
