@@ -14,7 +14,8 @@
     "angular-ui-router": "0.2.15",
     "leaflet": "~0.7.7",
     "ngCordova": "~0.1.24-alpha",
-    "ionic": "driftyco/ionic-bower#v1.1.1"
+    "ionic": "driftyco/ionic-bower#v1.1.1",
+    "appstax": "~1.5.0"
   },
   "resolutions": {
     "angular": "1.4.7",

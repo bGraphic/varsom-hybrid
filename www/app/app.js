@@ -1,7 +1,7 @@
 "use strict";
 angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics', 'ionic.service.deploy', 'ngResource', 'ngCordova'])
 
-    .controller('AppCtrl', function($scope, $ionicHistory, $ionicSideMenuDelegate, Localization){
+    .controller('AppCtrl', function($scope, $ionicHistory, $ionicSideMenuDelegate, Localization, Area) {
         var appVm = this;
 
         $scope.$on('$ionicView.loaded', function() {
@@ -26,7 +26,7 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
     /**
      * State configuration
      */
-    .config(function($stateProvider, $urlRouterProvider, $ionicAppProvider, $ionicConfigProvider, AppSettingsProvider, AppKeys) {
+    .config(function($stateProvider, $urlRouterProvider, $ionicAppProvider, $ionicConfigProvider, AppSettingsProvider, AppKeys, AreaProvider) {
 
 
         $ionicAppProvider.identify({
@@ -38,6 +38,8 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
             "X-Parse-Application-Id": AppKeys.parse.appId,
             "X-Parse-REST-API-Key": AppKeys.parse.restKey
         });
+
+        AreaProvider.setAppKey(AppKeys.appstax.appKey);
 
         if (ionic.Platform.isAndroid()) {
            $ionicConfigProvider.scrolling.jsScrolling(false);
