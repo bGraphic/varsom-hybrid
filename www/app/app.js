@@ -28,16 +28,15 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
      */
     .config(function($stateProvider, $urlRouterProvider, $ionicAppProvider, $ionicConfigProvider, AppSettingsProvider, AppKeys) {
 
-        var ENV = 'varsom-new-cloud';
 
         $ionicAppProvider.identify({
-            app_id: 'f11eace1',
-            api_key: '2db186347847c5d1e3dacea7bd2d1cc5465980bf2cfff335'
+            app_id: AppKeys.ionic.appId,
+            api_key: AppKeys.ionic.appKey
         });
 
         AppSettingsProvider.setParseApiHeader({
-            "X-Parse-Application-Id": AppKeys[ENV].appId,
-            "X-Parse-REST-API-Key": AppKeys[ENV].restKey
+            "X-Parse-Application-Id": AppKeys.parse.appId,
+            "X-Parse-REST-API-Key": AppKeys.parse.restKey
         });
 
         if (ionic.Platform.isAndroid()) {
