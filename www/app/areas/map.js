@@ -1,5 +1,5 @@
 angular
-    .module('Varsom.Areas')
+    .module('Varsom')
     .controller('AreasMapCtrl', function ($scope, $ionicLoading) {
 
 

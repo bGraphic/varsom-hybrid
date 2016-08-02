@@ -2,34 +2,38 @@ angular
     .module('Varsom')
     .provider('Area', function () {
 
-        function getId(area) {
-            if (area.hasOwnProperty('countyId')) {
-                return area.countyId;
-            }
-
-            if (area.hasOwnProperty('regionId')) {
-                return area.regionId;
-            }
-
-            if (area.hasOwnProperty('municipalityId')) {
-                return area.municipalityId;
-            }
-        }
-
-        function loadAreas(areaType, parent) {
-            return appstax.findAll(areaType).then(function (areas) {
-                storage[areaType] = areas;
-                console.log("Loaded areas of type " + areaType + ": ", areas);
-                return storage[areaType];
-            });
-        }
-
-        function getAreas(areaType, parent) {
-            if (storage[areaType].length == 0) {
-                return loadAreas(areaType, parent);
+        function setAreas(areas, areaType, parentId) {
+            if (parentId) {
+                storage[areaType + parentId] = areas;
             } else {
+                storage[areaType] = areas;
+            }
+        }
+
+        function getAreas(areaType, parentId) {
+            console.log("Storage", storage);
+            if (parentId) {
+                return storage[areaType + parentId];
+            } else {
+                console.log("Returning storage " + areaType, storage[areaType]);
                 return storage[areaType];
             }
+        }
+
+        function loadAreas(areaType, parentId) {
+            var options = {};
+
+            if (parentId && areaType == "municipalities") {
+                options = {
+                    countyId: parentId
+                }
+            }
+
+            return appstax.findAll(areaType, options).then(function (areas) {
+                console.log("Loaded Areas: ", areas)
+                setAreas(areas, areaType, parentId);
+                return getAreas(areaType, parentId);
+            });
         }
 
         this.setAppKey = function (appKey) {
@@ -38,22 +42,46 @@ angular
             console.log("Appstax ", appstax);
         };
 
-        var storage = {
-            counties: [],
-            municipalities: [],
-            regions: []
-        }
+        var storage = {};
 
-        this.$get = function () {
+        this.$get = function ($q) {
             return {
-                getCounties: function () {
-                    return getAreas('counties');
+                getAreas: function (areaType, parentId) {
+                    if (parentId && areaType !== "municipalities") {
+                        console.error("Area Service: Only municipalities can have parent id");
+                        parentId = undefined;
+                    }
+
+                    if (!getAreas(areaType, parentId)) {
+                        console.log("load areas");
+                        return loadAreas(areaType, parentId);
+                    } else {
+                        console.log("get areas directly ", getAreas(areaType, parentId));
+                        var defer;
+                        defer = $q.defer();
+                        defer.resolve(getAreas(areaType, parentId));
+                        return defer.promise;
+                    }
                 },
-                getMunicipalitiesForCounty: function (county) {
-                    return getAreas('municipalities', county);
+                isCounty: function (area) {
+                    if (area.hasOwnProperty('countyId') && !area.hasOwnProperty('municipalityId')) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 },
-                getRegions: function () {
-                    return getAreas('regions');
+                getId: function (area) {
+                    if (area.hasOwnProperty('municipalityId')) {
+                        return area.municipalityId;
+                    }
+
+                    if (area.hasOwnProperty('countyId')) {
+                        return area.countyId;
+                    }
+
+                    if (area.hasOwnProperty('regionId')) {
+                        return area.regionId;
+                    }
                 }
             };
         }

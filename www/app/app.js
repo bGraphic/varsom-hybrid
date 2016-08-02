@@ -1,7 +1,5 @@
 "use strict";
-angular.module('Varsom.Areas', ['ionic']);
-
-angular.module('Varsom', ['Varsom.Areas', 'ionic', 'ionic.service.core', 'ionic.service.analytics', 'ionic.service.deploy', 'ngResource', 'ngCordova'])
+angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytics', 'ionic.service.deploy', 'ngResource', 'ngCordova'])
 
     .controller('AppCtrl', function ($scope, $ionicHistory, $ionicSideMenuDelegate, Localization, Utility) {
         var appVm = this;
@@ -49,7 +47,7 @@ angular.module('Varsom', ['Varsom.Areas', 'ionic', 'ionic.service.core', 'ionic.
             $ionicConfigProvider.scrolling.jsScrolling(false);
         }
 
-        $urlRouterProvider.otherwise('/counties');
+        $urlRouterProvider.otherwise('/areas/counties');
 
         $stateProvider
             .state('app', {
@@ -65,8 +63,8 @@ angular.module('Varsom', ['Varsom.Areas', 'ionic', 'ionic.service.core', 'ionic.
                     }
                 }
             })
-            .state('app.areas.counties', {
-                url: '/counties',
+            .state('app.areas.main', {
+                url: '/areas/:areaType?:parentId',
                 views: {
                     'map': {
                         templateUrl: 'app/areas/map.html',
@@ -78,10 +76,11 @@ angular.module('Varsom', ['Varsom.Areas', 'ionic', 'ionic.service.core', 'ionic.
                     }
                 },
                 resolve: {
-                    areas: function (Area, $ionicLoading) {
+                    areas: function ($stateParams, $ionicLoading, Area) {
                         $ionicLoading.show();
-                        return Area.getCounties().then(function (areas) {
+                        return Area.getAreas($stateParams.areaType, $stateParams.parentId).then(function (areas) {
                             $ionicLoading.hide();
+                            console.log("Resolve ", areas)
                             return areas;
                         });
                     }
