@@ -11,7 +11,6 @@ angular
         }
 
         function getAreas(areaType, parentId) {
-            console.log("Storage", storage);
             if (parentId) {
                 return storage[areaType + parentId];
             } else {
@@ -58,6 +57,20 @@ angular
                 },
                 isCounty: function (area) {
                     if (area.hasOwnProperty('countyId') && !area.hasOwnProperty('municipalityId')) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                },
+                isMunicipality: function (area) {
+                    if (area.hasOwnProperty('municipalityId')) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                },
+                isRegion: function (area) {
+                    if (area.hasOwnProperty('regionId')) {
                         return true;
                     } else {
                         return false;

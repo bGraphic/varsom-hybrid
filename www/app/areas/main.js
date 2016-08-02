@@ -8,6 +8,14 @@ angular
                 $state.go('app.areas.main', {areaType: "municipalities", parentId: Area.getId(area)});
             }
 
+            if (Area.isMunicipality(area)) {
+                //TODO: Add state transistion for selected municipality
+            }
+
+            if (Area.isRegion(area)) {
+                //TODO: Add state transistion for selected region
+            }
+
         };
 
     });
