@@ -56,10 +56,25 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
                 controller: 'AppCtrl as appVm'
             })
             .state('app.areas', {
+                abstract: true,
+                params: {
+                    areaType: null,
+                    parentId: null
+                },
                 views: {
                     'menuContent': {
                         templateUrl: 'app/areas/main.html',
                         controller: 'AreasMainCtrl as mainVm'
+                    }
+
+                },
+                resolve: {
+                    titleKey: function ($stateParams) {
+                        if ($stateParams.areaType == "regions") {
+                            return "avalanche";
+                        } else {
+                            return "landslide-flood";
+                        }
                     }
                 }
             })

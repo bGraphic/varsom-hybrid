@@ -1,8 +1,12 @@
 angular
     .module('Varsom')
-    .controller('AreasMainCtrl', function ($scope, $state, $ionicLoading, Area) {
+    .controller('AreasMainCtrl', function ($scope, $state, $ionicLoading, Area, titleKey) {
 
-        this.goToArea = function (area) {
+        var vm = this;
+
+        vm.titleKey = titleKey;
+
+        vm.goToArea = function (area) {
 
             if (Area.isCounty(area)) {
                 $state.go('app.areas.main', {areaType: "municipalities", parentId: Area.getId(area)});
