@@ -6,9 +6,13 @@
 
         <leaflet-map regions="vm.regions" vm="vm" leaflet-id="leaflet-map-avalanche" class="varsom-map">
             <div class="overview list">
-                <div class="item item-divider shadow-top">{{vm.chosenRegion.name}} {{vm.util.getDayRangeString(vm.days)}}</div>
-                <a class="item item-icon-right item-no-padding" ui-sref="app.avalancheregion({region:vm.chosenRegion, regionId: vm.chosenRegion.regionId})">
-                    <avalanche-forecast region="vm.chosenRegion" translations="appVm.text" days="vm.days"></avalanche-forecast>
+                <div class="item item-divider shadow-top">{{vm.chosenRegion.name}}
+                    {{vm.util.getDayRangeString(vm.days)}}
+                </div>
+                <a class="item item-icon-right item-no-padding"
+                   ui-sref="app.avalancheregion({region:vm.chosenRegion, regionId: vm.chosenRegion.regionId})">
+                    <avalanche-forecast region="vm.chosenRegion" translations="appVm.text"
+                                        days="vm.days"></avalanche-forecast>
                     <i class="icon icon-accessory ion-chevron-right"></i>
                 </a>
             </div>
@@ -19,10 +23,14 @@
                 {{::appVm.text['highestForecast']}} {{vm.util.getDayRangeString(vm.days)}}
             </div>
 
-            <a class="item region item-icon-right" ng-repeat="region in ::vm.regions.results" ui-sref="app.avalancheregion({region:region, regionId: region.regionId})">
-                <hazard-rating varsom-rating="::vm.util.chooseLanguage(region.avalancheWarningForecast)[0].DangerLevel"></hazard-rating>
-                <hazard-rating varsom-rating="::vm.util.chooseLanguage(region.avalancheWarningForecast)[1].DangerLevel"></hazard-rating>
-                <hazard-rating varsom-rating="::vm.util.chooseLanguage(region.avalancheWarningForecast)[2].DangerLevel"></hazard-rating>
+            <a class="item region item-icon-right" ng-repeat="region in ::vm.regions.results"
+               ui-sref="app.avalancheregion({region:region, regionId: region.regionId})">
+                <hazard-rating
+                        varsom-rating="::vm.util.chooseLanguage(region.avalancheWarningForecast)[0].DangerLevel"></hazard-rating>
+                <hazard-rating
+                        varsom-rating="::vm.util.chooseLanguage(region.avalancheWarningForecast)[1].DangerLevel"></hazard-rating>
+                <hazard-rating
+                        varsom-rating="::vm.util.chooseLanguage(region.avalancheWarningForecast)[2].DangerLevel"></hazard-rating>
                 <span class="varsom-warning-text" ng-bind="::region.name"></span>
 
                 <i class="icon icon-accessory ion-chevron-right"></i>

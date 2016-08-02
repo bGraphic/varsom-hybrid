@@ -7,18 +7,18 @@ angular
                 headers: AppSettings.getParseHeader()
             },
             query: {
-                headers:AppSettings.getParseHeader(),
+                headers: AppSettings.getParseHeader(),
                 params: {
                     where: '@where',
                     order: 'sortOrder', //Ascending
-                    include:'AvalancheWarningForecast'
+                    include: 'AvalancheWarningForecast'
                 }
             }
         });
 
-        AvalancheRegion.refreshAllRegions = function(){
-            AvalancheRegion.allRegions = AvalancheRegion.query(function() {
-                AvalancheRegion.allRegions.results.forEach(function(region){
+        AvalancheRegion.refreshAllRegions = function () {
+            AvalancheRegion.allRegions = AvalancheRegion.query(function () {
+                AvalancheRegion.allRegions.results.forEach(function (region) {
                     console.log(region);
 
                     var warningForecast = Utility.chooseLanguage(region.avalancheWarningForecast);
@@ -38,10 +38,10 @@ angular
             return AvalancheRegion.allRegions.$promise;
         };
 
-        AvalancheRegion.getById = function (regionId){
+        AvalancheRegion.getById = function (regionId) {
 
             return AvalancheRegion.query({
-                where: {'regionId':parseInt(30)}
+                where: {'regionId': parseInt(30)}
             });
         };
 

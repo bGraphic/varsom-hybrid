@@ -11,25 +11,25 @@ angular
                 headers: AppSettings.getParseHeader()
             },
             query: {
-                headers:AppSettings.getParseHeader(),
+                headers: AppSettings.getParseHeader(),
                 params: {
                     where: '@where',
                     order: 'name',
-                    include:'LandSlideWarningForecast,FloodWarningForecast'
+                    include: 'LandSlideWarningForecast,FloodWarningForecast'
                 },
-                transformResponse: function(data, headersGetter){
+                transformResponse: function (data, headersGetter) {
                     var json = angular.fromJson(data);
 
-                    if(angular.isArray(json.results)){
+                    if (angular.isArray(json.results)) {
                         var arr = json.results;
-                        for(var i=0; i < arr.length; i++){
+                        for (var i = 0; i < arr.length; i++) {
                             var floodWarnings = Utility.chooseLanguage(arr[i].floodWarningForecast);
                             var landslideWarnings = Utility.chooseLanguage(arr[i].landslideWarningForecast);
-                            if(!floodWarnings){
-                                floodWarnings = [{ActivityLevel: 0},{ActivityLevel: 0},{ActivityLevel: 0}];
+                            if (!floodWarnings) {
+                                floodWarnings = [{ActivityLevel: 0}, {ActivityLevel: 0}, {ActivityLevel: 0}];
                             }
-                            if(!landslideWarnings){
-                                landslideWarnings = [{ActivityLevel: 0},{ActivityLevel: 0},{ActivityLevel: 0}];
+                            if (!landslideWarnings) {
+                                landslideWarnings = [{ActivityLevel: 0}, {ActivityLevel: 0}, {ActivityLevel: 0}];
                             }
                             arr[i].maxLevel = Math.max(
                                 floodWarnings[0].ActivityLevel,
@@ -41,9 +41,9 @@ angular
                             );
 
                             arr[i].maxLevels = [
-                                Math.max(floodWarnings[0].ActivityLevel,landslideWarnings[0].ActivityLevel),
-                                Math.max(floodWarnings[1].ActivityLevel,landslideWarnings[1].ActivityLevel),
-                                Math.max(floodWarnings[2].ActivityLevel,landslideWarnings[2].ActivityLevel)
+                                Math.max(floodWarnings[0].ActivityLevel, landslideWarnings[0].ActivityLevel),
+                                Math.max(floodWarnings[1].ActivityLevel, landslideWarnings[1].ActivityLevel),
+                                Math.max(floodWarnings[2].ActivityLevel, landslideWarnings[2].ActivityLevel)
                             ];
 
                         }

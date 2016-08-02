@@ -18,7 +18,7 @@ angular
             getObject: function (key) {
                 console.log('Fetching from local storage');
                 var fetched = $window.localStorage.getItem(key);
-                return fetched? JSON.parse(fetched) : undefined;
+                return fetched ? JSON.parse(fetched) : undefined;
             }
         }
     });

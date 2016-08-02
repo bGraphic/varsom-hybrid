@@ -1,10 +1,10 @@
 "use strict";
-angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics', 'ionic.service.deploy', 'ngResource', 'ngCordova'])
+angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytics', 'ionic.service.deploy', 'ngResource', 'ngCordova'])
 
-    .controller('AppCtrl', function($scope, $ionicHistory, $ionicSideMenuDelegate, Localization, Area) {
+    .controller('AppCtrl', function ($scope, $ionicHistory, $ionicSideMenuDelegate, Localization, Area) {
         var appVm = this;
 
-        $scope.$on('$ionicView.loaded', function() {
+        $scope.$on('$ionicView.loaded', function () {
             appVm.text = Localization.getTranslations();
 
             appVm.gotoSettings = function () {
@@ -26,7 +26,7 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
     /**
      * State configuration
      */
-    .config(function($stateProvider, $urlRouterProvider, $ionicAppProvider, $ionicConfigProvider, AppSettingsProvider, AppKeys, AreaProvider) {
+    .config(function ($stateProvider, $urlRouterProvider, $ionicAppProvider, $ionicConfigProvider, AppSettingsProvider, AppKeys, AreaProvider) {
 
 
         $ionicAppProvider.identify({
@@ -42,7 +42,7 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
         AreaProvider.setAppKey(AppKeys.appstax.appKey);
 
         if (ionic.Platform.isAndroid()) {
-           $ionicConfigProvider.scrolling.jsScrolling(false);
+            $ionicConfigProvider.scrolling.jsScrolling(false);
         }
 
         $urlRouterProvider.otherwise(
@@ -67,7 +67,7 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
             })
             .state('app.county', {
                 url: '/county/:countyId',
-                params : { county: null },
+                params: {county: null},
                 views: {
                     'menuContent': {
                         templateUrl: 'app/county/county.html',
@@ -77,7 +77,7 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
             })
             .state('app.municipality', {
                 url: '/municipality/:municipalityId',
-                params : { municipality: null },
+                params: {municipality: null},
                 views: {
                     'menuContent': {
                         templateUrl: 'app/municipality/municipality.html',
@@ -87,7 +87,7 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
             })
             .state('app.municipalitydetail', {
                 url: '/municipality/detail/:municipalityId?/:type?/:forecastNumber?',
-                params : { forecast: null },
+                params: {forecast: null},
                 views: {
                     'menuContent': {
                         templateUrl: 'app/municipality/detail/municipalitydetail.html',
@@ -106,7 +106,7 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
             })
             .state('app.avalancheregion', {
                 url: '/avalancheregion/:regionId',
-                params : { region: null },
+                params: {region: null},
                 views: {
                     'menuContent': {
                         templateUrl: 'app/avalancheregion/avalancheregion.html',
@@ -116,7 +116,7 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
             })
             .state('app.avalancheregiondetail', {
                 url: '/avalancheregion/detail/:regionId',
-                params : { forecast: null },
+                params: {forecast: null},
                 views: {
                     'menuContent': {
                         templateUrl: 'app/avalancheregion/detail/avalancheregiondetail.html',
@@ -126,7 +126,7 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
             })
             .state('app.avalancheregionproblem', {
                 url: '/avalancheregion/problem/:regionId',
-                params : { problem: null },
+                params: {problem: null},
                 views: {
                     'menuContent': {
                         templateUrl: 'app/avalancheregion/problem/avalancheregionproblem.html',
@@ -146,31 +146,31 @@ angular.module('Varsom', ['ionic','ionic.service.core', 'ionic.service.analytics
 
     })
 
-    .run(function($ionicPlatform, $ionicAnalytics, $ionicUser, $ionicDeploy) {
-        $ionicPlatform.ready(function() {
+    .run(function ($ionicPlatform, $ionicAnalytics, $ionicUser, $ionicDeploy) {
+        $ionicPlatform.ready(function () {
 
             var user = $ionicUser.get();
-            if(!user.user_id) {
+            if (!user.user_id) {
                 // Set your user_id here, or generate a random one.
                 user.user_id = $ionicUser.generateGUID();
             }
             $ionicUser.identify(user);
 
-            $ionicDeploy.update().then(function(res) {
+            $ionicDeploy.update().then(function (res) {
                 console.log('Ionic Deploy: Update Success! ', res);
-            }, function(err) {
+            }, function (err) {
                 console.log('Ionic Deploy: Update error! ', err);
-            }, function(prog) {
+            }, function (prog) {
                 console.log('Ionic Deploy: Progress... ', prog);
             });
 
             $ionicAnalytics.register();
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)*/
-            if(window.cordova && window.cordova.plugins.Keyboard) {
+            if (window.cordova && window.cordova.plugins.Keyboard) {
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
             }
-            if(window.StatusBar) {
+            if (window.StatusBar) {
                 StatusBar.styleDefault();
             }
         });
