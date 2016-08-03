@@ -95,7 +95,6 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
                         $ionicLoading.show();
                         return Area.getAreas($stateParams.areaType, $stateParams.parentId).then(function (areas) {
                             $ionicLoading.hide();
-                            console.log("Resolve ", areas)
                             return areas;
                         });
                     }

@@ -2,7 +2,7 @@ angular
     .module('Varsom')
     .controller('AreasListCtrl', function ($scope, $ionicLoading, Area, Utility, areas) {
 
-        function updateForecast(areas) {
+        function updateForecasts(areas) {
             angular.forEach(areas, function (area) {
                 if (Area.isRegion(area)) {
                     area.forecast = Area.getForecast(area);
@@ -32,6 +32,6 @@ angular
         vm.areas = areas;
 
         $scope.$watch(vm.areas, function () {
-            updateForecast(vm.areas);
+            updateForecasts(vm.areas);
         });
     });
