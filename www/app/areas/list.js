@@ -1,6 +1,6 @@
 angular
     .module('Varsom')
-    .controller('AreasListCtrl', function ($scope, $ionicLoading, Area, Utility, areas) {
+    .controller('AreasListCtrl', function ($scope, $stateParams, $ionicLoading, Area, Utility, areas) {
 
         function updateForecasts(areas) {
             angular.forEach(areas, function (area) {
@@ -31,7 +31,16 @@ angular
 
         vm.areas = areas;
 
+        $scope.$on("areas.refreshed", function (event, args) {
+            console.log("AreasListCtrl: areas.refreshed ", event, args);
+            Area.getAreas($stateParams.areaType, $stateParams.parentId).then(function (areas) {
+                vm.areas = areas;
+                updateForecasts(vm.areas);
+            });
+        });
+
         $scope.$watch(vm.areas, function () {
+            console.log("AreasListCtrl: changes to vm.areas");
             updateForecasts(vm.areas);
         });
     });

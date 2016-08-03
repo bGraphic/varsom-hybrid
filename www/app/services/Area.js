@@ -33,10 +33,10 @@ angular
             } else if (areaType == "regions") {
                 options.order = 'sortOrder';
             }
-
+            console.log("AreaProvider: Loading areas ", areaType, query, options);
             return appstax.find(areaType, query, options).then(function (areas) {
+                console.log("AreaProvider: Loaded areas ", areas);
                 setAreas(areas, areaType, parentId);
-                return getAreas(areaType, parentId);
             });
         }
 
@@ -46,7 +46,7 @@ angular
 
         var storage = {};
 
-        this.$get = function ($q) {
+        this.$get = function ($q, $rootScope) {
             return {
                 getAreas: function (areaType, parentId) {
                     if (parentId && areaType !== "municipalities") {
@@ -55,12 +55,25 @@ angular
                     }
 
                     if (!getAreas(areaType, parentId)) {
-                        return loadAreas(areaType, parentId);
+                        return loadAreas(areaType, parentId).then(function () {
+                            var args = {areaType: areaType, parentId: parentId};
+                            $rootScope.$broadcast("areas.initiated", args);
+                            console.log("AreaProvider: area.areas.initiated", args);
+                            return getAreas(areaType, parentId);
+                        });
                     } else {
                         var defer;
                         defer = $q.defer();
                         return $q.when(getAreas(areaType, parentId));
                     }
+                },
+                refreshAreas: function (areaType, parentId) {
+                    return loadAreas(areaType, parentId).then(function () {
+                        var args = {areaType: areaType, parentId: parentId};
+                        $rootScope.$broadcast("areas.refreshed", args);
+                        console.log("AreaProvider: area.areas.refreshed", args);
+                        return getAreas(areaType, parentId);
+                    });
                 },
                 isCounty: function (area) {
                     if (area.hasOwnProperty('countyId') && !area.hasOwnProperty('municipalityId')) {

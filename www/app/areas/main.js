@@ -1,10 +1,14 @@
 angular
     .module('Varsom')
-    .controller('AreasMainCtrl', function ($scope, $state, $ionicLoading, Area, titleKey) {
+    .controller('AreasMainCtrl', function ($scope, $state, $ionicLoading, $stateParams, Area) {
 
         var vm = this;
 
-        vm.titleKey = titleKey;
+        if ($stateParams.areaType == "regions") {
+            vm.titleKey = "avalanche";
+        } else {
+            vm.titleKey = "landslide-flood";
+        }
 
         vm.goToArea = function (area) {
 
@@ -20,6 +24,12 @@ angular
                 //TODO: Add state transistion for selected region
             }
 
+        };
+
+        vm.pullToRefresh = function () {
+            Area.refreshAreas($stateParams.areaType, $stateParams.parentId).then(function () {
+                $scope.$broadcast('scroll.refreshComplete');
+            });
         };
 
     });

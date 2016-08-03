@@ -67,15 +67,6 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
                         controller: 'AreasMainCtrl as mainVm'
                     }
 
-                },
-                resolve: {
-                    titleKey: function ($stateParams) {
-                        if ($stateParams.areaType == "regions") {
-                            return "avalanche";
-                        } else {
-                            return "landslide-flood";
-                        }
-                    }
                 }
             })
             .state('app.areas.main', {
