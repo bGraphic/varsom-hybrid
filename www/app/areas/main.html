@@ -1,6 +1,6 @@
 <ion-view view-title="{{ appVm.text[mainVm.titleKey] }}">
 
-    <ion-content>
+    <ion-content class="has-header">
         <ion-refresher pulling-text="{{appVm.text['pullToRefresh']}}" on-refresh="mainVm.pullToRefresh()">
         </ion-refresher>
 
