@@ -19,13 +19,22 @@ angular
         }
 
         function loadAreas(areaType, parentId) {
+            var query = {};
             var options = {};
 
             if (parentId && areaType == "municipalities") {
-                options.countyId = parentId
+                query.countyId = parentId;
             }
 
-            return appstax.find(areaType, options).then(function (areas) {
+            if (areaType == "counties") {
+                options.order = "-countyId";
+            } else if (areaType == "municipalities") {
+                options.order = "name";
+            } else if (areaType == "regions") {
+                options.order = 'sortOrder';
+            }
+
+            return appstax.find(areaType, query, options).then(function (areas) {
                 setAreas(areas, areaType, parentId);
                 return getAreas(areaType, parentId);
             });
