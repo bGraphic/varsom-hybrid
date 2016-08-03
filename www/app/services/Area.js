@@ -22,12 +22,10 @@ angular
             var options = {};
 
             if (parentId && areaType == "municipalities") {
-                options = {
-                    countyId: parentId
-                }
+                options.countyId = parentId
             }
 
-            return appstax.findAll(areaType, options).then(function (areas) {
+            return appstax.find(areaType, options).then(function (areas) {
                 setAreas(areas, areaType, parentId);
                 return getAreas(areaType, parentId);
             });
