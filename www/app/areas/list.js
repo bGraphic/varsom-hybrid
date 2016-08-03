@@ -5,7 +5,9 @@ angular
         function updateForecasts(areas) {
             angular.forEach(areas, function (area) {
                 if (Area.isRegion(area)) {
-                    area.forecast = Area.getForecast(area);
+                    var avalancheForecast = Utility.chooseLanguage(Area.getForecast(area));
+                    avalancheForecast = avalancheForecast ? avalancheForecast : [{DangerLevel: 0}, {DangerLevel: 0}, {DangerLevel: 0}];
+                    area.forecast = avalancheForecast;
                 } else {
                     var floodForecast = Utility.chooseLanguage(Area.getForecast(area, "flood"));
                     var landslideForecast = Utility.chooseLanguage(Area.getForecast(area, "landslide"));

@@ -8,7 +8,11 @@ angular
             scope.noHazardRating = '?';
             scope.styles = AppSettings.hazardRatingStyles;
 
-            scope.parsedRating = parseInt(scope.warning.ActivityLevel);
+            if (scope.warning.hasOwnProperty("ActivityLevel")) {
+                scope.parsedRating = parseInt(scope.warning.ActivityLevel);
+            } else if (scope.warning.hasOwnProperty("DangerLevel")) {
+                scope.parsedRating = parseInt(scope.warning.DangerLevel);
+            }
         }
 
         return {
