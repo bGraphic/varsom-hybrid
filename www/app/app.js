@@ -59,7 +59,8 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
                 abstract: true,
                 params: {
                     areaType: null,
-                    parentId: null
+                    parentId: null,
+                    selectedId: null
                 },
                 views: {
                     'menuContent': {
@@ -67,9 +68,18 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
                         controller: 'AreasMainCtrl as mainVm'
                     }
 
+                },
+                resolve: {
+                    areas: function ($stateParams, $ionicLoading, Area) {
+                        $ionicLoading.show();
+                        return Area.getAreas($stateParams.areaType, $stateParams.parentId).then(function (areas) {
+                            $ionicLoading.hide();
+                            return areas;
+                        });
+                    }
                 }
             })
-            .state('app.areas.main', {
+            .state('app.areas.all', {
                 url: '/areas/:areaType',
                 views: {
                     'map': {
@@ -80,33 +90,27 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
                         templateUrl: 'app/areas/list.html',
                         controller: 'AreasListCtrl as listVm'
                     }
-                },
-                resolve: {
-                    areas: function ($stateParams, $ionicLoading, Area) {
-                        $ionicLoading.show();
-                        return Area.getAreas($stateParams.areaType).then(function (areas) {
-                            $ionicLoading.hide();
-                            return areas;
-                        });
+                }
+            })
+            .state('app.areas.selected', {
+                url: '/areas/:areaType/s=:selectedId',
+                views: {
+                    'map': {
+                        templateUrl: 'app/areas/map.html',
+                        controller: 'AreasMapCtrl as mapVm'
+                    },
+                    'list': {
+                        templateUrl: 'app/areas/widget.html',
+                        controller: 'AreasWidgetCtrl as listVm'
                     }
                 }
             })
             .state('app.areas.children', {
-                url: '/areas/:areaType/:parentId',
+                url: '/areas/:areaType/p=:parentId',
                 views: {
-                    'map': {},
                     'list': {
                         templateUrl: 'app/areas/list.html',
                         controller: 'AreasListCtrl as listVm'
-                    }
-                },
-                resolve: {
-                    areas: function ($stateParams, $ionicLoading, Area) {
-                        $ionicLoading.show();
-                        return Area.getAreas($stateParams.areaType, $stateParams.parentId).then(function (areas) {
-                            $ionicLoading.hide();
-                            return areas;
-                        });
                     }
                 }
             })

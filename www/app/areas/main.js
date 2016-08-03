@@ -17,11 +17,11 @@ angular
             }
 
             if (Area.isMunicipality(area)) {
-                //TODO: Add state transistion for selected municipality
+                // TODO: Create transition
             }
 
             if (Area.isRegion(area)) {
-                //TODO: Add state transistion for selected region
+                // TODO: Create transition
             }
 
         };
