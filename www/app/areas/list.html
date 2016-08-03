@@ -5,9 +5,9 @@
 
     <a class="item region item-icon-right" ng-repeat="area in listVm.areas" ng-click="mainVm.goToArea(area)">
 
-        <hazard-rating warning="area.forecast[0]"></hazard-rating>
-        <hazard-rating warning="area.forecast[1]"></hazard-rating>
-        <hazard-rating warning="area.forecast[2]"></hazard-rating>
+        <hazard-rating warning="appVm.util.chooseLanguage(area.forecast)[0]"></hazard-rating>
+        <hazard-rating warning="appVm.util.chooseLanguage(area.forecast)[1]"></hazard-rating>
+        <hazard-rating warning="appVm.util.chooseLanguage(area.forecast)[2]"></hazard-rating>
 
         <span class="varsom-warning-text" ng-bind="area.name"></span>
 
