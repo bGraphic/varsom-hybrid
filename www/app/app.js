@@ -92,19 +92,6 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
                     }
                 }
             })
-            .state('app.areas.selected', {
-                url: '/areas/:areaType/s=:selectedId',
-                views: {
-                    'map': {
-                        templateUrl: 'app/areas/map.html',
-                        controller: 'AreasMapCtrl as mapVm'
-                    },
-                    'list': {
-                        templateUrl: 'app/areas/widget.html',
-                        controller: 'AreasWidgetCtrl as listVm'
-                    }
-                }
-            })
             .state('app.areas.children', {
                 url: '/areas/:areaType/p=:parentId',
                 views: {

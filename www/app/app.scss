@@ -292,3 +292,15 @@ ul.problem {
     visibility: visible;
 
 }
+
+.areas {
+    .map {
+        .list {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1;
+        }
+    }
+}
