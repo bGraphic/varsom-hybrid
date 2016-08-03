@@ -89,7 +89,6 @@ angular
 
         function transformAreas(areas) {
             angular.forEach(areas, function (area) {
-                console.log("transforming");
                 if (isRegion(area)) {
                     area.forecast = getForecast(area);
                 } else {
@@ -145,8 +144,8 @@ angular
                     if (!getAreas(areaType, parentId)) {
                         return loadAreas(areaType, parentId).then(function () {
                             var args = {areaType: areaType, parentId: parentId};
+                            console.log("AreaProvider: areas.initiated", args);
                             $rootScope.$broadcast("areas.initiated", args);
-                            console.log("AreaProvider: area.areas.initiated", args);
                             return getAreas(areaType, parentId);
                         });
                     } else {
@@ -156,8 +155,8 @@ angular
                 refreshAreas: function (areaType, parentId) {
                     return loadAreas(areaType, parentId).then(function () {
                         var args = {areaType: areaType, parentId: parentId};
+                        console.log("AreaProvider: areas.refreshed", args);
                         $rootScope.$broadcast("areas.refreshed", args);
-                        console.log("AreaProvider: area.areas.refreshed", args);
                         return getAreas(areaType, parentId);
                     });
                 },
