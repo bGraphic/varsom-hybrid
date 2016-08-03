@@ -70,12 +70,31 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
                 }
             })
             .state('app.areas.main', {
-                url: '/areas/:areaType?:parentId',
+                url: '/areas/:areaType',
                 views: {
                     'map': {
                         templateUrl: 'app/areas/map.html',
                         controller: 'AreasMapCtrl as mapVm'
                     },
+                    'list': {
+                        templateUrl: 'app/areas/list.html',
+                        controller: 'AreasListCtrl as listVm'
+                    }
+                },
+                resolve: {
+                    areas: function ($stateParams, $ionicLoading, Area) {
+                        $ionicLoading.show();
+                        return Area.getAreas($stateParams.areaType).then(function (areas) {
+                            $ionicLoading.hide();
+                            return areas;
+                        });
+                    }
+                }
+            })
+            .state('app.areas.children', {
+                url: '/areas/:areaType/:parentId',
+                views: {
+                    'map': {},
                     'list': {
                         templateUrl: 'app/areas/list.html',
                         controller: 'AreasListCtrl as listVm'
