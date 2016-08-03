@@ -88,6 +88,19 @@ angular
                     if (area.hasOwnProperty('regionId')) {
                         return area.regionId;
                     }
+                },
+                getForecast: function (area, forecastType) {
+                    var forecastString = null;
+
+                    if (area.hasOwnProperty("regionId")) {
+                        forecastString = area["avalancheWarningForecast"];
+                    } else {
+                        forecastString = area[forecastType + "WarningForecast"];
+                    }
+
+                    if (forecastString) {
+                        return JSON.parse(forecastString);
+                    }
                 }
             };
         }

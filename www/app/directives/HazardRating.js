@@ -8,19 +8,16 @@ angular
             scope.noHazardRating = '?';
             scope.styles = AppSettings.hazardRatingStyles;
 
-            scope.$watch('varsomRating', function(){
-                scope.parsedRating = parseInt(scope.varsomRating);
-            });
-
+            scope.parsedRating = parseInt(scope.warning.ActivityLevel);
         }
 
         return {
             restrict: 'E',
             link: link,
             scope: {
-                varsomRating: '='
+                warning: '='
             },
-            template: '<span class="varsom-label {{styles[varsomRating || 0].className}}-bg" ng-bind="parsedRating || noHazardRating"></span>'
+            template: '<span class="varsom-label {{styles[parsedRating || 0].className}}-bg">{{(parsedRating || noHazardRating)}}</span>'
         };
 
     });

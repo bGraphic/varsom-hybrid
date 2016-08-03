@@ -3,11 +3,13 @@
         {{::appVm.text['highestForecast']}} {{appVm.util.getDayRangeString(vm.days)}}
     </div>
 
-    <a class="item region item-icon-right" ng-repeat="area in listVm.areas" ng-click="mainVm.goToArea(area)" href="">
-        <hazard-rating varsom-rating="::area.maxLevels[0]"></hazard-rating>
-        <hazard-rating varsom-rating="::area.maxLevels[1]"></hazard-rating>
-        <hazard-rating varsom-rating="::area.maxLevels[2]"></hazard-rating>
-        <span class="varsom-warning-text" ng-bind="::area.name"></span>
+    <a class="item region item-icon-right" ng-repeat="area in listVm.areas" ng-click="mainVm.goToArea(area)">
+
+        <hazard-rating warning="area.forecast[0]"></hazard-rating>
+        <hazard-rating warning="area.forecast[1]"></hazard-rating>
+        <hazard-rating warning="area.forecast[2]"></hazard-rating>
+
+        <span class="varsom-warning-text" ng-bind="area.name"></span>
 
         <i class="icon icon-accessory ion-chevron-right"></i>
     </a>
