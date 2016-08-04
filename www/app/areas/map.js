@@ -33,6 +33,7 @@ angular
             lng: 16.949,
             zoom: 4
         }
+
         vm.defaults = {
             zoomControl: false,
             attributionControl: false

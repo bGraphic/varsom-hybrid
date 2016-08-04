@@ -56,6 +56,7 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
                 controller: 'AppCtrl as appVm'
             })
             .state('app.areas', {
+                url: '/areas/:areaType',
                 params: {
                     areaType: null,
                     parentId: null,
@@ -75,19 +76,6 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
                             $ionicLoading.hide();
                             return areas;
                         });
-                    }
-                }
-            })
-            .state('app.areas.all', {
-                url: '/areas/:areaType',
-                views: {
-                    'map': {
-                        templateUrl: 'app/areas/map.html',
-                        controller: 'AreasMapCtrl as mapVm'
-                    },
-                    'list': {
-                        templateUrl: 'app/areas/list.html',
-                        controller: 'AreasListCtrl as listVm'
                     }
                 }
             })
