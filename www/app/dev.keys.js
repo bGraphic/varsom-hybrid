@@ -2,8 +2,8 @@ angular
   .module('Varsom')
   .constant('AppKeys', {
     "ionic": {
-      "appId": "f11eace1",
-      "appKey": "2db186347847c5d1e3dacea7bd2d1cc5465980bf2cfff335"
+        "appId": "99b20239",
+        "appKey": "8321886658b8655714c186b230c019bea32592bf96f5d74a"
     },
     "parse": {
       "appId": "IlNHQI2mCiSCINvdV4vGECq0yZT9JQrtk3IxBKcF",
