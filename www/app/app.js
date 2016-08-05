@@ -56,7 +56,7 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
                 controller: 'AppCtrl as appVm'
             })
             .state('app.areas', {
-                url: '/areas/:areaType',
+                url: '/areas/:areaType?parentId',
                 params: {
                     areaType: null,
                     parentId: null,
@@ -76,25 +76,6 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
                             $ionicLoading.hide();
                             return areas;
                         });
-                    }
-                }
-            })
-            .state('app.areas.children', {
-                url: '/areas/:areaType/p=:parentId',
-                views: {
-                    'list': {
-                        templateUrl: 'app/areas/list.html',
-                        controller: 'AreasListCtrl as listVm'
-                    }
-                }
-            })
-            .state('app.county', {
-                url: '/county/:countyId',
-                params: {county: null},
-                views: {
-                    'menuContent': {
-                        templateUrl: 'app/county/county.html',
-                        controller: 'CountyCtrl as vm'
                     }
                 }
             })

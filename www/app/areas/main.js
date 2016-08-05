@@ -22,7 +22,7 @@ angular
         vm.goToArea = function (area) {
 
             if (Area.isCounty(area)) {
-                $state.go('app.areas.children', {areaType: "municipalities", parentId: Area.getId(area)});
+                $state.go('app.areas', {areaType: "municipalities", parentId: Area.getId(area)});
             }
 
             if (Area.isMunicipality(area)) {
