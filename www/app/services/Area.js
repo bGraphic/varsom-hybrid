@@ -127,39 +127,64 @@ angular
             });
         }
 
+        var storage = {};
+
         this.setAppKey = function (appKey) {
             appstax.init(appKey);
         };
 
-        var storage = {};
-
         this.$get = function ($q, $rootScope) {
-            return {
-                getAreas: function (areaType, parentId) {
-                    if (parentId && areaType !== "municipalities") {
-                        console.error("Area Service: Only municipalities can have parent id");
-                        parentId = undefined;
-                    }
 
-                    if (!getAreas(areaType, parentId)) {
-                        return loadAreas(areaType, parentId).then(function () {
-                            var args = {areaType: areaType, parentId: parentId};
-                            console.log("AreaProvider: areas.initiated", args);
-                            $rootScope.$broadcast("areas.initiated", args);
-                            return getAreas(areaType, parentId);
-                        });
-                    } else {
-                        return $q.when(getAreas(areaType, parentId));
-                    }
-                },
-                refreshAreas: function (areaType, parentId) {
+            function fetchAreas(areaType, parentId) {
+                if (parentId && areaType !== "municipalities") {
+                    console.error("Area Service: Only municipalities can have parent id");
+                    parentId = undefined;
+                }
+
+                if (!getAreas(areaType, parentId)) {
                     return loadAreas(areaType, parentId).then(function () {
                         var args = {areaType: areaType, parentId: parentId};
-                        console.log("AreaProvider: areas.refreshed", args);
-                        $rootScope.$broadcast("areas.refreshed", args);
+                        console.log("AreaProvider: areas.initiated", args);
+                        $rootScope.$broadcast("areas.initiated", args);
                         return getAreas(areaType, parentId);
                     });
-                },
+                } else {
+                    return $q.when(getAreas(areaType, parentId));
+                }
+            }
+
+            function refreshAreas(areaType, parentId) {
+                return loadAreas(areaType, parentId).then(function () {
+                    var args = {areaType: areaType, parentId: parentId};
+                    console.log("AreaProvider: areas.refreshed", args);
+                    $rootScope.$broadcast("areas.refreshed", args);
+                    return getAreas(areaType, parentId);
+                });
+            }
+
+            function fetchArea(areaType, areaId) {
+
+                var parentId = null;
+                if (areaType == "municipalities") {
+                    parentId = areaId.substring(0, 2);
+                }
+
+                return fetchAreas(areaType, parentId).then(function (areas) {
+                    var foundArea = null;
+                    angular.forEach(areas, function (area) {
+                        if (getId(area) == areaId) {
+                            foundArea = area;
+                        }
+                    });
+                    return foundArea;
+                });
+            }
+
+            return {
+                fetchAreas: fetchAreas,
+                refreshAreas: refreshAreas,
+                fetchArea: fetchArea,
+
                 isCounty: isCounty,
                 isMunicipality: isMunicipality,
                 isRegion: isRegion,

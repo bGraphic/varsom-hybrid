@@ -57,22 +57,16 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
             })
             .state('app.areas', {
                 url: '/areas/:areaType?parentId',
-                params: {
-                    areaType: null,
-                    parentId: null,
-                    selectedId: null
-                },
                 views: {
                     'menuContent': {
                         templateUrl: 'app/areas/main.html',
                         controller: 'AreasMainCtrl as mainVm'
                     }
-
                 },
                 resolve: {
                     areas: function ($stateParams, $ionicLoading, Area) {
                         $ionicLoading.show();
-                        return Area.getAreas($stateParams.areaType, $stateParams.parentId).then(function (areas) {
+                        return Area.fetchAreas($stateParams.areaType, $stateParams.parentId).then(function (areas) {
                             $ionicLoading.hide();
                             return areas;
                         });
@@ -80,17 +74,25 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
                 }
             })
             .state('app.municipality', {
-                url: '/municipality/:municipalityId',
-                params: {municipality: null},
+                url: '/areas/municipality/:areaId',
                 views: {
                     'menuContent': {
                         templateUrl: 'app/municipality/municipality.html',
                         controller: 'MunicipalityCtrl as vm'
                     }
+                },
+                resolve: {
+                    municipality: function ($stateParams, $ionicLoading, Area) {
+                        $ionicLoading.show();
+                        return Area.fetchArea("municipalities", $stateParams.areaId).then(function (area) {
+                            $ionicLoading.hide();
+                            return area;
+                        });
+                    }
                 }
             })
             .state('app.municipalitydetail', {
-                url: '/municipality/detail/:municipalityId?/:type?/:forecastNumber?',
+                url: '/areas/municipality/:id/detail?type?forecastNumber',
                 params: {forecast: null},
                 views: {
                     'menuContent': {
@@ -99,22 +101,21 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
                     }
                 }
             })
-            .state('app.avalancheregions', {
-                url: '/avalancheregions',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'app/avalancheregions/avalancheregions.html',
-                        controller: 'AvalancheRegionsCtrl as vm'
-                    }
-                }
-            })
-            .state('app.avalancheregion', {
-                url: '/avalancheregion/:regionId',
-                params: {region: null},
+            .state('app.region', {
+                url: '/areas/region/:areaId',
                 views: {
                     'menuContent': {
                         templateUrl: 'app/avalancheregion/avalancheregion.html',
                         controller: 'AvalancheRegionCtrl as vm'
+                    }
+                },
+                resolve: {
+                    municipality: function ($stateParams, $ionicLoading, Area) {
+                        $ionicLoading.show();
+                        return Area.fetchArea("regions", $stateParams.areaId).then(function (area) {
+                            $ionicLoading.hide();
+                            return area;
+                        });
                     }
                 }
             })

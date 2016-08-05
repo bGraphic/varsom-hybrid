@@ -2,18 +2,6 @@ angular
     .module('Varsom')
     .controller('AreasMainCtrl', function ($scope, $state, $ionicLoading, $stateParams, Area, areas, $http) {
 
-        function findArea(areaId) {
-            return Area.getAreas($stateParams.areaType).then(function (areas) {
-                var foundArea = null;
-                angular.forEach(areas, function (area) {
-                    if (Area.getId(area) == areaId) {
-                        foundArea = area;
-                    }
-                });
-                return foundArea;
-            });
-        }
-
         var vm = this;
         vm.areas = areas;
         vm.titleKey = ($stateParams.areaType == "regions") ? "avalanche" : "landslide-flood";
@@ -26,11 +14,11 @@ angular
             }
 
             if (Area.isMunicipality(area)) {
-                // TODO: Create transition
+                $state.go('app.municipality', {areaId: Area.getId(area)});
             }
 
             if (Area.isRegion(area)) {
-                // TODO: Create transition
+                $state.go('app.region', {areaId: Area.getId(area)});
             }
         };
 
@@ -59,12 +47,14 @@ angular
             },
         }
 
-        $http.get("/geojson/" + $stateParams.areaType + ".geojson").success(function (data, status) {
+        if (vm.hasMap) {
+            $http.get("/geojson/" + $stateParams.areaType + ".geojson").success(function (data, status) {
 
-            vm.map.geojson = {
-                data: data
-            };
-        });
+                vm.map.geojson = {
+                    data: data
+                };
+            });
+        }
 
         $scope.$watch("mainVm.map.selectedArea", function (newValue) {
             if (newValue) {
@@ -95,7 +85,7 @@ angular
                 }
             }
 
-            findArea(areaId).then(function (area) {
+            Area.fetchArea($stateParams.areaType, areaId).then(function (area) {
                 console.log("AreasMapCtrl: area selected ", area);
                 vm.map.selectedArea = area;
             });
