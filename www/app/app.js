@@ -60,7 +60,7 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
                 views: {
                     'menuContent': {
                         templateUrl: 'app/areas/main.html',
-                        controller: 'AreasMainCtrl as mainVm'
+                        controller: 'AreasMainCtrl as vm'
                     }
                 },
                 resolve: {

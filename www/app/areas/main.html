@@ -1,27 +1,27 @@
-<ion-view view-title="{{ appVm.text[mainVm.titleKey] }}">
+<ion-view view-title="{{ appVm.text[vm.titleKey] }}">
 
     <ion-content class="has-header areas">
-        <ion-refresher pulling-text="{{appVm.text['pullToRefresh']}}" on-refresh="mainVm.pullToRefresh()">
+        <ion-refresher pulling-text="{{appVm.text['pullToRefresh']}}" on-refresh="vm.pullToRefresh()">
         </ion-refresher>
 
-        <leaflet class="map" lf-center="mainVm.map.center" defaults="mainVm.map.defaults" tiles="mainVm.map.tiles"
-                 geojson="mainVm.map.geojson"
-                 width="100%" height="{{ mainVm.map.height }}" ng-if="mainVm.hasMap">
+        <leaflet class="map" lf-center="vm.map.center" defaults="vm.map.defaults" tiles="vm.map.tiles"
+                 geojson="vm.map.geojson"
+                 width="100%" height="{{ vm.map.height }}" ng-if="vm.hasMap">
 
-            <div class="overview list" ng-if="mainVm.map.selectedArea">
+            <div class="overview list" ng-if="vm.map.selectedArea">
 
-                <div class="item item-divider shadow-top">{{mainVm.map.selectedArea.name}}
-                    {{appVm.util.getDayRangeString(mainVm.map.days)}}
+                <div class="item item-divider shadow-top">{{vm.map.selectedArea.name}}
+                    {{appVm.util.getDayRangeString(vm.map.days)}}
                 </div>
 
-                <a class="item item-icon-right" ng-click="mainVm.goToArea(mainVm.map.selectedArea)">
+                <a class="item item-icon-right" ng-click="vm.goToArea(vm.map.selectedArea)">
 
                     <hazard-rating
-                            warning="mainVm.map.selectedArea.forecast[0]"></hazard-rating>
+                            warning="vm.map.selectedArea.forecast[0]"></hazard-rating>
                     <hazard-rating
-                            warning="mainVm.map.selectedArea.forecast[1]"></hazard-rating>
+                            warning="vm.map.selectedArea.forecast[1]"></hazard-rating>
                     <hazard-rating
-                            warning="mainVm.map.selectedArea.forecast[2]"></hazard-rating>
+                            warning="vm.map.selectedArea.forecast[2]"></hazard-rating>
 
                     <span class="varsom-warning-text" ng-bind="area.name"></span>
 
@@ -35,10 +35,10 @@
         <div class="overview list">
 
             <div class="item item-divider shadow-top">
-                {{::appVm.text['highestForecast']}} {{appVm.util.getDayRangeString(vm.days)}}
+                {{appVm.text['highestForecast']}} {{appVm.util.getDayRangeString(vm.days)}}
             </div>
 
-            <a class="item region item-icon-right" ng-repeat="area in mainVm.areas" ng-click="mainVm.goToArea(area)">
+            <a class="item region item-icon-right" ng-repeat="area in vm.areas" ng-click="vm.goToArea(area)">
 
                 <hazard-rating warning="area.forecast[0]"></hazard-rating>
                 <hazard-rating warning="area.forecast[1]"></hazard-rating>

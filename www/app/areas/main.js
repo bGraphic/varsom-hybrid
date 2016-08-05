@@ -56,7 +56,7 @@ angular
             });
         }
 
-        $scope.$watch("mainVm.map.selectedArea", function (newValue) {
+        $scope.$watch("vm.map.selectedArea", function (newValue) {
             if (newValue) {
                 vm.map.fullscreen = true;
             } else {
@@ -64,7 +64,7 @@ angular
             }
         });
 
-        $scope.$watch("mainVm.map.fullscreen", function (newValue) {
+        $scope.$watch("vm.map.fullscreen", function (newValue) {
             if (newValue) {
                 vm.map.height = "100%";
             } else {
