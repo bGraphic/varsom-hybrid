@@ -9,7 +9,7 @@
                 </div>
                 <div class="item warning-level" href="" ui-sref="app.region.detail({day:num})">
 
-                    <hazard-rating warning="appVm.util.chooseLanguage(vm.region.forecast)[num]"></hazard-rating>
+                    <hazard-rating warning="vm.region.forecast[num]"></hazard-rating>
                     <h1>
                         {{vm.getDangerLevelName(num)}} {{::(appVm.text['skredfare'] | lowercase)}}
                     </h1>

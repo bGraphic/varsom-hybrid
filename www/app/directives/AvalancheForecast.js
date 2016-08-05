@@ -11,7 +11,7 @@ angular
                     return;
                 }
 
-                scope.avalancheWarningForecast = Utility.chooseLanguage(region.avalancheWarningForecast);
+                scope.avalancheWarningForecast = region.forecast;
 
             });
         }

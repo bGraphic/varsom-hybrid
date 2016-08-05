@@ -4,6 +4,6 @@ angular
 
         var vm = this;
 
-        vm.forecast = Utility.chooseLanguage(region.forecast)[$stateParams.day];
+        vm.forecast = region.forecast[$stateParams.day];
 
     });

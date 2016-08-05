@@ -10,7 +10,7 @@ angular
 
         vm.getAvalancheForecast = function(num){
             if(vm.region){
-                return Utility.chooseLanguage(vm.region.forecast)[num];
+                return vm.region.forecast[num];
             }
         };
 

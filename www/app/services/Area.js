@@ -40,20 +40,6 @@ angular
             }
         }
 
-        function getForecast(area, forecastType) {
-            var forecastString = null;
-
-            if (area.hasOwnProperty("regionId")) {
-                forecastString = area["avalancheWarningForecast"];
-            } else {
-                forecastString = area[forecastType + "WarningForecast"];
-            }
-
-            if (forecastString) {
-                return JSON.parse(forecastString);
-            }
-        }
-
         function setAreas(areas, areaType, parentId) {
             if (parentId) {
                 storage[areaType + parentId] = areas;
@@ -63,11 +49,13 @@ angular
         }
 
         function getAreas(areaType, parentId) {
+            var areas = [];
             if (parentId) {
-                return storage[areaType + parentId];
+                areas = storage[areaType + parentId];
             } else {
-                return storage[areaType];
+                areas = storage[areaType];
             }
+            return areas;
         }
 
         function getHighestForecast(forecast1, forecast2) {
@@ -85,24 +73,6 @@ angular
             }
 
             return highestForecast;
-        }
-
-        function transformAreas(areas) {
-            angular.forEach(areas, function (area) {
-                if (isRegion(area)) {
-                    area.forecast = getForecast(area);
-                } else {
-                    var floodForecastNo = getForecast(area, "flood").no;
-                    var landslideForecastNo = getForecast(area, "landslide").no;
-
-                    area.forecast = {
-                        no: getHighestForecast(floodForecastNo, landslideForecastNo)
-                    }
-
-                    area.floodForecast = getForecast(area, "flood");
-                    area.landslideForecast = getForecast(area, "landslide");
-                }
-            });
         }
 
         function loadAreas(areaType, parentId) {
@@ -123,8 +93,6 @@ angular
             console.log("AreaProvider: Loading areas ", areaType, query, options);
             return appstax.find(areaType, query, options).then(function (areas) {
                 console.log("AreaProvider: Loaded areas ", areas);
-                transformAreas(areas);
-                console.log("AreaProvider: Transformed areas ", areas);
                 setAreas(areas, areaType, parentId);
                 return getAreas(areas, areaType, parentId);
             });
@@ -136,7 +104,43 @@ angular
             appstax.init(appKey);
         };
 
-        this.$get = function ($q, $rootScope) {
+        this.$get = function ($q, $rootScope, Utility) {
+
+            function getForecast(area, forecastType) {
+                var forecastString = null;
+
+                if (area.hasOwnProperty("regionId")) {
+                    forecastString = area["avalancheWarningForecast"];
+                } else {
+                    forecastString = area[forecastType + "WarningForecast"];
+                }
+
+                if (forecastString) {
+                    return Utility.chooseLanguage(JSON.parse(forecastString));
+                }
+            }
+
+            function transformAreas(areas) {
+                angular.forEach(areas, function (area) {
+                    if (isRegion(area)) {
+                        area.forecast = getForecast(area);
+                    } else {
+                        var floodForecast = getForecast(area, "flood");
+                        var landslideForecast = getForecast(area, "landslide");
+
+                        area.forecast = getHighestForecast(floodForecast, landslideForecast);
+
+                        area.floodForecast = getForecast(area, "flood");
+                        area.landslideForecast = getForecast(area, "landslide");
+                    }
+                });
+            }
+
+            function getTransformedAreas(areaType, parentId) {
+                var areas = getAreas(areaType, parentId);
+                transformAreas(areas);
+                return areas;
+            }
 
             function fetchAreas(areaType, parentId) {
                 if (parentId && areaType !== "municipalities") {
@@ -149,10 +153,10 @@ angular
                         var args = {areaType: areaType, parentId: parentId};
                         console.log("AreaProvider: areas.initiated", args);
                         $rootScope.$broadcast("areas.initiated", args);
-                        return getAreas(areaType, parentId);
+                        return getTransformedAreas(areaType, parentId);
                     });
                 } else {
-                    return $q.when(getAreas(areaType, parentId));
+                    return $q.when(getTransformedAreas(areaType, parentId));
                 }
             }
 

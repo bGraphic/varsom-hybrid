@@ -10,8 +10,8 @@ angular
                     return;
                 }
 
-                scope.floodWarningForecast = Utility.chooseLanguage(county.floodWarningForecast);
-                scope.landslideWarningForecast = Utility.chooseLanguage(county.landslideWarningForecast);
+                scope.floodWarningForecast = county.floodForecast;
+                scope.landslideWarningForecast = county.landslideForecast;
 
             });
         }

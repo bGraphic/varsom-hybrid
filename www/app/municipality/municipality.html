@@ -9,11 +9,11 @@
                 <a class="item item-icon-right item-text-wrap"
                    ui-sref="app.municipality.detail({forecastType: 'flood', day: num})">
 
-                    <hazard-rating warning="appVm.util.chooseLanguage(vm.mun.floodForecast)[num]"></hazard-rating>
+                    <hazard-rating warning="vm.mun.floodForecast[num]"></hazard-rating>
                 <div>
                     <h2>{{::appVm.text['flood']}}</h2>
                     <p>
-                        {{appVm.util.chooseLanguage(vm.mun.floodForecast)[num].MainText}}
+                        {{vm.mun.floodForecast[num].MainText}}
                     </p>
                     <p ng-show="vm.floodForecast[num].CauseList.length">
                         {{vm.util.printCauseList(vm.floodForecast[num].CauseList)}}
@@ -26,11 +26,11 @@
                 <a class="item item-icon-right"
                    ui-sref="app.municipality.detail({forecastType: 'landslide', day: num})">
 
-                    <hazard-rating warning="appVm.util.chooseLanguage(vm.mun.landslideForecast)[num]"></hazard-rating>
+                    <hazard-rating warning="vm.mun.landslideForecast[num]"></hazard-rating>
                 <div>
                     <h2>{{::appVm.text['landslide']}}</h2>
                     <p>
-                        {{appVm.util.chooseLanguage(vm.mun.landslideForecast)[num].MainText}}
+                        {{vm.mun.landslideForecast[num].MainText}}
                     </p>
                     <p ng-show="vm.landslideForecast[num].CauseList.length">
                         {{vm.util.printCauseList(vm.landslideForecast[num].CauseList)}}
