@@ -1,17 +1,8 @@
-(function () {
-    'use strict';
-
-    function MunicipalityDetailCtrl($stateParams, Utility) {
+angular
+    .module('Varsom')
+    .controller('MunicipalityDetailCtrl', function MunicipalityDetailCtrl(Utility, $stateParams, municipality) {
         var vm = this;
 
-        vm.forecast = $stateParams.forecast;
+        vm.forecast = Utility.chooseLanguage(municipality[$stateParams.forecastType + "Forecast"])[$stateParams.day];
         vm.printCauseList = Utility.printCauseList;
-
-        console.log($stateParams);
-
-    }
-
-    angular.module('Varsom')
-        .controller('MunicipalityDetailCtrl', MunicipalityDetailCtrl);
-
-})();
+    });

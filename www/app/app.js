@@ -91,11 +91,11 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
                     }
                 }
             })
-            .state('app.municipalitydetail', {
-                url: '/areas/municipality/:id/detail?type?forecastNumber',
+            .state('app.municipality.detail', {
+                url: '/:forecastType/:day',
                 params: {forecast: null},
                 views: {
-                    'menuContent': {
+                    'menuContent@app': {
                         templateUrl: 'app/municipality/detail/municipalitydetail.html',
                         controller: 'MunicipalityDetailCtrl as vm'
                     }
@@ -110,7 +110,7 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
                     }
                 },
                 resolve: {
-                    municipality: function ($stateParams, $ionicLoading, Area) {
+                    region: function ($stateParams, $ionicLoading, Area) {
                         $ionicLoading.show();
                         return Area.fetchArea("regions", $stateParams.areaId).then(function (area) {
                             $ionicLoading.hide();
@@ -119,21 +119,19 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
                     }
                 }
             })
-            .state('app.avalancheregiondetail', {
-                url: '/avalancheregion/detail/:regionId',
-                params: {forecast: null},
+            .state('app.region.detail', {
+                url: '/:day',
                 views: {
-                    'menuContent': {
+                    'menuContent@app': {
                         templateUrl: 'app/avalancheregion/detail/avalancheregiondetail.html',
                         controller: 'AvalancheRegionDetailCtrl as vm'
                     }
                 }
             })
-            .state('app.avalancheregionproblem', {
-                url: '/avalancheregion/problem/:regionId',
-                params: {problem: null},
+            .state('app.region.problem', {
+                url: '/:day',
                 views: {
-                    'menuContent': {
+                    'menuContent@app': {
                         templateUrl: 'app/avalancheregion/problem/avalancheregionproblem.html',
                         controller: 'AvalancheRegionProblemCtrl as vm'
                     }

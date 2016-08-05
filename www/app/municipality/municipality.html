@@ -6,13 +6,14 @@
             <div class="item item-divider" id="{{vm.mun.municipalityId}}day{{num}}">
                 {{::appVm.text['daysFull'][vm.days[num].getDay()]}} {{vm.util.getDayString(vm.days[num], 'monthsFull')}}
             </div>
-            <a class="item item-icon-right item-text-wrap" href="" ui-sref="app.municipalitydetail({forecast:vm.floodForecast[num]})">
+                <a class="item item-icon-right item-text-wrap"
+                   ui-sref="app.municipality.detail({forecastType: 'flood', day: num})">
 
-                <hazard-rating varsom-rating="vm.floodForecast[num].ActivityLevel"></hazard-rating>
+                    <hazard-rating warning="appVm.util.chooseLanguage(vm.mun.floodForecast)[num]"></hazard-rating>
                 <div>
                     <h2>{{::appVm.text['flood']}}</h2>
                     <p>
-                        {{vm.floodForecast[num].MainText}}
+                        {{appVm.util.chooseLanguage(vm.mun.floodForecast)[num].MainText}}
                     </p>
                     <p ng-show="vm.floodForecast[num].CauseList.length">
                         {{vm.util.printCauseList(vm.floodForecast[num].CauseList)}}
@@ -22,13 +23,14 @@
                 <i class="icon icon-accessory ion-chevron-right"></i>
 
             </a>
-            <a class="item item-icon-right" href="" ui-sref="app.municipalitydetail({forecast:vm.landslideForecast[num]})">
+                <a class="item item-icon-right"
+                   ui-sref="app.municipality.detail({forecastType: 'landslide', day: num})">
 
-                <hazard-rating varsom-rating="vm.landslideForecast[num].ActivityLevel"></hazard-rating>
+                    <hazard-rating warning="appVm.util.chooseLanguage(vm.mun.landslideForecast)[num]"></hazard-rating>
                 <div>
                     <h2>{{::appVm.text['landslide']}}</h2>
                     <p>
-                        {{vm.landslideForecast[num].MainText}}
+                        {{appVm.util.chooseLanguage(vm.mun.landslideForecast)[num].MainText}}
                     </p>
                     <p ng-show="vm.landslideForecast[num].CauseList.length">
                         {{vm.util.printCauseList(vm.landslideForecast[num].CauseList)}}

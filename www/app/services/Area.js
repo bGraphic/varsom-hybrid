@@ -98,6 +98,9 @@ angular
                     area.forecast = {
                         no: getHighestForecast(floodForecastNo, landslideForecastNo)
                     }
+
+                    area.floodForecast = getForecast(area, "flood");
+                    area.landslideForecast = getForecast(area, "landslide");
                 }
             });
         }

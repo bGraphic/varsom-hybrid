@@ -3,14 +3,14 @@
  */
 angular
     .module('Varsom')
-    .controller('AvalancheRegionCtrl', function AvalancheRegionCtrl($scope, $location, $ionicScrollDelegate, $ionicLoading, $stateParams, AvalancheRegion,Localization, Utility) {
+    .controller('AvalancheRegionCtrl', function AvalancheRegionCtrl($scope, $location, $ionicScrollDelegate, $ionicLoading, $stateParams, Localization, Utility, region) {
         var vm = this;
-        vm.region = $stateParams.region;
+        vm.region = region;
         vm.days = [];
 
         vm.getAvalancheForecast = function(num){
             if(vm.region){
-                return Utility.chooseLanguage(vm.region.avalancheWarningForecast)[num];
+                return Utility.chooseLanguage(vm.region.forecast)[num];
             }
         };
 
@@ -49,22 +49,5 @@ angular
             $location.hash(vm.region.regionId + id);
             $ionicScrollDelegate.anchorScroll(true);
         };
-
-
-        $scope.$on('$ionicView.loaded', function() {
-            if($stateParams.region){
-                vm.region= $stateParams.region;
-                init();
-            } else {
-                console.log($stateParams.regionId);
-                AvalancheRegion.getById($stateParams.regionId).$promise.then(function(data){
-                    console.log(data);
-                    vm.region = data.results[0];
-                    console.log('REGION', vm.region);
-                    init();
-                });
-            }
-        });
-
 
     });

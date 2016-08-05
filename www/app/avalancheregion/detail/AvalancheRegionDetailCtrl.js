@@ -1,13 +1,9 @@
-(function () {
-    'use strict';
+angular
+    .module('Varsom')
+    .controller('AvalancheRegionDetailCtrl', function AvalancheRegionDetailCtrl(Utility, $stateParams, region) {
 
-    function AvalancheRegionDetailCtrl($stateParams) {
         var vm = this;
-        vm.forecast = $stateParams.forecast;
-        console.log(vm.forecast);
-    }
 
-    angular.module('Varsom')
-        .controller('AvalancheRegionDetailCtrl', AvalancheRegionDetailCtrl);
+        vm.forecast = Utility.chooseLanguage(region.forecast)[$stateParams.day];
 
-})();
+    });
