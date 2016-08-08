@@ -294,13 +294,13 @@ ul.problem {
 }
 
 .areas {
-    .map {
-        .list {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1;
-        }
+
+    .list.selected-area {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1;
+        margin-bottom: 0;
     }
 }

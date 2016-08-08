@@ -7,39 +7,39 @@
         <leaflet data-tap-disabled="true" class="map" lf-center="vm.map.center" defaults="vm.map.defaults"
                  tiles="vm.map.tiles"
                  geojson="vm.map.geojson"
-                 width="100%" height="{{ vm.map.height }}" ng-if="vm.hasMap">
-
-            <div class="overview list" ng-if="vm.map.selectedArea">
-
-                <div class="item item-divider shadow-top">
-                    {{vm.map.selectedArea.name}}
-                    {{appVm.util.getDayRangeString(appVm.util.getDays(vm.map.selectedArea.landslideForecast))}}
-                </div>
-
-                <a class="item item-icon-right" ng-click="vm.goToArea(vm.map.selectedArea)">
-
-                    <hazard-rating warning="vm.map.selectedArea.floodForecast[0]"></hazard-rating>
-                    <hazard-rating warning="vm.map.selectedArea.floodForecast[1]"></hazard-rating>
-                    <hazard-rating warning="vm.map.selectedArea.floodForecast[2]"></hazard-rating>
-
-                    <span class="varsom-warning-text">{{appVm.text['flood']}}</span>
-
-                    <br>
-
-                    <hazard-rating warning="vm.map.selectedArea.floodForecast[0]"></hazard-rating>
-                    <hazard-rating warning="vm.map.selectedArea.floodForecast[1]"></hazard-rating>
-                    <hazard-rating warning="vm.map.selectedArea.floodForecast[2]"></hazard-rating>
-
-                    <span class="varsom-warning-text">{{appVm.text['landslide']}}</span>
-
-                    <i class="icon icon-accessory ion-chevron-right"></i>
-                </a>
-
-            </div>
+                 width="100%" height="{{ vm.map.fullscreen ? '100%' : '200px' }}" ng-if="vm.hasMap">
 
         </leaflet>
 
-        <div class="overview list">
+        <div class="overview list selected-area" ng-if="vm.map.selectedArea">
+
+            <div class="item item-divider shadow-top">
+                {{vm.map.selectedArea.name}}
+                {{appVm.util.getDayRangeString(appVm.util.getDays(vm.map.selectedArea.landslideForecast))}}
+            </div>
+
+            <a class="item item-icon-right" ng-click="vm.goToArea(vm.map.selectedArea)">
+
+                <hazard-rating warning="vm.map.selectedArea.floodForecast[0]"></hazard-rating>
+                <hazard-rating warning="vm.map.selectedArea.floodForecast[1]"></hazard-rating>
+                <hazard-rating warning="vm.map.selectedArea.floodForecast[2]"></hazard-rating>
+
+                <span class="varsom-warning-text">{{appVm.text['flood']}}</span>
+
+                <br>
+
+                <hazard-rating warning="vm.map.selectedArea.floodForecast[0]"></hazard-rating>
+                <hazard-rating warning="vm.map.selectedArea.floodForecast[1]"></hazard-rating>
+                <hazard-rating warning="vm.map.selectedArea.floodForecast[2]"></hazard-rating>
+
+                <span class="varsom-warning-text">{{appVm.text['landslide']}}</span>
+
+                <i class="icon icon-accessory ion-chevron-right"></i>
+            </a>
+
+        </div>
+
+        <div class="overview list" ng-hide="vm.map.selectedArea || vm.map.fullscreen">
 
             <div class="item item-divider shadow-top">
                 {{appVm.text['threeDayForecast']}}

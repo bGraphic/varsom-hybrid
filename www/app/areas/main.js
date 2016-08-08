@@ -76,14 +76,6 @@ angular
             }
         });
 
-        $scope.$watch("vm.map.fullscreen", function (newValue) {
-            if (newValue) {
-                vm.map.height = "100%";
-            } else {
-                vm.map.height = "200px";
-            }
-        });
-
         $scope.$on("leafletDirectiveGeoJson.click", function (ev, leafletPayload) {
 
             var areaId = null;
