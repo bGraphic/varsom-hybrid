@@ -4,7 +4,8 @@
         <ion-refresher pulling-text="{{appVm.text['pullToRefresh']}}" on-refresh="vm.pullToRefresh()">
         </ion-refresher>
 
-        <leaflet class="map" lf-center="vm.map.center" defaults="vm.map.defaults" tiles="vm.map.tiles"
+        <leaflet data-tap-disabled="true" class="map" lf-center="vm.map.center" defaults="vm.map.defaults"
+                 tiles="vm.map.tiles"
                  geojson="vm.map.geojson"
                  width="100%" height="{{ vm.map.height }}" ng-if="vm.hasMap">
 
