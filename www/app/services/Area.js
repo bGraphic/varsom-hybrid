@@ -75,6 +75,24 @@ angular
             return highestForecast;
         }
 
+        function getHighestLevel(forecast) {
+            var highestLevel = 0;
+
+            for (var i = 0; i < 3; i++) {
+                var warning = forecast[i];
+                var level = 0;
+                if (warning.hasOwnProperty("ActivityLevel")) {
+                    level = warning.ActivityLevel;
+                } else if (warning.hasOwnProperty("DangerLevel")) {
+                    level = warning.DangerLevel;
+                }
+
+                highestLevel = (level > highestLevel) ? level : highestLevel;
+            }
+
+            return highestLevel;
+        }
+
         function loadAreas(areaType, parentId) {
             var query = {};
             var options = {};
@@ -133,6 +151,8 @@ angular
                         area.floodForecast = getForecast(area, "flood");
                         area.landslideForecast = getForecast(area, "landslide");
                     }
+
+                    area.highestLevel = getHighestLevel(area.forecast);
                 });
             }
 
@@ -187,11 +207,27 @@ angular
                 });
             }
 
+            function getArea(areaType, areaId) {
+                var parentId = null;
+                if (areaType == "municipalities") {
+                    parentId = areaId.substring(0, 2);
+                }
+
+                var areas = getTransformedAreas(areaType, parentId);
+                var foundArea = null;
+                angular.forEach(areas, function (area) {
+                    if (getId(area) == areaId) {
+                        foundArea = area;
+                    }
+                });
+                return foundArea;
+            }
+
             return {
                 fetchAreas: fetchAreas,
                 refreshAreas: refreshAreas,
                 fetchArea: fetchArea,
-
+                getArea: getArea,
                 isCounty: isCounty,
                 isMunicipality: isMunicipality,
                 isRegion: isRegion,

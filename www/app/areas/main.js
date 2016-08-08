@@ -1,6 +1,6 @@
 angular
     .module('Varsom')
-    .controller('AreasMainCtrl', function ($scope, $state, $ionicLoading, $stateParams, Area, areas, $http) {
+    .controller('AreasMainCtrl', function ($scope, $state, $ionicLoading, $stateParams, Area, areas, $http, AppSettings) {
 
         var vm = this;
         vm.areas = areas;
@@ -51,7 +51,19 @@ angular
             $http.get("/geojson/" + $stateParams.areaType + ".geojson").success(function (data, status) {
 
                 vm.map.geojson = {
-                    data: data
+                    data: data,
+                    style: function (feature) {
+                        var areaId = null;
+                        if (feature.properties.hasOwnProperty("fylkesnr")) {
+                            areaId = feature.properties.fylkesnr;
+                        } else if (feature.properties.hasOwnProperty("omraadeid")) {
+                            areaId = feature.properties.omraadeid;
+                        }
+
+                        var area = Area.getArea($stateParams.areaType, areaId);
+
+                        return AppSettings.hazardRatingStyles[area.highestLevel];
+                    }
                 };
             });
         }
