@@ -56,55 +56,6 @@ section {
     text-align: center;
 }
 
-.varsom-map-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1;
-
-    background-color: rgba(255,255,255,0.8);
-    //transform: translateY(50px);
-    max-height: 50%;
-
-    h3 {
-        padding-left: 20px;
-        display: inline-block;
-        margin: 0;
-    }
-
-
-    &.ng-hide-add {
-        transition:0.2s ease-in all;
-        transform: translateY(0);
-        opacity: 0.8;
-    }
-    &.ng-hide-add-active {
-        transform: translateY(200px);
-        opacity: 0;
-    }
-
-    /* The finishing CSS styles for the enter animation */
-    &.ng-hide-remove {
-        transition:0.2s ease-out all;
-        transform: translateY(200px);
-        opacity: 0;
-    }
-    &.ng-hide-remove-active {
-        transform: translateY(0);
-        opacity: 0.8;
-    }
-}
-
-.varsom-map {
-    position: absolute;
-    height:100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-}
-
 .varsom-cause {
     min-height: 70px;
     padding-bottom: 8px;
@@ -136,53 +87,6 @@ ul.problem {
             margin-right: $item-padding/4;
         }
     }
-}
-
-.has-map.list{
-
-    padding-top: 200px;
-
-    &.ng-hide-add {
-        transition:0.5s ease-in transform;
-        transform: translateY(0);
-        z-index: 2;
-    }
-    &.ng-hide-add-active {
-        transform: translateY(400px);
-        z-index: 2;
-    }
-
-    /* The finishing CSS styles for the enter animation */
-    &.ng-hide-remove {
-        transition:0.5s ease-out transform;
-        transform: translateY(400px);
-        z-index: 2;
-
-    }
-    &.ng-hide-remove-active {
-        transform: translateY(0);
-        z-index: 2;
-
-    }
-}
-
-.overview.list {
-	.item {
-		padding-top: $item-padding/1.5;
-		padding-left: $item-padding/1.5;
-		padding-bottom: $item-padding/1.5;
-
-		.varsom-warning-text {
-			margin-left: $item-padding/2;
-		}
-
-		.forecast-widget {
-			margin-bottom: -$item-padding/2;
-			.forecast {
-				margin-bottom: $item-padding/2;
-			}
-		}
-	}
 }
 
 .detail.list {
@@ -295,12 +199,84 @@ ul.problem {
 
 .areas {
 
-    .list.selected-area {
+    .map {
         position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        z-index: 1;
-        margin-bottom: 0;
+    }
+
+    .list {
+        .item {
+            padding-top: $item-padding/1.5;
+            padding-left: $item-padding/1.5;
+            padding-bottom: $item-padding/1.5;
+
+            .varsom-warning-text {
+                margin-left: $item-padding/2;
+            }
+
+            .forecast-widget {
+                margin-bottom: -$item-padding/2;
+                .forecast {
+                    margin-bottom: $item-padding/2;
+                }
+            }
+        }
+
+        &.selected-area {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1;
+            margin-bottom: 0;
+
+            &.ng-leave {
+                transition: 0.2s ease-in all;
+                transform: translateY(0);
+                opacity: 0.8;
+            }
+            &.ng-leave-active {
+                transform: translateY(200px);
+                opacity: 0;
+            }
+
+            /* The finishing CSS styles for the enter animation */
+            &.ng-enter {
+                transition: 0.2s ease-out all;
+                transform: translateY(200px);
+                opacity: 0;
+            }
+            &.ng-enter-active {
+                transform: translateY(0);
+                opacity: 0.8;
+            }
+        }
+
+        &.has-map {
+
+            margin-top: 200px;
+
+            &.ng-hide-add {
+                transition: 0.5s ease-in transform;
+                transform: translateY(0);
+                z-index: 2;
+            }
+            &.ng-hide-add-active {
+                transform: translateY(400px);
+                z-index: 2;
+            }
+
+            /* The finishing CSS styles for the enter animation */
+            &.ng-hide-remove {
+                transition: 0.5s ease-out transform;
+                transform: translateY(400px);
+                z-index: 2;
+
+            }
+            &.ng-hide-remove-active {
+                transform: translateY(0);
+                z-index: 2;
+
+            }
+        }
     }
 }
