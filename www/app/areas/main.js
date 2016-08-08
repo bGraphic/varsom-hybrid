@@ -23,8 +23,8 @@ angular
         };
 
         vm.pullToRefresh = function () {
-            Area.refreshAreas($stateParams.areaType, $stateParams.parentId).then(function () {
-                vm.areas = Area.getAreas($stateParams.areaType, $stateParams.parentId);
+            Area.refreshAreas($stateParams.areaType, $stateParams.parentId).then(function (ares) {
+                vm.areas = areas;
                 $scope.$broadcast('scroll.refreshComplete');
             });
         };
