@@ -106,4 +106,15 @@ angular
             }
         });
 
+    }).directive('forecastWidget', function ForecastWidget() {
+
+    return {
+        restrict: 'E',
+        scope: {
+            forecast: '=',
+            label: '='
+        },
+        templateUrl: '/templates/forecast-widget.html'
+    };
+
     });

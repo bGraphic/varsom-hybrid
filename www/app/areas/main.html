@@ -18,21 +18,12 @@
                 {{appVm.util.getDayRangeString(appVm.util.getDays(vm.map.selectedArea.landslideForecast))}}
             </div>
 
-            <a class="item item-icon-right" ng-click="vm.goToArea(vm.map.selectedArea)">
-                <hazard-rating warning="vm.map.selectedArea.floodForecast[0]"></hazard-rating>
-                <hazard-rating warning="vm.map.selectedArea.floodForecast[1]"></hazard-rating>
-                <hazard-rating warning="vm.map.selectedArea.floodForecast[2]"></hazard-rating>
-
-                <span class="varsom-warning-text">{{appVm.text['flood']}}</span>
-
-                <br>
-
-                <hazard-rating warning="vm.map.selectedArea.landslideForecast[0]"></hazard-rating>
-                <hazard-rating warning="vm.map.selectedArea.landslideForecast[1]"></hazard-rating>
-                <hazard-rating warning="vm.map.selectedArea.landslideForecast[2]"></hazard-rating>
-
-                <span class="varsom-warning-text">{{appVm.text['landslide']}}</span>
-
+            <a class="item item-icon-right" ng-click="vm.goToArea(vm.area)">
+                <forecast-widget forecast="vm.map.selectedArea.floodForecast"
+                                 label="appVm.text['flood']"></forecast-widget>
+                <br/>
+                <forecast-widget forecast="vm.map.selectedArea.landslideForecast"
+                                 label="appVm.text['landslide']"></forecast-widget>
                 <i class="icon icon-accessory ion-chevron-right"></i>
             </a>
 
@@ -47,11 +38,7 @@
 
             <a class="item region item-icon-right" ng-repeat="area in vm.areas" ng-click="vm.goToArea(area)">
 
-                <hazard-rating warning="area.forecast[0]"></hazard-rating>
-                <hazard-rating warning="area.forecast[1]"></hazard-rating>
-                <hazard-rating warning="area.forecast[2]"></hazard-rating>
-
-                <span class="varsom-warning-text" ng-bind="area.name"></span>
+                <forecast-widget forecast="area.forecast" label="area.name"></forecast-widget>
 
                 <i class="icon icon-accessory ion-chevron-right"></i>
             </a>
@@ -60,3 +47,8 @@
 
     </ion-content>
 </ion-view>
+
+<script type="text/ng-template" id="/templates/forecast-widget.html">
+    <hazard-rating warning="warning" ng-repeat="warning in forecast"></hazard-rating>
+    <span class="varsom-warning-text" ng-bind="label"></span>
+</script>
