@@ -5,14 +5,16 @@ angular
 
         function link(scope) {
 
-            scope.noHazardRating = '?';
             scope.styles = AppSettings.hazardRatingStyles;
 
-            if (scope.warning.hasOwnProperty("ActivityLevel")) {
-                scope.parsedRating = parseInt(scope.warning.ActivityLevel);
-            } else if (scope.warning.hasOwnProperty("DangerLevel")) {
-                scope.parsedRating = parseInt(scope.warning.DangerLevel);
-            }
+            scope.$watch('warning', function () {
+
+                if (scope.warning.hasOwnProperty("ActivityLevel")) {
+                    scope.parsedRating = parseInt(scope.warning.ActivityLevel);
+                } else if (scope.warning.hasOwnProperty("DangerLevel")) {
+                    scope.parsedRating = parseInt(scope.warning.DangerLevel);
+                }
+            });
         }
 
         return {
@@ -21,7 +23,7 @@ angular
             scope: {
                 warning: '='
             },
-            template: '<span class="varsom-label {{styles[parsedRating || 0].className}}-bg">{{(parsedRating || noHazardRating)}}</span>'
+            template: '<span class="varsom-label {{styles[parsedRating || 0].className}}-bg">{{(parsedRating || "?")}}</span>'
         };
 
     });
