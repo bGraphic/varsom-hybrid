@@ -1,4 +1,4 @@
-$varsom-label-size: 35px;
+$varsom-label-size: 40px;
 $varsom-label-text-size: 20px;
 
 p {
@@ -204,19 +204,22 @@ ul.problem {
     }
 
     .list {
+
         .item {
-            padding-top: $item-padding/1.5;
-            padding-left: $item-padding/1.5;
-            padding-bottom: $item-padding/1.5;
 
-            .varsom-warning-text {
-                margin-left: $item-padding/2;
-            }
+            forecast-widget {
+                display: block;
+                margin-bottom: 5px;
 
-            .forecast-widget {
-                margin-bottom: -$item-padding/2;
-                .forecast {
-                    margin-bottom: $item-padding/2;
+                &:last-of-type {
+                    margin-bottom: 0;
+                }
+
+                hazard-rating {
+                    margin-right: 5px;
+                    &:last-of-type {
+                        margin-right: 10px;
+                    }
                 }
             }
         }

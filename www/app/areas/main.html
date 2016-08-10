@@ -1,4 +1,4 @@
-<ion-view view-title="{{ appVm.text[vm.titleKey] }}">
+<ion-view view-title="{{ vm.parentArea ? vm.parentArea.name : appVm.text[vm.titleKey] }}">
 
     <ion-content class="has-header areas">
         <ion-refresher pulling-text="{{appVm.text['pullToRefresh']}}" on-refresh="vm.pullToRefresh()">
@@ -29,7 +29,10 @@
 
         <div class="list" ng-class="{'has-map': vm.hasMap}" ng-hide="vm.map.fullscreen">
 
-            <div class="item item-divider" ng-bind="vm.parentArea.name" ng-if="vm.parentArea"></div>
+            <div class="item item-divider">
+                {{appVm.text['threeDayForecast']}}
+                {{appVm.util.getDayRangeString(appVm.util.getDays(vm.areas[0].forecast))}}
+            </div>
 
             <a class="item item-icon-right" ng-click="vm.goToArea(vm.parentArea)" ng-if="vm.parentArea">
 
@@ -37,12 +40,11 @@
 
             </a>
 
-            <div class="item item-divider">
-                {{appVm.text['threeDayForecast']}}
-                {{appVm.util.getDayRangeString(appVm.util.getDays(vm.areas[0].forecast))}}
+            <div class="item item-divider" ng-if="vm.parentArea">
+                {{appVm.text['municipalities']}}
             </div>
 
-            <a class="item region item-icon-right" ng-repeat="area in vm.areas" ng-click="vm.goToArea(area)">
+            <a class="item area item-icon-right" ng-repeat="area in vm.areas" ng-click="vm.goToArea(area)">
 
                 <forecast-widget forecast="area.forecast" label="area.name"></forecast-widget>
 
@@ -57,7 +59,6 @@
 <script type="text/ng-template" id="/templates/area-county-widget.html">
     <forecast-widget forecast="area.floodForecast"
                      label="translations['flood']"></forecast-widget>
-    <br/>
     <forecast-widget forecast="area.landslideForecast"
                      label="translations['landslide']"></forecast-widget>
 </script>
@@ -69,5 +70,5 @@
 
 <script type="text/ng-template" id="/templates/forecast-widget.html">
     <hazard-rating warning="warning" ng-repeat="warning in forecast"></hazard-rating>
-    <span class="varsom-warning-text" ng-bind="label"></span>
+    <span ng-bind="label"></span>
 </script>
