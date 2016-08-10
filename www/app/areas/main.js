@@ -1,6 +1,6 @@
 angular
     .module('Varsom')
-    .controller('AreasMainCtrl', function ($scope, $state, $ionicLoading, $stateParams, Area, areas, $http, AppSettings) {
+    .controller('AreasMainCtrl', function ($scope, $http, $state, $stateParams, AppSettings, Area, areas, parentArea) {
 
         var vm = this;
         vm.areas = areas;
@@ -135,4 +135,4 @@ angular
         }
     };
 
-    });
+});
