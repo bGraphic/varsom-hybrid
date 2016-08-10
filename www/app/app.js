@@ -70,6 +70,11 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
                             $ionicLoading.hide();
                             return areas;
                         });
+                    },
+                    parentArea: function ($stateParams, Area) {
+                        if ($stateParams.parentId) {
+                            return Area.fetchArea('counties', $stateParams.parentId);
+                        }
                     }
                 }
             })

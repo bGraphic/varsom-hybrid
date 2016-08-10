@@ -1,9 +1,11 @@
 angular
     .module('Varsom')
-    .controller('AreasMainCtrl', function ($scope, $state, $stateParams, $http, AppSettings, Area, areas, parentArea) {
+    .controller('AreasMainCtrl', function ($scope, $state, $stateParams, $http, AppSettings, Localization, Area, areas, parentArea) {
 
         var vm = this;
+        vm.parentArea = parentArea;
         vm.areas = areas;
+
         vm.titleKey = ($stateParams.areaType == "regions") ? "avalanche" : "landslide-flood";
         vm.hasMap = !$stateParams.parentId;
 

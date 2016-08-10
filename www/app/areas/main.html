@@ -19,15 +19,25 @@
             </div>
 
             <a class="item item-icon-right" ng-click="vm.goToArea(vm.map.selectedArea)">
+
                 <area-widget area="vm.map.selectedArea" translations="appVm.text"></area-widget>
                 <i class="icon icon-accessory ion-chevron-right"></i>
+
             </a>
 
         </div>
 
         <div class="list" ng-class="{'has-map': vm.hasMap}" ng-hide="vm.map.fullscreen">
 
-            <div class="item item-divider shadow-top">
+            <div class="item item-divider" ng-bind="vm.parentArea.name" ng-if="vm.parentArea"></div>
+
+            <a class="item item-icon-right" ng-click="vm.goToArea(vm.parentArea)" ng-if="vm.parentArea">
+
+                <area-widget area="vm.parentArea" translations="appVm.text"></area-widget>
+
+            </a>
+
+            <div class="item item-divider">
                 {{appVm.text['threeDayForecast']}}
                 {{appVm.util.getDayRangeString(appVm.util.getDays(vm.areas[0].forecast))}}
             </div>
