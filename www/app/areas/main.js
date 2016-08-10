@@ -117,4 +117,22 @@ angular
         templateUrl: '/templates/forecast-widget.html'
     };
 
+}).directive('areaWidget', function AreaWidget($stateParams) {
+
+    return {
+        restrict: 'E',
+        scope: {
+            area: '=',
+            translations: '='
+        },
+        templateUrl: function (elem, attr) {
+            if ($stateParams.areaType == 'regions') {
+                return '/templates/area-region-widget.html';
+            } else {
+                return '/templates/area-county-widget.html';
+            }
+
+        }
+    };
+
     });

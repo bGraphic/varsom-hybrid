@@ -15,15 +15,11 @@
 
             <div class="item item-divider shadow-top">
                 {{vm.map.selectedArea.name}}
-                {{appVm.util.getDayRangeString(appVm.util.getDays(vm.map.selectedArea.landslideForecast))}}
+                {{appVm.util.getDayRangeString(appVm.util.getDays(vm.map.selectedArea.forecast))}}
             </div>
 
-            <a class="item item-icon-right" ng-click="vm.goToArea(vm.area)">
-                <forecast-widget forecast="vm.map.selectedArea.floodForecast"
-                                 label="appVm.text['flood']"></forecast-widget>
-                <br/>
-                <forecast-widget forecast="vm.map.selectedArea.landslideForecast"
-                                 label="appVm.text['landslide']"></forecast-widget>
+            <a class="item item-icon-right" ng-click="vm.goToArea(vm.map.selectedArea)">
+                <area-widget area="vm.map.selectedArea" translations="appVm.text"></area-widget>
                 <i class="icon icon-accessory ion-chevron-right"></i>
             </a>
 
@@ -47,6 +43,19 @@
 
     </ion-content>
 </ion-view>
+
+<script type="text/ng-template" id="/templates/area-county-widget.html">
+    <forecast-widget forecast="area.floodForecast"
+                     label="translations['flood']"></forecast-widget>
+    <br/>
+    <forecast-widget forecast="area.landslideForecast"
+                     label="translations['landslide']"></forecast-widget>
+</script>
+
+<script type="text/ng-template" id="/templates/area-region-widget.html">
+    <forecast-widget forecast="area.forecast"
+                     label="translations['avalanche']"></forecast-widget>
+</script>
 
 <script type="text/ng-template" id="/templates/forecast-widget.html">
     <hazard-rating warning="warning" ng-repeat="warning in forecast"></hazard-rating>
