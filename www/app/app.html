@@ -28,7 +28,7 @@
 
                 <li>
                     <a menu-close
-                       ui-sref="app.counties"
+                       ui-sref="app.areas({areaType: 'counties'})"
                        ui-sref-active="active">
                         {{appVm.text['landslide-flood']}} <i class="icon ion-ios-rainy-outline"></i>
                     </a>
@@ -36,7 +36,7 @@
                 </li>
                 <li>
                     <a menu-close
-                       ui-sref="app.avalancheregions"
+                       ui-sref="app.areas({areaType: 'regions'})"
                        ui-sref-active="active">
                         {{appVm.text['avalanche']}} <i class="icon ion-ios-snowy"></i>
                     </a>
