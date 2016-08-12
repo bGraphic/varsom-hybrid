@@ -17,6 +17,7 @@
     <script>var L_PREFER_CANVAS = true;</script>
     <script>window.phonegap = {}</script>
 
+    <!-- Angular -->
     <script src="lib/angular/angular.min.js"></script>
     <script src="lib/angular-animate/angular-animate.min.js"></script>
     <script src="lib/angular-sanitize/angular-sanitize.min.js"></script>
@@ -24,9 +25,25 @@
     <script src="lib/angular-simple-logger/dist/angular-simple-logger.min.js"></script>
     <script src="lib/angular-resource/angular-resource.min.js"></script>
 
+    <!-- Firebase -->
+    <script src="lib/firebase/firebase.js"></script>
+    <script src="lib/angularfire/dist/angularfire.min.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDwiQkQSv1BCovQiPU-P9xok5pueLPJZqo",
+            authDomain: "varsom-dev.firebaseapp.com",
+            databaseURL: "https://varsom-dev.firebaseio.com",
+            storageBucket: "varsom-dev.appspot.com"
+        };
+        firebase.initializeApp(config);
+    </script>
+
+    <!-- Leaflet -->
     <script src="lib/leaflet/dist/leaflet.js"></script>
     <script src="lib/ui-leaflet/dist/ui-leaflet.min.js"></script>
 
+    <!-- Ionic -->
     <script src="lib/ionic/js/ionic.min.js"></script>
     <script src="lib/ionic/js/ionic-angular.min.js"></script>
     <script src="lib/ionic-service-core/ionic-core.js"></script>

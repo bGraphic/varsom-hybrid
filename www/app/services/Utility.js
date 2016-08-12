@@ -57,7 +57,7 @@
         };
 
         this.getDays = function (forecastObj) {
-            var forecast = forecastObj;
+            /*     var forecast = forecastObj;
 
             var forecastLength = forecast.length;
             var days = [];
@@ -69,7 +69,9 @@
 
             }
 
-            return days;
+             return days;*/
+
+            return "";
 
         };
 

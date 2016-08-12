@@ -1,5 +1,5 @@
 "use strict";
-angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytics', 'ionic.service.deploy', 'ngResource', 'ngCordova', 'ui-leaflet'])
+angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytics', 'ionic.service.deploy', 'ngResource', 'ngCordova', 'ui-leaflet', 'firebase'])
 
     .controller('AppCtrl', function ($scope, $ionicHistory, $ionicSideMenuDelegate, Localization, Utility) {
         var appVm = this;
@@ -28,7 +28,7 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
     /**
      * State configuration
      */
-    .config(function ($stateProvider, $urlRouterProvider, $ionicAppProvider, $ionicConfigProvider, AppSettingsProvider, AppKeys, AreaProvider) {
+    .config(function ($stateProvider, $urlRouterProvider, $ionicAppProvider, $ionicConfigProvider, AppSettingsProvider, AppKeys) {
 
 
         $ionicAppProvider.identify({
@@ -40,8 +40,6 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
             "X-Parse-Application-Id": AppKeys.parse.appId,
             "X-Parse-REST-API-Key": AppKeys.parse.restKey
         });
-
-        AreaProvider.setAppKey(AppKeys.appstax.appKey);
 
         if (ionic.Platform.isAndroid()) {
             $ionicConfigProvider.scrolling.jsScrolling(false);
@@ -64,17 +62,12 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
                     }
                 },
                 resolve: {
-                    areas: function ($stateParams, $ionicLoading, Area) {
-                        $ionicLoading.show();
-                        return Area.fetchAreas($stateParams.areaType, $stateParams.parentId).then(function (areas) {
-                            $ionicLoading.hide();
-                            return areas;
-                        });
+                    areas: function ($stateParams, Areas) {
+                        console.log("Get areas");
+                        return Areas($stateParams.areaType).$loaded();
                     },
-                    parentArea: function ($stateParams, Area) {
-                        if ($stateParams.parentId) {
-                            return Area.fetchArea('counties', $stateParams.parentId);
-                        }
+                    parentArea: function ($stateParams, Areas) {
+                        return null;
                     }
                 }
             })

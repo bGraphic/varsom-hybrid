@@ -27,7 +27,7 @@
 
         </div>
 
-        <div class="list" ng-class="{'has-map': vm.hasMap}" ng-hide="vm.map.fullscreen">
+        <div class="list areas" ng-class="{'has-map': vm.hasMap}" ng-hide="vm.map.fullscreen">
 
             <div class="item item-divider">
                 {{appVm.text['threeDayForecast']}}
@@ -46,7 +46,7 @@
 
             <a class="item area item-icon-right" ng-repeat="area in vm.areas" ng-click="vm.goToArea(area)">
 
-                <forecast-widget forecast="area.forecast" label="area.name"></forecast-widget>
+                <forecast-widget forecast="area.LandslideForcast" label="area.Name"></forecast-widget>
 
                 <i class="icon icon-accessory ion-chevron-right"></i>
             </a>
@@ -57,14 +57,14 @@
 </ion-view>
 
 <script type="text/ng-template" id="/templates/area-county-widget.html">
-    <forecast-widget forecast="area.floodForecast"
+    <forecast-widget forecast="area.FloodForecast"
                      label="translations['flood']"></forecast-widget>
-    <forecast-widget forecast="area.landslideForecast"
+    <forecast-widget forecast="area.LandslideForecast"
                      label="translations['landslide']"></forecast-widget>
 </script>
 
 <script type="text/ng-template" id="/templates/area-region-widget.html">
-    <forecast-widget forecast="area.forecast"
+    <forecast-widget forecast="area.Forecast"
                      label="translations['avalanche']"></forecast-widget>
 </script>
 

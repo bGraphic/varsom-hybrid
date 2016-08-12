@@ -1,6 +1,8 @@
 angular
     .module('Varsom')
-    .controller('AreasMainCtrl', function ($scope, $state, $stateParams, $http, AppSettings, Localization, Area, areas, parentArea) {
+    .controller('AreasMainCtrl', function ($scope, $state, $stateParams, $http, AppSettings, Localization, areas, parentArea) {
+
+        console.log("TEST ARRAY", areas);
 
         var vm = this;
         vm.parentArea = parentArea;
