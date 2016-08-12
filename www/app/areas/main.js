@@ -1,8 +1,6 @@
 angular
     .module('Varsom')
-    .controller('AreasMainCtrl', function ($scope, $state, $stateParams, $http, AppSettings, Localization, areas, parentArea) {
-
-        console.log("TEST ARRAY", areas);
+    .controller('AreasMainCtrl', function ($scope, $state, $stateParams, $http, AppSettings, Localization, Area, areas, parentArea) {
 
         var vm = this;
         vm.parentArea = parentArea;
@@ -13,17 +11,18 @@ angular
 
         vm.goToArea = function (area) {
 
-            if (Area.isCounty(area)) {
-                $state.go('app.areas', {areaType: "municipalities", parentId: Area.getId(area)});
+            switch ($stateParams.areaType) {
+                case "counties":
+                    $state.go('app.areas', {areaType: "municipalities", parentId: area.Id});
+                    break;
+                case "municipalities":
+                    $state.go('app.municipality', {areaId: Area.Id});
+                    break;
+                case "regions":
+                    $state.go('app.region', {areaId: Area.Id});
+                    break;
             }
 
-            if (Area.isMunicipality(area)) {
-                $state.go('app.municipality', {areaId: Area.getId(area)});
-            }
-
-            if (Area.isRegion(area)) {
-                $state.go('app.region', {areaId: Area.getId(area)});
-            }
         };
 
         vm.pullToRefresh = function () {
@@ -64,7 +63,7 @@ angular
                             areaId = feature.properties.omraadeid;
                         }
 
-                        var area = Area.getArea($stateParams.areaType, areaId);
+                        var area = Area($stateParams.areaType, areaId);
 
                         return AppSettings.hazardRatingStyles[area.highestLevel];
                     }
@@ -93,8 +92,8 @@ angular
                 }
             }
 
-            Area.fetchArea($stateParams.areaType, areaId).then(function (area) {
-                console.log("AreasMapCtrl: area selected ", area);
+            Area($stateParams.areaType, areaId).$loaded().then(function (area) {
+                console.log("AreasMainCtrl: area selected in map", area);
                 vm.map.selectedArea = area;
             });
         });

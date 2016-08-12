@@ -63,11 +63,13 @@ angular.module('Varsom', ['ionic', 'ionic.service.core', 'ionic.service.analytic
                 },
                 resolve: {
                     areas: function ($stateParams, Areas) {
-                        console.log("Get areas");
-                        return Areas($stateParams.areaType).$loaded();
+                        console.log("Get areas ", $stateParams.areaType, $stateParams.parentId);
+                        return Areas($stateParams.areaType, $stateParams.parentId).$loaded();
                     },
-                    parentArea: function ($stateParams, Areas) {
-                        return null;
+                    parentArea: function ($stateParams, Area) {
+                        if ($stateParams.parentId) {
+                            return Area("counties", $stateParams.parentId).$loaded();
+                        }
                     }
                 }
             })

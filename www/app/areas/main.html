@@ -14,7 +14,7 @@
         <div class="list selected-area" ng-if="vm.map.selectedArea">
 
             <div class="item item-divider shadow-top">
-                {{vm.map.selectedArea.name}}
+                {{vm.map.selectedArea.Name}}
                 {{appVm.util.getDayRangeString(appVm.util.getDays(vm.map.selectedArea.forecast))}}
             </div>
 
@@ -46,7 +46,7 @@
 
             <a class="item area item-icon-right" ng-repeat="area in vm.areas" ng-click="vm.goToArea(area)">
 
-                <forecast-widget forecast="area.LandslideForcast" label="area.Name"></forecast-widget>
+                <forecast-widget forecast="area.Forecast" label="area.Name"></forecast-widget>
 
                 <i class="icon icon-accessory ion-chevron-right"></i>
             </a>
