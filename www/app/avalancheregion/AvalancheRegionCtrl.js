@@ -1,53 +1,58 @@
-/**
- * Created by storskel on 03.06.2015.
- */
-angular
-    .module('Varsom')
-    .controller('AvalancheRegionCtrl', function AvalancheRegionCtrl($scope, $location, $ionicScrollDelegate, $ionicLoading, $stateParams, Localization, Utility, region) {
-        var vm = this;
-        vm.region = region;
-        vm.days = [];
+/*global angular */
 
-        vm.getAvalancheForecast = function(num){
-            if(vm.region){
-                return vm.region.forecast[num];
-            }
-        };
+angular.module('Varsom')
+  .controller('AvalancheRegionCtrl',
+    function AvalancheRegionCtrl($scope, $location, $ionicScrollDelegate, $ionicLoading, $stateParams, Localization, Utility, region) {
+      "use strict";
 
-        var init = function () {
+      var vm = this;
+      vm.region = region;
+      vm.days = [];
 
-            vm.days = Utility.getDays(vm.region. avalancheWarningForecast);
-        };
+      vm.getAvalancheForecast = function (num) {
+        if (vm.region) {
+          return vm.region.forecast[num];
+        }
+      };
 
-        vm.util = Utility;
+      var init = function () {
 
-        vm.getAvalancheForecastText = function(num){
-            var forecast = vm.getAvalancheForecast(num);
-            if(!forecast) return;
+        vm.days = Utility.getDays(vm.region.avalancheWarningForecast);
+      };
 
-            if(forecast.MainText){
-                return forecast.MainText;
-            } else if(forecast.AvalancheDanger) {
-                if(forecast.AvalancheDanger.length > 150){
-                    return forecast.AvalancheDanger.substring(0, 150) + '...';
-                } else {
-                    return forecast.AvalancheDanger;
-                }
-            }
+      vm.util = Utility;
 
-        };
+      vm.getAvalancheForecastText = function (num) {
+        var forecast = vm.getAvalancheForecast(num);
+        if (!forecast) {
+          return;
+        }
 
-        vm.getDangerLevelName = function(num){
-            var forecast = vm.getAvalancheForecast(num);
-            if(forecast && forecast.DangerLevelName)
-                return forecast.DangerLevelName.replace(/[0-9] /, '');
-            else return Localization.getText('ukjent');
+        if (forecast.MainText) {
+          return forecast.MainText;
+        } else if (forecast.AvalancheDanger) {
+          if (forecast.AvalancheDanger.length > 150) {
+            return forecast.AvalancheDanger.substring(0, 150) + '...';
+          } else {
+            return forecast.AvalancheDanger;
+          }
+        }
 
-        };
+      };
 
-        vm.scrollTo = function(id){
-            $location.hash(vm.region.regionId + id);
-            $ionicScrollDelegate.anchorScroll(true);
-        };
+      vm.getDangerLevelName = function (num) {
+        var forecast = vm.getAvalancheForecast(num);
+        if (forecast && forecast.DangerLevelName) {
+          return forecast.DangerLevelName.replace(/[0-9] /, '');
+        } else {
+          return Localization.getText('ukjent');
+        }
+
+      };
+
+      vm.scrollTo = function (id) {
+        $location.hash(vm.region.regionId + id);
+        $ionicScrollDelegate.anchorScroll(true);
+      };
 
     });

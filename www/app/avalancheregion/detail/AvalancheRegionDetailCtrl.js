@@ -1,9 +1,12 @@
+/*global angular */
+
 angular
-    .module('Varsom')
-    .controller('AvalancheRegionDetailCtrl', function AvalancheRegionDetailCtrl(Utility, $stateParams, region) {
+  .module('Varsom')
+  .controller('AvalancheRegionDetailCtrl', function AvalancheRegionDetailCtrl(Utility, $stateParams, region) {
+    "use strict";
 
-        var vm = this;
+    var vm = this;
 
-        vm.forecast = region.forecast[$stateParams.day];
+    vm.forecast = region.forecast[$stateParams.day];
 
-    });
+  });
