@@ -1,74 +1,66 @@
 <ion-view view-title="{{ vm.parentArea ? vm.parentArea.name : appVm.text[vm.titleKey] }}">
 
-    <ion-content class="has-header areas">
-        <ion-refresher pulling-text="{{appVm.text['pullToRefresh']}}" on-refresh="vm.pullToRefresh()">
-        </ion-refresher>
+  <ion-content class="has-header areas">
+    <ion-refresher pulling-text="{{appVm.text['pullToRefresh']}}" on-refresh="vm.pullToRefresh()">
+    </ion-refresher>
 
-        <leaflet data-tap-disabled="true" class="map" lf-center="vm.map.center" defaults="vm.map.defaults"
-                 tiles="vm.map.tiles"
-                 geojson="vm.map.geojson"
-                 width="100%" height="100%" ng-if="vm.hasMap">
+    <leaflet data-tap-disabled="true" class="map" lf-center="vm.map.center" defaults="vm.map.defaults" tiles="vm.map.tiles" geojson="vm.map.geojson" width="100%" height="100%" ng-if="vm.hasMap">
 
-        </leaflet>
+    </leaflet>
 
-        <div class="list selected-area" ng-if="vm.map.selectedArea">
+    <div class="list selected-area" ng-if="vm.map.selectedArea">
 
-            <div class="item item-divider shadow-top">
-                {{vm.map.selectedArea.Name}}
-                {{appVm.util.getDayRangeString(appVm.util.getDays(vm.map.selectedArea.forecast))}}
-            </div>
+      <div class="item item-divider shadow-top">
+        {{vm.map.selectedArea.Name}} {{appVm.util.getDayRangeString(appVm.util.getDays(vm.map.selectedArea.forecast))}}
+      </div>
 
-            <a class="item item-icon-right" ng-click="vm.goToArea(vm.map.selectedArea)">
+      <a class="item item-icon-right" ng-click="vm.goToArea(vm.map.selectedArea)">
 
-                <area-widget area="vm.map.selectedArea" translations="appVm.text"></area-widget>
-                <i class="icon icon-accessory ion-chevron-right"></i>
+        <area-widget area="vm.map.selectedArea" translations="appVm.text"></area-widget>
+        <i class="icon icon-accessory ion-chevron-right"></i>
 
-            </a>
+      </a>
 
-        </div>
+    </div>
 
-        <div class="list areas" ng-class="{'has-map': vm.hasMap}" ng-hide="vm.map.fullscreen">
+    <div class="list areas" ng-class="{'has-map': vm.hasMap}" ng-hide="vm.map.fullscreen">
 
-            <div class="item item-divider">
-                {{appVm.text['threeDayForecast']}}
-                {{appVm.util.getDayRangeString(appVm.util.getDays(vm.areas[0].forecast))}}
-            </div>
+      <div class="item item-divider">
+        {{appVm.text['threeDayForecast']}} {{appVm.util.getDayRangeString(appVm.util.getDays(vm.areas[0].forecast))}}
+      </div>
 
-            <a class="item item-icon-right" ng-click="vm.goToArea(vm.parentArea)" ng-if="vm.parentArea">
+      <a class="item item-icon-right" ng-click="vm.goToArea(vm.parentArea)" ng-if="vm.parentArea">
 
-                <area-widget area="vm.parentArea" translations="appVm.text"></area-widget>
+        <area-widget area="vm.parentArea" translations="appVm.text"></area-widget>
 
-            </a>
+      </a>
 
-            <div class="item item-divider" ng-if="vm.parentArea">
-                {{appVm.text['municipalities']}}
-            </div>
+      <div class="item item-divider" ng-if="vm.parentArea">
+        {{appVm.text['municipalities']}}
+      </div>
 
-            <a class="item area item-icon-right" ng-repeat="area in vm.areas" ng-click="vm.goToArea(area)">
+      <a class="item area item-icon-right" ng-repeat="area in vm.areas" ng-click="vm.goToArea(area)">
 
-                <forecast-widget forecast="area.Forecast" label="area.Name"></forecast-widget>
+        <forecast-widget forecast="area.HighestForecast" label="area.Name"></forecast-widget>
 
-                <i class="icon icon-accessory ion-chevron-right"></i>
-            </a>
+        <i class="icon icon-accessory ion-chevron-right"></i>
+      </a>
 
-        </div>
+    </div>
 
-    </ion-content>
+  </ion-content>
 </ion-view>
 
 <script type="text/ng-template" id="/templates/area-county-widget.html">
-    <forecast-widget forecast="area.FloodForecast"
-                     label="translations['flood']"></forecast-widget>
-    <forecast-widget forecast="area.LandslideForecast"
-                     label="translations['landslide']"></forecast-widget>
+  <forecast-widget forecast="area.FloodForecast" label="translations['flood']"></forecast-widget>
+  <forecast-widget forecast="area.LandslideForecast" label="translations['landslide']"></forecast-widget>
 </script>
 
 <script type="text/ng-template" id="/templates/area-region-widget.html">
-    <forecast-widget forecast="area.Forecast"
-                     label="translations['avalanche']"></forecast-widget>
+  <forecast-widget forecast="area.HighestForecast" label="translations['avalanche']"></forecast-widget>
 </script>
 
 <script type="text/ng-template" id="/templates/forecast-widget.html">
-    <hazard-rating warning="warning" ng-repeat="warning in forecast"></hazard-rating>
-    <span ng-bind="label"></span>
+  <hazard-rating warning="warning" ng-repeat="warning in forecast"></hazard-rating>
+  <span ng-bind="label"></span>
 </script>
