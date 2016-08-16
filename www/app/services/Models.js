@@ -62,13 +62,13 @@ angular.module('Varsom')
     var Forecast = $firebaseObject.$extend({
       $$defaults: {
         'day0': {
-          ActivityLevel: 0
+          Rating: 0
         },
         'day1': {
-          ActivityLevel: 0
+          Rating: 0
         },
         'day2': {
-          ActivityLevel: 0
+          Rating: 0
         }
       }
     });
@@ -92,7 +92,7 @@ angular.module('Varsom')
       var highestForecast = [];
       angular.forEach(landslideForecast, function (landslideWarning, key) {
         var floodWarning = floodForecast[key];
-        if (floodWarning.ActivityLevel > landslideWarning.ActivityLevel) {
+        if (floodWarning.Rating > landslideWarning.Rating) {
           highestForecast.push(floodWarning);
         } else {
           highestForecast.push(landslideWarning);
@@ -101,7 +101,7 @@ angular.module('Varsom')
       return highestForecast;
     }
 
-    function setHighestForecast(area, landslideForecast, floodForecast) {
+    function setHighestForecast(area) {
       var highestForecast = getHighestForecast(area.LandslideForecast, area.FloodForecast);
 
       if (highestForecast) {
@@ -113,13 +113,13 @@ angular.module('Varsom')
       $$defaults: {
         Forecast: {
           'day0': {
-            ActivityLevel: 0
+            Rating: 0
           },
           'day1': {
-            ActivityLevel: 0
+            Rating: 0
           },
           'day2': {
-            ActivityLevel: 0
+            Rating: 0
           }
         }
       },

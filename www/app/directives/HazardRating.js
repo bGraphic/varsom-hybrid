@@ -5,17 +5,7 @@ angular.module('Varsom')
     "use strict";
 
     function link(scope) {
-
       scope.styles = AppSettings.hazardRatingStyles;
-
-      scope.$watch('warning', function () {
-
-        if (scope.warning.hasOwnProperty("ActivityLevel")) {
-          scope.parsedRating = parseInt(scope.warning.ActivityLevel, 10);
-        } else if (scope.warning.hasOwnProperty("DangerLevel")) {
-          scope.parsedRating = parseInt(scope.warning.DangerLevel, 10);
-        }
-      });
     }
 
     return {
@@ -24,7 +14,7 @@ angular.module('Varsom')
       scope: {
         warning: '='
       },
-      template: '<span class="varsom-label {{styles[parsedRating || 0].className}}-bg">{{(parsedRating || "?")}}</span>'
+      template: '<span class="varsom-label {{styles[warning.Rating || 0].className}}-bg">{{(warning.Rating || "?")}}</span>'
     };
 
   });

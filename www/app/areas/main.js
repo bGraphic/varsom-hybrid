@@ -75,53 +75,51 @@ angular.module('Varsom')
                 areaId = feature.properties.omraadeid;
               }
 
-              area = Area($stateParams.areaType, areaId);
+              area = Area($stateParams.areaType, areaId);return AppSettings.hazardRatingStyles[area.Rating];
+}
+};
+});
+}
 
-              return AppSettings.hazardRatingStyles[area.highestLevel];
-            }
-          };
-        });
-      }
+$scope.$watch("vm.map.selectedArea", function (newValue) {
+  if (newValue) {
+    vm.map.fullscreen = true;
+  } else {
+    vm.map.fullscreen = false;
+  }
+});
 
-      $scope.$watch("vm.map.selectedArea", function (newValue) {
-        if (newValue) {
-          vm.map.fullscreen = true;
-        } else {
-          vm.map.fullscreen = false;
-        }
-      });
+$scope.$on("leafletDirectiveGeoJson.click", function (ev, leafletPayload) {
 
-      $scope.$on("leafletDirectiveGeoJson.click", function (ev, leafletPayload) {
+  var areaId = null;
 
-        var areaId = null;
+  if (leafletPayload.model.hasOwnProperty("properties")) {
 
-        if (leafletPayload.model.hasOwnProperty("properties")) {
+    if (leafletPayload.model.properties.hasOwnProperty("fylkesnr")) {
+      areaId = leafletPayload.model.properties.fylkesnr;
+    } else if (leafletPayload.model.properties.hasOwnProperty("omraadeid")) {
+      areaId = leafletPayload.model.properties.omraadeid;
+    }
+  }
 
-          if (leafletPayload.model.properties.hasOwnProperty("fylkesnr")) {
-            areaId = leafletPayload.model.properties.fylkesnr;
-          } else if (leafletPayload.model.properties.hasOwnProperty("omraadeid")) {
-            areaId = leafletPayload.model.properties.omraadeid;
-          }
-        }
+  Area($stateParams.areaType, areaId).$loaded().then(function (area) {
+    console.log("AreasMainCtrl: area selected in map", area);
+    vm.map.selectedArea = area;
+  });
+});
 
-        Area($stateParams.areaType, areaId).$loaded().then(function (area) {
-          console.log("AreasMainCtrl: area selected in map", area);
-          vm.map.selectedArea = area;
-        });
-      });
+$scope.$on("leafletDirectiveMap.click", function (ev, leafletPayload) {
 
-      $scope.$on("leafletDirectiveMap.click", function (ev, leafletPayload) {
+if (!leafletPayload.model.hasOwnProperty("properties")) {
+  if (vm.map.selectedArea) {
+    vm.map.selectedArea = null;
+  } else {
+    vm.map.fullscreen = !vm.map.fullscreen;
+  }
+}
+});
 
-        if (!leafletPayload.model.hasOwnProperty("properties")) {
-          if (vm.map.selectedArea) {
-            vm.map.selectedArea = null;
-          } else {
-            vm.map.fullscreen = !vm.map.fullscreen;
-          }
-        }
-      });
-
-    });
+});
 
 angular.module('Varsom')
   .directive('forecastWidget', function ForecastWidget() {
