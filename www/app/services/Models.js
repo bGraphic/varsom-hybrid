@@ -59,7 +59,19 @@ angular.module('Varsom')
   .factory("Forecast", function ($firebaseObject, FirebaseRef, $firebaseArray) {
     "use strict";
 
-    var Forecast = $firebaseObject.$extend({});
+    var Forecast = $firebaseObject.$extend({
+      $$defaults: {
+        'day0': {
+          ActivityLevel: 0
+        },
+        'day1': {
+          ActivityLevel: 0
+        },
+        'day2': {
+          ActivityLevel: 0
+        }
+      }
+    });
 
     return function (warningType, areaType, areaId) {
       var forecastRef = FirebaseRef.forecastRef(warningType, areaType, areaId);
@@ -93,13 +105,13 @@ angular.module('Varsom')
       var highestForecast = getHighestForecast(area.LandslideForecast, area.FloodForecast);
 
       if (highestForecast) {
-        area.HighestForecast = highestForecast;
+        area.Forecast = highestForecast;
       }
     }
 
     var Area = $firebaseObject.$extend({
       $$defaults: {
-        HighestForecast: {
+        Forecast: {
           'day0': {
             ActivityLevel: 0
           },
@@ -117,8 +129,7 @@ angular.module('Varsom')
         this.AreaType = FirebaseRef.areaType(snap.ref);
 
         if ("regions" === this.AreaType) {
-          this.AvalancheForecast = Forecast("avalanche", this.AreaType, this.Id);
-          this.HighestForecast = this.AvalancheForecast;
+          this.Forecast = Forecast("avalanche", this.AreaType, this.Id);
         } else {
           this.LandslideForecast = Forecast("landslide", this.AreaType, this.Id);
           this.FloodForecast = Forecast("flood", this.AreaType, this.Id);

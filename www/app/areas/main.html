@@ -41,7 +41,7 @@
 
       <a class="item area item-icon-right" ng-repeat="area in vm.areas" ng-click="vm.goToArea(area)">
 
-        <forecast-widget forecast="area.HighestForecast" label="area.Name"></forecast-widget>
+        <forecast-widget forecast="area.Forecast" label="area.Name"></forecast-widget>
 
         <i class="icon icon-accessory ion-chevron-right"></i>
       </a>
@@ -57,7 +57,7 @@
 </script>
 
 <script type="text/ng-template" id="/templates/area-region-widget.html">
-  <forecast-widget forecast="area.HighestForecast" label="translations['avalanche']"></forecast-widget>
+  <forecast-widget forecast="area.Forecast" label="translations['avalanche']"></forecast-widget>
 </script>
 
 <script type="text/ng-template" id="/templates/forecast-widget.html">
