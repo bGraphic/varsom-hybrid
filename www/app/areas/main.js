@@ -1,8 +1,8 @@
-/*global angular, console */
+/*global angular, console, L */
 
 angular.module('Varsom')
   .controller('AreasMainCtrl',
-    function ($scope, $state, $stateParams, $http, $timeout, AppSettings, Localization, Area, areas, parentArea, leafletData) {
+    function ($scope, $state, $stateParams, $http, $timeout, $cordovaGeolocation, AppSettings, Localization, Area, areas, parentArea, leafletData) {
       "use strict";
 
       var vm = this;
@@ -47,7 +47,7 @@ angular.module('Varsom')
       vm.map = {
         fullscreen: false,
         center: {
-          lat: 64.871,
+          lat: 64.871 - 2,
           lng: 16.949,
           zoom: 4
         },
@@ -57,7 +57,8 @@ angular.module('Varsom')
         },
         tiles: {
           url: "http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png"
-        }
+        },
+        paths: {}
       };
 
       function getAreaFromGeoJson(feature) {
@@ -78,6 +79,49 @@ angular.module('Varsom')
       }
 
       if (vm.hasMap) {
+        $cordovaGeolocation
+          .getCurrentPosition({
+            timeout: 10000,
+            enableHighAccuracy: false
+          })
+          .then(function (position) {
+            var lat = position.coords.latitude;
+            var long = position.coords.longitude;
+            var latlng = L.latLng(lat, long);
+
+            //Make sure location is in Norway
+            if (lat < 57 || long < 3 || lat > 72 || long > 34) {
+              return;
+            }
+
+            console.log('Found location', position);
+            var radius = position.coords.accuracy;
+
+            /*L.marker(e.latlng).addTo(map)
+             .bindPopup("You are within " + radius + " meters from this point").openPopup();*/
+
+            vm.map.paths = {
+              currentPos: {
+                latlngs: {
+                  lat: lat,
+                  lng: long
+                },
+                radius: radius,
+                type: 'circle'
+              }
+            };
+
+            vm.map.center = {
+              lat: (lat - 2.5),
+              lng: long,
+              zoom: 6
+            };
+
+          }, function (err) {
+            // error
+          });
+
+
         $http.get("/geojson/" + $stateParams.areaType + ".geojson").success(function (data, status) {
 
           leafletData.getMap().then(function (map) {
