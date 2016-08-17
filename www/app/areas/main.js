@@ -23,12 +23,12 @@ angular.module('Varsom')
           break;
         case "municipalities":
           $state.go('app.municipality', {
-            areaId: Area.Id
+            areaId: area.Id
           });
           break;
         case "regions":
           $state.go('app.region', {
-            areaId: Area.Id
+            areaId: area.Id
           });
           break;
         }
