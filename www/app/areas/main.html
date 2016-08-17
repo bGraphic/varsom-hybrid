@@ -11,7 +11,8 @@
     <div class="list selected-area" ng-if="vm.map.selectedArea">
 
       <div class="item item-divider shadow-top">
-        {{vm.map.selectedArea.Name}} {{appVm.util.getDayRangeString(appVm.util.getDays(vm.map.selectedArea.forecast))}}
+        {{vm.map.selectedArea.Name}}
+        <span ng-bind="appVm.util.getDateRangeString(appVm.util.getDays(vm.map.selectedArea.Forecast))"></span>
       </div>
 
       <a class="item item-icon-right" ng-click="vm.goToArea(vm.map.selectedArea)">
@@ -26,14 +27,15 @@
     <div class="list areas" ng-class="{'has-map': vm.hasMap}" ng-hide="vm.map.fullscreen">
 
       <div class="item item-divider">
-        {{appVm.text['threeDayForecast']}} {{appVm.util.getDayRangeString(appVm.util.getDays(vm.areas[0].forecast))}}
+        <span ng-bind="appVm.text['threeDayForecast']"></span>
+        <span ng-bind="appVm.util.getDateRangeString(appVm.util.getDays(vm.areas[0].Forecast))"></span>
       </div>
 
-      <a class="item item-icon-right" ng-click="vm.goToArea(vm.parentArea)" ng-if="vm.parentArea">
+      <div class="item item-icon-right" ng-if="vm.parentArea">
 
         <area-widget area="vm.parentArea" translations="appVm.text"></area-widget>
 
-      </a>
+      </div>
 
       <div class="item item-divider" ng-if="vm.parentArea">
         {{appVm.text['municipalities']}}

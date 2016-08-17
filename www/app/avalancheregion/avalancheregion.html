@@ -3,7 +3,7 @@
     <div class="avalanche-region list">
       <div class="single-day" ng-repeat="num in ['day0', 'day1', 'day2']">
         <div class="item item-divider" id="{{vm.region.regionId}}day{{num}}">
-          {{appVm.text['daysFull'][vm.days[num].getDay()]}} {{vm.util.getDayString(vm.days[num], 'monthsFull')}}
+          {{appVm.util.getDayString(vm.region.Forecast[num].ValidFrom)}} {{appVm.util.getDateString(vm.region.Forecast[num].ValidFrom, 'monthsFull')}}
         </div>
         <div class="item warning-level" href="" ui-sref="app.region.detail({day:num})">
 

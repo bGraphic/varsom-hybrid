@@ -4,7 +4,7 @@
     <div class="municipality list">
       <div ng-repeat="num in ::['day0','day1','day2']">
         <div class="item item-divider" id="{{vm.mun.municipalityId}}day{{num}}">
-          {{::appVm.text['daysFull'][vm.days[num].getDay()]}} {{vm.util.getDayString(vm.days[num], 'monthsFull')}}
+          {{appVm.util.getDayString(vm.mun.FloodForecast[num].ValidFrom)}} {{appVm.util.getDateString(vm.mun.FloodForecast[num].ValidFrom, 'monthsFull')}}
         </div>
         <a class="item item-icon-right item-text-wrap" ui-sref="app.municipality.detail({forecastType: 'Flood', day: num})">
 

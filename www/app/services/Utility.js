@@ -41,20 +41,28 @@
 
     };
 
-    this.getDayString = function (day, localizationKey, skipMonth) {
-      if (day) {
-        return day.getDate() + '.' + (skipMonth ? '' : (' ' + Localization.getText(localizationKey)[day.getMonth()]));
+    this.getDayString = function (dateString) {
+      if (dateString) {
+        var date = new Date(dateString);
+        return Localization.getText("daysFull")[date.getDay()]
+      }
+    };
+
+    this.getDateString = function (dateString, localizationKey, skipMonth) {
+      if (dateString) {
+        var date = new Date(dateString);
+        return date.getDate() + '.' + (skipMonth ? '' : (' ' + Localization.getText(localizationKey)[date.getMonth()]));
       }
 
     };
 
-    this.getDayRangeString = function (days) {
+    this.getDateRangeString = function (days) {
       var skipMonth = false;
       if (days && days.length && days.length >= 3) {
         if (days[0].getMonth() === days[2].getMonth()) {
           skipMonth = true;
         }
-        return this.getDayString(days[0], 'months', skipMonth) + ' - ' + this.getDayString(days[2], 'months');
+        return this.getDateString(days[0], 'months', skipMonth) + ' - ' + this.getDateString(days[2], 'months');
       }
     };
 
@@ -62,23 +70,18 @@
       return exposedHeightsStrings[exposedHeightFill].replace('%@', exposedHeight1).replace('%@', exposedHeight2);
     };
 
-    this.getDays = function (forecastObj) {
-      /*     var forecast = forecastObj;
+    this.getDays = function (forecast) {
 
-      var forecastLength = forecast.length;
       var days = [];
 
-      for (var i = 0; i < forecastLength; i++) {
-          //Get day
-          var forecastDate = new Date(forecast[i].ValidFrom);
+      angular.forEach(forecast, function (warning) {
+        if (warning.hasOwnProperty("ValidFrom")) {
+          var forecastDate = new Date(warning.ValidFrom);
           days.push(forecastDate);
+        }
+      });
 
-      }
-
-       return days;*/
-
-      return "";
-
+      return days;
     };
 
   }
