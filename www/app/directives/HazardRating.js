@@ -14,7 +14,7 @@ angular.module('Varsom')
       scope: {
         warning: '='
       },
-      template: '<span class="varsom-label {{styles[warning.Rating || 0].className}}-bg">{{(warning.Rating || "?")}}</span>'
+      template: '<span class="varsom-label {{styles[warning.Rating || 0].className}}-bg">{{(warning.Rating > 0 ? warning.Rating : "?")}}</span>'
     };
 
   });

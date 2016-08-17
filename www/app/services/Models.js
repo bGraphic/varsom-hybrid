@@ -1,4 +1,4 @@
-/*global angular, firebase */
+/*global angular, firebase, console */
 
 angular.module('Varsom')
   .service("FirebaseRef", function () {
@@ -141,6 +141,7 @@ angular.module('Varsom')
         this.Name = snap.val().Name;
         this.AreaType = FirebaseRef.areaType(snap.ref);
 
+        var area = this;
         if ("regions" === this.AreaType) {
           this.Forecast = Forecast("avalanche", this.AreaType, this.Id);
           this.Forecast.$watch(function () {
@@ -149,7 +150,6 @@ angular.module('Varsom')
         } else {
           this.LandslideForecast = Forecast("landslide", this.AreaType, this.Id);
           this.FloodForecast = Forecast("flood", this.AreaType, this.Id);
-          var area = this;
           this.LandslideForecast.$watch(function () {
             setHighestForecast(area);
             setHighestRating(area);

@@ -2,7 +2,7 @@
 
 angular.module('Varsom')
   .controller('AreasMainCtrl',
-    function ($scope, $state, $stateParams, $http, AppSettings, Localization, Area, areas, parentArea) {
+    function ($scope, $state, $stateParams, $http, $timeout, AppSettings, Localization, Area, areas, parentArea, leafletData) {
       "use strict";
 
       var vm = this;
@@ -60,30 +60,61 @@ angular.module('Varsom')
         }
       };
 
+      function getAreaFromGeoJson(feature) {
+        var areaId = null;
+        if (feature.properties.hasOwnProperty("fylkesnr")) {
+          areaId = feature.properties.fylkesnr;
+        } else if (feature.properties.hasOwnProperty("omraadeid")) {
+          areaId = feature.properties.omraadeid;
+        }
+        if (areaId) {
+          return vm.areas.getArea(areaId);
+        }
+      }
+
+      function geoJsonStyle(feature) {
+        var area = getAreaFromGeoJson(feature);
+        return AppSettings.hazardRatingStyles[area.Rating];
+      }
+
       if (vm.hasMap) {
         $http.get("/geojson/" + $stateParams.areaType + ".geojson").success(function (data, status) {
 
-          vm.map.geojson = {
-            data: data,
-            style: function (feature) {
-              var areaId = null,
-                area = null;
+          leafletData.getMap().then(function (map) {
+            map.on('click', function (event) {
+              $timeout(function () {
+                if (!event.originalEvent.isDefaultPrevented()) {
+                  vm.map.fullscreen = !vm.map.fullscreen;
+                }
+              });
+            });
 
-              if (feature.properties.hasOwnProperty("fylkesnr")) {
-                areaId = feature.properties.fylkesnr;
-              } else if (feature.properties.hasOwnProperty("omraadeid")) {
-                areaId = feature.properties.omraadeid;
+            vm.geojson = L.geoJson(data, {
+              style: geoJsonStyle,
+              onEachFeature: function (feature, layer) {
+                layer.on("click", function (event) {
+                  event.originalEvent.preventDefault();
+                  var area = getAreaFromGeoJson(feature);
+                  vm.map.selectedArea = area;
+                });
               }
+            }).addTo(map);
+          });
 
-              area = areas.getArea(areaId);
-              console.log(area);
-              return AppSettings.hazardRatingStyles[area.Rating];
-            }
-          };
+          angular.forEach(vm.areas, function (area, key) {
+            var watchid = "vm.areas[" + key + "].Rating";
+
+            $scope.$watch(watchid, function (newValue, oldValue) {
+              if (newValue !== oldValue) {
+                vm.geojson.setStyle(geoJsonStyle);
+              }
+            });
+          });
         });
       }
 
       $scope.$watch("vm.map.selectedArea", function (newValue) {
+        console.log("vm.map.selectedArea");
         if (newValue) {
           vm.map.fullscreen = true;
         } else {
@@ -108,17 +139,6 @@ angular.module('Varsom')
           console.log("AreasMainCtrl: area selected in map", area);
           vm.map.selectedArea = area;
         });
-      });
-
-      $scope.$on("leafletDirectiveMap.click", function (ev, leafletPayload) {
-
-        if (!leafletPayload.model.hasOwnProperty("properties")) {
-          if (vm.map.selectedArea) {
-            vm.map.selectedArea = null;
-          } else {
-            vm.map.fullscreen = !vm.map.fullscreen;
-          }
-        }
       });
 
     });

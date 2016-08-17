@@ -4,7 +4,7 @@
     <ion-refresher pulling-text="{{appVm.text['pullToRefresh']}}" on-refresh="vm.pullToRefresh()">
     </ion-refresher>
 
-    <leaflet data-tap-disabled="true" class="map" lf-center="vm.map.center" defaults="vm.map.defaults" tiles="vm.map.tiles" geojson="vm.map.geojson" width="100%" height="100%" ng-if="vm.hasMap">
+    <leaflet data-tap-disabled="true" class="map" lf-center="vm.map.center" defaults="vm.map.defaults" geojson="vm.map.geojson" tiles="vm.map.tiles" width="100%" height="100%" ng-if="vm.hasMap">
 
     </leaflet>
 
@@ -42,7 +42,6 @@
       <a class="item area item-icon-right" ng-repeat="area in vm.areas" ng-click="vm.goToArea(area)">
 
         <forecast-widget forecast="area.Forecast" label="area.Name"></forecast-widget>
-        <span ng-bind="area.Rating"></span>
 
         <i class="icon icon-accessory ion-chevron-right"></i>
       </a>
