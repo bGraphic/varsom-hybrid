@@ -11,7 +11,7 @@ angular.module('Varsom')
 
       vm.getAvalancheForecast = function (num) {
         if (vm.region) {
-          return vm.region.forecast[num];
+          return vm.region.Forecast[num];
         }
       };
 

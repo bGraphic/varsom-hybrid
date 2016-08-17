@@ -86,7 +86,6 @@ angular.module('Varsom')
         resolve: {
           municipality: function ($stateParams, $ionicLoading, Area) {
             $ionicLoading.show();
-            console.log($stateParams);
             return Area("municipalities", $stateParams.areaId).$loaded().then(function (area) {
               $ionicLoading.hide();
               return area;
@@ -117,7 +116,7 @@ angular.module('Varsom')
         resolve: {
           region: function ($stateParams, $ionicLoading, Area) {
             $ionicLoading.show();
-            return Area.fetchArea("regions", $stateParams.areaId).then(function (area) {
+            return Area("regions", $stateParams.areaId).$loaded().then(function (area) {
               $ionicLoading.hide();
               return area;
             });

@@ -7,6 +7,6 @@ angular
 
     var vm = this;
 
-    vm.forecast = region.forecast[$stateParams.day];
+    vm.forecast = region.Forecast[$stateParams.day];
 
   });
