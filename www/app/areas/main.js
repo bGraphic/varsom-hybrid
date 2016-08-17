@@ -121,8 +121,9 @@ angular.module('Varsom')
             // error
           });
 
+        var url = "/geojson/" + $stateParams.areaType + ".geojson";
 
-        $http.get("/geojson/" + $stateParams.areaType + ".geojson").success(function (data, status) {
+        $http.get(url).success(function (data, status) {
 
           leafletData.getMap().then(function (map) {
             map.on('click', function (event) {

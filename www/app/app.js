@@ -47,6 +47,8 @@ angular.module('Varsom')
       $ionicConfigProvider.scrolling.jsScrolling(false);
     }
 
+    $ionicConfigProvider.backButton.previousTitleText(false);
+
     $urlRouterProvider.otherwise('/areas/counties');
 
     $stateProvider
