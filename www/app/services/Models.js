@@ -109,8 +109,21 @@ angular.module('Varsom')
       }
     }
 
+    function getHighestRating(forecast) {
+      var highestRating = 0;
+      angular.forEach(forecast, function (warning) {
+        highestRating = warning.Rating > highestRating ? warning.Rating : highestRating;
+      });
+      return highestRating;
+    }
+
+    function setHighestRating(area) {
+      area.Rating = getHighestRating(area.Forecast);
+    }
+
     var Area = $firebaseObject.$extend({
       $$defaults: {
+        Rating: 0,
         Forecast: {
           'day0': {
             Rating: 0
@@ -130,15 +143,20 @@ angular.module('Varsom')
 
         if ("regions" === this.AreaType) {
           this.Forecast = Forecast("avalanche", this.AreaType, this.Id);
+          this.Forecast.$watch(function () {
+            setHighestRating(area);
+          });
         } else {
           this.LandslideForecast = Forecast("landslide", this.AreaType, this.Id);
           this.FloodForecast = Forecast("flood", this.AreaType, this.Id);
           var area = this;
           this.LandslideForecast.$watch(function () {
             setHighestForecast(area);
+            setHighestRating(area);
           });
           this.FloodForecast.$watch(function () {
             setHighestForecast(area);
+            setHighestRating(area);
           });
         }
       }
@@ -158,6 +176,12 @@ angular.module('Varsom')
     var Areas = $firebaseArray.$extend({
       $$added: function (snap, prevChildKey) {
         return Area(FirebaseRef.areaType(snap.ref), snap.val().Id);
+      },
+      getArea: function (areaId) {
+        if (parseInt(areaId, 10) < 10) {
+          areaId = "0" + parseInt(areaId, 10);
+        }
+        return this.$getRecord("id" + areaId);
       }
     });
 

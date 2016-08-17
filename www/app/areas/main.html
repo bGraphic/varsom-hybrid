@@ -42,6 +42,7 @@
       <a class="item area item-icon-right" ng-repeat="area in vm.areas" ng-click="vm.goToArea(area)">
 
         <forecast-widget forecast="area.Forecast" label="area.Name"></forecast-widget>
+        <span ng-bind="area.Rating"></span>
 
         <i class="icon icon-accessory ion-chevron-right"></i>
       </a>
