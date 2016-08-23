@@ -77,7 +77,6 @@ angular.module('Varsom')
             style: geoJsonStyle,
             onEachFeature: function (feature, layer) {
               layer.on("click", function (event) {
-                console.log("click");
                 event.originalEvent.preventDefault();
                 var area = getAreaFromGeoJson(feature);
                 vm.map.selectedArea = area;
@@ -135,7 +134,7 @@ angular.module('Varsom')
               return;
             }
 
-            console.log('Found location', position);
+            console.log('AreasMainCtrl: Found location', position);
             var radius = position.coords.accuracy;
 
             /*L.marker(e.latlng).addTo(map)
@@ -164,34 +163,15 @@ angular.module('Varsom')
 
         var url = "geojson/" + $stateParams.areaType + ".geojson";
 
-        //        $ionicPlatform.ready(function () {
-        //          var file = "www/geojson/regions.geojson";
-        //          alert(file);
-        //          $cordovaFile.readAsText(cordova.file.applicationDirectory, file)
-        //            .then(function (success) {
-        //                addAreasToMap(success);
-        //                //console.log("YEAH", success);
-        //                alert("YEAH");
-        //              },
-        //              function (error) {
-        //                alert("OH NO");
-        //                console.log("ERROR");
-        //                console.log(error);
-        //              });
-        //        });
-        // (cordova.file.applicationDirectory + "www" + url
-
-
         $http.get(url).success(function (data, status) {
           addAreasToMap(data);
         }).error(function (error) {
-          console.log("HTTP GET");
-          console.log(error);
+          console.log("AreasMainCtrl: Http geojson get error", error);
         });
       }
 
       $scope.$watch("vm.map.selectedArea", function (newValue) {
-        console.log("vm.map.selectedArea");
+        console.log("AreasMainCtrl: Selected area changed", vm.map.selectedArea);
         if (newValue) {
           vm.map.fullscreen = true;
         } else {
@@ -213,7 +193,7 @@ angular.module('Varsom')
         }
 
         Area($stateParams.areaType, areaId).$loaded().then(function (area) {
-          console.log("AreasMainCtrl: area selected in map", area);
+          console.log("AreasMainCtrl: Area selected in map", area);
           vm.map.selectedArea = area;
         });
       });
