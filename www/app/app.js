@@ -66,9 +66,13 @@ angular.module('Varsom')
           }
         },
         resolve: {
-          areas: function ($stateParams, Areas) {
+          areas: function ($stateParams, $ionicLoading, Areas) {
+            $ionicLoading.show();
             console.log("Get areas ", $stateParams.areaType, $stateParams.parentId);
-            return Areas($stateParams.areaType, $stateParams.parentId).$loaded();
+            return Areas($stateParams.areaType, $stateParams.parentId).$loaded().then(function (areas) {
+              $ionicLoading.hide();
+              return areas;
+            });
           },
           parentArea: function ($stateParams, Area) {
             if ($stateParams.parentId) {
