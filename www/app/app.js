@@ -60,9 +60,13 @@ angular.module('Varsom')
       .state('app.areas', {
         url: '/areas/:areaType?parentId',
         views: {
-          'menuContent': {
+          'menuContent@app': {
             templateUrl: 'app/areas/main.html',
             controller: 'AreasMainCtrl as vm'
+          },
+          'map@app.areas': {
+            templateUrl: 'app/areas/map.html',
+            controller: 'AreasMapCtrl as mapVm'
           }
         },
         resolve: {

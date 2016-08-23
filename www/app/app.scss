@@ -1,7 +1,5 @@
 $varsom-label-size: 40px;
 $varsom-label-text-size: 20px;
-
-
 p {
   .item & {
     color: $base-color;
@@ -182,10 +180,12 @@ ul.problem {
 }
 
 .areas {
+  pointer-events: none;
   .map {
     position: absolute;
   }
   .list {
+    pointer-events: auto;
     .item {
       forecast-widget {
         display: block;
