@@ -24,12 +24,14 @@
     "cordova-plugin-console",
     "cordova-plugin-whitelist",
     "cordova-plugin-splashscreen",
-    "com.ionic.keyboard",
+    "cordova-plugin-file",
+    "cordova-plugin-geolocation",
     "cordova-plugin-statusbar",
-    "ionic-plugin-deploy",
-    "cordova-plugin-geolocation"
+    "ionic-plugin-keyboard",
+    "ionic-plugin-deploy"
   ],
   "cordovaPlatforms": [
-    "android"
+    "android",
+    "ios"
   ]
 }
