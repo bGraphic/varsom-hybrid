@@ -77,9 +77,11 @@ angular.module('Varsom')
             style: geoJsonStyle,
             onEachFeature: function (feature, layer) {
               layer.on("click", function (event) {
+                console.log("click");
                 event.originalEvent.preventDefault();
                 var area = getAreaFromGeoJson(feature);
                 vm.map.selectedArea = area;
+                vm.geojson.setStyle(geoJsonStyle);
               });
             }
           }).addTo(map);
@@ -110,7 +112,11 @@ angular.module('Varsom')
 
       function geoJsonStyle(feature) {
         var area = getAreaFromGeoJson(feature);
-        return AppSettings.hazardRatingStyles[area.Rating];
+        var style = angular.copy(AppSettings.hazardRatingStyles[area.Rating]);
+        if (vm.map.selectedArea && vm.map.selectedArea.Id === area.Id) {
+          style = angular.extend(style, AppSettings.hazardRatingStyles.clicked);
+        }
+        return style;
       }
 
       if (vm.hasMap) {
