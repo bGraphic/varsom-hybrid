@@ -2,7 +2,7 @@
 
 angular.module('Varsom')
   .controller('AreasMainCtrl',
-    function ($scope, $state, $stateParams, $http, $timeout, $cordovaGeolocation, AppSettings, Localization, Area, areas, parentArea, leafletData) {
+    function ($scope, $state, $stateParams, $http, $timeout, $ionicPlatform, $cordovaGeolocation, $cordovaFile, AppSettings, Localization, Area, areas, parentArea, leafletData) {
       "use strict";
 
       var vm = this;
@@ -59,6 +59,41 @@ angular.module('Varsom')
           url: "http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png"
         },
         paths: {}
+      };
+
+      function addAreasToMap(data) {
+
+        leafletData.getMap().then(function (map) {
+          map.on('click', function (event) {
+            $timeout(function () {
+              if (!event.originalEvent.isDefaultPrevented()) {
+                vm.map.selectedArea = null;
+                vm.map.fullscreen = !vm.map.fullscreen;
+              }
+            });
+          });
+
+          vm.geojson = L.geoJson(data, {
+            style: geoJsonStyle,
+            onEachFeature: function (feature, layer) {
+              layer.on("click", function (event) {
+                event.originalEvent.preventDefault();
+                var area = getAreaFromGeoJson(feature);
+                vm.map.selectedArea = area;
+              });
+            }
+          }).addTo(map);
+        });
+
+        angular.forEach(vm.areas, function (area, key) {
+          var watchid = "vm.areas[" + key + "].Rating";
+
+          $scope.$watch(watchid, function (newValue, oldValue) {
+            if (newValue !== oldValue) {
+              vm.geojson.setStyle(geoJsonStyle);
+            }
+          });
+        });
       };
 
       function getAreaFromGeoJson(feature) {
@@ -121,40 +156,31 @@ angular.module('Varsom')
             // error
           });
 
-        var url = "/geojson/" + $stateParams.areaType + ".geojson";
+        var url = "geojson/" + $stateParams.areaType + ".geojson";
+
+        //        $ionicPlatform.ready(function () {
+        //          var file = "www/geojson/regions.geojson";
+        //          alert(file);
+        //          $cordovaFile.readAsText(cordova.file.applicationDirectory, file)
+        //            .then(function (success) {
+        //                addAreasToMap(success);
+        //                //console.log("YEAH", success);
+        //                alert("YEAH");
+        //              },
+        //              function (error) {
+        //                alert("OH NO");
+        //                console.log("ERROR");
+        //                console.log(error);
+        //              });
+        //        });
+        // (cordova.file.applicationDirectory + "www" + url
+
 
         $http.get(url).success(function (data, status) {
-
-          leafletData.getMap().then(function (map) {
-            map.on('click', function (event) {
-              $timeout(function () {
-                if (!event.originalEvent.isDefaultPrevented()) {
-                  vm.map.fullscreen = !vm.map.fullscreen;
-                }
-              });
-            });
-
-            vm.geojson = L.geoJson(data, {
-              style: geoJsonStyle,
-              onEachFeature: function (feature, layer) {
-                layer.on("click", function (event) {
-                  event.originalEvent.preventDefault();
-                  var area = getAreaFromGeoJson(feature);
-                  vm.map.selectedArea = area;
-                });
-              }
-            }).addTo(map);
-          });
-
-          angular.forEach(vm.areas, function (area, key) {
-            var watchid = "vm.areas[" + key + "].Rating";
-
-            $scope.$watch(watchid, function (newValue, oldValue) {
-              if (newValue !== oldValue) {
-                vm.geojson.setStyle(geoJsonStyle);
-              }
-            });
-          });
+          addAreasToMap(data);
+        }).error(function (error) {
+          console.log("HTTP GET");
+          console.log(error);
         });
       }
 
