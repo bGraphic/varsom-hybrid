@@ -6,8 +6,9 @@ angular.module('Varsom')
       "use strict";
 
       var vm = this;
-      vm.parentArea = parentArea;
+      vm.areaType = $stateParams.areaType;
       vm.areas = areas;
+      vm.parentArea = parentArea;
 
       vm.titleKey = ("regions" === $stateParams.areaType) ? "avalanche" : "landslide-flood";
       vm.hasMap = !$stateParams.parentId;

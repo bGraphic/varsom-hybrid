@@ -63,10 +63,6 @@ angular.module('Varsom')
           'menuContent@app': {
             templateUrl: 'app/areas/main.html',
             controller: 'AreasMainCtrl as vm'
-          },
-          'map@app.areas': {
-            templateUrl: 'app/areas/map.html',
-            controller: 'AreasMapCtrl as mapVm'
           }
         },
         resolve: {

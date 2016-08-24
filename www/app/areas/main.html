@@ -1,26 +1,27 @@
 <ion-view view-title="{{ vm.parentArea ? vm.parentArea.Name : appVm.text[vm.titleKey] }}">
 
-  <ui-view name="map"></ui-view>
+
+  <map area-type="vm.areaType" areas="vm.areas" ng-if="vm.hasMap"></map>
 
   <ion-content class="has-header areas">
 
-    <div class="list selected-area" ng-if="vm.map.selectedArea">
+    <div class="list selected-area" ng-if="vm.selectedArea">
 
-      <div class="item item-divider shadow-top">
-        {{vm.map.selectedArea.Name}}
-        <span ng-bind="appVm.util.getDateRangeString(appVm.util.getDays(vm.map.selectedArea.Forecast))"></span>
+      <div class="item item-divider">
+        <span ng-bind="vm.selectedArea.Name"></span>
+        <span ng-bind="appVm.util.getDateRangeString(appVm.util.getDays(vm.selectedArea.Forecast))"></span>
       </div>
 
-      <a class="item item-icon-right" ng-click="vm.goToArea(vm.map.selectedArea)">
+      <a class="item item-icon-right" ng-click="vm.goToArea(vm.selectedArea)">
 
-        <area-widget area="vm.map.selectedArea" translations="appVm.text"></area-widget>
+        <area-widget area="vm.selectedArea" translations="appVm.text"></area-widget>
         <i class="icon icon-accessory ion-chevron-right"></i>
 
       </a>
 
     </div>
 
-    <div class="list areas" ng-class="{'has-map': vm.hasMap}" ng-hide="vm.map.fullscreen">
+    <div class="list areas" ng-class="{'has-map': vm.hasMap}" ng-hide="vm.hideList">
 
       <div class="item item-divider">
         <span ng-bind="appVm.text['threeDayForecast']"></span>
