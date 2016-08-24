@@ -11,6 +11,8 @@ angular.module('Varsom')
       vm.parentArea = parentArea;
 
       vm.titleKey = ("regions" === $stateParams.areaType) ? "avalanche" : "landslide-flood";
+
+      vm.hideList = false;
       vm.hasMap = !$stateParams.parentId;
 
       vm.goToArea = function (area) {
@@ -35,6 +37,19 @@ angular.module('Varsom')
         }
 
       };
+
+      $scope.$on("varsom.map.area.selected", function (event, area) {
+        vm.selectedArea = area;
+        if (vm.selectedArea) {
+          vm.hideList = true;
+        }
+
+      });
+
+      $scope.$on("varsom.map.clicked", function () {
+        vm.hideList = !vm.hideList;
+      });
+
     });
 
 angular.module('Varsom')

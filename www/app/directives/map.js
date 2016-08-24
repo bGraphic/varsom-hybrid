@@ -6,12 +6,13 @@ angular.module('Varsom')
 
     function link(scope) {
 
-      var onMapClick = function (event) {
-        $timeout(function () {
-          if (!event.originalEvent.isDefaultPrevented()) {
-            scope.selectedArea = null;
-          }
-        });
+      var onMapClick = function () {
+        scope.selectedArea = null;
+        scope.$emit("varsom.map.clicked", scope.selectedArea);
+      };
+
+      var onAreaClick = function (area) {
+        scope.selectedArea = area;
       };
 
       var getAreaFromGeoJson = function (feature) {
@@ -30,7 +31,7 @@ angular.module('Varsom')
         layer.on("click", function (event) {
           event.originalEvent.preventDefault();
           var area = getAreaFromGeoJson(feature);
-          scope.selectedArea = area;
+          onAreaClick(area);
         });
       }
 
@@ -86,17 +87,24 @@ angular.module('Varsom')
 
       var listenForNewSelectedArea = function () {
         scope.$watch("selectedArea", function (newValue, oldValue) {
+
           if (newValue !== oldValue) {
             console.log("Map Directive: Selected area changed");
             updateGeoJsonStyle();
-
+            scope.$emit("varsom.map.area.selected", scope.selectedArea)
           }
         });
       }
 
       var listenToClicksOnMap = function () {
         leafletData.getMap().then(function (map) {
-          map.on('click', onMapClick);
+          map.on('click', function (event) {
+            $timeout(function () {
+              if (!event.originalEvent.isDefaultPrevented()) {
+                onMapClick();
+              }
+            });
+          })
         });
       }
 
