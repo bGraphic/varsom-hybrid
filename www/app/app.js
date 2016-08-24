@@ -102,7 +102,7 @@ angular.module('Varsom')
         },
         views: {
           'menuContent@app': {
-            templateUrl: 'app/municipality/detail/municipalitydetail.html',
+            templateUrl: 'app/municipality/detail/municipality-detail.html',
             controller: 'MunicipalityDetailCtrl as vm'
           }
         }
@@ -129,7 +129,7 @@ angular.module('Varsom')
         url: '/:day',
         views: {
           'menuContent@app': {
-            templateUrl: 'app/avalancheregion/detail/avalancheregiondetail.html',
+            templateUrl: 'app/avalancheregion/detail/avalancheregion-detail.html',
             controller: 'AvalancheRegionDetailCtrl as vm'
           }
         }
@@ -138,7 +138,7 @@ angular.module('Varsom')
         url: '/:day',
         views: {
           'menuContent@app': {
-            templateUrl: 'app/avalancheregion/problem/avalancheregionproblem.html',
+            templateUrl: 'app/avalancheregion/problem/avalancheregion-problem.html',
             controller: 'AvalancheRegionProblemCtrl as vm'
           }
         }
