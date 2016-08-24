@@ -43,10 +43,6 @@ angular.module('Varsom')
       "X-Parse-REST-API-Key": AppKeys.parse.restKey
     });
 
-    if (ionic.Platform.isAndroid()) {
-      $ionicConfigProvider.scrolling.jsScrolling(false);
-    }
-
     $ionicConfigProvider.backButton.previousTitleText(false);
 
     $urlRouterProvider.otherwise('/areas/counties');
