@@ -25,18 +25,8 @@ After you have installed latest version of [node.js](https://nodejs.org/en/), bo
 3. Run `npm install`
 4. Install bower dependencies `bower install`
 
-### Environment variables file `config.keys.js`
-Add a file `dev.keys.js` under `www/app/`
-This file should look like this:
-
-    angular
-        .module('Varsom')
-        .constant('AppKeys', {
-            debug: {
-                "appId": "[Varsom Parse APP ID]",
-                "restKey": "[Varsom Parse REST API Key]"
-            }
-        });
+### Environment variables 
+As of now the firebase variables are harcoded to varsom-dev-
 
 ## Test deployment
 In browser on local machine:
