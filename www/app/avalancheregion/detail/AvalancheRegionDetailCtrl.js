@@ -1,13 +1,12 @@
-(function () {
-    'use strict';
+/*global angular */
 
-    function AvalancheRegionDetailCtrl($stateParams) {
-        var vm = this;
-        vm.forecast = $stateParams.forecast;
-        console.log(vm.forecast);
-    }
+angular
+  .module('Varsom')
+  .controller('AvalancheRegionDetailCtrl', function AvalancheRegionDetailCtrl(Utility, $stateParams, region) {
+    "use strict";
 
-    angular.module('Varsom')
-        .controller('AvalancheRegionDetailCtrl', AvalancheRegionDetailCtrl);
+    var vm = this;
 
-})();
+    vm.forecast = region.Forecast[$stateParams.day];
+
+  });

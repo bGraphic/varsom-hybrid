@@ -1,0 +1,64 @@
+<ion-view view-title="{{ vm.parentArea ? vm.parentArea.Name : appVm.text[vm.titleKey] }}">
+
+  <map area-type="vm.areaType" areas="vm.areas" ng-if="vm.hasMap"></map>
+
+  <ion-content class="has-header areas">
+
+    <div class="list selected-area" ng-if="vm.selectedArea">
+
+      <div class="item item-divider">
+        <span ng-bind="vm.selectedArea.Name"></span>
+        <span ng-bind="appVm.util.getDateRangeString(appVm.util.getDays(vm.selectedArea.Forecast))"></span>
+      </div>
+
+      <a class="item item-icon-right" ng-click="vm.goToArea(vm.selectedArea)">
+
+        <area-widget area="vm.selectedArea" translations="appVm.text"></area-widget>
+        <i class="icon icon-accessory ion-chevron-right"></i>
+
+      </a>
+
+    </div>
+
+    <div class="list areas" ng-class="{'has-map': vm.hasMap}" ng-hide="vm.hideList">
+
+      <div class="item item-divider">
+        <span ng-bind="appVm.text['threeDayForecast']"></span>
+        <span ng-bind="appVm.util.getDateRangeString(appVm.util.getDays(vm.areas[0].Forecast))"></span>
+      </div>
+
+      <div class="item item-icon-right" ng-if="vm.parentArea">
+
+        <area-widget area="vm.parentArea" translations="appVm.text"></area-widget>
+
+      </div>
+
+      <div class="item item-divider" ng-if="vm.parentArea">
+        {{appVm.text['municipalities']}}
+      </div>
+
+      <a class="item area item-icon-right" ng-repeat="area in vm.areas" ng-click="vm.goToArea(area)">
+
+        <forecast-widget forecast="area.Forecast" label="area.Name"></forecast-widget>
+
+        <i class="icon icon-accessory ion-chevron-right"></i>
+      </a>
+
+    </div>
+
+  </ion-content>
+</ion-view>
+
+<script type="text/ng-template" id="/templates/area-county-widget.html">
+  <forecast-widget forecast="area.FloodForecast" label="translations['flood']"></forecast-widget>
+  <forecast-widget forecast="area.LandslideForecast" label="translations['landslide']"></forecast-widget>
+</script>
+
+<script type="text/ng-template" id="/templates/area-region-widget.html">
+  <forecast-widget forecast="area.Forecast" label="translations['avalanche']"></forecast-widget>
+</script>
+
+<script type="text/ng-template" id="/templates/forecast-widget.html">
+  <hazard-rating warning="warning" ng-repeat="warning in forecast"></hazard-rating>
+  <span ng-bind="label"></span>
+</script>

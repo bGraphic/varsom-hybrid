@@ -1,17 +1,12 @@
-(function () {
-    'use strict';
+/*global angular */
 
-    function MunicipalityDetailCtrl($stateParams, Utility) {
-        var vm = this;
+angular.module('Varsom')
+  .controller('MunicipalityDetailCtrl',
+    function MunicipalityDetailCtrl(Utility, $stateParams, municipality) {
+      "use strict";
 
-        vm.forecast = $stateParams.forecast;
-        vm.printCauseList = Utility.printCauseList;
+      var vm = this;
 
-        console.log($stateParams);
-
-    }
-
-    angular.module('Varsom')
-        .controller('MunicipalityDetailCtrl', MunicipalityDetailCtrl);
-
-})();
+      vm.forecast = municipality[$stateParams.forecastType + "Forecast"][$stateParams.day];
+      vm.printCauseList = Utility.printCauseList;
+    });

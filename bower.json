@@ -1,5 +1,5 @@
 {
-  "name": "HelloIonic",
+  "name": "varsom",
   "private": "true",
   "devDependencies": {
     "ionic-service-analytics": "~0.2.5",
@@ -12,9 +12,12 @@
     "angular-resource": "1.4.7",
     "angular-sanitize": "1.4.7",
     "angular-ui-router": "0.2.15",
-    "leaflet": "~0.7.7",
     "ngCordova": "~0.1.24-alpha",
-    "ionic": "driftyco/ionic-bower#v1.1.1"
+    "ionic": "driftyco/ionic-bower#v1.1.1",
+    "appstax": "~1.5.0",
+    "ui-leaflet": "~1.0.0",
+    "angularfire": "^2.0.1",
+    "firebase": "^3.2.1"
   },
   "resolutions": {
     "angular": "1.4.7",

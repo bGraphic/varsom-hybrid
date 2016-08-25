@@ -1,26 +1,20 @@
+/*global angular */
 
-angular
-    .module('Varsom')
-    .directive('hazardRating', function HazardRating(AppSettings) {
+angular.module('Varsom')
+  .directive('hazardRating', function HazardRating(AppSettings) {
+    "use strict";
 
-        function link(scope) {
+    function link(scope) {
+      scope.styles = AppSettings.hazardRatingStyles;
+    }
 
-            scope.noHazardRating = '?';
-            scope.styles = AppSettings.hazardRatingStyles;
+    return {
+      restrict: 'E',
+      link: link,
+      scope: {
+        warning: '='
+      },
+      template: '<span class="varsom-label {{styles[warning.Rating || 0].className}}-bg">{{(warning.Rating > 0 ? warning.Rating : "?")}}</span>'
+    };
 
-            scope.$watch('varsomRating', function(){
-                scope.parsedRating = parseInt(scope.varsomRating);
-            });
-
-        }
-
-        return {
-            restrict: 'E',
-            link: link,
-            scope: {
-                varsomRating: '='
-            },
-            template: '<span class="varsom-label {{styles[varsomRating || 0].className}}-bg" ng-bind="parsedRating || noHazardRating"></span>'
-        };
-
-    });
+  });

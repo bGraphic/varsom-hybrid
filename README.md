@@ -26,7 +26,7 @@ After you have installed latest version of [node.js](https://nodejs.org/en/), bo
 4. Install bower dependencies `bower install`
 
 ### Environment variables file `config.keys.js`
-Add a file `config.keys.js` under `www/app/`
+Add a file `dev.keys.js` under `www/app/`
 This file should look like this:
 
     angular

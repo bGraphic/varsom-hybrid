@@ -1,0 +1,37 @@
+<ion-view>
+  <ion-content padding="true" class="warning-details">
+
+    <section>
+      <header>
+        <p ng-bind="vm.forecast.MainText"></p>
+      </header>
+
+      <p ng-bind="vm.forecast.WarningText"></p>
+    </section>
+
+    <div class="list" ng-show="vm.forecast.CauseList.length">
+      <div class="item item-divider">{{::appVm.text['problems']}}</div>
+      <div class="item item-thumbnail-left varsom-cause" ng-repeat="cause in vm.forecast.CauseList">
+        <img ng-src="img/cause-{{cause.Id}}.png">
+        <h2>{{cause.Name}}</h2>
+
+      </div>
+    </div>
+
+    <div class="list" ng-show="vm.forecast.LandSlideTypeList.length">
+      <div class="item item-divider">{{::appVm.text['landslideType']}}</div>
+      <div class="item varsom-cause" ng-repeat="type in vm.forecast.LandSlideTypeList">
+        <h2>{{type.Name}}</h2>
+      </div>
+    </div>
+
+    <div class="list" ng-show="vm.forecast.MicroBlogPostList.length">
+      <div class="item item-divider">{{::appVm.text['Updates']}}</div>
+      <div class="item item-text-wrap" ng-repeat="post in vm.forecast.MicroBlogPostList">
+        <h2>{{post.DateTime | date}}</h2>
+        <p>{{post.Text}}</p>
+      </div>
+    </div>
+
+  </ion-content>
+</ion-view>

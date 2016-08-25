@@ -7,14 +7,19 @@
  *
  * Also, make sure to add the new CSS from the second part of this gist.
  */
-angular.module('ionic').directive('ionRadioFix', function() {
+
+/*global angular */
+
+angular.module('ionic')
+  .directive('ionRadioFix', function () {
+    "use strict";
+
     return {
-        restrict: 'E',
-        replace: true,
-        require: '?ngModel',
-        transclude: true,
-        template:
-        '<label class="item item-radio">' +
+      restrict: 'E',
+      replace: true,
+      require: '?ngModel',
+      transclude: true,
+      template: '<label class="item item-radio">' +
         '<input type="radio" name="radio-group">' +
         '<div class="radio-content">' +
         '<div class="item-content disable-pointer-events" ng-transclude></div>' +
@@ -22,36 +27,37 @@ angular.module('ionic').directive('ionRadioFix', function() {
         '</div>' +
         '</label>',
 
-        compile: function(element, attr) {
-            if (attr.icon) {
-                var iconElm = element.find('i');
-                iconElm.removeClass('ion-checkmark').addClass(attr.icon);
-            }
-
-            var input = element.find('input');
-            angular.forEach({
-                'name': attr.name,
-                'value': attr.value,
-                'disabled': attr.disabled,
-                'ng-value': attr.ngValue,
-                'ng-model': attr.ngModel,
-                'ng-disabled': attr.ngDisabled,
-                'ng-change': attr.ngChange,
-                'ng-required': attr.ngRequired,
-                'required': attr.required
-            }, function(value, name) {
-                if (angular.isDefined(value)) {
-                    input.attr(name, value);
-                }
-            });
-
-            return function(scope, element, attr) {
-                scope.getValue = function() {
-                    return scope.ngValue || attr.value;
-                };
-            };
+      compile: function (element, attr) {
+        if (attr.icon) {
+          var iconElm = element.find('i');
+          iconElm.removeClass('ion-checkmark').addClass(attr.icon);
         }
+
+        var input = element.find('input');
+        angular.forEach({
+          'name': attr.name,
+          'value': attr.value,
+          'disabled': attr.disabled,
+          'ng-value': attr.ngValue,
+          'ng-model': attr.ngModel,
+          'ng-disabled': attr.ngDisabled,
+          'ng-change': attr.ngChange,
+          'ng-required': attr.ngRequired,
+          'required': attr.required
+        }, function (value, name) {
+          if (angular.isDefined(value)) {
+            input.attr(name, value);
+          }
+        });
+
+        return function (scope, element, attr) {
+          scope.getValue = function () {
+            return scope.ngValue || attr.value;
+          };
+        };
+      }
     };
-});/**
+  });
+/**
  * Created by storskel on 18.12.2015.
  */

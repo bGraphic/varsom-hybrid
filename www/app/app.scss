@@ -1,277 +1,164 @@
-$varsom-label-size: 35px;
+$varsom-label-size: 40px;
 $varsom-label-text-size: 20px;
-
 p {
-    .item & {
-        color: $base-color;
-    }
-
-    header & {
-        font-size: 120%;
-    }
+  .item & {
+    color: $base-color;
+  }
+  header & {
+    font-size: 120%;
+  }
 }
 
 section {
-    .warning-details & {
-        margin-bottom: $content-padding;
-    }
+  .warning-details & {
+    margin-bottom: $content-padding;
+  }
 }
 
 .scroll {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    min-height: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  min-height: 100%;
 }
 
 .leaflet-container {
-    transform: translatez(0);
+  transform: translatez(0);
 }
 
 .nve-logo {
-    background-image: url("../img/nve-logo-bw.png");
-    background-repeat: no-repeat;
-    background-position: center bottom 50px;
-    background-size: 50%;
-
+  background-image: url("../img/nve-logo-bw.png");
+  background-repeat: no-repeat;
+  background-position: center bottom 50px;
+  background-size: 50%;
 }
 
 .shadow-top {
-    box-shadow: 0 0 5px rgba(0,0,0,0.3);
-    -webkit-transform: translate3d(0,0,0);
-    transform: translate3d(0,0,0);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 }
 
 .varsom-label {
-    display: inline-block;
-    width: $varsom-label-size;
-    height: $varsom-label-size;
-    line-height: $varsom-label-size;
-    color: white;
-    font-size: $varsom-label-text-size;
-    font-weight: bold;
-    pointer-events: none;
-    text-align: center;
-}
-
-.varsom-map-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1;
-
-    background-color: rgba(255,255,255,0.8);
-    //transform: translateY(50px);
-    max-height: 50%;
-
-    h3 {
-        padding-left: 20px;
-        display: inline-block;
-        margin: 0;
-    }
-
-
-    &.ng-hide-add {
-        transition:0.2s ease-in all;
-        transform: translateY(0);
-        opacity: 0.8;
-    }
-    &.ng-hide-add-active {
-        transform: translateY(200px);
-        opacity: 0;
-    }
-
-    /* The finishing CSS styles for the enter animation */
-    &.ng-hide-remove {
-        transition:0.2s ease-out all;
-        transform: translateY(200px);
-        opacity: 0;
-    }
-    &.ng-hide-remove-active {
-        transform: translateY(0);
-        opacity: 0.8;
-    }
-}
-
-.varsom-map {
-    position: absolute;
-    height:100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+  display: inline-block;
+  width: $varsom-label-size;
+  height: $varsom-label-size;
+  line-height: $varsom-label-size;
+  color: white;
+  font-size: $varsom-label-text-size;
+  font-weight: bold;
+  pointer-events: none;
+  text-align: center;
 }
 
 .varsom-cause {
-    min-height: 70px;
-    padding-bottom: 8px;
-    &.item-thumbnail-left {
-        padding-left: 80px;
-        img {
-            max-height: 50px;
-            max-width: 50px;
-        }
+  min-height: 70px;
+  padding-bottom: 8px;
+  &.item-thumbnail-left {
+    padding-left: 80px;
+    img {
+      max-height: 50px;
+      max-width: 50px;
     }
-    h2 {
-        font-size: 20px;
-        line-height: 50px;
-
-    }
+  }
+  h2 {
+    font-size: 20px;
+    line-height: 50px;
+  }
 }
 
 ul.problem {
-
-    li {
-        font-size: $font-size-base;
-        color: $dark;
-        padding: $item-padding/4 0;
-
-        .label {
-            color: $positive;
-            display: inline-block;
-            width: 130px;
-            margin-right: $item-padding/4;
-        }
+  li {
+    font-size: $font-size-base;
+    color: $dark;
+    padding: $item-padding/4 0;
+    .label {
+      color: $positive;
+      display: inline-block;
+      width: 130px;
+      margin-right: $item-padding/4;
     }
-}
-
-.has-map.list{
-
-    padding-top: 200px;
-
-    &.ng-hide-add {
-        transition:0.5s ease-in transform;
-        transform: translateY(0);
-        z-index: 2;
-    }
-    &.ng-hide-add-active {
-        transform: translateY(400px);
-        z-index: 2;
-    }
-
-    /* The finishing CSS styles for the enter animation */
-    &.ng-hide-remove {
-        transition:0.5s ease-out transform;
-        transform: translateY(400px);
-        z-index: 2;
-
-    }
-    &.ng-hide-remove-active {
-        transform: translateY(0);
-        z-index: 2;
-
-    }
-}
-
-.overview.list {
-	.item {
-		padding-top: $item-padding/1.5;
-		padding-left: $item-padding/1.5;
-		padding-bottom: $item-padding/1.5;
-
-		.varsom-warning-text {
-			margin-left: $item-padding/2;
-		}
-
-		.forecast-widget {
-			margin-bottom: -$item-padding/2;
-			.forecast {
-				margin-bottom: $item-padding/2;
-			}
-		}
-	}
+  }
 }
 
 .detail.list {
-    .varsom-label {
-        margin-right: $item-padding/2;
-    }
+  .varsom-label {
+    margin-right: $item-padding/2;
+  }
 }
 
 .municipality.list {
-    .item {
-        display: flex;
-
-		>:first-child {
-			flex-shrink: 0;
-			margin-right: $item-padding;
-		}
+  .item {
+    display: flex;
+    >:first-child {
+      flex-shrink: 0;
+      margin-right: $item-padding;
     }
+  }
 }
 
 .avalanche-region.list {
-
-    .varsom-label {
-        margin-right: $item-padding/2;
+  .varsom-label {
+    margin-right: $item-padding/2;
+  }
+  .warning-level {
+    h1 {
+      display: inline;
+      font-weight: bold;
+      font-size: $varsom-label-text-size;
+      line-height: $varsom-label-size;
+      margin: 0;
     }
-
-    .warning-level {
-        h1 {
-            display: inline;
-            font-weight: bold;
-            font-size: $varsom-label-text-size;
-            line-height: $varsom-label-size;
-            margin: 0;
-        }
+  }
+  .problems {
+    padding-bottom: $item-padding;
+    .card {
+      margin: 0;
+      &:last-child {
+        margin-bottom: $item-padding/2;
+      }
     }
-
-    .problems {
-        padding-bottom: $item-padding;
-
-        .card {
-            margin: 0;
-
-            &:last-child {
-                margin-bottom: $item-padding/2;
-            }
-        }
-    }
+  }
 }
 
 .varsom-menu {
-    display: block;
-    padding: 30px;
-
-    li {
-        vertical-align: top;
-        margin-bottom: 20px;
-
-        a {
-            display: block;
-            color: #fff;
-            line-height: 39px;
-            height: 40px;
-            vertical-align: top;
-            font-size: 20px;
-            font-weight: 400;
-            text-decoration: none;
-            &.active {
-                color: lighten($energized,20%);
-            }
-
-            .ion-ios-settings {
-                font-size: 22px;
-            }
-        }
+  display: block;
+  padding: 30px;
+  li {
+    vertical-align: top;
+    margin-bottom: 20px;
+    a {
+      display: block;
+      color: #fff;
+      line-height: 39px;
+      height: 40px;
+      vertical-align: top;
+      font-size: 20px;
+      font-weight: 400;
+      text-decoration: none;
+      &.active {
+        color: lighten($energized, 20%);
+      }
+      .ion-ios-settings {
+        font-size: 22px;
+      }
     }
-
-
-    .icon {
-        float: left;
-        display: inline-block;
-        margin-right: 10px;
-        vertical-align: top;
-        font-size: 30px;
-        width: 40px;
-        line-height: 39px;
-        height: 40px;
-        text-align: center;
-        border-radius: 50%;
-        border: 1px solid #fff;
-    }
+  }
+  .icon {
+    float: left;
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: top;
+    font-size: 30px;
+    width: 40px;
+    line-height: 39px;
+    height: 40px;
+    text-align: center;
+    border-radius: 50%;
+    border: 1px solid #fff;
+  }
 }
 
 
@@ -281,14 +168,87 @@ ul.problem {
  *
  * To apply the patch, include this CSS after your ionic.css include.
  */
-.item-radio input:checked + .radio-content .item-content {
-    /* style the item content when its checked */
-    background: #f7f7f7;
 
+.item-radio input:checked + .radio-content .item-content {
+  /* style the item content when its checked */
+  background: #f7f7f7;
 }
 
 .item-radio input:checked + .radio-content .radio-icon {
-    /* show the checkmark icon when its checked */
-    visibility: visible;
+  /* show the checkmark icon when its checked */
+  visibility: visible;
+}
 
+.areas {
+  pointer-events: none;
+  .map {
+    position: absolute;
+  }
+  .list {
+    pointer-events: auto;
+    .item {
+      forecast-widget {
+        display: block;
+        margin-bottom: 5px;
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+        hazard-rating {
+          margin-right: 5px;
+          &:last-of-type {
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+    &.selected-area {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1;
+      margin-bottom: 0;
+      &.ng-leave {
+        transition: 0.2s ease-in all;
+        transform: translateY(0);
+        opacity: 0.8;
+      }
+      &.ng-leave-active {
+        transform: translateY(200px);
+        opacity: 0;
+      }
+      /* The finishing CSS styles for the enter animation */
+      &.ng-enter {
+        transition: 0.2s ease-out all;
+        transform: translateY(200px);
+        opacity: 0;
+      }
+      &.ng-enter-active {
+        transform: translateY(0);
+        opacity: 0.8;
+      }
+    }
+    &.has-map {
+      margin-top: 200px;
+      &.ng-hide-add {
+        transition: 0.5s ease-in transform;
+        transform: translateY(0);
+        z-index: 2;
+      }
+      &.ng-hide-add-active {
+        transform: translateY(400px);
+        z-index: 2;
+      }
+      /* The finishing CSS styles for the enter animation */
+      &.ng-hide-remove {
+        transition: 0.5s ease-out transform;
+        transform: translateY(400px);
+        z-index: 2;
+      }
+      &.ng-hide-remove-active {
+        transform: translateY(0);
+        z-index: 2;
+      }
+    }
+  }
 }

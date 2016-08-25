@@ -6,5 +6,5 @@ platforms/
 plugins/
 .idea/
 www/dist/
-config.keys.js
+www/app/*.keys.js
 www/lib/
