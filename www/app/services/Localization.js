@@ -39,7 +39,7 @@ angular.module('Varsom')
         "avalancheSeasonStart": "Snøskredsdelen av appen er ikke klar enda.",
         "beta": "Dette er en testversjon av Varsom og denne siden er ikke ferdig.",
         "days": ["Søn", "Man", "Tir", "Ons", "Tor", "Fre", "Lør"],
-        "daysFull": ["Søndag", "Manda", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag"],
+        "daysFull": ["Søndag", "Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag"],
         "months": ["jan", "feb", "mar", "apr", "mai", "jun", "jul", "aug", "sept", "okt", "nov", "des"],
         "monthsFull": ["januar", "februar", "mars", "april", "mai", "juni", "juli", "august", "september", "oktober", "november", "desember"],
         "Updates": "Oppdateringer",
