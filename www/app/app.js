@@ -49,7 +49,14 @@ angular.module('Varsom')
         controller: 'AppCtrl as appVm'
       })
       .state('app.areas', {
-        url: '/areas/:areaType?parentId',
+        /* Url: /areas/counties for flood and landslide
+         * Url: /areas/municipalities for flood and landslide for a specified county (use parentId)
+         * Url: /areas/regions for avalanche
+         */
+        url: '/areas/:areaType',
+        params: {
+          parentId: null
+        },
         views: {
           'menuContent@app': {
             templateUrl: 'app/areas/main.html',
