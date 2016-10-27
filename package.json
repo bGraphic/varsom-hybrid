@@ -2,9 +2,6 @@
   "name": "varsom",
   "version": "1.0.0",
   "description": "Varsom: An Ionic project",
-  "scripts": {
-    "postinstall": "ionic state reset && bower install && gulp"
-  },
   "dependencies": {
     "gulp": "^3.9.1",
     "gulp-concat": "^2.2.0",

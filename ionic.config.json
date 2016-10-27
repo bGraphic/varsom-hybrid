@@ -1,8 +1,9 @@
 {
   "name": "Varsom",
   "app_id": "f11eace1",
-  "gulpStartupTasks": [
-    "default",
-    "watch"
+  "watchPatterns": [
+    "www/**/*",
+    "!www/lib/**/*",
+    "!www/**/*.map"
   ]
 }
