@@ -7,3 +7,5 @@ plugins/
 .idea/
 www/dist/
 www/lib/
+/npm-debug.log
+/res/

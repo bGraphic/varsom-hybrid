@@ -18,6 +18,9 @@ After you have installed latest version of [node.js](https://nodejs.org/en/), bo
     npm install -g bower
     npm install -g cordova
     npm install -g ionic
+    npm install -g cordova
+    npm install -g ios-sim
+    npm install -g ios-deploy
 
 ## Getting Started
 1. Clone the repo `git clone https://github.com/bgraphic/varsom-hybrid`
