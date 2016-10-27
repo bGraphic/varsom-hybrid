@@ -30,17 +30,12 @@ angular.module('Varsom')
   });
 
 angular.module('Varsom')
-  .config(function ($stateProvider, $urlRouterProvider, $ionicAppProvider, $ionicConfigProvider, AppSettingsProvider, AppKeys) {
+  .config(function ($stateProvider, $urlRouterProvider, $ionicAppProvider, $ionicConfigProvider, AppKeys) {
     "use strict";
 
     $ionicAppProvider.identify({
       app_id: AppKeys.ionic.appId,
       api_key: AppKeys.ionic.appKey
-    });
-
-    AppSettingsProvider.setParseApiHeader({
-      "X-Parse-Application-Id": AppKeys.parse.appId,
-      "X-Parse-REST-API-Key": AppKeys.parse.restKey
     });
 
     $ionicConfigProvider.backButton.previousTitleText(false);
