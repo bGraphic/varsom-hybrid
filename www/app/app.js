@@ -67,14 +67,14 @@ angular.module('Varsom')
           areas: function ($stateParams, $ionicLoading, Areas) {
             $ionicLoading.show();
             console.log("Get areas ", $stateParams.areaType, $stateParams.parentId);
-            return Areas($stateParams.areaType, $stateParams.parentId).$loaded().then(function (areas) {
+            return new Areas($stateParams.areaType, $stateParams.parentId).$loaded().then(function (areas) {
               $ionicLoading.hide();
               return areas;
             });
           },
           parentArea: function ($stateParams, Area) {
             if ($stateParams.parentId) {
-              return Area("counties", $stateParams.parentId).$loaded();
+              return new Area("counties", $stateParams.parentId).$loaded();
             }
           }
         }
@@ -90,7 +90,7 @@ angular.module('Varsom')
         resolve: {
           municipality: function ($stateParams, $ionicLoading, Area) {
             $ionicLoading.show();
-            return Area("municipalities", $stateParams.areaId).$loaded().then(function (area) {
+            return new Area("municipalities", $stateParams.areaId).$loaded().then(function (area) {
               $ionicLoading.hide();
               return area;
             });
@@ -120,7 +120,7 @@ angular.module('Varsom')
         resolve: {
           region: function ($stateParams, $ionicLoading, Area) {
             $ionicLoading.show();
-            return Area("regions", $stateParams.areaId).$loaded().then(function (area) {
+            return new Area("regions", $stateParams.areaId).$loaded().then(function (area) {
               $ionicLoading.hide();
               return area;
             });
