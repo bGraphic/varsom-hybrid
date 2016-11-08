@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar>
+    <ion-segment [(ngModel)]="segment">
+      <ion-segment-button value="all">
+        Høyest
+      </ion-segment-button>
+      <ion-segment-button value="flood">
+        Flom
+      </ion-segment-button>
+      <ion-segment-button value="landslide">
+        Jordskred
+      </ion-segment-button>
+    </ion-segment>
+  </ion-navbar>
+</ion-header>
+
+<ion-content #test class="list-page">
+  <ion-list>
+    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
+      <ion-badge item-left color="level{{item.forecast.warnings[0].level}}" class="warning-badge">{{item.forecast.warnings[0].level}}</ion-badge>
+      <ion-badge item-left color="level{{item.forecast.warnings[1].level}}" class="warning-badge">{{item.forecast.warnings[1].level}}</ion-badge>
+      <ion-badge item-left color="level{{item.forecast.warnings[2].level}}" class="warning-badge">{{item.forecast.warnings[2].level}}</ion-badge>
+      {{item.name}}
+    </button>
+  </ion-list>
+</ion-content>
+
+

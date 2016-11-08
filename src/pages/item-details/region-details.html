@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-navbar color="brand">
+    <ion-title>Item Details</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+ <div *ngIf="selectedItem" class="selection">
+    <b>{{selectedItem.title}}</b>
+    <ion-icon name="{{selectedItem.icon}}"></ion-icon>
+    <div>
+      You navigated here from <b>{{selectedItem.title}}</b>
+    </div>
+  </div>
+</ion-content>

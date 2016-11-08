@@ -1,0 +1,13 @@
+.list-page {
+
+  ion-list {
+    padding-top: 200px;
+
+    .warning-badge {
+      &:nth-child(1),
+      &:nth-child(2) {
+        margin-right: 4px;
+      }
+    }
+  }
+}
