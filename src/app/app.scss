@@ -16,11 +16,60 @@
 // automatically applied to the <body> element in the app.
 
 $warning-badge-size: 40px;
+$warning-icon-size: 40px;
 
-.warning-badge {
+ion-label p {
+  //color: inherit !important;
+}
+
+@each $color, $value in $colors {
+  [nve-bg-color="#{$color}"] {
+    background: $value;
+  }
+}
+
+.nve-text-small {
+  font-size: 80%;
+}
+
+.nve-level-badge {
   height: $warning-badge-size;
   width: $warning-badge-size;
   line-height: $warning-badge-size;
   padding: 0;
   border-radius: 2px;
 }
+
+.nve-menu {
+  margin-bottom: 0;
+
+  .nve-menu-icon {
+    height: $warning-icon-size;
+    width: $warning-icon-size;
+    line-height: $warning-badge-size !important;
+    border-radius: 50%;
+    border: 1px solid #{map-get($colors, 'light')};
+  }
+}
+
+.nve-contact-info {
+  [ion-button] {
+    height: auto;
+    padding: 1em 0.5em;
+
+    .button-inner {
+      flex-direction: column;
+
+      span:first-child {
+        margin-bottom: 5px;
+      }
+    }
+  }
+}
+
+.nve-level-card {
+  .nve-level-badge {
+    margin-right: 8px;
+  }
+}
+
