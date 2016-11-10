@@ -19,7 +19,15 @@ $warning-badge-size: 40px;
 $warning-icon-size: 40px;
 
 ion-label p {
-  //color: inherit !important;
+  color: inherit !important;
+}
+
+.list-ios ion-item-group > .item-block:first-child {
+  border-top: 0.55px solid $list-ios-border-color;
+}
+
+.list-md ion-item-group > .item-block:first-child {
+  border-top: 1px solid $list-md-border-color;
 }
 
 @each $color, $value in $colors {

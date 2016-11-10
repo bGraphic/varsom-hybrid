@@ -7,7 +7,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-footer>
+<ion-footer *ngIf="items">
   <ion-navbar>
     <ion-segment [(ngModel)]="selectedSegmentId" (ionChange)="segmentChanged($event)">
       <ion-segment-button *ngFor="let segment of segments" value="{{ segment.id }}" >
@@ -28,12 +28,24 @@
   </ion-list>
 
   <ion-list *ngIf="lists">
-    <button ion-item *ngFor="let item of lists[selectedSegmentId]" (click)="itemTapped($event, item)">
-      <ion-badge item-left color="level{{item.forecast.warnings[0].level}}" class="nve-level-badge">{{item.forecast.warnings[0].level}}</ion-badge>
-      <ion-badge item-left color="level{{item.forecast.warnings[1].level}}" class="nve-level-badge">{{item.forecast.warnings[0].level}}</ion-badge>
-      <ion-badge item-left color="level{{item.forecast.warnings[2].level}}" class="nve-level-badge">{{item.forecast.warnings[0].level}}</ion-badge>
-      {{item.name}}
-    </button>
+    <ion-item-group>
+      <button ion-item *ngFor="let item of lists[0]" (click)="itemTapped($event, item)">
+        <ion-badge item-left color="level{{item.forecast.warnings[0].level}}" class="nve-level-badge">{{item.forecast.warnings[0].level}}</ion-badge>
+        <ion-badge item-left color="level{{item.forecast.warnings[1].level}}" class="nve-level-badge">{{item.forecast.warnings[0].level}}</ion-badge>
+        <ion-badge item-left color="level{{item.forecast.warnings[2].level}}" class="nve-level-badge">{{item.forecast.warnings[0].level}}</ion-badge>
+        {{item.name}}
+      </button>
+    </ion-item-group>
+    <ion-item-group>
+      <ion-item-divider light>B-regioner</ion-item-divider>
+      <button ion-item *ngFor="let item of lists[1]" (click)="itemTapped($event, item)">
+        <ion-badge item-left color="level{{item.forecast.warnings[0].level}}" class="nve-level-badge">{{item.forecast.warnings[0].level}}</ion-badge>
+        <ion-badge item-left color="level{{item.forecast.warnings[1].level}}" class="nve-level-badge">{{item.forecast.warnings[0].level}}</ion-badge>
+        <ion-badge item-left color="level{{item.forecast.warnings[2].level}}" class="nve-level-badge">{{item.forecast.warnings[0].level}}</ion-badge>
+        {{item.name}}
+      </button>
+    </ion-item-group>
+
   </ion-list>
 </ion-content>
 

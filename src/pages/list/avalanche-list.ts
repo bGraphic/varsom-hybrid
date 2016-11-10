@@ -5,7 +5,6 @@ import { NavController, NavParams, Content } from 'ionic-angular';
 import { RegionDetailsPage } from '../item-details/region-details';
 
 enum AvalancheSegment {
-  ABregion,
   Aregion,
   Bregion
 }
@@ -28,17 +27,10 @@ export class AvalancheListPage {
     // If we navigated to this page, we will have an item available as a nav param
     this.pageTitle = 'Snøskred';
     this.itemsType = 'Region';
-    this.segments = [
-      { id: AvalancheSegment.ABregion, name: "Felles" },
-      { id: AvalancheSegment.Aregion, name: "A-regioner" },
-      { id: AvalancheSegment.Bregion, name: "B-regioner" }
-    ];
-    this.selectedSegmentId = "" + AvalancheSegment.ABregion;
 
     this.lists = [];
-    this.lists[AvalancheSegment.ABregion] = [];
-    this.lists[AvalancheSegment.Bregion] = [];
     this.lists[AvalancheSegment.Aregion] = [];
+    this.lists[AvalancheSegment.Bregion] = [];
 
     for(let i = 1; i < 30; i++) {
 
@@ -52,14 +44,10 @@ export class AvalancheListPage {
       };
 
       if( item.id < 15) {
-        item.name += " (A)";
         this.lists[AvalancheSegment.Aregion].push(item);
       } else {
-        item.name += " (B)";
         this.lists[AvalancheSegment.Bregion].push(item);
       }
-
-      this.lists[AvalancheSegment.ABregion].push(item);
     }
   }
 
@@ -67,10 +55,5 @@ export class AvalancheListPage {
     this.navCtrl.push(RegionDetailsPage, {
       region: item
     });
-  }
-
-  segmentChanged(event) {
-    console.log("Segment change");
-    this.content.scrollToTop();
   }
 }
