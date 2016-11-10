@@ -19,8 +19,11 @@
 
 <ion-content #test class="list-page">
   <ion-list *ngIf="items">
+    <ion-list-header>
+      <ion-note item-left *ngFor="let i of [19,20,21]">{{i}}. okt</ion-note>
+    </ion-list-header>
     <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-      <nve-warning-badge *ngFor="let i of [0,1,2]" [level]="item.forecasts[selectedSegmentId].warnings[i].level"></nve-warning-badge>
+      <nve-warning-badge item-left *ngFor="let i of [0,1,2]" [level]="item.forecasts[selectedSegmentId].warnings[i].level"></nve-warning-badge>
       {{item.name}}
     </button>
   </ion-list>
@@ -28,14 +31,14 @@
   <ion-list *ngIf="lists">
     <ion-item-group>
       <button ion-item *ngFor="let item of lists[0]" (click)="itemTapped($event, item)">
-        <nve-warning-badge *ngFor="let i of [0,1,2]" [level]="item.forecast.warnings[i].level"></nve-warning-badge>
+        <nve-warning-badge item-left *ngFor="let i of [0,1,2]" [level]="item.forecast.warnings[i].level"></nve-warning-badge>
         {{item.name}}
       </button>
     </ion-item-group>
     <ion-item-group>
       <ion-item-divider light>B-regioner</ion-item-divider>
       <button ion-item *ngFor="let item of lists[1]" (click)="itemTapped($event, item)">
-        <nve-warning-badge *ngFor="let i of [0,1,2]" [level]="item.forecast.warnings[i].level"></nve-warning-badge>
+        <nve-warning-badge item-left *ngFor="let i of [0,1,2]" [level]="item.forecast.warnings[i].level"></nve-warning-badge>
         {{item.name}}
       </button>
     </ion-item-group>

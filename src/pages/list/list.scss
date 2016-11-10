@@ -3,10 +3,21 @@
   ion-list {
     padding-top: 200px;
 
-    .nve-warning-badge {
+    ion-list-header ion-note {
+      width: $warning-badge-size;
+      text-align: center;
+      overflow: hidden;
+      font-size: 10px;
+      text-transform: lowercase;
+      font-weight: normal;
 
-      margin: 0;
+      &:nth-child(1),
+      &:nth-child(2) {
+        margin-right: 4px;
+      }
+    }
 
+    nve-warning-badge {
       &:nth-child(1),
       &:nth-child(2) {
         margin-right: 4px;

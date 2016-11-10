@@ -40,12 +40,11 @@ ion-label p {
   font-size: 80%;
 }
 
-.nve-warning-badge {
+nve-warning-badge ion-badge {
   height: $warning-badge-size;
   width: $warning-badge-size;
   line-height: $warning-badge-size;
   padding: 0;
-  border-radius: 2px;
 }
 
 .nve-menu {
