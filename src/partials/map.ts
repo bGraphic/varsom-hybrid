@@ -31,13 +31,12 @@ export class Map {
   createMap(el: any): L.Map {
     console.log(el);
     var map = L.map(el, {
-      zoomControl: false
+      zoomControl: false,
+      minZoom: 4,
+      maxZoom: 7
     }).setView([64.871, 16.949], 4);
 
-    L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png', {
-      minZoom: 3,
-      maxZoom: 18,
-    }).addTo(map);
+    L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png', {}).addTo(map);
 
     return map;
   }
