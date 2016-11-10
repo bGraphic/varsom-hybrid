@@ -4,15 +4,15 @@ import { NavController, NavParams } from 'ionic-angular';
 
 
 @Component({
-  templateUrl: 'region-details.html'
+  templateUrl: 'municipality-details.html'
 })
-export class RegionDetailsPage {
-  selectedRegion: any;
+export class MuncipalityDetailsPage {
+  selectedMunicipality: any;
   pageTitle: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     // If we navigated to this page, we will have an item available as a nav param
-    this.selectedRegion = navParams.get('region');
-    this.pageTitle = this.selectedRegion.name;
+    this.selectedMunicipality = navParams.get('municipality');
+    this.pageTitle = this.selectedMunicipality.name;
   }
 }

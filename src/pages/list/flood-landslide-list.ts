@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { NavController, NavParams } from 'ionic-angular';
 
-import { ItemDetailsPage } from '../item-details/region-details';
+import { MuncipalityDetailsPage } from '../item-details/municipality-details';
 
 const enum FloodLandslideSegment {
   Highest,
@@ -70,8 +70,8 @@ export class FloodLandslideListPage {
 
   itemTapped(event, item) {
     if('municipality' == item.type) {
-      this.navCtrl.push(ItemDetailsPage, {
-        region: item
+      this.navCtrl.push(MuncipalityDetailsPage, {
+        municipality: item
       });
     } else {
       this.navCtrl.push(FloodLandslideListPage, {

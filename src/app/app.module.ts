@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { ItemDetailsPage } from '../pages/item-details/region-details';
+import { RegionDetailsPage } from '../pages/item-details/region-details';
 import { FloodLandslideListPage } from '../pages/list/flood-landslide-list';
-import {AvalancheListPage} from "../pages/list/avalanche-list";
+import { AvalancheListPage } from "../pages/list/avalanche-list";
+import {MuncipalityDetailsPage} from "../pages/item-details/municipality-details";
 
 @NgModule({
   declarations: [
     MyApp,
-    ItemDetailsPage,
+    MuncipalityDetailsPage,
+    RegionDetailsPage,
     FloodLandslideListPage,
     AvalancheListPage
   ],
@@ -18,7 +20,8 @@ import {AvalancheListPage} from "../pages/list/avalanche-list";
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    ItemDetailsPage,
+    MuncipalityDetailsPage,
+    RegionDetailsPage,
     FloodLandslideListPage,
     AvalancheListPage
   ],

@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 
 import { NavController, NavParams, Content } from 'ionic-angular';
 
-import { ItemDetailsPage } from '../item-details/region-details';
+import { RegionDetailsPage } from '../item-details/region-details';
 
 enum AvalancheSegment {
   ABregion,
@@ -64,7 +64,7 @@ export class AvalancheListPage {
   }
 
   itemTapped(event, item) {
-    this.navCtrl.push(ItemDetailsPage, {
+    this.navCtrl.push(RegionDetailsPage, {
       region: item
     });
   }
