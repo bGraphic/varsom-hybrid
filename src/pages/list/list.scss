@@ -6,7 +6,7 @@ nve-map {
   position: fixed;
   width: 100%;
 
-  #map {
+  > div {
     height: 200px;
     width: 100%;
   }

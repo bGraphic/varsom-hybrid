@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http';
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { RegionDetailsPage } from '../pages/item-details/region-details';
@@ -19,7 +20,8 @@ import { Map } from "../partials/map";
     Map
   ],
   imports: [
-    IonicModule.forRoot(MyApp, { })
+    IonicModule.forRoot(MyApp, { }),
+    HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

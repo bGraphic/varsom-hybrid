@@ -9,8 +9,8 @@
 
 <ion-footer *ngIf="items">
   <ion-navbar>
-    <ion-segment [(ngModel)]="selectedSegmentId" (ionChange)="segmentChanged($event)">
-      <ion-segment-button *ngFor="let segment of segments" value="{{ segment.id }}" >
+    <ion-segment [(ngModel)]="forecastType">
+      <ion-segment-button *ngFor="let segment of segments" value="{{ segment.slug }}" >
         {{ segment.name }}
       </ion-segment-button>
     </ion-segment>
@@ -19,14 +19,14 @@
 
 <ion-content #test class="list-page">
 
-  <nve-map></nve-map>
+  <nve-map [forecastType]="forecastType"></nve-map>
 
   <ion-list *ngIf="items">
     <ion-list-header>
       <ion-note item-left *ngFor="let i of [19,20,21]">{{i}}. okt</ion-note>
     </ion-list-header>
     <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-      <nve-warning-badge item-left *ngFor="let i of [0,1,2]" [level]="item.forecasts[selectedSegmentId].warnings[i].level"></nve-warning-badge>
+      <nve-warning-badge item-left *ngFor="let i of [0,1,2]" [level]="item.getForecast(forecastType).warnings[i].level"></nve-warning-badge>
       {{item.name}}
     </button>
   </ion-list>

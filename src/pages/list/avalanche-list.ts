@@ -17,16 +17,16 @@ export class AvalancheListPage {
   @ViewChild(Content) content: Content;
 
   forecastType: string = "avalanche";
+  itemsType: string = "region";
+
   pageTitle: string;
   lists: { id: Number, name: string, type: string, forecast: { warnings: { level: number }[] } }[][]
-  itemsType: string;
   segments: { id: AvalancheSegment, name: string }[];
   selectedSegmentId: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     // If we navigated to this page, we will have an item available as a nav param
     this.pageTitle = 'Snøskred';
-    this.itemsType = 'Region';
 
     this.lists = [];
     this.lists[AvalancheSegment.Aregion] = [];
