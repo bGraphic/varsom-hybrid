@@ -3,7 +3,10 @@
   ion-list {
     padding-top: 200px;
 
-    .nve-level-badge {
+    .nve-warning-badge {
+
+      margin: 0;
+
       &:nth-child(1),
       &:nth-child(2) {
         margin-right: 4px;

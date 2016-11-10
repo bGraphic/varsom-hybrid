@@ -20,9 +20,7 @@
 <ion-content #test class="list-page">
   <ion-list *ngIf="items">
     <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-      <ion-badge item-left color="level{{item.forecasts[selectedSegmentId].warnings[0].level}}" class="nve-level-badge">{{item.forecasts[selectedSegmentId].warnings[0].level}}</ion-badge>
-      <ion-badge item-left color="level{{item.forecasts[selectedSegmentId].warnings[1].level}}" class="nve-level-badge">{{item.forecasts[selectedSegmentId].warnings[0].level}}</ion-badge>
-      <ion-badge item-left color="level{{item.forecasts[selectedSegmentId].warnings[2].level}}" class="nve-level-badge">{{item.forecasts[selectedSegmentId].warnings[0].level}}</ion-badge>
+      <nve-warning-badge *ngFor="let i of [0,1,2]" [level]="item.forecasts[selectedSegmentId].warnings[i].level"></nve-warning-badge>
       {{item.name}}
     </button>
   </ion-list>
@@ -30,18 +28,14 @@
   <ion-list *ngIf="lists">
     <ion-item-group>
       <button ion-item *ngFor="let item of lists[0]" (click)="itemTapped($event, item)">
-        <ion-badge item-left color="level{{item.forecast.warnings[0].level}}" class="nve-level-badge">{{item.forecast.warnings[0].level}}</ion-badge>
-        <ion-badge item-left color="level{{item.forecast.warnings[1].level}}" class="nve-level-badge">{{item.forecast.warnings[0].level}}</ion-badge>
-        <ion-badge item-left color="level{{item.forecast.warnings[2].level}}" class="nve-level-badge">{{item.forecast.warnings[0].level}}</ion-badge>
+        <nve-warning-badge *ngFor="let i of [0,1,2]" [level]="item.forecast.warnings[i].level"></nve-warning-badge>
         {{item.name}}
       </button>
     </ion-item-group>
     <ion-item-group>
       <ion-item-divider light>B-regioner</ion-item-divider>
       <button ion-item *ngFor="let item of lists[1]" (click)="itemTapped($event, item)">
-        <ion-badge item-left color="level{{item.forecast.warnings[0].level}}" class="nve-level-badge">{{item.forecast.warnings[0].level}}</ion-badge>
-        <ion-badge item-left color="level{{item.forecast.warnings[1].level}}" class="nve-level-badge">{{item.forecast.warnings[0].level}}</ion-badge>
-        <ion-badge item-left color="level{{item.forecast.warnings[2].level}}" class="nve-level-badge">{{item.forecast.warnings[0].level}}</ion-badge>
+        <nve-warning-badge *ngFor="let i of [0,1,2]" [level]="item.forecast.warnings[i].level"></nve-warning-badge>
         {{item.name}}
       </button>
     </ion-item-group>

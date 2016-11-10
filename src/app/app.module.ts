@@ -4,7 +4,8 @@ import { MyApp } from './app.component';
 import { RegionDetailsPage } from '../pages/item-details/region-details';
 import { FloodLandslideListPage } from '../pages/list/flood-landslide-list';
 import { AvalancheListPage } from "../pages/list/avalanche-list";
-import {MuncipalityDetailsPage} from "../pages/item-details/municipality-details";
+import { MuncipalityDetailsPage } from "../pages/item-details/municipality-details";
+import { WarningBadge } from "../partials/warning-badge";
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import {MuncipalityDetailsPage} from "../pages/item-details/municipality-details
     MuncipalityDetailsPage,
     RegionDetailsPage,
     FloodLandslideListPage,
-    AvalancheListPage
+    AvalancheListPage,
+    WarningBadge
   ],
   imports: [
     IonicModule.forRoot(MyApp, { })
