@@ -6,8 +6,4 @@ import { Component, Input } from '@angular/core';
 })
 export class WarningBadge {
   @Input() level: number;
-
-  constructor() {
-    console.log("Level ", this.level);
-  }
 }
