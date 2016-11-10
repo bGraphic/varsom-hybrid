@@ -6,6 +6,7 @@ import { FloodLandslideListPage } from '../pages/list/flood-landslide-list';
 import { AvalancheListPage } from "../pages/list/avalanche-list";
 import { MuncipalityDetailsPage } from "../pages/item-details/municipality-details";
 import { WarningBadge } from "../partials/warning-badge";
+import { Map } from "../partials/map";
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { WarningBadge } from "../partials/warning-badge";
     RegionDetailsPage,
     FloodLandslideListPage,
     AvalancheListPage,
-    WarningBadge
+    WarningBadge,
+    Map
   ],
   imports: [
     IonicModule.forRoot(MyApp, { })
