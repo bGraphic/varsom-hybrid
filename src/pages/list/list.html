@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="brand">
     <ion-title>{{ pageTitle }}</ion-title>
     <button ion-button right menuToggle>
       <ion-icon name="menu"></ion-icon>
@@ -23,7 +23,7 @@
 
   <ion-list *ngIf="items">
     <ion-list-header>
-      <ion-note item-left *ngFor="let i of [19,20,21]">{{i}}. okt</ion-note>
+      <ion-note item-left *ngFor="let i of [19,20,21]">{{i}}. okt</ion-note> Flom / jordskred
     </ion-list-header>
     <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
       <nve-warning-badge item-left *ngFor="let i of [0,1,2]" [level]="item.getForecast(forecastType).warnings[i].level"></nve-warning-badge>
@@ -32,6 +32,9 @@
   </ion-list>
 
   <ion-list *ngIf="lists">
+    <ion-list-header>
+      <ion-note item-left *ngFor="let i of [19,20,21]">{{i}}. okt</ion-note> Snøskred
+    </ion-list-header>
     <ion-item-group>
       <button ion-item *ngFor="let item of lists[0]" (click)="itemTapped($event, item)">
         <nve-warning-badge item-left *ngFor="let i of [0,1,2]" [level]="item.forecast.warnings[i].level"></nve-warning-badge>

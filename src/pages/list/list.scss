@@ -17,6 +17,10 @@ nve-map {
   ion-list {
     padding-top: 200px;
 
+    .item-inner {
+      padding-left: 10px;
+    }
+
     ion-list-header ion-note {
       width: $warning-badge-size;
       text-align: center;
