@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-
 import { NavController, NavParams } from 'ionic-angular';
-
 import { MuncipalityDetailsPage } from '../item-details/municipality-details';
 import { Area } from "../../models/Area";
+import { DataService } from "../../services/data";
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
 
 @Component({
   templateUrl: 'list.html'
@@ -14,11 +14,11 @@ export class FloodLandslideListPage {
   itemsType: string = 'county';
 
   pageTitle: string;
-  items: Area[];
   parent: Area;
   segments: { slug: string, name: string }[];
+  areas: FirebaseListObservable<Area[]>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, af: AngularFire, private dataService: DataService) {
     // If we navigated to this page, we will have an item available as a nav param
     this.parent = navParams.get('parent');
     this.segments = [
@@ -32,14 +32,10 @@ export class FloodLandslideListPage {
       this.pageTitle = 'Flom / jordskred';
     } else {
       this.itemsType = 'municipality';
-      this.pageTitle = this.parent.name;
+      this.pageTitle = this.parent.getName();
     }
 
-    this.items = [];
-    for(let i = 1; i < 30; i++) {
-      let item = new Area(Number(i), this.itemsType + " " + i, this.itemsType);
-      this.items.push(item);
-    }
+    this.areas = this.dataService.getCounties();
   }
 
   itemTapped(event, item) {

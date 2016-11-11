@@ -19,37 +19,16 @@
 
 <ion-content #test class="list-page">
 
-  <nve-map [forecastType]="forecastType"></nve-map>
-
-  <ion-list *ngIf="items">
+  <ion-list>
     <ion-list-header>
       <ion-note item-right *ngFor="let d of ['fre','lør','søn']">{{d}}</ion-note> Flom / jordskred
     </ion-list-header>
-    <button detail-none ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-      <nve-warning-badge item-right *ngFor="let i of [0,1,2]" [level]="item.getForecast(forecastType).warnings[i].level"></nve-warning-badge>
-      {{item.name}}
+
+    <button detail-none ion-item *ngFor="let area of areas | async" (click)="itemTapped($event, area)">
+      {{ area.Name }}
     </button>
   </ion-list>
 
-  <ion-list *ngIf="lists">
-    <ion-list-header>
-      <ion-note item-right *ngFor="let d of ['fre','lør','søn']">{{d}}</ion-note> Snøskred
-    </ion-list-header>
-    <ion-item-group>
-      <button detail-none  ion-item *ngFor="let item of lists[0]" (click)="itemTapped($event, item)">
-        <nve-warning-badge item-right *ngFor="let i of [0,1,2]" [level]="item.forecast.warnings[i].level"></nve-warning-badge>
-        {{item.name}}
-      </button>
-    </ion-item-group>
-    <ion-item-group>
-      <ion-item-divider light>B-regioner</ion-item-divider>
-      <button detail-none  ion-item *ngFor="let item of lists[1]" (click)="itemTapped($event, item)">
-        <nve-warning-badge item-right *ngFor="let i of [0,1,2]" [level]="item.forecast.warnings[i].level"></nve-warning-badge>
-        {{item.name}}
-      </button>
-    </ion-item-group>
-
-  </ion-list>
 </ion-content>
 
 

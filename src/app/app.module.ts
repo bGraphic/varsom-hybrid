@@ -8,6 +8,16 @@ import { AvalancheListPage } from "../pages/list/avalanche-list";
 import { MuncipalityDetailsPage } from "../pages/item-details/municipality-details";
 import { WarningBadge } from "../partials/warning-badge";
 import { Map } from "../partials/map";
+import { DataService } from "../services/data";
+import { AngularFireModule } from 'angularfire2';
+
+// Must export the config
+export const firebaseConfig = {
+  apiKey: "AIzaSyDwiQkQSv1BCovQiPU-P9xok5pueLPJZqo",
+  authDomain: "varsom-dev.firebaseapp.com",
+  databaseURL: "https://varsom-dev.firebaseio.com",
+  storageBucket: "varsom-dev.appspot.com"
+};
 
 @NgModule({
   declarations: [
@@ -21,7 +31,8 @@ import { Map } from "../partials/map";
   ],
   imports: [
     IonicModule.forRoot(MyApp, { }),
-    HttpModule
+    HttpModule,
+    AngularFireModule.initializeApp(firebaseConfig)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -31,6 +42,6 @@ import { Map } from "../partials/map";
     FloodLandslideListPage,
     AvalancheListPage
   ],
-  providers: []
+  providers: [DataService]
 })
 export class AppModule {}

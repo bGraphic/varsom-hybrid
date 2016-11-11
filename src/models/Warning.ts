@@ -1,7 +1,8 @@
 export class Warning {
-  level: number;
-  constructor(
-  ) {
-    this.level =  Math.floor(Math.random() * 4);
+  Rating: number;
+  constructor( ) { }
+
+  getLevel(): number {
+    return this.Rating;
   }
 }
