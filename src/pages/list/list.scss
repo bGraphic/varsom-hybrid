@@ -18,7 +18,7 @@ nve-map {
     padding-top: 200px;
 
     .item-inner {
-      padding-left: 10px;
+      padding-right: 16px !important;
     }
 
     ion-list-header ion-note {
@@ -29,18 +29,12 @@ nve-map {
       text-transform: lowercase;
       font-weight: normal;
       color: $text-color;
-
-      &:nth-child(1),
-      &:nth-child(2) {
-        margin-right: 4px;
-      }
     }
 
+    ion-list-header ion-note,
     nve-warning-badge {
-      &:nth-child(1),
-      &:nth-child(2) {
-        margin-right: 4px;
-      }
+      margin-right: 0 !important;
+      margin-left: 8px !important;
     }
   }
 }

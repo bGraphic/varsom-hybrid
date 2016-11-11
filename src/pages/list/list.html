@@ -23,28 +23,28 @@
 
   <ion-list *ngIf="items">
     <ion-list-header>
-      <ion-note item-left *ngFor="let i of [19,20,21]">{{i}}. okt</ion-note> Flom / jordskred
+      <ion-note item-right *ngFor="let d of ['fre','lør','søn']">{{d}}</ion-note> Flom / jordskred
     </ion-list-header>
-    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-      <nve-warning-badge item-left *ngFor="let i of [0,1,2]" [level]="item.getForecast(forecastType).warnings[i].level"></nve-warning-badge>
+    <button detail-none ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
+      <nve-warning-badge item-right *ngFor="let i of [0,1,2]" [level]="item.getForecast(forecastType).warnings[i].level"></nve-warning-badge>
       {{item.name}}
     </button>
   </ion-list>
 
   <ion-list *ngIf="lists">
     <ion-list-header>
-      <ion-note item-left *ngFor="let i of [19,20,21]">{{i}}. okt</ion-note> Snøskred
+      <ion-note item-right *ngFor="let d of ['fre','lør','søn']">{{d}}</ion-note> Snøskred
     </ion-list-header>
     <ion-item-group>
-      <button ion-item *ngFor="let item of lists[0]" (click)="itemTapped($event, item)">
-        <nve-warning-badge item-left *ngFor="let i of [0,1,2]" [level]="item.forecast.warnings[i].level"></nve-warning-badge>
+      <button detail-none  ion-item *ngFor="let item of lists[0]" (click)="itemTapped($event, item)">
+        <nve-warning-badge item-right *ngFor="let i of [0,1,2]" [level]="item.forecast.warnings[i].level"></nve-warning-badge>
         {{item.name}}
       </button>
     </ion-item-group>
     <ion-item-group>
       <ion-item-divider light>B-regioner</ion-item-divider>
-      <button ion-item *ngFor="let item of lists[1]" (click)="itemTapped($event, item)">
-        <nve-warning-badge item-left *ngFor="let i of [0,1,2]" [level]="item.forecast.warnings[i].level"></nve-warning-badge>
+      <button detail-none  ion-item *ngFor="let item of lists[1]" (click)="itemTapped($event, item)">
+        <nve-warning-badge item-right *ngFor="let i of [0,1,2]" [level]="item.forecast.warnings[i].level"></nve-warning-badge>
         {{item.name}}
       </button>
     </ion-item-group>
