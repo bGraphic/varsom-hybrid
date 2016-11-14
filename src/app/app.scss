@@ -36,6 +36,9 @@ nve-warning-badge ion-badge {
   height: $warning-badge-size;
   width: $warning-badge-size;
   line-height: $warning-badge-size;
+  color: #FFF !important;
+  font-weight: bold;
+  font-size: 1.7rem;
   padding: 0;
 }
 

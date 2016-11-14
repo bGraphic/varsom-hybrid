@@ -11,7 +11,6 @@ import { AngularFire, FirebaseListObservable } from 'angularfire2';
 export class FloodLandslideListPage {
 
   forecastType: string = 'highest';
-  itemsType: string = 'county';
 
   pageTitle: string;
   parent: Area;
@@ -28,24 +27,26 @@ export class FloodLandslideListPage {
     ];
 
     if(!this.parent) {
-      this.itemsType = 'county';
       this.pageTitle = 'Flom / jordskred';
     } else {
-      this.itemsType = 'municipality';
       this.pageTitle = this.parent.getName();
     }
 
-    this.areas = this.dataService.getCounties();
+    if(!this.parent) {
+      this.areas = this.dataService.getCounties();
+    } else {
+      this.areas = this.dataService.getMunicipalities(this.parent.getKey());
+    }
   }
 
   itemTapped(event, item) {
-    if('municipality' == item.type) {
-      this.navCtrl.push(MuncipalityDetailsPage, {
-        municipality: item
-      });
-    } else {
+    if(!this.parent) {
       this.navCtrl.push(FloodLandslideListPage, {
         parent: item
+      });
+    } else {
+      this.navCtrl.push(MuncipalityDetailsPage, {
+        municipality: item
       });
     }
   }

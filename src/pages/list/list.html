@@ -25,7 +25,10 @@
     </ion-list-header>
 
     <button detail-none ion-item *ngFor="let area of areas | async" (click)="itemTapped($event, area)">
-      {{ area.getName() }} <span *ngFor="let warning of area.getForecast() | async">{{ warning.Rating }}</span>
+      <nve-warning-badge item-right [level]="(area.getForecast() | async)?.day0.Rating"></nve-warning-badge>
+      <nve-warning-badge item-right [level]="(area.getForecast() | async)?.day1.Rating"></nve-warning-badge>
+      <nve-warning-badge item-right [level]="(area.getForecast() | async)?.day2.Rating"></nve-warning-badge>
+      {{ area.getName() }}
     </button>
   </ion-list>
 

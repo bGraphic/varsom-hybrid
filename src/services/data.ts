@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { Area } from "../models/Area";
 
 @Injectable()
@@ -13,7 +13,7 @@ export class DataService {
       .map((items) => {
         console.log("regions");
         return items.map(item => {
-          let area = this.createArea(item);
+          let area = this.createArea(item, "region");
           return area
         })
       }) as FirebaseListObservable<Area[]>;
@@ -22,15 +22,20 @@ export class DataService {
       .map((items) => {
         console.log("counties");
         return items.map(item => {
-          let area = this.createArea(item);
+          let area = this.createArea(item, "county");
           return area
         })
       }) as FirebaseListObservable<Area[]>;
   }
 
-  private createArea(item: any): Area {
+  private createArea(item: any, type: string, parentKey: string = null): Area {
     let area = new Area(item);
-    let floodForecast = this.af.database.list('/forecast/flood/counties/' + item.$key + '/Forecast');
+    let floodForecast;
+    if('county' == type) {
+      floodForecast = this.af.database.object('/forecast/flood/counties/' + item.$key + '/Forecast');
+    } else {
+      floodForecast = this.af.database.object('/forecast/flood/municipalities/' + parentKey + "/" + item.$key + '/Forecast');
+    }
     area.setForecast('flood', floodForecast);
     return area;
   }
@@ -41,5 +46,17 @@ export class DataService {
 
   getCounties():FirebaseListObservable<Area[]> {
     return this.counties;
+  }
+
+  getMunicipalities(key: string):FirebaseListObservable<Area[]> {
+    console.log("Get municipalities");
+    return this.af.database.list('/areas/municipalities/' + key)
+      .map((items) => {
+        console.log("municipality");
+        return items.map(item => {
+          let area = this.createArea(item, "municipality", key);
+          return area
+        })
+      }) as FirebaseListObservable<Area[]>;
   }
 }
