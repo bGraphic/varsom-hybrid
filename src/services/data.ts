@@ -4,9 +4,6 @@ import { Area } from "../models/Area";
 
 @Injectable()
 export class DataService {
-  private regions: FirebaseListObservable<Area[]>;
-  private counties: FirebaseListObservable<Area[]>;
-  private municipalities: FirebaseListObservable<Area[]>[];
 
   constructor (private af: AngularFire) {
     this.getCounties();
@@ -26,45 +23,36 @@ export class DataService {
   }
 
   getRegions():FirebaseListObservable<Area[]> {
-    if(!this.regions) {
-      this.regions = this.af.database.list('/areas/regions')
-        .map((items) => {
-          console.log("regions");
-          return items.map(item => {
-            let area = this.createArea(item, "region");
-            return area
-          })
-        }) as FirebaseListObservable<Area[]>;
-    }
 
-    return this.regions;
+    return this.af.database.list('/areas/regions')
+      .map((items) => {
+        console.log("regions");
+        return items.map(item => {
+          let area = this.createArea(item, "region");
+          return area
+        })
+      }) as FirebaseListObservable<Area[]>;
   }
 
   getCounties():FirebaseListObservable<Area[]> {
-    if(!this.counties) {
-      this.counties = this.af.database.list('/areas/counties')
-        .map((items) => {
-          console.log("counties");
-          return items.map(item => {
-            let area = this.createArea(item, "county");
-            return area
-          })
-        }) as FirebaseListObservable<Area[]>;
-    }
-    return this.counties;
+    return this.af.database.list('/areas/counties')
+      .map((items) => {
+        console.log("counties");
+        return items.map(item => {
+          let area = this.createArea(item, "county");
+          return area
+        })
+      }) as FirebaseListObservable<Area[]>;
   }
 
   getMunicipalities(key: string):FirebaseListObservable<Area[]> {
-    if(!this.municipalities[key]) {
-      this.municipalities[key] = this.af.database.list('/areas/municipalities/' + key)
-        .map((items) => {
-          console.log("municipality");
-          return items.map(item => {
-            let area = this.createArea(item, "municipality", key);
-            return area
-          })
-        }) as FirebaseListObservable<Area[]>;
-    }
-    return this.municipalities[key];
+    return this.af.database.list('/areas/municipalities/' + key)
+      .map((items) => {
+        console.log("municipality");
+        return items.map(item => {
+          let area = this.createArea(item, "municipality", key);
+          return area
+        })
+      }) as FirebaseListObservable<Area[]>;
   }
 }
