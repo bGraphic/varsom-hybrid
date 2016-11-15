@@ -20,7 +20,7 @@ export class FloodLandslideListPage {
 
   pageTitle: string;
   selectedCounty: Area;
-  areas: FirebaseListObservable<Area[]>;
+  sections: {titleKey: string, areas: FirebaseListObservable<Area[]> }[];
 
   private getPageTitle(parent: Area): string {
     if(!this.selectedCounty) {
@@ -42,7 +42,12 @@ export class FloodLandslideListPage {
     // If we navigated to this page, we will have an item available as a nav param
     this.selectedCounty = navParams.get('county');
     this.pageTitle = this.getPageTitle(this.selectedCounty);
-    this.areas = this.getAreas(this.selectedCounty);
+
+    this.sections = [];
+    this.sections.push({
+      titleKey: this.settings.selectedForecastType,
+      areas: this.getAreas(this.selectedCounty)
+    });
   }
 
   private pushCountyFloodLandslideListPage(navCtrl: NavController, county: Area) {

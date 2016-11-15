@@ -13,7 +13,7 @@ import { SettingsService } from "../../services/settings";
 export class AvalancheListPage {
 
   pageTitle: string;
-  areas: FirebaseListObservable<Area[]>;
+  sections: {titleKey: string, areas: FirebaseListObservable<Area[]> }[];
 
   private getPageTitle(): string {
     return "Snøskred";
@@ -26,7 +26,17 @@ export class AvalancheListPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, af: AngularFire, private dataService: DataService, public settings: SettingsService) {
     // If we navigated to this page, we will have an item available as a nav param
     this.pageTitle = this.getPageTitle();
-    this.areas = this.getAreas();
+
+    this.sections = [];
+    this.sections.push({
+      titleKey: 'avalanche',
+      areas: this.getAreas()
+    });
+
+    this.sections.push({
+      titleKey: 'b-regions',
+      areas: this.getAreas()
+    });
   }
 
   private pushRegionDetailsPage(navCtrl: NavController, municipality: Area) {
