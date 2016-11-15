@@ -1,15 +1,11 @@
-import { FirebaseObjectObservable } from 'angularfire2';
-
+import {FirebaseObjectObservable} from "angularfire2";
+import {Forecast} from "./Forecast";
 export class Area {
-  private key: string;
-  private id: string;
-  private name: string;
-  private forecast: FirebaseObjectObservable<any>;
 
-  constructor(firebaseObject: any) {
-    this.key = firebaseObject.$key;
-    this.id = firebaseObject.Id;
-    this.name = firebaseObject.Name;
+  private forecasts: FirebaseObjectObservable<Forecast>[] = [];
+
+  constructor(private areaType: string, private key: string, private name: string, private parentKey?: string) {
+
   }
 
   getName(): string {
@@ -20,11 +16,19 @@ export class Area {
     return this.key;
   }
 
-  setForecast(forecastType: string, forecast: FirebaseObjectObservable<any>) {
-    this.forecast = forecast;
+  getParentKey(): string {
+    return this.parentKey;
   }
 
-  getForecast(forecastType): FirebaseObjectObservable<any> {
-    return this.forecast;
+  getAreaType(): string {
+    return this.areaType;
+  }
+
+  setForecast(forecast: FirebaseObjectObservable<Forecast>, forecastType: string) {
+    this.forecasts[forecastType] = forecast;
+  }
+
+  getForecast(forecastType): FirebaseObjectObservable<Forecast> {
+    return this.forecasts[forecastType];
   }
 }
