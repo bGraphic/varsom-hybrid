@@ -16,7 +16,7 @@ export class MyApp {
 
   // make HelloIonicPage the root (or first) page
   rootPage: any = FloodLandslideListPage;
-  sections: Array<{title: string, icon: string, component: any }>;
+  sections: Array<{titleKey: string, icon: string, component: any }>;
 
   constructor(
     public platform: Platform,
@@ -26,8 +26,8 @@ export class MyApp {
 
     // set our app's pages
     this.sections = [
-      { title: 'Flom / jordskred', icon: 'rainy', component: FloodLandslideListPage },
-      { title: 'Snøskred', icon: 'snow', component: AvalancheListPage }
+      { titleKey: 'flood-landslide', icon: 'rainy', component: FloodLandslideListPage },
+      { titleKey: 'avalanche', icon: 'snow', component: AvalancheListPage }
     ];
   }
 
