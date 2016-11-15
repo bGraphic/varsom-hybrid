@@ -1,59 +1,45 @@
-import { Component, ViewChild } from '@angular/core';
-
-import { NavController, NavParams, Content } from 'ionic-angular';
-
-import { RegionDetailsPage } from '../item-details/region-details';
-
-enum AvalancheSegment {
-  Aregion,
-  Bregion
-}
+import { Component } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
+import { MuncipalityDetailsPage } from '../item-details/municipality-details';
+import { Area } from "../../models/Area";
+import { Forecast } from "../../models/Forecast";
+import { DataService } from "../../services/data";
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { SettingsService } from "../../services/settings";
 
 @Component({
   templateUrl: 'list.html'
 })
 export class AvalancheListPage {
 
-  @ViewChild(Content) content: Content;
-
-  forecastType: string = "avalanche";
-  itemsType: string = "region";
-
   pageTitle: string;
-  lists: { id: Number, name: string, type: string, forecast: { warnings: { level: number }[] } }[][]
-  segments: { id: AvalancheSegment, name: string }[];
-  selectedSegmentId: string;
+  areas: FirebaseListObservable<Area[]>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    // If we navigated to this page, we will have an item available as a nav param
-    this.pageTitle = 'Snøskred';
-
-    this.lists = [];
-    this.lists[AvalancheSegment.Aregion] = [];
-    this.lists[AvalancheSegment.Bregion] = [];
-
-    for(let i = 1; i < 30; i++) {
-
-      let item = {
-        id: Number(i),
-        name: this.itemsType + " " + i,
-        type: this.itemsType,
-        forecast: {
-          warnings: [{level: Math.floor(Math.random() * 4)}, {level: Math.floor(Math.random() * 4)}, {level: Math.floor(Math.random() * 4)}]
-        }
-      };
-
-      if( item.id < 15) {
-        this.lists[AvalancheSegment.Aregion].push(item);
-      } else {
-        this.lists[AvalancheSegment.Bregion].push(item);
-      }
-    }
+  private getPageTitle(): string {
+    return "Snøskred";
   }
 
-  itemTapped(event, item) {
-    this.navCtrl.push(RegionDetailsPage, {
-      region: item
+  private getAreas(): FirebaseListObservable<Area[]> {
+    return this.dataService.getRegions();
+  }
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, af: AngularFire, private dataService: DataService, public settings: SettingsService) {
+    // If we navigated to this page, we will have an item available as a nav param
+    this.pageTitle = this.getPageTitle();
+    this.areas = this.getAreas();
+  }
+
+  private pushRegionDetailsPage(navCtrl: NavController, municipality: Area) {
+    navCtrl.push(MuncipalityDetailsPage, {
+      municipality: municipality
     });
+  }
+
+  areaTapped(event, area) {
+    this.pushRegionDetailsPage(this.navCtrl, area);
+  }
+
+  getForecast(area: Area): FirebaseObjectObservable<Forecast> {
+    return area.getForecast('avalanche');
   }
 }

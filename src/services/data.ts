@@ -13,8 +13,12 @@ export class DataService {
 
   private createArea(item: any, areaType: string, parentKey?: string): Area {
     let area = new Area(areaType, item.$key, item.Name, parentKey);
-    area.setForecast(this.getForecast(area, 'flood'), 'flood');
-    area.setForecast(this.getForecast(area, 'landslide'), 'landslide');
+    if('region' == areaType) {
+      area.setForecast(this.getForecast(area, 'avalanche'), 'avalanche');
+    } else {
+      area.setForecast(this.getForecast(area, 'flood'), 'flood');
+      area.setForecast(this.getForecast(area, 'landslide'), 'landslide');
+    }
     return area;
   }
 
@@ -35,7 +39,7 @@ export class DataService {
             return this.createForecast(item, forecastType);
           }) as FirebaseObjectObservable<Forecast>;
       case 'region':
-        return this.af.database.object('/forecast/avalanche/counties/' + area.getKey() + '/Forecast')
+        return this.af.database.object('/forecast/avalanche/regions/' + area.getKey() + '/Forecast')
           .map((item) => {
             return this.createForecast(item, forecastType);
           }) as FirebaseObjectObservable<Forecast>;
