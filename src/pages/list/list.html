@@ -9,7 +9,7 @@
 
 <ion-footer *ngIf="forecastSegments">
   <ion-navbar>
-    <ion-segment [(ngModel)]="settings.selectedForecastType">
+    <ion-segment [(ngModel)]="selectedSegment" (ionChange)="selectedSegmentChanged()">
       <ion-segment-button *ngFor="let segment of forecastSegments" value="{{ segment.slug }}" >
         {{ segment.name }}
       </ion-segment-button>

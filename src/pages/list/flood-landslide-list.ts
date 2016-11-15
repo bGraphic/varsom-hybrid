@@ -17,6 +17,7 @@ export class FloodLandslideListPage {
     { slug: 'flood', name: "Flom" },
     { slug: 'landslide', name: "Jordskred" }
   ];
+  selectedSegment: string;
 
   pageTitle: string;
   selectedCounty: Area;
@@ -50,6 +51,11 @@ export class FloodLandslideListPage {
     });
   }
 
+  ionViewWillEnter() {
+    this.selectedSegment = this.settings.selectedForecastType;
+    this.selectedSegmentChanged();
+  }
+
   private pushCountyFloodLandslideListPage(navCtrl: NavController, county: Area) {
     navCtrl.push(FloodLandslideListPage, {
       county: county
@@ -72,5 +78,10 @@ export class FloodLandslideListPage {
 
   getForecast(area: Area): FirebaseObjectObservable<Forecast> {
     return area.getForecast(this.settings.selectedForecastType);
+  }
+
+  selectedSegmentChanged() {
+    this.settings.selectedForecastType = this.selectedSegment;
+    this.sections[0].titleKey = this.selectedSegment;
   }
 }
