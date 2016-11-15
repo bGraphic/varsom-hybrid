@@ -20,7 +20,7 @@
 <ion-content #test class="list-page">
 
   <ion-list>
-    <div *ngFor="let section of sections">
+    <ion-item-group *ngFor="let section of sections">
       <ion-list-header>
         <ion-note item-right *ngFor="let d of ['fre','lør','søn']">{{d}}</ion-note> {{ section.titleKey }}
       </ion-list-header>
@@ -29,9 +29,9 @@
         <nve-warning-badge item-right *ngFor="let d of [0,1,2]" [level]="(getForecast(area) | async)?.getDay(d).getLevel()"></nve-warning-badge>
         {{ area.getName() }}
       </button>
-    </div>
-  </ion-list>
 
+    </ion-item-group>
+  </ion-list>
 </ion-content>
 
 
