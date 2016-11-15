@@ -12,51 +12,60 @@ import { SettingsService } from "../../services/settings";
 })
 export class FloodLandslideListPage {
 
-  pageTitle: string;
+  forecastSegments = [
+    { slug: 'highest', name: "Felles" },
+    { slug: 'flood', name: "Flom" },
+    { slug: 'landslide', name: "Jordskred" }
+  ];
 
-  areaType: string;
-  parent: Area;
-  forecastSegments: { slug: string, name: string }[];
+  pageTitle: string;
+  selectedCounty: Area;
   areas: FirebaseListObservable<Area[]>;
+
+  private getPageTitle(parent: Area): string {
+    if(!this.selectedCounty) {
+      return 'Flom / jordskred';
+    } else {
+      return this.selectedCounty.getName();
+    }
+  }
+
+  private getAreas(parent: Area): FirebaseListObservable<Area[]> {
+    if(!this.selectedCounty) {
+      return this.dataService.getCounties();
+    } else {
+      return this.dataService.getMunicipalities(this.selectedCounty.getKey());
+    }
+  }
 
   constructor(public navCtrl: NavController, public navParams: NavParams, af: AngularFire, private dataService: DataService, public settings: SettingsService) {
     // If we navigated to this page, we will have an item available as a nav param
-    this.parent = navParams.get('parent');
+    this.selectedCounty = navParams.get('county');
+    this.pageTitle = this.getPageTitle(this.selectedCounty);
+    this.areas = this.getAreas(this.selectedCounty);
+  }
 
-    this.forecastSegments = [
-      { slug: 'highest', name: "Felles" },
-      { slug: 'flood', name: "Flom" },
-      { slug: 'landslide', name: "Jordskred" }
-    ];
+  private pushCountyFloodLandslideListPage(navCtrl: NavController, county: Area) {
+    navCtrl.push(FloodLandslideListPage, {
+      county: county
+    });
+  }
 
-    if(!this.parent) {
-      this.pageTitle = 'Flom / jordskred';
+  private pushMunicipalityDetailsPage(navCtrl: NavController, municipality: Area) {
+    navCtrl.push(MuncipalityDetailsPage, {
+      municipality: municipality
+    });
+  }
+
+  areaTapped(event, area) {
+    if(!this.selectedCounty) {
+      this.pushCountyFloodLandslideListPage(this.navCtrl, area);
     } else {
-      this.pageTitle = this.parent.getName();
-    }
-
-    if(!this.parent) {
-      this.areas = this.dataService.getCounties();
-      this.areaType = 'county';
-    } else {
-      this.areas = this.dataService.getMunicipalities(this.parent.getKey());
-      this.areaType = 'municipality';
+      this.pushMunicipalityDetailsPage(this.navCtrl, area);
     }
   }
 
-  itemTapped(event, item) {
-    if(!this.parent) {
-      this.navCtrl.push(FloodLandslideListPage, {
-        parent: item
-      });
-    } else {
-      this.navCtrl.push(MuncipalityDetailsPage, {
-        municipality: item
-      });
-    }
-  }
-
-  getForecast(area: Area, forecastType: string): FirebaseObjectObservable<Forecast> {
-    return this.dataService.getForecast(area, forecastType);
+  getForecast(area: Area): FirebaseObjectObservable<Forecast> {
+    return area.getForecast(this.settings.selectedForecastType);
   }
 }

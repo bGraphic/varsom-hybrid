@@ -28,7 +28,7 @@ export class Area {
     this.forecasts[forecastType] = forecast;
   }
 
-  getForecast(forecastType): FirebaseObjectObservable<Forecast> {
+  getForecast(forecastType: string): FirebaseObjectObservable<Forecast> {
     return this.forecasts[forecastType];
   }
 }

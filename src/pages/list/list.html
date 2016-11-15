@@ -7,9 +7,9 @@
   </ion-navbar>
 </ion-header>
 
-<ion-footer *ngIf="'county' == areaType || 'municipality' == areaType">
+<ion-footer *ngIf="forecastSegments">
   <ion-navbar>
-    <ion-segment [(ngModel)]="settings.selectedForecastType" onse>
+    <ion-segment [(ngModel)]="settings.selectedForecastType">
       <ion-segment-button *ngFor="let segment of forecastSegments" value="{{ segment.slug }}" >
         {{ segment.name }}
       </ion-segment-button>
@@ -24,8 +24,8 @@
       <ion-note item-right *ngFor="let d of ['fre','lør','søn']">{{d}}</ion-note> Flom / jordskred
     </ion-list-header>
 
-    <button detail-none ion-item *ngFor="let area of areas | async" (click)="itemTapped($event, area)">
-      <nve-warning-badge item-right *ngFor="let d of [0,1,2]" [level]="(area.getForecast(settings.selectedForecastType) | async)?.getDay(d).getLevel()"></nve-warning-badge>
+    <button detail-none ion-item *ngFor="let area of areas | async" (click)="areaTapped($event, area)">
+      <nve-warning-badge item-right *ngFor="let d of [0,1,2]" [level]="(getForecast(area) | async)?.getDay(d).getLevel()"></nve-warning-badge>
       {{ area.getName() }}
     </button>
   </ion-list>
