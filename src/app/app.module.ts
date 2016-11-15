@@ -10,6 +10,7 @@ import { WarningBadge } from "../partials/warning-badge";
 import { Map } from "../partials/map";
 import { DataService } from "../services/data";
 import { AngularFireModule } from 'angularfire2';
+import {SettingsService} from "../services/settings";
 
 // Must export the config
 export const firebaseConfig = {
@@ -42,6 +43,6 @@ export const firebaseConfig = {
     FloodLandslideListPage,
     AvalancheListPage
   ],
-  providers: [DataService]
+  providers: [DataService, SettingsService]
 })
 export class AppModule {}
