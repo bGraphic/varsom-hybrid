@@ -1,8 +1,8 @@
 export class Warning {
 
-  constructor(private level: number, meta: any) { }
+  constructor(private level: number, meta?: any) { }
 
   getLevel(): number {
-    return this.level;
+    return Number(this.level);
   }
 }

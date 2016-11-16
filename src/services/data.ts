@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFire } from 'angularfire2';
 import { Area } from "../models/Area";
 import { Forecast } from "../models/Forecast";
+import { Warning } from "../models/Warning";
 
 @Injectable()
 export class DataService {
@@ -24,7 +25,7 @@ export class DataService {
   }
 
   private createForecast(item: any, forecastType: string): Forecast {
-    return new Forecast(forecastType, item.day0, item.day1, item.day2);
+    return new Forecast(forecastType, new Warning(item.day0.Rating, item.day0), new Warning(item.day1.Rating, item.day1), new Warning(item.day2.Rating, item.day2));
   }
 
   getForecast(area: Area, forecastType: string):Observable<Forecast> {
