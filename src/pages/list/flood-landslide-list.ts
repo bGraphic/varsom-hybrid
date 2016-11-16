@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { NavController, NavParams } from 'ionic-angular';
 import { MuncipalityDetailsPage } from '../item-details/municipality-details';
 import { Area } from "../../models/Area";
 import { Forecast } from "../../models/Forecast";
 import { DataService } from "../../services/data";
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { SettingsService } from "../../services/settings";
 
 @Component({
@@ -76,7 +77,7 @@ export class FloodLandslideListPage {
     }
   }
 
-  getForecast(area: Area): FirebaseObjectObservable<Forecast> {
+  getForecast(area: Area): Observable<Forecast> {
     return area.getForecast(this.settings.selectedForecastType);
   }
 

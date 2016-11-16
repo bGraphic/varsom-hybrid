@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { Observable } from 'rxjs/Observable';
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { Area } from "../models/Area";
 import { Forecast } from "../models/Forecast";
 
@@ -26,23 +27,23 @@ export class DataService {
     return new Forecast(forecastType, item.day0, item.day1, item.day2);
   }
 
-  getForecast(area: Area, forecastType: string):FirebaseObjectObservable<Forecast> {
+  getForecast(area: Area, forecastType: string):Observable<Forecast> {
     switch (area.getAreaType()) {
       case 'county':
         return this.af.database.object('/forecast/' + forecastType + '/counties/' + area.getKey() + '/Forecast')
           .map((item) => {
             return this.createForecast(item, forecastType);
-          }) as FirebaseObjectObservable<Forecast>;
+          });
       case 'municipality':
         return this.af.database.object('/forecast/' + forecastType + '/municipalities/' + area.getParentKey() + '/' + area.getKey() + '/Forecast')
           .map((item) => {
             return this.createForecast(item, forecastType);
-          }) as FirebaseObjectObservable<Forecast>;
+          });
       case 'region':
         return this.af.database.object('/forecast/avalanche/regions/' + area.getKey() + '/Forecast')
           .map((item) => {
             return this.createForecast(item, forecastType);
-          }) as FirebaseObjectObservable<Forecast>;
+          });
       default:
         console.log("Data Service: No valid area type provided.");
     }

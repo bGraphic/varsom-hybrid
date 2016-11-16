@@ -1,8 +1,8 @@
-import {FirebaseObjectObservable} from "angularfire2";
+import { Observable } from 'rxjs/Observable';
 import {Forecast} from "./Forecast";
 export class Area {
 
-  private forecasts: FirebaseObjectObservable<Forecast>[] = [];
+  private forecasts: Observable<Forecast>[] = [];
 
   constructor(private areaType: string, private key: string, private name: string, private parentKey?: string) {
 
@@ -24,11 +24,11 @@ export class Area {
     return this.areaType;
   }
 
-  setForecast(forecast: FirebaseObjectObservable<Forecast>, forecastType: string) {
+  setForecast(forecast: Observable<Forecast>, forecastType: string) {
     this.forecasts[forecastType] = forecast;
   }
 
-  getForecast(forecastType: string): FirebaseObjectObservable<Forecast> {
+  getForecast(forecastType: string): Observable<Forecast> {
     return this.forecasts[forecastType];
   }
 }
