@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { AngularFire } from 'angularfire2';
 import { Area } from "../models/Area";
 import { Forecast } from "../models/Forecast";
 
@@ -49,33 +49,33 @@ export class DataService {
     }
   }
 
-  getRegions():FirebaseListObservable<Area[]> {
+  getRegions():Observable<Area[]> {
     return this.af.database.list('/areas/regions')
       .map((items) => {
         return items.map(item => {
           let area = this.createArea(item, "region");
           return area
         })
-      }) as FirebaseListObservable<Area[]>;
+      });
   }
 
-  getCounties():FirebaseListObservable<Area[]> {
+  getCounties():Observable<Area[]> {
     return this.af.database.list('/areas/counties')
       .map((items) => {
         return items.map(item => {
           let area = this.createArea(item, "county");
           return area;
         })
-      }) as FirebaseListObservable<Area[]>;
+      });
   }
 
-  getMunicipalities(key: string):FirebaseListObservable<Area[]> {
+  getMunicipalities(key: string):Observable<Area[]> {
     return this.af.database.list('/areas/municipalities/' + key)
       .map((items) => {
         return items.map(item => {
           let area = this.createArea(item, "municipality", key);
           return area;
         })
-      }) as FirebaseListObservable<Area[]>;
+      });
   }
 }

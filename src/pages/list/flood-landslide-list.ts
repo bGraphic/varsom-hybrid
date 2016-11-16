@@ -5,7 +5,6 @@ import { MuncipalityDetailsPage } from '../item-details/municipality-details';
 import { Area } from "../../models/Area";
 import { Forecast } from "../../models/Forecast";
 import { DataService } from "../../services/data";
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { SettingsService } from "../../services/settings";
 
 @Component({
@@ -22,7 +21,7 @@ export class FloodLandslideListPage {
 
   pageTitle: string;
   selectedCounty: Area;
-  sections: {titleKey: string, areas: FirebaseListObservable<Area[]> }[];
+  sections: {titleKey: string, areas: Observable<Area[]> }[];
 
   private getPageTitle(parent: Area): string {
     if(!this.selectedCounty) {
@@ -32,7 +31,7 @@ export class FloodLandslideListPage {
     }
   }
 
-  private getAreas(parent: Area): FirebaseListObservable<Area[]> {
+  private getAreas(parent: Area): Observable<Area[]> {
     if(!this.selectedCounty) {
       return this.dataService.getCounties();
     } else {
@@ -40,7 +39,7 @@ export class FloodLandslideListPage {
     }
   }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, af: AngularFire, private dataService: DataService, public settings: SettingsService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService, public settings: SettingsService) {
     // If we navigated to this page, we will have an item available as a nav param
     this.selectedCounty = navParams.get('county');
     this.pageTitle = this.getPageTitle(this.selectedCounty);

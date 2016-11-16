@@ -5,7 +5,6 @@ import { Area } from "../../models/Area";
 import { Observable } from 'rxjs/Observable';
 import { Forecast } from "../../models/Forecast";
 import { DataService } from "../../services/data";
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { SettingsService } from "../../services/settings";
 
 @Component({
@@ -14,17 +13,17 @@ import { SettingsService } from "../../services/settings";
 export class AvalancheListPage {
 
   pageTitle: string;
-  sections: {titleKey: string, areas: FirebaseListObservable<Area[]> }[];
+  sections: {titleKey: string, areas: Observable<Area[]> }[];
 
   private getPageTitle(): string {
     return "Snøskred";
   }
 
-  private getAreas(): FirebaseListObservable<Area[]> {
+  private getAreas(): Observable<Area[]> {
     return this.dataService.getRegions();
   }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, af: AngularFire, private dataService: DataService, public settings: SettingsService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService, public settings: SettingsService) {
     // If we navigated to this page, we will have an item available as a nav param
     this.pageTitle = this.getPageTitle();
 
