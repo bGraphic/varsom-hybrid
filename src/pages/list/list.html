@@ -7,10 +7,11 @@
   </ion-navbar>
 </ion-header>
 
-<ion-footer *ngIf="forecastSegments">
+
+<ion-footer *ngIf="segments">
   <ion-navbar>
     <ion-segment [(ngModel)]="selectedSegment" (ionChange)="selectedSegmentChanged()">
-      <ion-segment-button *ngFor="let segment of forecastSegments" value="{{ segment.slug }}" >
+      <ion-segment-button *ngFor="let segment of segments" value="{{ segment.slug }}" >
         {{ segment.name }}
       </ion-segment-button>
     </ion-segment>
@@ -19,7 +20,9 @@
 
 <ion-content #test class="list-page">
 
-  <ion-list>
+  <nve-map *ngIf="isShowMap()" [forecastType]="getForecastType()" [areas]="sections[0].areas"></nve-map>
+
+  <ion-list [class.hasMap]="isShowMap()">
     <ion-item-group *ngFor="let section of sections">
       <ion-list-header>
         <ion-note item-right *ngFor="let d of ['fre','lør','søn']">{{d}}</ion-note> {{ section.titleKey }}

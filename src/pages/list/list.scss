@@ -15,7 +15,10 @@ nve-map {
 .list-page {
 
   ion-list {
-    padding-top: 200px;
+
+    &.hasMap {
+      padding-top: 200px;
+    }
 
     .item-inner {
       padding-right: 16px !important;

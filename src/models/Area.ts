@@ -63,4 +63,31 @@ export class Area {
   getForecast(forecastType: string): Observable<Forecast> {
     return this.forecasts[forecastType].asObservable();
   }
+
+  static areaKeyFromGeoJsonFeature(geoJsonFeature) {
+    let id: number;
+
+    if(geoJsonFeature.hasOwnProperty('properties')) {
+      if(geoJsonFeature.properties.hasOwnProperty('fylkesnr')) {
+        id = Number(geoJsonFeature.properties.fylkesnr);
+      } else if (geoJsonFeature.properties.hasOwnProperty('omraadeid')){
+        id = Number(geoJsonFeature.properties.omraadeid);
+      }
+    }
+
+    if(id < 10) {
+      return "id0" + id;
+    } else {
+      return "id" + id;
+    }
+
+  }
+
+  static findAreaWithAreaKey(areas:Area[], areaKey: string) {
+    for (let area of areas){
+      if( area.getKey() == areaKey) {
+        return area;
+      }
+    }
+  }
 }

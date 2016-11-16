@@ -52,4 +52,12 @@ export class AvalancheListPage {
   getForecast(area: Area): Observable<Forecast> {
     return area.getForecast('avalanche');
   }
+
+  getForecastType(): string {
+    return 'avalanche';
+  }
+
+  isShowMap(): boolean {
+    return true;
+  }
 }

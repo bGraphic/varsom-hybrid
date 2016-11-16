@@ -18,6 +18,10 @@ export class Forecast {
     }
   }
 
+  getMapWarning(): Warning {
+    return this.getDay(0);
+  }
+
   getForecastType(): string {
     return this.forecastType;
   }

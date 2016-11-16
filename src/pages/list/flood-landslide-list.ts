@@ -12,7 +12,7 @@ import { SettingsService } from "../../services/settings";
 })
 export class FloodLandslideListPage {
 
-  forecastSegments = [
+  segments = [
     { slug: 'highest', name: "Felles" },
     { slug: 'flood', name: "Flom" },
     { slug: 'landslide', name: "Jordskred" }
@@ -24,7 +24,7 @@ export class FloodLandslideListPage {
   sections: {titleKey: string, areas: Observable<Area[]> }[];
 
   private getPageTitle(parent: Area): string {
-    if(!this.selectedCounty) {
+    if(!parent) {
       return 'Flom / jordskred';
     } else {
       return this.selectedCounty.getName();
@@ -32,7 +32,7 @@ export class FloodLandslideListPage {
   }
 
   private getAreas(parent: Area): Observable<Area[]> {
-    if(!this.selectedCounty) {
+    if(!parent) {
       return this.dataService.getCounties();
     } else {
       return this.dataService.getMunicipalities(this.selectedCounty.getKey());
@@ -77,11 +77,23 @@ export class FloodLandslideListPage {
   }
 
   getForecast(area: Area): Observable<Forecast> {
-    return area.getForecast(this.settings.selectedForecastType);
+    return area.getForecast(this.getForecastType());
   }
 
   selectedSegmentChanged() {
     this.settings.selectedForecastType = this.selectedSegment;
     this.sections[0].titleKey = this.selectedSegment;
+  }
+
+  isShowMap(parent: Area): boolean {
+    if(!this.selectedCounty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  getForecastType(): string {
+    return this.settings.selectedForecastType;
   }
 }
