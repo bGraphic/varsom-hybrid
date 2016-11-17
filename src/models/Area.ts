@@ -60,6 +60,10 @@ export class Area {
     }
   }
 
+  getForecastValue(forecastType: string): Forecast {
+    return this.forecasts[forecastType].getValue();
+  }
+
   getForecast(forecastType: string): Observable<Forecast> {
     return this.forecasts[forecastType].asObservable();
   }

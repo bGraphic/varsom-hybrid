@@ -11,6 +11,12 @@ import {Theme} from "../theme/theme";
   providers: [ GeojsonService ],
 })
 export class Map {
+  private static TILE = 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png';
+  private static CENTER = L.latLng(64.871, 16.949);
+  private static MIN_ZOOM = 4;
+  private static MAX_ZOOM = 7;
+
+
   @Input() forecastType: string;
   @Input() areas: Observable<Area[]>;
   @ViewChild('map') mapEl: any;
@@ -28,41 +34,45 @@ export class Map {
 
     let geojsonObs = this.geojsonService.getAreas(geojsonName);
 
-    let map = this.createMap(this.mapEl.nativeElement);
-    map.on('locationfound', this.onLocationFound);
-    map.locate({setView: true, maxZoom: 6});
+    let map = Map.createMap(this.mapEl.nativeElement);
+    map.locate({setView: true, maxZoom: Map.MIN_ZOOM+2});
 
     let geojsonLayer = L.geoJSON().addTo(map);
 
-    this.subscribeToGeoJson(geojsonLayer, geojsonObs);
-    this.subscribeToAreas(this.areas, geojsonLayer);
-
+    Map.subscribeToGeoJson(geojsonLayer, geojsonObs);
+    Map.subscribeToAreas(this.areas,  this.forecastType, geojsonLayer);
   }
 
-  private subscribeToAreas(areas: Observable<Area[]>, geojsonLayer: L.GeoJSON) {
+  private static subscribeToAreas(areas: Observable<Area[]>, forecastType: string, geojsonLayer: L.GeoJSON) {
     areas
       .subscribe(
         areas => {
-          geojsonLayer.setStyle(geoJsonFeature => this.geoJsonFeatureStyle(geoJsonFeature, areas));
+          for (let area of areas) {
+            area.getForecast(forecastType)
+              .subscribe(forecast => {
+                console.log('style');
+                geojsonLayer.setStyle(geoJsonFeature => Map.geoJsonFeatureStyle(geoJsonFeature, areas, forecastType));
+              });
+          }
         }
       );
   }
 
-  private subscribeToGeoJson(geojsonLayer: L.GeoJSON, geojsonObs:Observable<GeoJSON.GeoJsonObject> ) {
+  private static subscribeToGeoJson(geojsonLayer: L.GeoJSON, geojsonObs:Observable<GeoJSON.GeoJsonObject> ) {
     geojsonObs
       .subscribe( geojson => {
         geojsonLayer.addData(geojson);
       });
   }
 
-  private geoJsonFeatureStyle(geoJsonFeature:GeoJSON.Feature<GeoJSON.GeometryObject>, areas:Area[]) {
+  private static geoJsonFeatureStyle(geoJsonFeature:GeoJSON.Feature<GeoJSON.GeometryObject>, areas:Area[], forecastType: string) {
 
     let rating: number;
     let areaKey = Area.areaKeyFromGeoJsonFeature(geoJsonFeature);
     let area = Area.findAreaWithAreaKey(areas, areaKey);
 
     if(area) {
-      rating = 2;
+      rating = area.getForecastValue(forecastType).getMapWarning().getLevel();
     }
 
     let style = {
@@ -71,20 +81,15 @@ export class Map {
     return style;
   }
 
-  private createMap(el: any): L.Map {
-    const initialCenter = L.latLng(64.871, 16.949);
+  private static createMap(el: any): L.Map {
     var map = L.map(el, {
       zoomControl: false,
-      minZoom: 4,
-      maxZoom: 7
-    }).setView(initialCenter, 4);
+      minZoom: Map.MIN_ZOOM,
+      maxZoom: Map.MAX_ZOOM
+    }).setView(Map.CENTER, Map.MIN_ZOOM);
 
-    L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png', {}).addTo(map);
+    L.tileLayer(Map.TILE, {}).addTo(map);
 
     return map;
-  }
-
-  onLocationFound(event) {
-//    this.center = event.latlng;
   }
 }
