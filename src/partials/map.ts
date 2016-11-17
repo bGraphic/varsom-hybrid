@@ -1,14 +1,12 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import 'leaflet';
-import { GeojsonService }       from '../services/geojson';
 import {Observable} from "rxjs";
 import { Area } from '../models/Area';
 import {Theme} from "../theme/theme";
 
 @Component({
   selector: 'nve-map',
-  template: '<div #map></div>',
-  providers: [ GeojsonService ],
+  template: '<div #map></div>'
 })
 export class Map {
   private static TILE = 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png';
@@ -16,56 +14,76 @@ export class Map {
   private static MIN_ZOOM = 4;
   private static MAX_ZOOM = 7;
 
-
-  @Input() forecastType: string;
-  @Input() areas: Observable<Area[]>;
+  @Input() forecastTypeObs: Observable<string>;
+  @Input() areasObs: Observable<Area[]>;
+  @Input() geojsonObs: Observable<GeoJSON.GeoJsonObject>;
   @ViewChild('map') mapEl: any;
 
-  constructor (private geojsonService: GeojsonService) {
-    console.log("const");
+  areas: Area[];
+  forecastType: string;
+  geojsonLayer: L.GeoJSON;
+
+  constructor () {
+
   }
 
   ngOnInit(): void {
-    console.log("init");
-    let geojsonName = 'counties';
-    if('avalanche' == this.forecastType) {
-      geojsonName = 'regions';
-    }
-
-    let geojsonObs = this.geojsonService.getAreas(geojsonName);
-
     let map = Map.createMap(this.mapEl.nativeElement);
     map.locate({setView: true, maxZoom: Map.MIN_ZOOM+2});
 
-    let geojsonLayer = L.geoJSON().addTo(map);
+    this.geojsonLayer = L.geoJSON().addTo(map);
 
-    Map.subscribeToGeoJson(geojsonLayer, geojsonObs);
-    Map.subscribeToAreas(this.areas,  this.forecastType, geojsonLayer);
+    this.areasObs.subscribe(areas => {
+      this.areas = areas;
+    });
+
+    this.subscribeToGeoJson();
+    this.subscribeToForecasts();
+    this.subscribeToForecastType();
   }
 
-  private static subscribeToAreas(areas: Observable<Area[]>, forecastType: string, geojsonLayer: L.GeoJSON) {
-    areas
+  private subscribeToForecastType() {
+    this.forecastTypeObs
+      .subscribe(
+        forecastType => {
+          this.forecastType = forecastType;
+          this.updateGeoJSON();
+        }
+      );
+  }
+
+  private subscribeToForecasts() {
+    this.areasObs
       .subscribe(
         areas => {
           for (let area of areas) {
-            area.getForecast(forecastType)
+            area.getForecast(this.forecastType)
               .subscribe(forecast => {
-                console.log('style');
-                geojsonLayer.setStyle(geoJsonFeature => Map.geoJsonFeatureStyle(geoJsonFeature, areas, forecastType));
+                this.updateGeoJSON();
               });
           }
         }
       );
   }
 
-  private static subscribeToGeoJson(geojsonLayer: L.GeoJSON, geojsonObs:Observable<GeoJSON.GeoJsonObject> ) {
-    geojsonObs
+  private subscribeToGeoJson() {
+    this.geojsonObs
       .subscribe( geojson => {
-        geojsonLayer.addData(geojson);
+        this.geojsonLayer.addData(geojson);
       });
   }
 
+  private updateGeoJSON = () => {
+    return this.geojsonLayer.setStyle(geoJsonFeature => Map.geoJsonFeatureStyle(geoJsonFeature, this.areas, this.forecastType));
+  }
+
   private static geoJsonFeatureStyle(geoJsonFeature:GeoJSON.Feature<GeoJSON.GeometryObject>, areas:Area[], forecastType: string) {
+
+    if(!areas || !forecastType) {
+      return {
+        color: Theme.colorForLevel(null)
+      }
+    }
 
     let rating: number;
     let areaKey = Area.areaKeyFromGeoJsonFeature(geoJsonFeature);

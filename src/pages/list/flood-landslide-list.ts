@@ -5,10 +5,12 @@ import { MuncipalityDetailsPage } from '../item-details/municipality-details';
 import { Area } from "../../models/Area";
 import { Forecast } from "../../models/Forecast";
 import { DataService } from "../../services/data";
+import { GeojsonService }       from '../../services/geojson';
 import { SettingsService } from "../../services/settings";
 
 @Component({
-  templateUrl: 'list.html'
+  templateUrl: 'list.html',
+  providers: [ GeojsonService ]
 })
 export class FloodLandslideListPage {
 
@@ -21,15 +23,9 @@ export class FloodLandslideListPage {
 
   pageTitle: string;
   selectedCounty: Area;
-  sections: {titleKey: string, areas: Observable<Area[]> }[];
-
-  private getPageTitle(parent: Area): string {
-    if(!parent) {
-      return 'Flom / jordskred';
-    } else {
-      return this.selectedCounty.getName();
-    }
-  }
+  sections: {titleKey: string, areasObs: Observable<Area[]> }[];
+  forecastTypeObs = this.settings.selectedForecastTypeObs;
+  geojsonObs: Observable<GeoJSON.GeoJsonObject>;
 
   private getAreas(parent: Area): Observable<Area[]> {
     if(!parent) {
@@ -39,21 +35,34 @@ export class FloodLandslideListPage {
     }
   }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService, public settings: SettingsService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService, public settings: SettingsService, private geojson: GeojsonService) {
     // If we navigated to this page, we will have an item available as a nav param
     this.selectedCounty = navParams.get('county');
-    this.pageTitle = this.getPageTitle(this.selectedCounty);
+
+    if(this.isShowMap()) {
+      this.geojsonObs = this.geojson.getCounties();
+    }
 
     this.sections = [];
     this.sections.push({
-      titleKey: this.settings.selectedForecastType,
-      areas: this.getAreas(this.selectedCounty)
+      titleKey: this.settings.selectedForecastTypeObs.getValue(),
+      areasObs: this.getAreas(this.selectedCounty)
     });
+
+    this.forecastTypeObs
+      .subscribe(forecastType => {
+        this.sections[0].titleKey = forecastType;
+      });
+
+    if(!this.selectedCounty) {
+      this.pageTitle = 'Flom / jordskred';
+    } else {
+      this.pageTitle = this.selectedCounty.getName();
+    }
   }
 
   ionViewWillEnter() {
-    this.selectedSegment = this.settings.selectedForecastType;
-    this.selectedSegmentChanged();
+    this.selectedSegment = this.settings.selectedForecastTypeObs.getValue();
   }
 
   private pushCountyFloodLandslideListPage(navCtrl: NavController, county: Area) {
@@ -77,23 +86,18 @@ export class FloodLandslideListPage {
   }
 
   getForecast(area: Area): Observable<Forecast> {
-    return area.getForecast(this.getForecastType());
+    return area.getForecast(this.selectedSegment);
   }
 
   selectedSegmentChanged() {
-    this.settings.selectedForecastType = this.selectedSegment;
-    this.sections[0].titleKey = this.selectedSegment;
+    this.settings.selectedForecastTypeObs.next(this.selectedSegment);
   }
 
-  isShowMap(parent: Area): boolean {
+  isShowMap(): boolean {
     if(!this.selectedCounty) {
       return true;
     } else {
       return false;
     }
-  }
-
-  getForecastType(): string {
-    return this.settings.selectedForecastType;
   }
 }

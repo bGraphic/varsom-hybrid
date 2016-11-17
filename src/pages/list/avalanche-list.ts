@@ -5,15 +5,19 @@ import { Area } from "../../models/Area";
 import { Observable } from 'rxjs/Observable';
 import { Forecast } from "../../models/Forecast";
 import { DataService } from "../../services/data";
-import { SettingsService } from "../../services/settings";
+import { GeojsonService }       from '../../services/geojson';
+import {BehaviorSubject} from "rxjs";
 
 @Component({
-  templateUrl: 'list.html'
+  templateUrl: 'list.html',
+  providers: [ GeojsonService ]
 })
 export class AvalancheListPage {
 
   pageTitle: string;
-  sections: {titleKey: string, areas: Observable<Area[]> }[];
+  sections: {titleKey: string, areasObs: Observable<Area[]> }[];
+  forecastTypeObs = new BehaviorSubject('avalanche');
+  geojsonObs: Observable<GeoJSON.GeoJsonObject>;
 
   private getPageTitle(): string {
     return "Snøskred";
@@ -23,19 +27,23 @@ export class AvalancheListPage {
     return this.dataService.getRegions();
   }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService, public settings: SettingsService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService, public geojson: GeojsonService) {
     // If we navigated to this page, we will have an item available as a nav param
     this.pageTitle = this.getPageTitle();
+
+    if(this.isShowMap()) {
+      this.geojsonObs = this.geojson.getRegions();
+    }
 
     this.sections = [];
     this.sections.push({
       titleKey: 'avalanche',
-      areas: this.getAreas()
+      areasObs: this.getAreas()
     });
 
     this.sections.push({
       titleKey: 'b-regions',
-      areas: this.getAreas()
+      areasObs: this.getAreas()
     });
   }
 
