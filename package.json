@@ -1,7 +1,7 @@
 {
   "name": "ionic-hello-world",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
+  "author": "NVE",
+  "homepage": "http://nve.no/",
   "private": true,
   "scripts": {
     "build": "ionic-app-scripts build",
