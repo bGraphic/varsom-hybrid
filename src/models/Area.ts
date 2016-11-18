@@ -4,68 +4,32 @@ import { Forecast } from "./Forecast";
 import { Warning } from "./Warning";
 export class Area {
 
-  private forecasts: BehaviorSubject<Forecast>[] = [];
+  private _item;
+  private _parentKey: string;
+  private _areaType: string;
 
-  private updateHighest() {
-    let floodForecast = this.forecasts['flood'].getValue();
-    let landslideForecast = this.forecasts['landslide'].getValue();
+  private constructor() {
 
-    let warnings = [];
-
-    for (let i of [0, 1, 2]) {
-      if (floodForecast.getDay(i).getLevel() > landslideForecast.getDay(i).getLevel()) {
-        warnings[i] = floodForecast.getDay(i);
-      } else {
-        warnings[i] = landslideForecast.getDay(i);
-      }
-    }
-    this.forecasts['highest'].next(new Forecast('highest', warnings[0], warnings[1], warnings[2]) );
   }
 
-  constructor(private areaType: string, private key: string, private name: string, private parentKey?: string) {
-    if('region' != areaType) {
-      this.forecasts['highest'] =  new BehaviorSubject<Forecast>(new Forecast('highest', new Warning(null), new Warning(null), new Warning(null)));
-      this.forecasts['landslide'] =  new BehaviorSubject<Forecast>(new Forecast('landslide', new Warning(null), new Warning(null), new Warning(null)));
-      this.forecasts['flood'] =  new BehaviorSubject<Forecast>(new Forecast('flood', new Warning(null), new Warning(null), new Warning(null)));
-
-      this.getForecast('flood').subscribe(forecast => { this.updateHighest() });
-      this.getForecast('landslide').subscribe(forecast => { this.updateHighest() });
-
-    } else {
-      this.forecasts['avalanche'] =  new BehaviorSubject<Forecast>(new Forecast('avalanche', new Warning(null), new Warning(null), new Warning(null)));
+  get name(): string {
+    if(this._item.hasOwnProperty('Name')) {
+      return this._item.Name;
     }
   }
 
-  getName(): string {
-    return this.name;
-  }
-
-  getKey(): string {
-    return this.key;
-  }
-
-  getParentKey(): string {
-    return this.parentKey;
-  }
-
-  getAreaType(): string {
-    return this.areaType;
-  }
-
-  setForecast(forecast: Observable<Forecast>, forecastType: string) {
-    if(forecast) {
-      forecast.subscribe(forecast => {
-        this.forecasts[forecastType].next(forecast);
-      });
+  get key(): string {
+    if(this._item.hasOwnProperty('Name')) {
+      return this._item.$key;
     }
   }
 
-  getForecastValue(forecastType: string): Forecast {
-    return this.forecasts[forecastType].getValue();
+  get parentKey(): string {
+    return this._parentKey;
   }
 
-  getForecast(forecastType: string): Observable<Forecast> {
-    return this.forecasts[forecastType].asObservable();
+  get areaType():string {
+    return this._areaType;
   }
 
   static areaKeyFromGeoJsonFeature(geoJsonFeature) {
@@ -89,9 +53,17 @@ export class Area {
 
   static findAreaWithAreaKey(areas:Area[], areaKey: string) {
     for (let area of areas){
-      if( area.getKey() == areaKey) {
+      if( area.key == areaKey) {
         return area;
       }
     }
+  }
+
+  static createFromFirebaseJson(item: any, areaType:string, parentKey?:string) {
+    let area = new Area();
+    area._item = item;
+    area._areaType = areaType;
+    area._parentKey = parentKey;
+    return area;
   }
 }

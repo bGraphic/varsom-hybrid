@@ -31,7 +31,7 @@ export class FloodLandslideListPage {
     if(!parent) {
       return this.dataService.getCounties();
     } else {
-      return this.dataService.getMunicipalities(this.selectedCounty.getKey());
+      return this.dataService.getMunicipalitiesForCountyWithKey(this.selectedCounty.key);
     }
   }
 
@@ -57,7 +57,7 @@ export class FloodLandslideListPage {
     if(!this.selectedCounty) {
       this.pageTitle = 'Flom / jordskred';
     } else {
-      this.pageTitle = this.selectedCounty.getName();
+      this.pageTitle = this.selectedCounty.name;
     }
   }
 
@@ -83,10 +83,6 @@ export class FloodLandslideListPage {
     } else {
       this.pushMunicipalityDetailsPage(this.navCtrl, area);
     }
-  }
-
-  getForecast(area: Area): Observable<Forecast> {
-    return area.getForecast(this.selectedSegment);
   }
 
   selectedSegmentChanged() {

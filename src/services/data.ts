@@ -13,37 +13,22 @@ export class DataService {
     this.getRegions();
   }
 
-  private createArea(item: any, areaType: string, parentKey?: string): Area {
-    let area = new Area(areaType, item.$key, item.Name, parentKey);
-    if('region' == areaType) {
-      area.setForecast(this.getForecast(area, 'avalanche'), 'avalanche');
-    } else {
-      area.setForecast(this.getForecast(area, 'flood'), 'flood');
-      area.setForecast(this.getForecast(area, 'landslide'), 'landslide');
-    }
-    return area;
-  }
-
-  private createForecast(item: any, forecastType: string): Forecast {
-    return new Forecast(forecastType, new Warning(item.day0.Rating, item.day0), new Warning(item.day1.Rating, item.day1), new Warning(item.day2.Rating, item.day2));
-  }
-
   getForecast(area: Area, forecastType: string):Observable<Forecast> {
-    switch (area.getAreaType()) {
+    switch (area.areaType) {
       case 'county':
-        return this.af.database.object('/forecast/' + forecastType + '/counties/' + area.getKey() + '/Forecast')
+        return this.af.database.object('/forecast/' + forecastType + '/counties/' + area.key + '/Forecast')
           .map((item) => {
-            return this.createForecast(item, forecastType);
+            return Forecast.createFromFirebaseJSON(item, forecastType);
           });
       case 'municipality':
-        return this.af.database.object('/forecast/' + forecastType + '/municipalities/' + area.getParentKey() + '/' + area.getKey() + '/Forecast')
+        return this.af.database.object('/forecast/' + forecastType + '/municipalities/' + area.parentKey + '/' + area.key + '/Forecast')
           .map((item) => {
-            return this.createForecast(item, forecastType);
+            return Forecast.createFromFirebaseJSON(item, forecastType);
           });
       case 'region':
-        return this.af.database.object('/forecast/avalanche/regions/' + area.getKey() + '/Forecast')
+        return this.af.database.object('/forecast/avalanche/regions/' + area.key + '/Forecast')
           .map((item) => {
-            return this.createForecast(item, forecastType);
+            return Forecast.createFromFirebaseJSON(item, forecastType);
           });
       default:
         console.log("Data Service: No valid area type provided.");
@@ -54,8 +39,7 @@ export class DataService {
     return this.af.database.list('/areas/regions')
       .map((items) => {
         return items.map(item => {
-          let area = this.createArea(item, "region");
-          return area
+          return Area.createFromFirebaseJson(item, "region");
         })
       });
   }
@@ -64,18 +48,16 @@ export class DataService {
     return this.af.database.list('/areas/counties')
       .map((items) => {
         return items.map(item => {
-          let area = this.createArea(item, "county");
-          return area;
+          return Area.createFromFirebaseJson(item, "county");
         })
       });
   }
 
-  getMunicipalities(key: string):Observable<Area[]> {
+  getMunicipalitiesForCountyWithKey(key: string):Observable<Area[]> {
     return this.af.database.list('/areas/municipalities/' + key)
       .map((items) => {
         return items.map(item => {
-          let area = this.createArea(item, "municipality", key);
-          return area;
+          return Area.createFromFirebaseJson(item, "municipality", key);
         })
       });
   }

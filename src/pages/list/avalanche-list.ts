@@ -57,9 +57,9 @@ export class AvalancheListPage {
     this.pushRegionDetailsPage(this.navCtrl, area);
   }
 
-  getForecast(area: Area): Observable<Forecast> {
-    return area.getForecast('avalanche');
-  }
+  // getForecast(area: Area): Observable<Forecast> {
+  //   return area.getForecast('avalanche');
+  // }
 
   getForecastType(): string {
     return 'avalanche';
