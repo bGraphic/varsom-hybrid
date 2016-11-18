@@ -29,6 +29,7 @@
       </ion-list-header>
 
       <button detail-none ion-item *ngFor="let area of section.areasObs | async" (click)="areaTapped($event, area)">
+        <nve-warning-badge item-right *ngFor="let d of [0,1,2]" [level]="(area.getForecast(selectedSegment)| async)?.getDay(d).rating"></nve-warning-badge>
         {{ area.name }}
       </button>
 

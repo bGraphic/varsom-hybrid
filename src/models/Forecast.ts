@@ -1,24 +1,13 @@
 import {Warning} from "./Warning";
 export class Forecast {
 
-  private _item: any;
   private _forecastType: string;
+  private _warnings: Warning[];
 
   private constructor() { }
 
   getDay(index: number): Warning {
-    switch (index) {
-      case 0:
-        return this._item.day0;
-      case 1:
-        return this._item.day1;
-      case 2:
-        return this._item.day2;
-      default:
-        console.log("Warning: getDay - day index out of bounds ", index);
-        return new Warning(0, {});
-
-    }
+    return this._warnings[index];
   }
 
   get mapWarning(): Warning {
@@ -30,9 +19,39 @@ export class Forecast {
   }
 
   static createFromFirebaseJSON(item: any, forecastType:string):Forecast {
+
+    if(!item.hasOwnProperty('day0') || !item.hasOwnProperty('day1') || !item.hasOwnProperty('day2') ) {
+      console.log("Forecast: Item does not have warnings", item);
+      return Forecast.createEmptyForecast();
+    }
+
     let forecast = new Forecast();
-    forecast._item = item;
+    forecast._warnings = [
+      Warning.createFromFirebaseItem(item.day0),
+      Warning.createFromFirebaseItem(item.day1),
+      Warning.createFromFirebaseItem(item.day2)
+    ];
     forecast._forecastType = forecastType;
+    return forecast;
+  }
+
+  static createWithWarnings(forecastType:string, warnings: Warning[]) {
+    if(!warnings) {
+      return this.createEmptyForecast();
+    }
+
+    let forecast = new Forecast();
+    forecast._warnings = warnings;
+    return forecast;
+  }
+
+  static createEmptyForecast() {
+    let forecast = new Forecast();
+    forecast._warnings = [
+      Warning.createEmptyWarning(),
+      Warning.createEmptyWarning(),
+      Warning.createEmptyWarning()
+    ];
     return forecast;
   }
 }

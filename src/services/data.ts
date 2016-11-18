@@ -13,6 +13,32 @@ export class DataService {
     this.getRegions();
   }
 
+  private createArea(item: any, areaType:string):Area {
+    let area = Area.createFromFirebaseJson(item, areaType);
+    if('region' != areaType) {
+      this.getForecast(area, 'flood')
+        .subscribe(
+          forecast => {
+            area.setForecast('flood', forecast);
+          }
+        );
+      this.getForecast(area, 'landslide')
+        .subscribe(
+          forecast => {
+            area.setForecast('landslide', forecast);
+          }
+        );
+    } else {
+      this.getForecast(area, 'avalanche')
+        .subscribe(
+          forecast => {
+            area.setForecast('avalanche', forecast);
+          }
+        );
+    }
+    return area;
+  }
+
   getForecast(area: Area, forecastType: string):Observable<Forecast> {
     switch (area.areaType) {
       case 'county':
@@ -21,6 +47,7 @@ export class DataService {
             return Forecast.createFromFirebaseJSON(item, forecastType);
           });
       case 'municipality':
+        console.log(area, area.parentKey)
         return this.af.database.object('/forecast/' + forecastType + '/municipalities/' + area.parentKey + '/' + area.key + '/Forecast')
           .map((item) => {
             return Forecast.createFromFirebaseJSON(item, forecastType);
@@ -39,7 +66,7 @@ export class DataService {
     return this.af.database.list('/areas/regions')
       .map((items) => {
         return items.map(item => {
-          return Area.createFromFirebaseJson(item, "region");
+          return this.createArea(item, "region");
         })
       });
   }
@@ -48,7 +75,7 @@ export class DataService {
     return this.af.database.list('/areas/counties')
       .map((items) => {
         return items.map(item => {
-          return Area.createFromFirebaseJson(item, "county");
+          return this.createArea(item, "county");
         })
       });
   }
@@ -57,7 +84,7 @@ export class DataService {
     return this.af.database.list('/areas/municipalities/' + key)
       .map((items) => {
         return items.map(item => {
-          return Area.createFromFirebaseJson(item, "municipality", key);
+          return this.createArea(item, "municipality");
         })
       });
   }

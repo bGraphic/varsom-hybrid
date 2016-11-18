@@ -57,10 +57,10 @@ export class Map {
       .subscribe(
         areas => {
           for (let area of areas) {
-            //area.getForecast(this.forecastType)
-            //  .subscribe(forecast => {
-            //    this.updateGeoJSON();
-            //  });
+            area.getForecast(this.forecastType)
+               .subscribe(forecast => {
+                  this.updateGeoJSON();
+                });
           }
         }
       );
@@ -90,7 +90,7 @@ export class Map {
     let area = Area.findAreaWithAreaKey(areas, areaKey);
 
     if(area) {
-      //rating = area.getForecastValue(forecastType).getMapWarning().getLevel();
+      rating = area.getForecastValue(forecastType).mapWarning.rating;
     }
 
     let style = {
