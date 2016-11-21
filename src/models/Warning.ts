@@ -21,4 +21,12 @@ export class Warning {
     warning._meta = {};
     return warning;
   }
+
+  static getHighest(warningA: Warning, warningB: Warning): Warning {
+    if (warningA.rating > warningB.rating) {
+      return warningA;
+    } else {
+      return warningB;
+    }
+  }
 }
