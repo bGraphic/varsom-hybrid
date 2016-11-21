@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 @Injectable()
 export class SettingsService {
 
-  selectedForecastTypeObs:BehaviorSubject<string> = new BehaviorSubject('flood');
+  selectedForecastTypeObs:BehaviorSubject<string> = new BehaviorSubject('highest');
 
   constructor () {}
 }

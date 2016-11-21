@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { AngularFire } from 'angularfire2';
-import { Area } from "../models/Area";
 import { Forecast } from "../models/Forecast";
 
 @Injectable()
@@ -10,84 +9,76 @@ export class DataService {
   private _forecastsMap: BehaviorSubject<Forecast[]>[] = [];
 
   constructor (private af: AngularFire) {
-    this.getCounties();
-    this.getRegions();
+    this.getForecasts('flood');
+    this.getForecasts('landslide');
+    this.getForecasts('avalanche');
   }
 
-  private createArea(item: any, areaType:string):Area {
-    let area = Area.createFromFirebaseJson(item, areaType);
-    if('region' != areaType) {
-      this.getForecast(area, 'flood')
-        .subscribe(
-          forecast => {
-            area.setForecast('flood', forecast);
-          }
-        );
-      this.getForecast(area, 'landslide')
-        .subscribe(
-          forecast => {
-            area.setForecast('landslide', forecast);
-          }
-        );
+  getForecasts(forecastType: string, parentId?:string):Observable<Forecast[]> {
+    return this._getForecasts(forecastType, parentId);
+  }
+
+  private _getForecasts(forecastType: string, parentId?:string) {
+
+    let cacheKey = DataService._getCacheKey(forecastType, parentId);
+    if(this._forecastsMap[cacheKey]) {
+      return this._forecastsMap[cacheKey];
     } else {
-      this.getForecast(area, 'avalanche')
-        .subscribe(
-          forecast => {
-            area.setForecast('avalanche', forecast);
-          }
-        );
-    }
-    return area;
-  }
+      let forecasts = new BehaviorSubject([]);
+      this._forecastsMap[cacheKey] = forecasts;
 
-  getForecast(area: Area, forecastType: string):Observable<Forecast> {
-    switch (area.areaType) {
-      case 'county':
-        return this.af.database.object('/forecast/' + forecastType + '/counties/' + area.key + '/Forecast')
-          .map((item) => {
-            return Forecast.createFromFirebaseJSON(item, forecastType);
-          });
-      case 'municipality':
-        console.log(area, area.parentKey)
-        return this.af.database.object('/forecast/' + forecastType + '/municipalities/' + area.parentKey + '/' + area.key + '/Forecast')
-          .map((item) => {
-            return Forecast.createFromFirebaseJSON(item, forecastType);
-          });
-      case 'region':
-        return this.af.database.object('/forecast/avalanche/regions/' + area.key + '/Forecast')
-          .map((item) => {
-            return Forecast.createFromFirebaseJSON(item, forecastType);
-          });
-      default:
-        console.log("Data Service: No valid area type provided.");
+      if('flood' === forecastType || 'landslide' === forecastType) {
+        forecasts.subscribe(items => {
+          this._updateHighestForecasts(parentId);
+        })
+      }
+
+      if('avalanche' === forecastType) {
+        this._subscribeToFirebaseForecasts('avalanche');
+      } else {
+        this._subscribeToFirebaseForecasts('flood', parentId);
+        this._subscribeToFirebaseForecasts('landslide', parentId)
+      }
+      return forecasts;
     }
   }
 
-  getRegions():Observable<Area[]> {
-    return this.af.database.list('/areas/regions')
-      .map((items) => {
-        return items.map(item => {
-          return this.createArea(item, "region");
-        })
-      });
+  private _updateHighestForecasts(parentId?:string) {
+
+    let forecasts:Forecast[] = [];
+    let floodForecasts = this._getForecasts('flood', parentId).getValue();
+    let landslideForecasts = this._getForecasts('landslide', parentId).getValue();
+
+    if(floodForecasts.length == 0) {
+      forecasts = landslideForecasts;
+    } else if(landslideForecasts.length == 0) {
+      forecasts = floodForecasts;
+    } else {
+      forecasts = Forecast.createHighestForecasts(floodForecasts, landslideForecasts);
+    }
+    this._getForecasts('highest', parentId).next(forecasts);
   }
 
-  getCounties():Observable<Area[]> {
-    return this.af.database.list('/areas/counties')
-      .map((items) => {
-        return items.map(item => {
-          return this.createArea(item, "county");
-        })
-      });
-  }
+  private _subscribeToFirebaseForecasts(forecastType: string, parentId?:string) {
 
-  getMunicipalitiesForCountyWithKey(key: string):Observable<Area[]> {
-    return this.af.database.list('/areas/municipalities/' + key)
-      .map((items) => {
-        return items.map(item => {
-          return this.createArea(item, "municipality");
-        })
+    if('highest' === forecastType) {
+      return;
+    } else {
+      let firebaseForecasts:Observable<Forecast[]>;
+
+      if('avalanche' === forecastType) {
+        firebaseForecasts = this._getForecastForRegions(forecastType);
+      } else if (parentId) {
+        firebaseForecasts = this._getForecastForMunicipalities(forecastType, parentId);
+      } else {
+        firebaseForecasts = this._getForecastForCounties(forecastType);
+      }
+
+      firebaseForecasts.subscribe(items => {
+        let forecasts = this._getForecasts(forecastType, parentId);
+        forecasts.next(items);
       });
+    }
   }
 
   private _getForecastForRegions(forecastType:string):Observable<Forecast[]> {
@@ -139,69 +130,5 @@ export class DataService {
       cacheKey += parentId;
     }
     return cacheKey;
-  }
-
-  private _updateHighestForecasts(parentId?:string) {
-
-    let forecasts:Forecast[] = [];
-    let floodForecasts = this._getForecasts('flood', parentId).getValue();
-    let landslideForecasts = this._getForecasts('landslide', parentId).getValue();
-
-    if(floodForecasts.length == 0) {
-      forecasts = landslideForecasts;
-    } else if(landslideForecasts.length == 0) {
-      forecasts = floodForecasts;
-    } else {
-      forecasts = Forecast.createHighestForecasts(floodForecasts, landslideForecasts);
-    }
-    this._getForecasts('highest', parentId).next(forecasts);
-  }
-
-  private _subscribeToFirebaseForecasts(forecastType: string, parentId?:string) {
-
-    if('highest' === forecastType) {
-      return;
-    } else {
-      let firebaseForecasts:Observable<Forecast[]>;
-
-      if('avalanche' === forecastType) {
-        firebaseForecasts = this._getForecastForRegions(forecastType);
-      } else if (parentId) {
-        firebaseForecasts = this._getForecastForMunicipalities(forecastType, parentId);
-      } else {
-        firebaseForecasts = this._getForecastForCounties(forecastType);
-      }
-
-      firebaseForecasts.subscribe(items => {
-        let forecasts = this._getForecasts(forecastType, parentId);
-        forecasts.next(items);
-      });
-    }
-  }
-
-  private _getForecasts(forecastType: string, parentId?:string) {
-
-    let cacheKey = DataService._getCacheKey(forecastType, parentId);
-    if(this._forecastsMap[cacheKey]) {
-      return this._forecastsMap[cacheKey];
-    } else {
-      let forecasts = new BehaviorSubject([]);
-      this._forecastsMap[cacheKey] = forecasts;
-
-      if('flood' === forecastType || 'landslide' === forecastType) {
-        forecasts.subscribe(items => {
-          this._updateHighestForecasts(parentId);
-        })
-      }
-
-      if('highest' !== forecastType) {
-        this._subscribeToFirebaseForecasts(forecastType, parentId);
-      }
-      return forecasts;
-    }
-  }
-
-  getForecasts(forecastType: string, parentId:string):Observable<Forecast[]> {
-    return this._getForecasts(forecastType, parentId);
   }
 }

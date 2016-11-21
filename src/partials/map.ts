@@ -1,7 +1,7 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import 'leaflet';
 import {Observable} from "rxjs";
-import { Area } from '../models/Area';
+import { Forecast } from '../models/Forecast';
 import {Theme} from "../theme/theme";
 
 @Component({
@@ -14,14 +14,12 @@ export class Map {
   private static MIN_ZOOM = 4;
   private static MAX_ZOOM = 7;
 
-  @Input() forecastTypeObs: Observable<string>;
-  @Input() areasObs: Observable<Area[]>;
+  @Input() forecastsObs: Observable<Forecast[]>;
   @Input() geojsonObs: Observable<GeoJSON.GeoJsonObject>;
   @ViewChild('map') mapEl: any;
 
-  areas: Area[];
-  forecastType: string;
   geojsonLayer: L.GeoJSON;
+  forecasts: Forecast[];
 
   constructor () {
 
@@ -32,36 +30,25 @@ export class Map {
     map.locate({setView: true, maxZoom: Map.MIN_ZOOM+2});
 
     this.geojsonLayer = L.geoJSON().addTo(map);
-
-    this.areasObs.subscribe(areas => {
-      this.areas = areas;
-    });
-
-    this.subscribeToGeoJson();
-    this.subscribeToForecasts();
-    this.subscribeToForecastType();
   }
 
-  private subscribeToForecastType() {
-    this.forecastTypeObs
-      .subscribe(
-        forecastType => {
-          this.forecastType = forecastType;
-          this.updateGeoJSON();
-        }
-      );
+  ngOnChanges(changes) {
+
+    if(changes.forecastsObs) {
+      this.subscribeToForecasts();
+    }
+
+    if(changes.geojsonObs) {
+      this.subscribeToGeoJson();
+    }
   }
 
   private subscribeToForecasts() {
-    this.areasObs
+    this.forecastsObs
       .subscribe(
-        areas => {
-          for (let area of areas) {
-            area.getForecast(this.forecastType)
-               .subscribe(forecast => {
-                  this.updateGeoJSON();
-                });
-          }
+        forecasts => {
+          this.forecasts = forecasts;
+          this.updateGeoJSON();
         }
       );
   }
@@ -70,27 +57,22 @@ export class Map {
     this.geojsonObs
       .subscribe( geojson => {
         this.geojsonLayer.addData(geojson);
+        this.updateGeoJSON();
       });
   }
 
-  private updateGeoJSON = () => {
-    return this.geojsonLayer.setStyle(geoJsonFeature => Map.geoJsonFeatureStyle(geoJsonFeature, this.areas, this.forecastType));
+  private updateGeoJSON() {
+    if(this.geojsonLayer) {
+      return this.geojsonLayer.setStyle(geoJsonFeature => Map.geoJsonFeatureStyle(geoJsonFeature, this.forecasts));
+    }
   }
 
-  private static geoJsonFeatureStyle(geoJsonFeature:GeoJSON.Feature<GeoJSON.GeometryObject>, areas:Area[], forecastType: string) {
+  private static geoJsonFeatureStyle(geoJsonFeature:GeoJSON.Feature<GeoJSON.GeometryObject>, forecasts:Forecast[]) {
+    let rating = 0;
 
-    if(!areas || !forecastType) {
-      return {
-        color: Theme.colorForLevel(null)
-      }
-    }
-
-    let rating: number;
-    let areaKey = Area.areaKeyFromGeoJsonFeature(geoJsonFeature);
-    let area = Area.findAreaWithAreaKey(areas, areaKey);
-
-    if(area) {
-      rating = area.getForecastValue(forecastType).mapWarning.rating;
+    let forecast = Forecast.findForecastWithAreaId(forecasts, Map.transformGeoJsonToAreaId(geoJsonFeature));
+    if(forecast) {
+      rating = forecast.mapWarning.rating;
     }
 
     let style = {
@@ -109,5 +91,24 @@ export class Map {
     L.tileLayer(Map.TILE, {}).addTo(map);
 
     return map;
+  }
+
+  private static transformGeoJsonToAreaId(geoJsonFeature):string {
+
+    let id: number;
+
+    if(geoJsonFeature.hasOwnProperty('properties')) {
+      if(geoJsonFeature.properties.hasOwnProperty('fylkesnr')) {
+        id = Number(geoJsonFeature.properties.fylkesnr);
+      } else if (geoJsonFeature.properties.hasOwnProperty('omraadeid')){
+        id = Number(geoJsonFeature.properties.omraadeid);
+      }
+    }
+
+    if(id < 10) {
+      return "0" + id;
+    } else {
+      return "" + id;
+    }
   }
 }

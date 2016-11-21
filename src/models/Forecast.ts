@@ -73,14 +73,6 @@ export class Forecast {
     return forecast;
   }
 
-  static findForecastWithAreaId(forecasts:Forecast[], areaId:string ) {
-    for (let forecast of forecasts) {
-      if(forecast.areaId == areaId) {
-        return forecast;
-      }
-    }
-  }
-
   static createHighestForecast(forecastA:Forecast, forecastB:Forecast):Forecast {
 
     let warnings:Warning[] = [];
@@ -105,5 +97,13 @@ export class Forecast {
       forecasts.push(Forecast.createHighestForecast(forecastA, forecastB));
     }
     return forecasts;
+  }
+
+  static findForecastWithAreaId(forecasts:Forecast[], areaId:string ) {
+    for (let forecast of forecasts) {
+      if(forecast.areaId == areaId) {
+        return forecast;
+      }
+    }
   }
 }

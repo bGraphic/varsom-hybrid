@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { MuncipalityDetailsPage } from '../item-details/municipality-details';
-import { Area } from "../../models/Area";
 import { Observable } from 'rxjs/Observable';
 import { Forecast } from "../../models/Forecast";
 import { DataService } from "../../services/data";
 import { GeojsonService }       from '../../services/geojson';
-import {BehaviorSubject} from "rxjs";
 
 @Component({
   templateUrl: 'list.html',
@@ -15,41 +13,33 @@ import {BehaviorSubject} from "rxjs";
 export class AvalancheListPage {
 
   pageTitle: string;
-  sections: {titleKey: string, areasObs: Observable<Area[]> }[];
-  forecastTypeObs = new BehaviorSubject('avalanche');
+  sections: {titleKey: string, forecastsObs: Observable<Forecast[]> }[];
   geojsonObs: Observable<GeoJSON.GeoJsonObject>;
 
-  private getPageTitle(): string {
-    return "Snøskred";
-  }
-
-  private getAreas(): Observable<Area[]> {
-    return this.dataService.getRegions();
-  }
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService, public geojson: GeojsonService) {
     // If we navigated to this page, we will have an item available as a nav param
-    this.pageTitle = this.getPageTitle();
+    this.pageTitle = "Snøskred";
 
-    if(this.isShowMap()) {
+    if(this.hasMap()) {
       this.geojsonObs = this.geojson.getRegions();
     }
 
     this.sections = [];
     this.sections.push({
       titleKey: 'avalanche',
-      areasObs: this.getAreas()
+      forecastsObs: this.dataService.getForecasts('avalanche')
     });
 
     this.sections.push({
       titleKey: 'b-regions',
-      areasObs: this.getAreas()
+      forecastsObs: this.dataService.getForecasts('avalanche')
     });
   }
 
-  private pushRegionDetailsPage(navCtrl: NavController, municipality: Area) {
+  private pushRegionDetailsPage(navCtrl: NavController, forecast: Forecast) {
     navCtrl.push(MuncipalityDetailsPage, {
-      municipality: municipality
+      forecast: forecast
     });
   }
 
@@ -57,15 +47,7 @@ export class AvalancheListPage {
     this.pushRegionDetailsPage(this.navCtrl, area);
   }
 
-  // getForecast(area: Area): Observable<Forecast> {
-  //   return area.getForecast('avalanche');
-  // }
-
-  getForecastType(): string {
-    return 'avalanche';
-  }
-
-  isShowMap(): boolean {
+  hasMap(): boolean {
     return true;
   }
 }

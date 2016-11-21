@@ -15,7 +15,7 @@ export class Theme {
       case 5:
         return '#3E060B';
       default:
-        return 'transparent'
+        return '#C8C8C8'
 
 
     }

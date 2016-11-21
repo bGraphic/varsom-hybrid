@@ -20,7 +20,7 @@
 
 <ion-content #test class="list-page">
 
-  <!--<nve-map *ngIf="hasMap()" [forecastTypeObs]="forecastTypeObs" [forecastObs]="sections[0].forecastsObs" [geojsonObs]="geojsonObs"></nve-map>-->
+  <nve-map *ngIf="hasMap()" [forecastsObs]="sections[0].forecastsObs" [geojsonObs]="geojsonObs"></nve-map>
 
   <ion-list [class.hasMap]="hasMap()">
     <ion-item-group *ngFor="let section of sections">
