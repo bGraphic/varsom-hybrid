@@ -73,10 +73,10 @@ export class FloodLandslideListPage {
   }
 
   forecastTapped(event, forecast: Forecast) {
-    if(!this.selectedCountyId) {
-      this.pushCountyFloodLandslideListPage(this.navCtrl, forecast);
-    } else {
+    if (this.selectedCountyId || Forecast.isOslo(forecast)) {
       this.pushMunicipalityDetailsPage(this.navCtrl, forecast);
+    } else {
+      this.pushCountyFloodLandslideListPage(this.navCtrl, forecast);
     }
   }
 

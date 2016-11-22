@@ -1,6 +1,7 @@
 import {Warning} from "./Warning";
-export class Forecast {
 
+export class Forecast {
+  private static readonly OSLO_ID = '03';
   private _forecastType: string;
   private _areaId: string;
   private _areaName: string;
@@ -105,5 +106,9 @@ export class Forecast {
         return forecast;
       }
     }
+  }
+
+  static isOslo(forecast):boolean {
+    return forecast.areaId == Forecast.OSLO_ID;
   }
 }
