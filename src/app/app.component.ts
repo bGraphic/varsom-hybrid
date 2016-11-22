@@ -1,11 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-
 import { Platform, MenuController, Nav } from 'ionic-angular';
-
 import { StatusBar } from 'ionic-native';
 
+import { Theme } from '../theme/theme'
 import { FloodLandslideListPage } from '../pages/list/flood-landslide-list';
-import {AvalancheListPage} from "../pages/list/avalanche-list";
+import { AvalancheListPage } from "../pages/list/avalanche-list";
 
 
 @Component({
@@ -35,6 +34,7 @@ export class MyApp {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
+      StatusBar.backgroundColorByHexString(Theme.colorForStatusBar()); // set status bar to white
       StatusBar.styleDefault();
     });
   }

@@ -1,5 +1,9 @@
 export class Theme {
 
+  static colorForStatusBar() {
+    return '#788788';
+  }
+
   static colorForLevel(level: number) {
     switch (level) {
       case 0:
