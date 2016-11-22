@@ -22,7 +22,8 @@
 
   <nve-map *ngIf="hasMap()" [forecastsObs]="sections[0].forecastsObs" [geojsonObs]="geojsonObs"></nve-map>
 
-  <ion-list [class.hasMap]="hasMap()">
+  <ion-list>
+
     <ion-item-group *ngFor="let section of sections">
       <ion-list-header>
         <ion-note item-right *ngFor="let d of ['fre','lør','søn']">{{d}}</ion-note> {{ section.titleKey }}
@@ -34,6 +35,7 @@
       </button>
 
     </ion-item-group>
+
   </ion-list>
 </ion-content>
 

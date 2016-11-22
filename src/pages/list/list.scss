@@ -1,11 +1,4 @@
-nve-map #map {
-  position: fixed;
-}
-
 nve-map {
-  position: fixed;
-  width: 100%;
-
   > div {
     height: 200px;
     width: 100%;
@@ -15,10 +8,6 @@ nve-map {
 .list-page {
 
   ion-list {
-
-    &.hasMap {
-      padding-top: 200px;
-    }
 
     .item-inner {
       padding-right: 16px !important;
