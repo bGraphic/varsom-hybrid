@@ -1,8 +1,9 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import 'leaflet';
-import {Observable} from "rxjs";
+import { Observable } from "rxjs";
 import { Forecast } from '../models/Forecast';
-import {Theme} from "../theme/theme";
+import { Theme } from "../theme/theme";
+import { SettingsService } from "../services/settings";
 
 @Component({
   selector: 'nve-map',
@@ -13,6 +14,7 @@ export class Map {
   private static CENTER = L.latLng(64.871, 16.949);
   private static MIN_ZOOM = 4;
   private static MAX_ZOOM = 7;
+  private static LOCATION_ZOOM = 6;
 
   @Input() forecastsObs: Observable<Forecast[]>;
   @Input() geojsonObs: Observable<GeoJSON.GeoJsonObject>;
@@ -21,14 +23,18 @@ export class Map {
   geojsonLayer: L.GeoJSON;
   forecasts: Forecast[];
 
-  constructor () {
+  constructor (private settings: SettingsService) {
 
   }
 
   ngOnInit(): void {
-    let map = Map.createMap(this.mapEl.nativeElement);
-    map.locate({setView: true, maxZoom: Map.MIN_ZOOM+2});
-
+    let map = Map.createMap(this.mapEl.nativeElement, this.settings.currentPosition.getValue());
+    this.settings.currentPosition
+      .subscribe(location => {
+        if(location) {
+          map.flyTo(location, Map.LOCATION_ZOOM);
+        }
+      });
     this.geojsonLayer = L.geoJSON().addTo(map);
   }
 
@@ -81,12 +87,19 @@ export class Map {
     return style;
   }
 
-  private static createMap(el: any): L.Map {
+  private static createMap(el: any, location:L.LatLng): L.Map {
+
     var map = L.map(el, {
       zoomControl: false,
       minZoom: Map.MIN_ZOOM,
       maxZoom: Map.MAX_ZOOM
-    }).setView(Map.CENTER, Map.MIN_ZOOM);
+    });
+
+    if(location) {
+      map.setView(location, Map.LOCATION_ZOOM);
+    } else {
+      map.setView(Map.CENTER, Map.MIN_ZOOM);
+    }
 
     L.tileLayer(Map.TILE, {}).addTo(map);
 
