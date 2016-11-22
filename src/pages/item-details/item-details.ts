@@ -1,18 +1,19 @@
 import { Component } from '@angular/core';
 
 import { NavController, NavParams } from 'ionic-angular';
+import {Forecast} from "../../models/Forecast";
 
 
 @Component({
-  templateUrl: 'municipality-details.html'
+  templateUrl: 'item-details.html'
 })
-export class MuncipalityDetailsPage {
-  selectedMunicipality: any;
+export class ItemDetailsPage {
+  selectedForecast: Forecast;
   pageTitle: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     // If we navigated to this page, we will have an item available as a nav param
-    this.selectedMunicipality = navParams.get('municipality');
-    this.pageTitle = this.selectedMunicipality.name;
+    this.selectedForecast = navParams.get('forecast');
+    this.pageTitle = this.selectedForecast.areaName;
   }
 }

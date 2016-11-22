@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { MuncipalityDetailsPage } from '../item-details/municipality-details';
+import { ItemDetailsPage } from '../item-details/item-details';
 import { Observable } from 'rxjs/Observable';
 import { Forecast } from "../../models/Forecast";
 import { DataService } from "../../services/data";
@@ -38,12 +38,12 @@ export class AvalancheListPage {
   }
 
   private pushRegionDetailsPage(navCtrl: NavController, forecast: Forecast) {
-    navCtrl.push(MuncipalityDetailsPage, {
+    navCtrl.push(ItemDetailsPage, {
       forecast: forecast
     });
   }
 
-  areaTapped(event, area) {
+  forecastTapped(event, area) {
     this.pushRegionDetailsPage(this.navCtrl, area);
   }
 

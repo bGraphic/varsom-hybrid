@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { NavController, NavParams } from 'ionic-angular';
-import { MuncipalityDetailsPage } from '../item-details/municipality-details';
+import { ItemDetailsPage } from '../item-details/item-details';
 import { Forecast } from "../../models/Forecast";
 import { DataService } from "../../services/data";
 import { GeojsonService }       from '../../services/geojson';
@@ -67,7 +67,7 @@ export class FloodLandslideListPage {
   }
 
   private pushMunicipalityDetailsPage(navCtrl: NavController, forecast: Forecast) {
-    navCtrl.push(MuncipalityDetailsPage, {
+    navCtrl.push(ItemDetailsPage, {
       forecast: forecast
     });
   }

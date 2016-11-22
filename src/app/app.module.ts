@@ -2,10 +2,9 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { RegionDetailsPage } from '../pages/item-details/region-details';
 import { FloodLandslideListPage } from '../pages/list/flood-landslide-list';
 import { AvalancheListPage } from "../pages/list/avalanche-list";
-import { MuncipalityDetailsPage } from "../pages/item-details/municipality-details";
+import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { WarningBadge } from "../partials/warning-badge";
 import { Map } from "../partials/map";
 import { DataService } from "../services/data";
@@ -23,10 +22,9 @@ export const firebaseConfig = {
 @NgModule({
   declarations: [
     MyApp,
-    MuncipalityDetailsPage,
-    RegionDetailsPage,
     FloodLandslideListPage,
     AvalancheListPage,
+    ItemDetailsPage,
     WarningBadge,
     Map
   ],
@@ -38,10 +36,9 @@ export const firebaseConfig = {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    MuncipalityDetailsPage,
-    RegionDetailsPage,
     FloodLandslideListPage,
-    AvalancheListPage
+    AvalancheListPage,
+    ItemDetailsPage
   ],
   providers: [DataService, SettingsService]
 })
