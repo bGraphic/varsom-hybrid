@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { HttpModule } from '@angular/http';
-import { IonicApp, IonicModule } from 'ionic-angular';
+import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { FloodLandslideListPage } from '../pages/list/flood-landslide-list';
 import { AvalancheListPage } from "../pages/list/avalanche-list";
@@ -40,6 +40,6 @@ export const firebaseConfig = {
     AvalancheListPage,
     ItemDetailsPage
   ],
-  providers: [DataService, SettingsService]
+  providers: [DataService, SettingsService, {provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
 export class AppModule {}
