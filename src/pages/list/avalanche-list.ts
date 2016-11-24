@@ -13,6 +13,7 @@ import { GeojsonService }       from '../../services/geojson';
 export class AvalancheListPage {
 
   pageTitle: string;
+  segments = [];
   sections: {titleKey: string, forecastsObs: Observable<Forecast[]> }[];
   geojsonObs: Observable<GeoJSON.GeoJsonObject>;
 

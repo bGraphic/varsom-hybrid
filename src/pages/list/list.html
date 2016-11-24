@@ -8,7 +8,7 @@
 </ion-header>
 
 
-<ion-footer *ngIf="segments">
+<ion-footer *ngIf="segments.length > 0">
   <ion-navbar>
     <ion-segment [(ngModel)]="selectedSegment" (ionChange)="selectedSegmentChanged()">
       <ion-segment-button *ngFor="let segment of segments" value="{{ segment.slug }}" >
