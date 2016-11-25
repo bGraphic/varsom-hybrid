@@ -2,7 +2,6 @@ import { Component, Input, ViewChild } from '@angular/core';
 import 'leaflet';
 import { Observable } from "rxjs";
 import { Forecast } from '../models/Forecast';
-import { Theme } from "../theme/theme";
 import { SettingsService } from "../services/settings";
 
 @Component({
@@ -24,6 +23,7 @@ export class Map {
   forecasts: Forecast[];
 
   constructor (private settings: SettingsService) {
+    console.log("Map: constructor");
 
   }
 
@@ -69,6 +69,7 @@ export class Map {
 
   private updateGeoJSON() {
     if(this.geojsonLayer) {
+      console.log("Map: set style");
       return this.geojsonLayer.setStyle(geoJsonFeature => Map.geoJsonFeatureStyle(geoJsonFeature, this.forecasts));
     }
   }
@@ -82,7 +83,7 @@ export class Map {
     }
 
     let style = {
-      color: Theme.colorForLevel(rating)
+      color: '#C8C8C8'
     }
     return style;
   }
