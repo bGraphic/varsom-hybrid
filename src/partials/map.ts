@@ -11,10 +11,8 @@ import { Theme } from "../providers/theme";
 })
 export class Map {
   private static TILE = 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png';
-  private static CENTER = L.latLng(64.871, 16.949);
   private static MIN_ZOOM = 4;
   private static MAX_ZOOM = 7;
-  private static LOCATION_ZOOM = 6;
 
   @Input() forecastsObs: Observable<Forecast[]>;
   @Input() geojsonObs: Observable<any>;
@@ -25,7 +23,7 @@ export class Map {
 
   private _geoJsonData: any;
   private _forecasts: Forecast[];
-  private _location: L.LatLng;
+  private _location: {latLng: L.LatLng, zoom: number};
 
   constructor (private settings: SettingsService, private theme: Theme) {
 
@@ -33,7 +31,6 @@ export class Map {
 
   ngOnInit(): void {
     this.createMap();
-    this.updateMapCenter();
     this.updateGeoJsonData();
 
     this.subscribeToLocation();
@@ -63,17 +60,9 @@ export class Map {
   private subscribeToLocation() {
     this.settings.currentPosition
       .subscribe(location => {
-        let firstCenter = !this._location;
-        if(location) {
-          this._location = location;
-        } else {
-          this._location = Map.CENTER;
-        }
-        if(firstCenter) {
-          this.setMapCenter();
-        } else {
-          this.updateMapCenter();
-        }
+        let firstTime = !this._location;
+        this._location = location;
+        this.updateMapCenter(firstTime);
       });
   }
 
@@ -85,23 +74,15 @@ export class Map {
       });
   }
 
-  private updateMapCenter() {
-    if(!this._map) {
+  private updateMapCenter(first:boolean) {
+    if(!this._map && !this._location) {
       return;
     }
 
-    if(this._location) {
-      this._map.flyTo(this._location, Map.LOCATION_ZOOM);
-    }
-  }
-
-  private setMapCenter() {
-    if(!this._map) {
-      return;
-    }
-
-    if(this._location) {
-      this._map.setView(this._location, Map.LOCATION_ZOOM);
+    if(first) {
+      this._map.setView(this._location.latLng, this._location.zoom);
+    } else {
+      this._map.flyTo(this._location.latLng, this._location.zoom);
     }
   }
 
