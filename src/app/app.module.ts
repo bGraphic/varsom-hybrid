@@ -9,7 +9,8 @@ import { WarningBadge } from "../partials/warning-badge";
 import { Map } from "../partials/map";
 import { DataService } from "../services/data";
 import { AngularFireModule } from 'angularfire2';
-import {SettingsService} from "../services/settings";
+import { SettingsService } from "../services/settings";
+import { Theme } from "../providers/theme";
 
 // Must export the config
 export const firebaseConfig = {
@@ -40,6 +41,6 @@ export const firebaseConfig = {
     AvalancheListPage,
     ItemDetailsPage
   ],
-  providers: [DataService, SettingsService, {provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [DataService, SettingsService, Theme, {provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
 export class AppModule {}

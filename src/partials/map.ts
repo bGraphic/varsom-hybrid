@@ -3,6 +3,7 @@ import 'leaflet';
 import { Observable } from "rxjs";
 import { Forecast } from '../models/Forecast';
 import { SettingsService } from "../services/settings";
+import { Theme } from "../providers/theme";
 
 @Component({
   selector: 'nve-map',
@@ -16,26 +17,26 @@ export class Map {
   private static LOCATION_ZOOM = 6;
 
   @Input() forecastsObs: Observable<Forecast[]>;
-  @Input() geojsonObs: Observable<GeoJSON.GeoJsonObject>;
+  @Input() geojsonObs: Observable<any>;
   @ViewChild('map') mapEl: any;
 
-  geojsonLayer: L.GeoJSON;
-  forecasts: Forecast[];
+  private _map: L.Map;
+  private _geojsonLayer: L.GeoJSON;
 
-  constructor (private settings: SettingsService) {
-    console.log("Map: constructor");
+  private _geoJsonData: any;
+  private _forecasts: Forecast[];
+  private _location: L.LatLng;
+
+  constructor (private settings: SettingsService, private theme: Theme) {
 
   }
 
   ngOnInit(): void {
-    let map = Map.createMap(this.mapEl.nativeElement, this.settings.currentPosition.getValue());
-    this.settings.currentPosition
-      .subscribe(location => {
-        if(location) {
-          map.flyTo(location, Map.LOCATION_ZOOM);
-        }
-      });
-    this.geojsonLayer = L.geoJSON().addTo(map);
+    this.createMap();
+    this.updateMapCenter();
+    this.updateGeoJsonData();
+
+    this.subscribeToLocation();
   }
 
   ngOnChanges(changes) {
@@ -53,58 +54,108 @@ export class Map {
     this.forecastsObs
       .subscribe(
         forecasts => {
-          this.forecasts = forecasts;
-          this.updateGeoJSON();
+          this._forecasts = forecasts;
+          this.updateGeoJsonStyle();
         }
       );
   }
 
-  private subscribeToGeoJson() {
-    this.geojsonObs
-      .subscribe( geojson => {
-        this.geojsonLayer.addData(geojson);
-        this.updateGeoJSON();
+  private subscribeToLocation() {
+    this.settings.currentPosition
+      .subscribe(location => {
+        let firstCenter = !this._location;
+        if(location) {
+          this._location = location;
+        } else {
+          this._location = Map.CENTER;
+        }
+        if(firstCenter) {
+          this.setMapCenter();
+        } else {
+          this.updateMapCenter();
+        }
       });
   }
 
-  private updateGeoJSON() {
-    if(this.geojsonLayer) {
-      console.log("Map: set style");
-      return this.geojsonLayer.setStyle(geoJsonFeature => Map.geoJsonFeatureStyle(geoJsonFeature, this.forecasts));
+  private subscribeToGeoJson() {
+    this.geojsonObs
+      .subscribe( data => {
+        this._geoJsonData = data;
+        this.updateGeoJsonData();
+      });
+  }
+
+  private updateMapCenter() {
+    if(!this._map) {
+      return;
+    }
+
+    if(this._location) {
+      this._map.flyTo(this._location, Map.LOCATION_ZOOM);
     }
   }
 
-  private static geoJsonFeatureStyle(geoJsonFeature:GeoJSON.Feature<GeoJSON.GeometryObject>, forecasts:Forecast[]) {
-    let rating = 0;
+  private setMapCenter() {
+    if(!this._map) {
+      return;
+    }
 
-    let forecast = Forecast.findForecastWithAreaId(forecasts, Map.transformGeoJsonToAreaId(geoJsonFeature));
-    if(forecast) {
-      rating = forecast.mapWarning.rating;
+    if(this._location) {
+      this._map.setView(this._location, Map.LOCATION_ZOOM);
+    }
+  }
+
+  private updateGeoJsonData() {
+
+    if(!this._map) {
+      return;
+    }
+
+    if(this._geojsonLayer) {
+      this._geojsonLayer.removeFrom(this._map);
+    }
+
+    this._geojsonLayer = L.geoJSON(this._geoJsonData, {
+      style: (feature) => this.geoJsonFeatureStyle(feature)
+    }).addTo(this._map)
+
+  }
+
+  private updateGeoJsonStyle() {
+    if(!this._geojsonLayer) {
+      return;
+    }
+
+    this._geojsonLayer.setStyle((feature) => this.geoJsonFeatureStyle(feature));
+  }
+
+  private geoJsonFeatureStyle(geoJsonFeature:any) {
+
+    let color = this.theme.colorForRating(0);
+
+    if(this._forecasts) {
+      let forecast = Forecast.findForecastWithAreaId(this._forecasts, Map.transformGeoJsonToAreaId(geoJsonFeature));
+      if(forecast) {
+        color = this.theme.colorForRating(forecast.mapWarning.rating);
+      }
     }
 
     let style = {
-      color: '#C8C8C8'
+      color: color
     }
+
     return style;
   }
 
-  private static createMap(el: any, location:L.LatLng): L.Map {
+  private createMap() {
 
-    var map = L.map(el, {
+    this._map = L.map(this.mapEl.nativeElement, {
       zoomControl: false,
       minZoom: Map.MIN_ZOOM,
       maxZoom: Map.MAX_ZOOM
     });
 
-    if(location) {
-      map.setView(location, Map.LOCATION_ZOOM);
-    } else {
-      map.setView(Map.CENTER, Map.MIN_ZOOM);
-    }
-
-    L.tileLayer(Map.TILE, {}).addTo(map);
-
-    return map;
+    L.tileLayer(Map.TILE, {}).addTo(this._map);
   }
 
   private static transformGeoJsonToAreaId(geoJsonFeature):string {
