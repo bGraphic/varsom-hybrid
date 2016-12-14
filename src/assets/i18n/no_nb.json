@@ -1,0 +1,7 @@
+{
+  "FLOOD": "Flom",
+  "LANDSLIDE" : "Jordskred",
+  "FLOOD_LANDSLIDE": "Flom / Jordskred",
+  "AVALANCHE": "Snøskred",
+  "HIGHEST" : "Høyeste varsel"
+}

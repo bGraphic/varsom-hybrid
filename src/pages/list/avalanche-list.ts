@@ -12,7 +12,7 @@ import { GeojsonService }       from '../../services/geojson';
 })
 export class AvalancheListPage {
 
-  pageTitle: string;
+  pageTitleKey: string;
   segments = [];
   sections: {titleKey: string, forecastsObs: Observable<Forecast[]> }[];
   geojsonObs: Observable<GeoJSON.GeoJsonObject>;
@@ -20,7 +20,7 @@ export class AvalancheListPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService, public geojson: GeojsonService) {
     // If we navigated to this page, we will have an item available as a nav param
-    this.pageTitle = "Snøskred";
+    this.pageTitleKey = "AVALANCHE";
 
     if(this.hasMap()) {
       this.geojsonObs = this.geojson.getRegions();

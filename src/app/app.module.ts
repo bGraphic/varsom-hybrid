@@ -1,6 +1,9 @@
 import { NgModule, ErrorHandler } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { HttpModule, Http } from '@angular/http';
+import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
+
 import { MyApp } from './app.component';
 import { FloodLandslideListPage } from '../pages/list/flood-landslide-list';
 import { AvalancheListPage } from "../pages/list/avalanche-list";
@@ -31,8 +34,14 @@ export const firebaseConfig = {
   ],
   imports: [
     IonicModule.forRoot(MyApp, { }),
+    BrowserModule,
     HttpModule,
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFireModule.initializeApp(firebaseConfig),
+    TranslateModule.forRoot({
+      provide: TranslateLoader,
+      useFactory: (http: Http) => new TranslateStaticLoader(http, '/assets/i18n', '.json'),
+      deps: [Http]
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [

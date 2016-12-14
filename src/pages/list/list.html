@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title>{{ pageTitle }}</ion-title>
+    <ion-title>{{ pageTitleKey | translate }}</ion-title>
     <button ion-button right menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -12,7 +12,7 @@
   <ion-navbar>
     <ion-segment [(ngModel)]="selectedSegment" (ionChange)="selectedSegmentChanged()">
       <ion-segment-button *ngFor="let segment of segments" value="{{ segment.slug }}" >
-        {{ segment.name }}
+        {{ segment.titleKey | translate }}
       </ion-segment-button>
     </ion-segment>
   </ion-navbar>
@@ -26,7 +26,7 @@
 
     <ion-item-group *ngFor="let section of sections">
       <ion-list-header>
-        <ion-note item-right *ngFor="let d of ['fre','lør','søn']">{{d}}</ion-note> {{ section.titleKey }}
+        <ion-note item-right *ngFor="let d of ['fre','lør','søn']">{{d}}</ion-note> {{ section.titleKey | translate }}
       </ion-list-header>
 
       <button detail-none ion-item *ngFor="let forecast of section.forecastsObs | async" (click)="forecastTapped($event, forecast)">

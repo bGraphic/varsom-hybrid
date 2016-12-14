@@ -14,13 +14,13 @@ import { SettingsService } from "../../services/settings";
 export class FloodLandslideListPage {
 
   segments = [
-    { slug: 'highest', name: "Felles" },
-    { slug: 'flood', name: "Flom" },
-    { slug: 'landslide', name: "Jordskred" }
+    { slug: 'highest', titleKey: "HIGHEST" },
+    { slug: 'flood', titleKey: "FLOOD" },
+    { slug: 'landslide', titleKey: "LANDSLIDE" }
   ];
   selectedSegment: string;
 
-  pageTitle: string;
+  pageTitleKey: string;
   selectedCountyId: string;
   sections: {titleKey: string, forecastsObs: Observable<Forecast[]> }[];
   forecastTypeObs = this.settings.selectedForecastTypeObs;
@@ -30,10 +30,10 @@ export class FloodLandslideListPage {
     // If we navigated to this page, we will have an item available as a nav param
     let county = navParams.get('county');
     if(county) {
-      this.pageTitle = county.name;
+      this.pageTitleKey = county.name;
       this.selectedCountyId = county.id;
     } else {
-      this.pageTitle = 'Flom / jordskred';
+      this.pageTitleKey = 'FLOOD_LANDSLIDE';
     }
 
     if(this.hasMap()) {
@@ -48,7 +48,7 @@ export class FloodLandslideListPage {
 
     this.forecastTypeObs
       .subscribe(forecastType => {
-        this.sections[0].titleKey = forecastType;
+        this.sections[0].titleKey = forecastType.toUpperCase();
         this.sections[0].forecastsObs = this.dataService.getForecasts(this.forecastTypeObs.getValue(), this.selectedCountyId);
       });
   }
