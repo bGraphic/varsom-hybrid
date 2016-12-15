@@ -24,7 +24,7 @@ export class DataService {
     if(this._forecastsMap[cacheKey]) {
       return this._forecastsMap[cacheKey];
     } else {
-      let forecasts = new BehaviorSubject([]);
+      let forecasts = new BehaviorSubject<Forecast[]>([]);
       this._forecastsMap[cacheKey] = forecasts;
 
       if('flood' === forecastType || 'landslide' === forecastType) {
