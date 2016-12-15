@@ -2,6 +2,7 @@
   "FLOOD": "Flom",
   "LANDSLIDE" : "Jordskred",
   "FLOOD_LANDSLIDE": "Flom / Jordskred",
+  "HIGHEST" : "Felles",
   "AVALANCHE": "Snøskred",
-  "HIGHEST" : "Høyeste varsel"
+  "B_REGIONS": "B - regioner"
 }

@@ -29,12 +29,12 @@ export class AvalancheListPage {
 
     this.sections = [];
     this.sections.push({
-      titleKey: 'avalanche',
+      titleKey: 'AVALANCHE',
       forecastsObs: this.dataService.getForecasts('avalanche')
     });
 
     this.sections.push({
-      titleKey: 'b-regions',
+      titleKey: 'B_REGIONS',
       forecastsObs: this.dataService.getForecasts('avalanche')
     });
   }
