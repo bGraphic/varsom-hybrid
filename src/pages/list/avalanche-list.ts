@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Forecast } from "../../models/Forecast";
 import { DataService } from "../../services/data";
 import { GeojsonService }       from '../../services/geojson';
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   templateUrl: 'list.html',
@@ -14,7 +15,7 @@ export class AvalancheListPage {
 
   pageTitleKey: string;
   segments = [];
-  sections: {titleKey: string, forecastsObs: Observable<Forecast[]> }[];
+  sections: {titleKey: string, forecastsObs: BehaviorSubject<Forecast[]> }[];
   geojsonObs: Observable<GeoJSON.GeoJsonObject>;
 
 
@@ -38,14 +39,29 @@ export class AvalancheListPage {
     });
   }
 
-  private pushRegionDetailsPage(navCtrl: NavController, forecast: Forecast) {
-    navCtrl.push(ItemDetailsPage, {
+  private pushRegionDetailsPage(forecast: Forecast) {
+    this.navCtrl.push(ItemDetailsPage, {
       forecast: forecast
     });
   }
 
-  forecastTapped(event, area) {
-    this.pushRegionDetailsPage(this.navCtrl, area);
+  onListForecastSelected(event, forecast: Forecast) {
+    this.pushRegionDetailsPage(forecast);
+  }
+
+  onMapAreaSelected(areaId: string) {
+    let forecastsA =  this.sections[0].forecastsObs.getValue();
+    let forecastsB =  this.sections[0].forecastsObs.getValue();
+    let filteredForecastsA = forecastsA.filter(forecast => forecast.areaId == areaId);
+    let filteredForecastsB = forecastsB.filter(forecast => forecast.areaId == areaId);
+
+    if(filteredForecastsA.length > 0 ) {
+      this.pushRegionDetailsPage(filteredForecastsA[0]);
+    } else if(filteredForecastsB.length > 0 ) {
+      this.pushRegionDetailsPage(filteredForecastsB[0]);
+    } else {
+      console.log('AvalancheListPage: No matching area', areaId);
+    }
   }
 
   hasMap(): boolean {

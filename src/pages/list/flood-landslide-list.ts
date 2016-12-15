@@ -6,6 +6,7 @@ import { Forecast } from "../../models/Forecast";
 import { DataService } from "../../services/data";
 import { GeojsonService }       from '../../services/geojson';
 import { SettingsService } from "../../services/settings";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   templateUrl: 'list.html',
@@ -22,7 +23,7 @@ export class FloodLandslideListPage {
 
   pageTitleKey: string;
   selectedCountyId: string;
-  sections: {titleKey: string, forecastsObs: Observable<Forecast[]> }[];
+  sections: {titleKey: string, forecastsObs: BehaviorSubject<Forecast[]> }[];
   forecastTypeObs = this.settings.selectedForecastTypeObs;
   geojsonObs: Observable<GeoJSON.GeoJsonObject>;
 
@@ -57,26 +58,43 @@ export class FloodLandslideListPage {
     this.selectedSegment = this.forecastTypeObs.getValue();
   }
 
-  private pushCountyFloodLandslideListPage(navCtrl: NavController, forecast: Forecast) {
-    navCtrl.push(FloodLandslideListPage, {
-      county: {
-        name: forecast.areaName,
-        id: forecast.areaId
+  private pushCountyFloodLandslideListPage(forecast: Forecast) {
+    if( Forecast.isOslo(forecast)) {
+      this.pushMunicipalityDetailsPage(forecast);
+    } else {
+      this.navCtrl.push(FloodLandslideListPage, {
+        county: {
+          id: forecast.areaId,
+          name: forecast.areaName
+        }
+      });
+    }
+  }
+
+  private pushMunicipalityDetailsPage(forecast: Forecast) {
+    this.navCtrl.push(ItemDetailsPage, {
+      municipality: {
+        id: forecast.areaId,
+        name: forecast.areaName
       }
     });
   }
 
-  private pushMunicipalityDetailsPage(navCtrl: NavController, forecast: Forecast) {
-    navCtrl.push(ItemDetailsPage, {
-      forecast: forecast
-    });
+  onListForecastSelected(event, forecast: Forecast) {
+    if (this.selectedCountyId) {
+      this.pushMunicipalityDetailsPage(forecast);
+    } else {
+      this.pushCountyFloodLandslideListPage(forecast);
+    }
   }
 
-  forecastTapped(event, forecast: Forecast) {
-    if (this.selectedCountyId || Forecast.isOslo(forecast)) {
-      this.pushMunicipalityDetailsPage(this.navCtrl, forecast);
+  onMapAreaSelected(areaId: string) {
+    let forecasts =  this.sections[0].forecastsObs.getValue();
+    let filteredForecasts = forecasts.filter(forecast => forecast.areaId == areaId);
+    if(filteredForecasts.length > 0 ) {
+      this.pushCountyFloodLandslideListPage(filteredForecasts[0]);
     } else {
-      this.pushCountyFloodLandslideListPage(this.navCtrl, forecast);
+      console.log('FloodLandslideListPage: No matching area', areaId);
     }
   }
 

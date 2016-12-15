@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, Output, ViewChild, EventEmitter } from '@angular/core';
 import 'leaflet';
 import { Observable } from "rxjs";
 import { Forecast } from '../models/Forecast';
@@ -16,6 +16,7 @@ export class Map {
 
   @Input() forecastsObs: Observable<Forecast[]>;
   @Input() geojsonObs: Observable<any>;
+  @Output() areaSelected: EventEmitter<string> = new EventEmitter<string>();
   @ViewChild('map') mapEl: any;
 
   private _map: L.Map;
@@ -97,7 +98,8 @@ export class Map {
     }
 
     this._geojsonLayer = L.geoJSON(this._geoJsonData, {
-      style: (feature) => this.geoJsonFeatureStyle(feature)
+      style: (feature) => this.featureStyle(feature),
+      onEachFeature: (feature, layer) => this.onEachFeature(feature, layer)
     }).addTo(this._map)
 
   }
@@ -107,15 +109,15 @@ export class Map {
       return;
     }
 
-    this._geojsonLayer.setStyle((feature) => this.geoJsonFeatureStyle(feature));
+    this._geojsonLayer.setStyle((feature) => this.featureStyle(feature));
   }
 
-  private geoJsonFeatureStyle(geoJsonFeature:any) {
+  private featureStyle(feature:any) {
 
     let color = this.theme.colorForRating(0);
 
     if(this._forecasts) {
-      let forecast = Forecast.findForecastWithAreaId(this._forecasts, Map.transformGeoJsonToAreaId(geoJsonFeature));
+      let forecast = Forecast.findForecastWithAreaId(this._forecasts, Map.transformGeoJsonToAreaId(feature));
       if(forecast) {
         color = this.theme.colorForRating(forecast.mapWarning.rating);
       }
@@ -126,6 +128,13 @@ export class Map {
     }
 
     return style;
+  }
+
+  private onEachFeature(feature:any, layer: any) {
+    let self = this;
+    layer.on("click", function (event) {
+      self.areaSelected.emit(Map.transformGeoJsonToAreaId(feature));
+    });
   }
 
   private createMap() {

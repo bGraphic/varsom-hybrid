@@ -20,7 +20,7 @@
 
 <ion-content #test class="list-page">
 
-  <nve-map *ngIf="hasMap()" [forecastsObs]="sections[0].forecastsObs" [geojsonObs]="geojsonObs"></nve-map>
+  <nve-map *ngIf="hasMap()" [forecastsObs]="sections[0].forecastsObs" [geojsonObs]="geojsonObs" (areaSelected)="onMapAreaSelected($event)"></nve-map>
 
   <ion-list>
 
@@ -29,7 +29,7 @@
         <ion-note item-right *ngFor="let d of ['fre','lør','søn']">{{d}}</ion-note> {{ section.titleKey | translate }}
       </ion-list-header>
 
-      <button detail-none ion-item *ngFor="let forecast of section.forecastsObs | async" (click)="forecastTapped($event, forecast)">
+      <button detail-none ion-item *ngFor="let forecast of section.forecastsObs | async" (click)="onListForecastSelected($event, forecast)">
         <nve-warning-badge item-right *ngFor="let d of [0,1,2]" [level]="forecast.getDay(d).rating"></nve-warning-badge>
         {{ forecast.areaName }}
       </button>

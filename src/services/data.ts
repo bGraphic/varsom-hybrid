@@ -14,7 +14,7 @@ export class DataService {
     this.getForecasts('avalanche');
   }
 
-  getForecasts(forecastType: string, parentId?:string):Observable<Forecast[]> {
+  getForecasts(forecastType: string, parentId?:string):BehaviorSubject<Forecast[]> {
     return this._getForecasts(forecastType, parentId);
   }
 
