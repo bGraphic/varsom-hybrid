@@ -1,6 +1,10 @@
 import { NgModule, ErrorHandler } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { HttpModule, Http } from '@angular/http';
+import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
+import { MomentModule } from 'angular2-moment';
+
 import { MyApp } from './app.component';
 import { FloodLandslideListPage } from '../pages/list/flood-landslide-list';
 import { AvalancheListPage } from "../pages/list/avalanche-list";
@@ -9,7 +13,8 @@ import { WarningBadge } from "../partials/warning-badge";
 import { Map } from "../partials/map";
 import { DataService } from "../services/data";
 import { AngularFireModule } from 'angularfire2';
-import {SettingsService} from "../services/settings";
+import { SettingsService } from "../services/settings";
+import { Theme } from "../providers/theme";
 
 // Must export the config
 export const firebaseConfig = {
@@ -30,8 +35,15 @@ export const firebaseConfig = {
   ],
   imports: [
     IonicModule.forRoot(MyApp, { }),
+    BrowserModule,
     HttpModule,
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFireModule.initializeApp(firebaseConfig),
+    TranslateModule.forRoot({
+      provide: TranslateLoader,
+      useFactory: (http: Http) => new TranslateStaticLoader(http, '/assets/i18n', '.json'),
+      deps: [Http]
+    }),
+    MomentModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -40,6 +52,6 @@ export const firebaseConfig = {
     AvalancheListPage,
     ItemDetailsPage
   ],
-  providers: [DataService, SettingsService, {provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [DataService, SettingsService, Theme, {provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
 export class AppModule {}

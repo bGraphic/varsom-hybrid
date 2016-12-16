@@ -15,12 +15,20 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
-$warning-badge-size: 40px;
-$warning-icon-size: 40px;
+// Ionic overrides/fixes
+
+.list-header-md {
+  border-bottom: $list-md-header-border-top;
+}
 
 ion-label p {
   color: inherit !important;
 }
+
+// NVE globals
+
+$warning-badge-size: 40px;
+$warning-icon-size: 40px;
 
 @each $color, $value in $colors {
   [nve-bg-color="#{$color}"] {

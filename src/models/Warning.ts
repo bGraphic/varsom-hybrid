@@ -2,6 +2,7 @@ export class Warning {
 
   private _rating: number;
   private _meta: any;
+  private _date: Date;
 
   private constructor() { }
 
@@ -9,10 +10,15 @@ export class Warning {
     return this._rating;
   }
 
+  get date(): Date {
+    return this._date;
+  }
+
   static createFromFirebaseItem(item: any):Warning {
     let warning = new Warning();
     warning._rating = Number(item.Rating);
     warning._meta = item;
+    warning._date = new Date(item.ValidFrom);
     return warning;
   }
 

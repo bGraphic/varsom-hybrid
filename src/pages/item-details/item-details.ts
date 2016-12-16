@@ -9,11 +9,11 @@ import {Forecast} from "../../models/Forecast";
 })
 export class ItemDetailsPage {
   selectedForecast: Forecast;
-  pageTitle: string;
+  pageTitleKey: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     // If we navigated to this page, we will have an item available as a nav param
     this.selectedForecast = navParams.get('forecast');
-    this.pageTitle = this.selectedForecast.areaName;
+    this.pageTitleKey = this.selectedForecast.areaName;
   }
 }

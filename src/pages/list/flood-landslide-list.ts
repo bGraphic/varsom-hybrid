@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { NavController, NavParams } from 'ionic-angular';
 import { ItemDetailsPage } from '../item-details/item-details';
 import { Forecast } from "../../models/Forecast";
@@ -11,77 +10,111 @@ import { SettingsService } from "../../services/settings";
   templateUrl: 'list.html',
   providers: [ GeojsonService ]
 })
+
 export class FloodLandslideListPage {
 
   segments = [
-    { slug: 'highest', name: "Felles" },
-    { slug: 'flood', name: "Flom" },
-    { slug: 'landslide', name: "Jordskred" }
+    { slug: 'highest', titleKey: "HIGHEST" },
+    { slug: 'flood', titleKey: "FLOOD" },
+    { slug: 'landslide', titleKey: "LANDSLIDE" }
   ];
   selectedSegment: string;
 
-  pageTitle: string;
+  pageTitleKey: string;
   selectedCountyId: string;
-  sections: {titleKey: string, forecastsObs: Observable<Forecast[]> }[];
-  forecastTypeObs = this.settings.selectedForecastTypeObs;
-  geojsonObs: Observable<GeoJSON.GeoJsonObject>;
+  sections: {titleKey: string, timeframe: Date[], forecasts: Forecast[] }[] = [];
+  mapGeoJsonData: any;
+  mapCenter: { latLng: L.LatLng, zoom: number };
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService, public settings: SettingsService, private geojson: GeojsonService) {
     // If we navigated to this page, we will have an item available as a nav param
     let county = navParams.get('county');
     if(county) {
-      this.pageTitle = county.name;
+      this.pageTitleKey = county.name;
       this.selectedCountyId = county.id;
     } else {
-      this.pageTitle = 'Flom / jordskred';
+      this.pageTitleKey = 'FLOOD_LANDSLIDE';
     }
 
     if(this.hasMap()) {
-      this.geojsonObs = this.geojson.getCounties();
+      this.geojson.getCounties().subscribe(geojsonData => {
+        this.mapGeoJsonData = geojsonData;
+      });
     }
 
-    this.sections = [];
-    this.sections.push({
-      titleKey: this.forecastTypeObs.getValue(),
-      forecastsObs: this.dataService.getForecasts(this.forecastTypeObs.getValue(), this.selectedCountyId)
-    });
-
-    this.forecastTypeObs
+    this.settings.currentForecastTypeObs
       .subscribe(forecastType => {
-        this.sections[0].titleKey = forecastType;
-        this.sections[0].forecastsObs = this.dataService.getForecasts(this.forecastTypeObs.getValue(), this.selectedCountyId);
+        this.selectedSegment = forecastType;
+        this.dataService.getForecasts(forecastType, this.selectedCountyId)
+          .subscribe(forecasts => {
+            this._updateSections(forecastType, forecasts);
+          });
+      });
+
+    this.settings.currentPositionObs
+      .subscribe(position => {
+        this.mapCenter = position;
       });
   }
 
-  ionViewWillEnter() {
-    this.selectedSegment = this.forecastTypeObs.getValue();
+  private _updateSections(forecastType: string, forecasts: Forecast[]) {
+
+    if(forecastType !== this.selectedSegment) {
+      return;
+    }
+
+    let section = {
+      titleKey: forecastType.toUpperCase(),
+      timeframe: Forecast.getTimeframeFromForecasts(forecasts),
+      forecasts: forecasts
+    }
+
+    if(!this.sections[0]) {
+      this.sections.push(section);
+    } else {
+      this.sections[0] = section;
+    }
   }
 
-  private pushCountyFloodLandslideListPage(navCtrl: NavController, forecast: Forecast) {
-    navCtrl.push(FloodLandslideListPage, {
-      county: {
-        name: forecast.areaName,
-        id: forecast.areaId
-      }
-    });
+  private pushCountyFloodLandslideListPage(forecast: Forecast) {
+    if( Forecast.isOslo(forecast)) {
+      this.pushMunicipalityDetailsPage(forecast);
+    } else {
+      this.navCtrl.push(FloodLandslideListPage, {
+        county: {
+          id: forecast.areaId,
+          name: forecast.areaName
+        }
+      });
+    }
   }
 
-  private pushMunicipalityDetailsPage(navCtrl: NavController, forecast: Forecast) {
-    navCtrl.push(ItemDetailsPage, {
+  private pushMunicipalityDetailsPage(forecast: Forecast) {
+    this.navCtrl.push(ItemDetailsPage, {
       forecast: forecast
     });
   }
 
-  forecastTapped(event, forecast: Forecast) {
-    if(!this.selectedCountyId) {
-      this.pushCountyFloodLandslideListPage(this.navCtrl, forecast);
+  onListForecastSelected(event, forecast: Forecast) {
+    if (this.selectedCountyId) {
+      this.pushMunicipalityDetailsPage(forecast);
     } else {
-      this.pushMunicipalityDetailsPage(this.navCtrl, forecast);
+      this.pushCountyFloodLandslideListPage(forecast);
+    }
+  }
+
+  onMapAreaSelected(areaId: string) {
+    let forecasts =  this.sections[0].forecasts;
+    let filteredForecasts = forecasts.filter(forecast => forecast.areaId == areaId);
+    if(filteredForecasts.length > 0 ) {
+      this.pushCountyFloodLandslideListPage(filteredForecasts[0]);
+    } else {
+      console.log('FloodLandslideListPage: No matching area', areaId);
     }
   }
 
   selectedSegmentChanged() {
-    this.settings.selectedForecastTypeObs.next(this.selectedSegment);
+    this.settings.currentForecastType = this.selectedSegment;
   }
 
   hasMap(): boolean {

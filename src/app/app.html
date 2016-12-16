@@ -1,17 +1,17 @@
 <ion-menu [content]="content" side="right">
 
   <ion-header>
-    <ion-toolbar color="brand">
+    <ion-toolbar color="primary">
       <ion-title>Varsom</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <ion-content nve-bg-color="brand">
+  <ion-content nve-bg-color="primary">
 
     <ion-list padding-top padding-bottom class="nve-menu">
-      <button color="brand" ion-item no-lines detail-none *ngFor="let section of sections" (click)="openSection(section)">
+      <button color="primary" ion-item no-lines detail-none *ngFor="let section of sections" (click)="openSection(section)">
         <ion-icon item-left name="{{section.icon}}" class="nve-menu-icon"></ion-icon>
-        {{section.titleKey}}
+        {{ section.titleKey | translate }}
       </button>
     </ion-list>
 

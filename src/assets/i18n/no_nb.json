@@ -1,0 +1,16 @@
+{
+  "FLOOD": "Flom",
+  "LANDSLIDE" : "Jordskred",
+  "FLOOD_LANDSLIDE": "Flom / Jordskred",
+  "HIGHEST" : "Felles",
+  "AVALANCHE": "Snøskred",
+  "B_REGIONS": "B - regioner",
+
+  "Mon": "man",
+  "Tue": "tir",
+  "Wed": "ons",
+  "Thu": "tor",
+  "Fri": "fre",
+  "Sat": "lør",
+  "Sun": "søn"
+}

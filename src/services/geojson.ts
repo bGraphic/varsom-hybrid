@@ -18,7 +18,7 @@ export class GeojsonService {
   }
 
   private getAreas(type:string): Observable<GeoJSON.GeoJsonObject> {
-    return this.http.get('/assets/geojson/' + type + '.geojson')
+    return this.http.get('assets/geojson/' + type + '.geojson')
       .map(this.extractData)
       .catch(this.handleError);
   }
