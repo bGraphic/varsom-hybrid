@@ -83,6 +83,7 @@ export class Map {
   private featureStyle(feature:any) {
 
     let color = this.theme.colorForRating(0);
+    let fillOpacity = 0.2;
 
     if(this.forecasts) {
       let forecast = Forecast.findForecastWithAreaId(this.forecasts, Map.transformGeoJsonToAreaId(feature));
@@ -91,8 +92,13 @@ export class Map {
       }
     }
 
+    if(feature.mousedown) {
+      fillOpacity = 0.5;
+    }
+
     let style = {
-      color: color
+      color: color,
+      fillOpacity: fillOpacity
     }
 
     return style;
@@ -101,7 +107,16 @@ export class Map {
   private onEachFeature(feature:any, layer: any) {
     let self = this;
     layer.on("click", function (event) {
+      feature.mousedown = false;
+      self.updateGeoJsonStyle();
       self.areaSelected.emit(Map.transformGeoJsonToAreaId(feature));
+      console.log("click");
+    });
+
+    layer.on("mousedown", function (event) {
+      console.log("mousedown");
+      feature.mousedown = true;
+      self.updateGeoJsonStyle();
     });
   }
 
