@@ -40,7 +40,7 @@ export const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     TranslateModule.forRoot({
       provide: TranslateLoader,
-      useFactory: (http: Http) => new TranslateStaticLoader(http, '/assets/i18n', '.json'),
+      useFactory: (http: Http) => new TranslateStaticLoader(http, 'assets/i18n', '.json'),
       deps: [Http]
     }),
     MomentModule
