@@ -111,4 +111,14 @@ export class Forecast {
   static isOslo(forecast):boolean {
     return forecast.areaId == Forecast.OSLO_ID;
   }
+
+  static getTimeframeFromForecasts(forecasts: Forecast[]):Date[] {
+    // In production this should work as all forecasts are updated at the same time
+    if(!forecasts || 0 === forecasts.length) {
+      return [];
+    } else {
+      let forecast = forecasts[0];
+      return [forecast.getDay(0).date, forecast.getDay(1).date, forecast.getDay(2).date];
+    }
+  }
 }

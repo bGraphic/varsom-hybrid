@@ -3,6 +3,7 @@ import { HttpModule, Http } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
+import { MomentModule } from 'angular2-moment';
 
 import { MyApp } from './app.component';
 import { FloodLandslideListPage } from '../pages/list/flood-landslide-list';
@@ -41,7 +42,8 @@ export const firebaseConfig = {
       provide: TranslateLoader,
       useFactory: (http: Http) => new TranslateStaticLoader(http, '/assets/i18n', '.json'),
       deps: [Http]
-    })
+    }),
+    MomentModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

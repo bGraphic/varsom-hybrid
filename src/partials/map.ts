@@ -1,6 +1,5 @@
 import { Component, Input, Output, ViewChild, EventEmitter } from '@angular/core';
 import 'leaflet';
-import { Observable } from "rxjs";
 import { Forecast } from '../models/Forecast';
 import { SettingsService } from "../services/settings";
 import { Theme } from "../providers/theme";
@@ -14,17 +13,14 @@ export class Map {
   private static MIN_ZOOM = 4;
   private static MAX_ZOOM = 7;
 
-  @Input() forecastsObs: Observable<Forecast[]>;
-  @Input() geojsonObs: Observable<any>;
+  @Input() forecasts: Forecast[];
+  @Input() geoJsonData: any;
+  @Input() center: {latLng: L.LatLng, zoom: number};
   @Output() areaSelected: EventEmitter<string> = new EventEmitter<string>();
   @ViewChild('map') mapEl: any;
 
   private _map: L.Map;
   private _geojsonLayer: L.GeoJSON;
-
-  private _geoJsonData: any;
-  private _forecasts: Forecast[];
-  private _location: {latLng: L.LatLng, zoom: number};
 
   constructor (private settings: SettingsService, private theme: Theme) {
 
@@ -33,58 +29,30 @@ export class Map {
   ngOnInit(): void {
     this.createMap();
     this.updateGeoJsonData();
-
-    this.subscribeToLocation();
+    this.updateMapCenter();
   }
 
   ngOnChanges(changes) {
 
-    if(changes.forecastsObs) {
-      this.subscribeToForecasts();
+    if(changes.forecasts) {
+      this.updateGeoJsonStyle();
     }
 
-    if(changes.geojsonObs) {
-      this.subscribeToGeoJson();
+    if(changes.geoJsonData) {
+      this.updateGeoJsonData();
+    }
+
+    if(changes.center){
+      this.updateMapCenter();
     }
   }
 
-  private subscribeToForecasts() {
-    this.forecastsObs
-      .subscribe(
-        forecasts => {
-          this._forecasts = forecasts;
-          this.updateGeoJsonStyle();
-        }
-      );
-  }
-
-  private subscribeToLocation() {
-    this.settings.currentPosition
-      .subscribe(location => {
-        let firstTime = !this._location;
-        this._location = location;
-        this.updateMapCenter(firstTime);
-      });
-  }
-
-  private subscribeToGeoJson() {
-    this.geojsonObs
-      .subscribe( data => {
-        this._geoJsonData = data;
-        this.updateGeoJsonData();
-      });
-  }
-
-  private updateMapCenter(first:boolean) {
-    if(!this._map && !this._location) {
+  private updateMapCenter() {
+    if(!this._map) {
       return;
     }
 
-    if(first) {
-      this._map.setView(this._location.latLng, this._location.zoom);
-    } else {
-      this._map.flyTo(this._location.latLng, this._location.zoom);
-    }
+    this._map.setView(this.center.latLng, this.center.zoom);
   }
 
   private updateGeoJsonData() {
@@ -97,7 +65,7 @@ export class Map {
       this._geojsonLayer.removeFrom(this._map);
     }
 
-    this._geojsonLayer = L.geoJSON(this._geoJsonData, {
+    this._geojsonLayer = L.geoJSON(this.geoJsonData, {
       style: (feature) => this.featureStyle(feature),
       onEachFeature: (feature, layer) => this.onEachFeature(feature, layer)
     }).addTo(this._map)
@@ -116,8 +84,8 @@ export class Map {
 
     let color = this.theme.colorForRating(0);
 
-    if(this._forecasts) {
-      let forecast = Forecast.findForecastWithAreaId(this._forecasts, Map.transformGeoJsonToAreaId(feature));
+    if(this.forecasts) {
+      let forecast = Forecast.findForecastWithAreaId(this.forecasts, Map.transformGeoJsonToAreaId(feature));
       if(forecast) {
         color = this.theme.colorForRating(forecast.mapWarning.rating);
       }

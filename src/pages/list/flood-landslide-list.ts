@@ -1,17 +1,16 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { NavController, NavParams } from 'ionic-angular';
 import { ItemDetailsPage } from '../item-details/item-details';
 import { Forecast } from "../../models/Forecast";
 import { DataService } from "../../services/data";
 import { GeojsonService }       from '../../services/geojson';
 import { SettingsService } from "../../services/settings";
-import {BehaviorSubject} from "rxjs";
 
 @Component({
   templateUrl: 'list.html',
   providers: [ GeojsonService ]
 })
+
 export class FloodLandslideListPage {
 
   segments = [
@@ -23,9 +22,9 @@ export class FloodLandslideListPage {
 
   pageTitleKey: string;
   selectedCountyId: string;
-  sections: {titleKey: string, forecastsObs: BehaviorSubject<Forecast[]> }[];
-  forecastTypeObs = this.settings.selectedForecastTypeObs;
-  geojsonObs: Observable<GeoJSON.GeoJsonObject>;
+  sections: {titleKey: string, timeframe: Date[], forecasts: Forecast[] }[] = [];
+  mapGeoJsonData: any;
+  mapCenter: { latLng: L.LatLng, zoom: number };
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService, public settings: SettingsService, private geojson: GeojsonService) {
     // If we navigated to this page, we will have an item available as a nav param
@@ -38,24 +37,43 @@ export class FloodLandslideListPage {
     }
 
     if(this.hasMap()) {
-      this.geojsonObs = this.geojson.getCounties();
+      this.geojson.getCounties().subscribe(geojsonData => {
+        this.mapGeoJsonData = geojsonData;
+      });
     }
 
-    this.sections = [];
-    this.sections.push({
-      titleKey: this.forecastTypeObs.getValue(),
-      forecastsObs: this.dataService.getForecasts(this.forecastTypeObs.getValue(), this.selectedCountyId)
-    });
-
-    this.forecastTypeObs
+    this.settings.currentForecastTypeObs
       .subscribe(forecastType => {
-        this.sections[0].titleKey = forecastType.toUpperCase();
-        this.sections[0].forecastsObs = this.dataService.getForecasts(this.forecastTypeObs.getValue(), this.selectedCountyId);
+        this.selectedSegment = forecastType;
+        this.dataService.getForecasts(forecastType, this.selectedCountyId)
+          .subscribe(forecasts => {
+            this._updateSections(forecastType, forecasts);
+          });
+      });
+
+    this.settings.currentPositionObs
+      .subscribe(position => {
+        this.mapCenter = position;
       });
   }
 
-  ionViewWillEnter() {
-    this.selectedSegment = this.forecastTypeObs.getValue();
+  private _updateSections(forecastType: string, forecasts: Forecast[]) {
+
+    if(forecastType !== this.selectedSegment) {
+      return;
+    }
+
+    let section = {
+      titleKey: forecastType.toUpperCase(),
+      timeframe: Forecast.getTimeframeFromForecasts(forecasts),
+      forecasts: forecasts
+    }
+
+    if(!this.sections[0]) {
+      this.sections.push(section);
+    } else {
+      this.sections[0] = section;
+    }
   }
 
   private pushCountyFloodLandslideListPage(forecast: Forecast) {
@@ -73,10 +91,7 @@ export class FloodLandslideListPage {
 
   private pushMunicipalityDetailsPage(forecast: Forecast) {
     this.navCtrl.push(ItemDetailsPage, {
-      municipality: {
-        id: forecast.areaId,
-        name: forecast.areaName
-      }
+      forecast: forecast
     });
   }
 
@@ -89,7 +104,7 @@ export class FloodLandslideListPage {
   }
 
   onMapAreaSelected(areaId: string) {
-    let forecasts =  this.sections[0].forecastsObs.getValue();
+    let forecasts =  this.sections[0].forecasts;
     let filteredForecasts = forecasts.filter(forecast => forecast.areaId == areaId);
     if(filteredForecasts.length > 0 ) {
       this.pushCountyFloodLandslideListPage(filteredForecasts[0]);
@@ -99,7 +114,7 @@ export class FloodLandslideListPage {
   }
 
   selectedSegmentChanged() {
-    this.settings.selectedForecastTypeObs.next(this.selectedSegment);
+    this.settings.currentForecastType = this.selectedSegment;
   }
 
   hasMap(): boolean {

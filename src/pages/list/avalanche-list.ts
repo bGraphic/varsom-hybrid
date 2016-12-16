@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { ItemDetailsPage } from '../item-details/item-details';
-import { Observable } from 'rxjs/Observable';
 import { Forecast } from "../../models/Forecast";
 import { DataService } from "../../services/data";
 import { GeojsonService }       from '../../services/geojson';
-import {BehaviorSubject} from "rxjs";
+import { SettingsService } from "../../services/settings";
 
 @Component({
   templateUrl: 'list.html',
@@ -15,28 +14,63 @@ export class AvalancheListPage {
 
   pageTitleKey: string;
   segments = [];
-  sections: {titleKey: string, forecastsObs: BehaviorSubject<Forecast[]> }[];
-  geojsonObs: Observable<GeoJSON.GeoJsonObject>;
+  sections: {titleKey: string, forecasts: Forecast[] }[] = [];
+  mapGeoJsonData: any;
+  mapCenter: { latLng: L.LatLng, zoom: number };
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService, public geojson: GeojsonService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService, public settings: SettingsService, public geojson: GeojsonService) {
     // If we navigated to this page, we will have an item available as a nav param
     this.pageTitleKey = "AVALANCHE";
 
     if(this.hasMap()) {
-      this.geojsonObs = this.geojson.getRegions();
+      this.geojson.getRegions()
+        .subscribe(geoJsonData => {
+          this.mapGeoJsonData = geoJsonData;
+        });
     }
 
-    this.sections = [];
-    this.sections.push({
+    this.dataService.getForecasts('avalanche')
+      .subscribe(forecasts => {
+        this._updateSections(forecasts);
+      });
+
+    this.settings.currentPositionObs
+      .subscribe(position => {
+        this.mapCenter = position;
+      });
+  }
+
+  private _updateSections(forecasts) {
+
+    let sectionA = {
       titleKey: 'AVALANCHE',
-      forecastsObs: this.dataService.getForecasts('avalanche')
-    });
+      timeframe: Forecast.getTimeframeFromForecasts(forecasts),
+      forecasts: forecasts
+    }
+
+    let sectionB = {
+      titleKey: 'B_REGIONS',
+      timeframe: Forecast.getTimeframeFromForecasts(forecasts),
+      forecasts: forecasts
+    }
+
+    if(!this.sections[0]) {
+      this.sections.push(sectionA);
+    } else {
+      this.sections[0] = sectionA;
+    }
 
     this.sections.push({
       titleKey: 'B_REGIONS',
-      forecastsObs: this.dataService.getForecasts('avalanche')
+      forecasts: forecasts
     });
+
+    if(!this.sections[1]) {
+      this.sections.push(sectionB);
+    } else {
+      this.sections[1] = sectionB;
+    }
   }
 
   private pushRegionDetailsPage(forecast: Forecast) {
@@ -50,8 +84,8 @@ export class AvalancheListPage {
   }
 
   onMapAreaSelected(areaId: string) {
-    let forecastsA =  this.sections[0].forecastsObs.getValue();
-    let forecastsB =  this.sections[0].forecastsObs.getValue();
+    let forecastsA =  this.sections[0].forecasts;
+    let forecastsB =  this.sections[0].forecasts;
     let filteredForecastsA = forecastsA.filter(forecast => forecast.areaId == areaId);
     let filteredForecastsB = forecastsB.filter(forecast => forecast.areaId == areaId);
 
