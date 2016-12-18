@@ -30,6 +30,8 @@ export class Map {
     this.createMap();
     this.updateGeoJsonData();
     this.updateMapCenter();
+
+    console.log("init");
   }
 
   ngOnChanges(changes) {
@@ -107,16 +109,13 @@ export class Map {
   private onEachFeature(feature:any, layer: any) {
     let self = this;
     layer.on("click", function (event) {
-      feature.mousedown = false;
-      self.updateGeoJsonStyle();
-      self.areaSelected.emit(Map.transformGeoJsonToAreaId(feature));
-      console.log("click");
-    });
-
-    layer.on("mousedown", function (event) {
-      console.log("mousedown");
       feature.mousedown = true;
       self.updateGeoJsonStyle();
+      self.areaSelected.emit(Map.transformGeoJsonToAreaId(feature));
+      feature.mousedown = false;
+      setTimeout(() => {
+        self.updateGeoJsonStyle();
+      }, 100);
     });
   }
 
