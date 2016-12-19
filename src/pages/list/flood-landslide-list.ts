@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { ItemDetailsPage } from '../item-details/item-details';
+import { AreaDetailsPage } from '../area-details/area-details';
 import { Forecast } from "../../models/Forecast";
 import { DataService } from "../../services/data";
 import { GeojsonService }       from '../../services/geojson';
@@ -86,7 +86,7 @@ export class FloodLandslideListPage {
   }
 
   private pushDetailsPage(area: {id:string, name:string}) {
-    this.navCtrl.push(ItemDetailsPage, {
+    this.navCtrl.push(AreaDetailsPage, {
       area: area
     });
   }

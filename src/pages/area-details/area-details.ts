@@ -7,9 +7,10 @@ import { DataService } from "../../services/data";
 
 
 @Component({
-  templateUrl: 'item-details.html'
+  templateUrl: 'area-details.html'
 })
-export class ItemDetailsPage {
+
+export class AreaDetailsPage {
   pageTitleKey: string;
   forecasts: Forecast[] = [];
 
@@ -23,7 +24,7 @@ export class ItemDetailsPage {
     } else if (DataService.isRegion(area.id)) {
       this._subscribeToRegionForecast(area.id);
     } else {
-      console.log("ItemDetailsPage: Only regions and municipalities has detailed page");
+      console.log("AreaDetailsPage: Only regions and municipalities has detailed page");
     }
   }
 

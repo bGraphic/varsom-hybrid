@@ -7,9 +7,11 @@
 <ion-content class="item-details-page">
   <ion-list *ngIf="forecasts['flood'] && forecasts['landslide']">
     <ion-item-group *ngFor="let d of [0,1,2]">
+
       <ion-item-divider color="light">
         {{ forecasts['flood'].getDay(d).date | amDateFormat:'dddd D. MMMM' }}
       </ion-item-divider>
+
       <button *ngFor="let forecastType of ['flood', 'landslide']" ion-item (click)="onWarningSelected(forecasts[forecastType].getDay(d))">
 
         <nve-warning-badge item-left [level]="forecasts[forecastType].getDay(d).rating"></nve-warning-badge>

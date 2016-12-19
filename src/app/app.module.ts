@@ -8,7 +8,7 @@ import { MomentModule } from 'angular2-moment';
 import { MyApp } from './app.component';
 import { FloodLandslideListPage } from '../pages/list/flood-landslide-list';
 import { AvalancheListPage } from "../pages/list/avalanche-list";
-import { ItemDetailsPage } from '../pages/item-details/item-details';
+import { AreaDetailsPage } from '../pages/area-details/area-details';
 import { WarningBadge } from "../partials/warning-badge";
 import { Map } from "../partials/map";
 import { DataService } from "../services/data";
@@ -29,7 +29,7 @@ export const firebaseConfig = {
     MyApp,
     FloodLandslideListPage,
     AvalancheListPage,
-    ItemDetailsPage,
+    AreaDetailsPage,
     WarningBadge,
     Map
   ],
@@ -50,7 +50,7 @@ export const firebaseConfig = {
     MyApp,
     FloodLandslideListPage,
     AvalancheListPage,
-    ItemDetailsPage
+    AreaDetailsPage
   ],
   providers: [DataService, SettingsService, Theme, {provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
