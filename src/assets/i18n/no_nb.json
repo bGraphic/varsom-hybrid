@@ -4,5 +4,7 @@
   "FLOOD_LANDSLIDE": "Flom / Jordskred",
   "HIGHEST" : "Felles",
   "AVALANCHE": "Snøskred",
-  "B_REGIONS": "B - regioner"
+  "B_REGIONS": "B - regioner",
+  "CAUSE": "Årsak",
+  "LANDSLIDE_TYPE": "Type"
 }

@@ -1,10 +1,35 @@
 .item-details-page {
 
-  div.selection {
-    font-size: 22px;
-    display: block;
-    text-align: center;
-    padding-top: 5%;
+  .label p {
+    line-height: 1.4;
+    span {
+      &:after {
+        content: ", "
+      }
+
+      &:last-child:after {
+        content: "";
+      }
+    }
+  }
+
+  .label p:first-of-type {
+    white-space: normal;
+  }
+
+  .item-divider .label:first-letter {
+    text-transform: uppercase;
+  }
+
+  .item-md [item-left] {
+    margin-right: 16px;
+    margin-top: 16px;
+    align-self: flex-start;
+  }
+
+  .item-ios [item-left] {
+    margin-top: 11px;
+    align-self: flex-start;
   }
 
 }

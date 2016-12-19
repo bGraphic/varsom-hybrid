@@ -4,11 +4,29 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <nve-warning-badge item-right *ngFor="let warning of warningsMap.flood" [level]="warning.rating"></nve-warning-badge>
-  <br/>
-  <nve-warning-badge item-right *ngFor="let warning of warningsMap.landslide" [level]="warning.rating"></nve-warning-badge>
-  <pre *ngFor="let warning of warningsMap.avalanche">{{warning | json}}</pre>
-  <pre *ngFor="let warning of warningsMap.flood">{{warning | json}}</pre>
-  <pre *ngFor="let warning of warningsMap.landslide">{{warning | json}}</pre>
+<ion-content class="item-details-page">
+  <ion-list *ngIf="forecasts['flood'] && forecasts['landslide']">
+    <ion-item-group *ngFor="let d of [0,1,2]">
+      <ion-item-divider color="light">
+        {{ forecasts['flood'].getDay(d).date | amDateFormat:'dddd D. MMMM' }}
+      </ion-item-divider>
+      <button *ngFor="let forecastType of ['flood', 'landslide']" ion-item (click)="onWarningSelected(forecasts[forecastType].getDay(d))">
+
+        <nve-warning-badge item-left [level]="forecasts[forecastType].getDay(d).rating"></nve-warning-badge>
+
+        <h2>{{ forecastType | uppercase | translate }}</h2>
+        <p>
+          {{ forecasts[forecastType].getDay(d).meta.MainText }}
+        </p>
+        <p *ngIf="forecasts[forecastType].getDay(d).meta.CauseList">
+          <strong>{{ 'CAUSE' | translate }}:</strong> <span *ngFor="let cause of forecasts[forecastType].getDay(d).meta.CauseList">{{cause.Name}}</span>
+        </p>
+        <p *ngIf="forecasts[forecastType].getDay(d).meta.LandSlideTypeList">
+          <strong>{{ 'LANDSLIDE_TYPE' | translate }}:</strong> <span *ngFor="let type of forecasts[forecastType].getDay(d).meta.LandSlideTypeList">{{type.Name}}</span>
+        </p>
+
+      </button>
+
+    </ion-item-group>
+  </ion-list>
 </ion-content>
