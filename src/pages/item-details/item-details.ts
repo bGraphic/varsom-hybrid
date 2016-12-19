@@ -12,7 +12,8 @@ export class ItemDetailsPage {
   pageTitleKey: string;
   warningsMap = {
     flood: <Warning[]>[],
-    landslide: <Warning[]>[]
+    landslide: <Warning[]>[],
+    avalanche: <Warning[]>[]
   };
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService) {
@@ -20,16 +21,32 @@ export class ItemDetailsPage {
     let area = navParams.get('area');
     this.pageTitleKey = area.name;
 
-    dataService.getForecastForArea('flood', area.id)
+    if(DataService.isMunicipality(area.id)) {
+      this._subscribeToMunicipalityForecasts(area.id);
+    } else if (DataService.isRegion(area.id)) {
+      this._subscribeToRegionForecast(area.id);
+    } else {
+      console.log("ItemDetailsPage: Only regions and municiplaities has detailed page");
+    }
+  }
+
+  private _subscribeToMunicipalityForecasts(areaId:string) {
+    this.dataService.getForecastForArea('flood', areaId)
       .subscribe(forecast => {
         this._updateWarnings('flood', forecast.warnings);
       });
 
-    dataService.getForecastForArea('landslide', area.id)
+    this.dataService.getForecastForArea('landslide', areaId)
       .subscribe(forecast => {
         this._updateWarnings('landslide', forecast.warnings);
       });
+  }
 
+  private _subscribeToRegionForecast(areaId:string) {
+    this.dataService.getForecastForArea('avalanche', areaId)
+      .subscribe(forecast => {
+        this._updateWarnings('avalanche', forecast.warnings);
+      });
   }
 
   private _updateWarnings(forecastType:string, warnings:Warning[]) {
