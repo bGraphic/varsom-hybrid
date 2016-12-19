@@ -18,7 +18,7 @@
   </ion-navbar>
 </ion-footer>
 
-<ion-content #test class="list-page">
+<ion-content class="list-page">
 
   <nve-map *ngIf="showMap" [forecasts]="sections[0].forecasts" [geoJsonData]="mapGeoJsonData" [center]="mapCenter" (areaSelected)="onMapAreaSelected($event)"></nve-map>
 
@@ -26,11 +26,11 @@
 
     <ion-item-group *ngFor="let section of sections">
       <ion-list-header>
-        <ion-note item-right *ngFor="let d of section.timeframe">{{ d | amDateFormat:'ddd' | translate }}</ion-note> {{ section.titleKey | translate }}
+        <ion-note item-right *ngFor="let d of section.timeframe">{{ d | amDateFormat:'ddd' }}</ion-note> {{ section.titleKey | translate }}
       </ion-list-header>
 
       <button detail-none ion-item *ngFor="let forecast of section.forecasts" (click)="onListForecastSelected($event, forecast)">
-        <nve-warning-badge item-right *ngFor="let d of [0,1,2]" [level]="forecast.getDay(d).rating"></nve-warning-badge>
+        <nve-warning-badge item-right *ngFor="let d of [0,1,2]" [level]="forecast.warnings[d].rating"></nve-warning-badge>
         {{ forecast.areaName }}
       </button>
 
