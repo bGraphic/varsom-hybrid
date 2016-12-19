@@ -5,7 +5,9 @@
 </ion-header>
 
 <ion-content padding>
-  <div *ngIf="selectedForecast" class="selection">
-    <b>{{selectedForecast.areaName}}</b>
-  </div>
+  <nve-warning-badge item-right *ngFor="let warning of warningsMap.flood" [level]="warning.rating"></nve-warning-badge>
+  <br/>
+  <nve-warning-badge item-right *ngFor="let warning of warningsMap.landslide" [level]="warning.rating"></nve-warning-badge>
+  <pre *ngFor="let warning of warningsMap.flood">{{warning | json}}</pre>
+  <pre *ngFor="let warning of warningsMap.landslide">{{warning | json}}</pre>
 </ion-content>

@@ -29,6 +29,10 @@ export class Forecast {
     return this.getDay(0);
   }
 
+  get warnings() {
+    return this._warnings;
+  }
+
   static createFromFirebaseJSON(item: any, forecastType:string):Forecast {
 
     if(!item.hasOwnProperty('Forecast') || !item.Forecast.hasOwnProperty('day0') || !item.Forecast.hasOwnProperty('day1') || !item.Forecast.hasOwnProperty('day2') ) {

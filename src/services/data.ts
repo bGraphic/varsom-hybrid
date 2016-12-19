@@ -6,6 +6,9 @@ import { Forecast } from "../models/Forecast";
 @Injectable()
 export class DataService {
 
+  private static MUNICIPALITIES_START_OF_NUMBER_SERIES = 100;
+  private static MUNICIPALITIES_END_OF_NUMBER_SERIES = 3000;
+
   private _forecastsMap: BehaviorSubject<Forecast[]>[] = [];
 
   constructor (private af: AngularFire) {
@@ -14,11 +17,29 @@ export class DataService {
     this.getForecasts('avalanche');
   }
 
-  getForecasts(forecastType: string, parentId?:string):BehaviorSubject<Forecast[]> {
-    return this._getForecasts(forecastType, parentId);
+  getForecasts(forecastType: string, parentId?:string):Observable<Forecast[]> {
+    return this._getForecasts(forecastType, parentId).asObservable();
   }
 
-  private _getForecasts(forecastType: string, parentId?:string) {
+  getForecastForArea(forecastType: string, areaId:string):Observable<Forecast> {
+    return this._getForecastForArea(forecastType, areaId);
+  }
+
+  private _getForecastForArea(forecastType: string, areaId:string):Observable<Forecast> {
+    let forecast = new BehaviorSubject<Forecast>(null);
+    console.log(forecastType);
+    console.log("parent", DataService._getParentId(areaId));
+    this._getForecasts(forecastType, DataService._getParentId(areaId))
+      .subscribe(items => {
+        console.log(areaId);
+        console.log(Forecast.findForecastWithAreaId(items, areaId));
+        forecast.next(Forecast.findForecastWithAreaId(items, areaId));
+      });
+
+    return forecast.asObservable();
+  }
+
+  private _getForecasts(forecastType: string, parentId?:string):BehaviorSubject<Forecast[]> {
 
     let cacheKey = DataService._getCacheKey(forecastType, parentId);
     if(this._forecastsMap[cacheKey]) {
@@ -83,7 +104,7 @@ export class DataService {
 
   private _getForecastForRegions(forecastType:string):Observable<Forecast[]> {
 
-    if (forecastType === 'avalanche') {
+    if ('avalanche' === forecastType) {
       return this.af.database.list('/forecast/avalanche/regions/')
         .map((items) => {
           return items.map(item => {
@@ -91,7 +112,7 @@ export class DataService {
           })
         });
     } else {
-      console.error('DataService: Regions only have avalanche forecasts', forecastType);
+      console.error('DataService: Regions can only have avalanche forecasts', forecastType);
     }
   }
 
@@ -105,7 +126,7 @@ export class DataService {
           })
         });
     } else {
-      console.error('DataService: Counties only have flood/landslide forecasts', forecastType);
+      console.error('DataService: Counties can only have flood/landslide forecasts', forecastType);
     }
   }
 
@@ -119,16 +140,36 @@ export class DataService {
           })
         });
     } else {
-      console.error('DataService: Municipalities only have flood/landslide forecasts', forecastType);
+      console.error('DataService: Municipalities can only have flood/landslide forecasts', forecastType);
     }
   }
 
-  private static _getCacheKey(forecastType: string, parentId?:string) {
+  private static _getCacheKey(forecastType: string, parentId?:string):string {
 
     let cacheKey = forecastType;
     if(parentId) {
       cacheKey += parentId;
     }
     return cacheKey;
+  }
+
+  private static _getParentId(areaId):string {
+    if(DataService._isMunicipality(areaId)) {
+      return areaId.substr(0, 2);
+    }
+  }
+
+  private static _isCounty(areaId:string) {
+    let areaIdAsNumber = Number(areaId);
+    return DataService.MUNICIPALITIES_START_OF_NUMBER_SERIES > areaIdAsNumber;
+  }
+
+  private static _isRegion(areaId:string) {
+    let areaIdAsNumber = Number(areaId);
+    return DataService.MUNICIPALITIES_END_OF_NUMBER_SERIES <= areaIdAsNumber;
+  }
+
+  private static _isMunicipality(areaId:string) {
+    return !DataService._isRegion(areaId) && !DataService._isCounty(areaId);
   }
 }
