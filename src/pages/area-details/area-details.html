@@ -6,26 +6,31 @@
 
 <ion-content class="item-details-page">
   <ion-list *ngIf="forecasts['flood'] && forecasts['landslide']">
-    <ion-item-group *ngFor="let d of [0,1,2]">
+    <ion-item-group *ngFor="let dayIndex of [0,1,2]">
 
       <ion-item-divider color="light">
-        {{ forecasts['flood'].getDay(d).date | amDateFormat:'dddd D. MMMM' }}
+        {{ forecasts['flood'].getDay(dayIndex).date | amDateFormat:'dddd D. MMMM' }}
       </ion-item-divider>
 
-      <button *ngFor="let forecastType of ['flood', 'landslide']" ion-item (click)="onWarningSelected(forecasts[forecastType].getDay(d))">
+      <button *ngFor="let forecastType of ['flood', 'landslide']" ion-item (click)="onWarningSelected(forecasts[forecastType], dayIndex)">
 
-        <nve-warning-badge item-left [level]="forecasts[forecastType].getDay(d).rating"></nve-warning-badge>
+        <nve-warning-badge item-right [level]="forecasts[forecastType].getDay(dayIndex).rating"></nve-warning-badge>
 
         <h2>{{ forecastType | uppercase | translate }}</h2>
+
         <p>
-          {{ forecasts[forecastType].getDay(d).meta.MainText }}
+          {{ forecasts[forecastType].getDay(dayIndex).meta.MainText }}
         </p>
-        <p *ngIf="forecasts[forecastType].getDay(d).meta.CauseList">
-          <strong>{{ 'CAUSE' | translate }}:</strong> <span *ngFor="let cause of forecasts[forecastType].getDay(d).meta.CauseList">{{cause.Name}}</span>
+
+        <!---
+
+        <p *ngIf="forecasts[forecastType].getDay(dayIndex).meta.CauseList">
+          <strong>{{ 'CAUSE' | translate }}:</strong> <span *ngFor="let cause of forecasts[forecastType].getDay(dayIndex).meta.CauseList">{{cause.Name}}</span>
         </p>
-        <p *ngIf="forecasts[forecastType].getDay(d).meta.LandSlideTypeList">
-          <strong>{{ 'LANDSLIDE_TYPE' | translate }}:</strong> <span *ngFor="let type of forecasts[forecastType].getDay(d).meta.LandSlideTypeList">{{type.Name}}</span>
+        <p *ngIf="forecasts[forecastType].getDay(dayIndex).meta.LandSlideTypeList">
+          <strong>{{ 'LANDSLIDE_TYPE' | translate }}:</strong> <span *ngFor="let type of forecasts[forecastType].getDay(dayIndex).meta.LandSlideTypeList">{{type.Name}}</span>
         </p>
+        --->
 
       </button>
 

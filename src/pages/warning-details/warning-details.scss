@@ -1,0 +1,36 @@
+.warning-details-page {
+
+  .label {
+    h2, h3, p {
+      white-space: normal;
+    }
+
+    h2, h3 {
+      &:first-letter {
+        text-transform: uppercase;
+      }
+    }
+
+    p {
+      line-height: 1.4;
+    }
+  }
+
+  .item-divider .label:first-letter {
+    text-transform: uppercase;
+  }
+
+  .list-md[inset] {
+    border: $list-md-header-border-top;
+  }
+
+  .list-ios {
+    margin-bottom: $list-inset-ios-margin-bottom;
+  }
+
+  .list-ios[inset] {
+    border: $list-ios-header-border-bottom;
+  }
+
+}
+

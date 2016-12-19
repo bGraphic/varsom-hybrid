@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 
 import { NavController, NavParams } from 'ionic-angular';
 import { Forecast } from "../../models/Forecast";
-import { Warning} from "../../models/Warning";
 import { DataService } from "../../services/data";
+import { WarningDetailsPage } from "../warning-details/warning-details";
 
 
 @Component({
@@ -28,8 +28,17 @@ export class AreaDetailsPage {
     }
   }
 
-  onWarningSelected(warning:Warning) {
-    console.log("Warning selected");
+  onWarningSelected(forecast:Forecast, dayIndex:number) {
+    this.navCtrl.push(WarningDetailsPage, {
+      area: {
+        id: forecast.areaId,
+        name: forecast.areaName
+      },
+      warning: {
+        forecastType: forecast.forecastType,
+        dayIndex: dayIndex
+      }
+    });
   }
 
   private _subscribeToMunicipalityForecasts(areaId:string) {
