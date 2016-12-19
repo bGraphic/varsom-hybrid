@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 import { NavController, NavParams } from 'ionic-angular';
 import { Warning} from "../../models/Warning";
-import { Forecast} from "../../models/Forecast";
 import { DataService } from "../../services/data";
 
 
@@ -18,17 +17,16 @@ export class ItemDetailsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService) {
     // If we navigated to this page, we will have an item available as a nav param
-    let areaId = navParams.get('forecast').areaId;
+    let area = navParams.get('area');
+    this.pageTitleKey = area.name;
 
-    dataService.getForecastForArea('flood', areaId)
+    dataService.getForecastForArea('flood', area.id)
       .subscribe(forecast => {
-        this.pageTitleKey = forecast.areaName;
         this._updateWarnings('flood', forecast.warnings);
       });
 
-    dataService.getForecastForArea('landslide', areaId)
+    dataService.getForecastForArea('landslide', area.id)
       .subscribe(forecast => {
-        this.pageTitleKey = forecast.areaName;
         this._updateWarnings('landslide', forecast.warnings);
       });
 

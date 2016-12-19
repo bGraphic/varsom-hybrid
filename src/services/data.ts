@@ -6,8 +6,10 @@ import { Forecast } from "../models/Forecast";
 @Injectable()
 export class DataService {
 
-  private static MUNICIPALITIES_START_OF_NUMBER_SERIES = 100;
-  private static MUNICIPALITIES_END_OF_NUMBER_SERIES = 3000;
+  private static readonly OSLO_COUNTY_ID = '03';
+  private static readonly OSLO_MUNICIPALITY_ID = '0301';
+  private static readonly MUNICIPALITIES_START_OF_NUMBER_SERIES = 100;
+  private static readonly MUNICIPALITIES_END_OF_NUMBER_SERIES = 3000;
 
   private _forecastsMap: BehaviorSubject<Forecast[]>[] = [];
 
@@ -153,23 +155,27 @@ export class DataService {
     return cacheKey;
   }
 
+  static isOslo(areaId:string):boolean {
+    return DataService.OSLO_COUNTY_ID === areaId || DataService.OSLO_MUNICIPALITY_ID === areaId;
+  }
+
   private static _getParentId(areaId):string {
-    if(DataService._isMunicipality(areaId)) {
+    if(DataService.isMunicipality(areaId)) {
       return areaId.substr(0, 2);
     }
   }
 
-  private static _isCounty(areaId:string) {
+  static isCounty(areaId:string) {
     let areaIdAsNumber = Number(areaId);
     return DataService.MUNICIPALITIES_START_OF_NUMBER_SERIES > areaIdAsNumber;
   }
 
-  private static _isRegion(areaId:string) {
+  static isRegion(areaId:string) {
     let areaIdAsNumber = Number(areaId);
     return DataService.MUNICIPALITIES_END_OF_NUMBER_SERIES <= areaIdAsNumber;
   }
 
-  private static _isMunicipality(areaId:string) {
-    return !DataService._isRegion(areaId) && !DataService._isCounty(areaId);
+  static isMunicipality(areaId:string) {
+    return !DataService.isRegion(areaId) && !DataService.isCounty(areaId);
   }
 }

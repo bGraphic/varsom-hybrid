@@ -15,6 +15,7 @@ export class AvalancheListPage {
   pageTitleKey: string;
   segments = [];
   sections: {titleKey: string, forecasts: Forecast[] }[] = [];
+  showMap: boolean = true;
   mapGeoJsonData: any;
   mapCenter: { latLng: L.LatLng, zoom: number };
 
@@ -23,7 +24,7 @@ export class AvalancheListPage {
     // If we navigated to this page, we will have an item available as a nav param
     this.pageTitleKey = "AVALANCHE";
 
-    if(this.hasMap()) {
+    if(this.showMap) {
       this.geojson.getRegions()
         .subscribe(geoJsonData => {
           this.mapGeoJsonData = geoJsonData;
@@ -73,32 +74,35 @@ export class AvalancheListPage {
     }
   }
 
-  private pushRegionDetailsPage(forecast: Forecast) {
+  private pushDetailsPage(area: {id: string, name: string}) {
     this.navCtrl.push(ItemDetailsPage, {
-      forecast: forecast
+      area: area
+    });
+  }
+
+  private pushPage(forecast:Forecast) {
+    this.pushDetailsPage({
+      id: forecast.areaId,
+      name: forecast.areaName
     });
   }
 
   onListForecastSelected(event, forecast: Forecast) {
-    this.pushRegionDetailsPage(forecast);
+    this.pushPage(forecast);
   }
 
   onMapAreaSelected(areaId: string) {
     let forecastsA =  this.sections[0].forecasts;
     let forecastsB =  this.sections[0].forecasts;
-    let filteredForecastsA = forecastsA.filter(forecast => forecast.areaId == areaId);
-    let filteredForecastsB = forecastsB.filter(forecast => forecast.areaId == areaId);
+    let forecastA = Forecast.findForecastWithAreaId(forecastsA, areaId);
+    let forecastB = Forecast.findForecastWithAreaId(forecastsB, areaId);
 
-    if(filteredForecastsA.length > 0 ) {
-      this.pushRegionDetailsPage(filteredForecastsA[0]);
-    } else if(filteredForecastsB.length > 0 ) {
-      this.pushRegionDetailsPage(filteredForecastsB[0]);
+    if(forecastA) {
+      this.pushPage(forecastA);
+    } else if(forecastB) {
+      this.pushPage(forecastB);
     } else {
       console.log('AvalancheListPage: No matching area', areaId);
     }
-  }
-
-  hasMap(): boolean {
-    return true;
   }
 }

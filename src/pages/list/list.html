@@ -20,7 +20,7 @@
 
 <ion-content #test class="list-page">
 
-  <nve-map *ngIf="hasMap()" [forecasts]="sections[0].forecasts" [geoJsonData]="mapGeoJsonData" [center]="mapCenter" (areaSelected)="onMapAreaSelected($event)"></nve-map>
+  <nve-map *ngIf="showMap" [forecasts]="sections[0].forecasts" [geoJsonData]="mapGeoJsonData" [center]="mapCenter" (areaSelected)="onMapAreaSelected($event)"></nve-map>
 
   <ion-list>
 
