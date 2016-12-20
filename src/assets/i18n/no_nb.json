@@ -7,5 +7,8 @@
   "B_REGIONS": "B - regioner",
   "CAUSE": "Årsak",
   "LANDSLIDE_TYPE": "Type",
-  "UPDATES": "Oppdateringer"
+  "UPDATES": "Oppdateringer",
+  "AVALANCHE_DANGER": "Skredfarevurdering",
+  "AVALANCHE_WARNING": "Snødekkevurdering",
+  "ALPINE_WEATHER": "Fjellvær"
 }

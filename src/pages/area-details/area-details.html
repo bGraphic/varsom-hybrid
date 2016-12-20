@@ -36,4 +36,24 @@
 
     </ion-item-group>
   </ion-list>
+  <ion-list *ngIf="forecasts['avalanche']">
+    <ion-item-group *ngFor="let dayIndex of [0,1,2]">
+
+      <ion-item-divider color="light">
+        {{ forecasts['avalanche'].getDay(dayIndex).date | amDateFormat:'dddd D. MMMM' }}
+      </ion-item-divider>
+
+      <button ion-item (click)="onWarningSelected(forecasts['avalanche'], dayIndex)">
+
+        <nve-warning-badge item-right [level]="forecasts['avalanche'].getDay(dayIndex).rating"></nve-warning-badge>
+
+        <h2>{{ forecasts['avalanche'].getDay(dayIndex).meta.DangerLevelName }}</h2>
+        <p>
+          {{ forecasts['avalanche'].getDay(dayIndex).meta.MainText }}
+        </p>
+
+      </button>
+
+    </ion-item-group>
+  </ion-list>
 </ion-content>

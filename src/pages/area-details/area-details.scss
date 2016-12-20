@@ -13,8 +13,11 @@
     }
   }
 
-  .label p:first-of-type {
-    white-space: normal;
+  .label {
+    h2,
+    p:first-of-type {
+      white-space: normal;
+    }
   }
 
   .item-divider .label:first-letter {

@@ -11,11 +11,24 @@
     </ion-item-divider>
     <ion-item>
       <nve-warning-badge item-right [level]="warning.rating"></nve-warning-badge>
-      <h2>{{ forecastTypeKey | translate }}</h2>
+      <h2 *ngIf="!warning.meta.DangerLevelName">{{ forecastTypeKey | translate }}</h2>
+      <h2 *ngIf="warning.meta.DangerLevelName">{{ warning.meta.DangerLevelName | translate }}</h2>
       <p>{{ warning.meta.MainText }}</p>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="warning.meta.WarningText">
       <p>{{ warning.meta.WarningText}}</p>
+    </ion-item>
+    <ion-item *ngIf="warning.meta.AvalancheDanger">
+      <h2>{{ 'AVALANCHE_DANGER' | translate }}</h2>
+      <p>{{ warning.meta.AvalancheDanger}}</p>
+    </ion-item>
+    <ion-item *ngIf="warning.meta.AvalancheWarning">
+      <h2>{{ 'AVALANCHE_WARNING' | translate }}</h2>
+      <p>{{ warning.meta.AvalancheWarning}}</p>
+    </ion-item>
+    <ion-item *ngIf="warning.meta.AlpineWeather">
+      <h2>{{ 'ALPINE_WEATHER' | translate }}</h2>
+      <p>{{ warning.meta.AlpineWeather}}</p>
     </ion-item>
   </ion-list>
 
