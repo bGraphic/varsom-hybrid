@@ -25,6 +25,7 @@ export class FloodLandslideListPage {
   showMap: boolean = false;
   mapGeoJsonData: any;
   mapCenter: { latLng: L.LatLng, zoom: number };
+  mapForecasts: Forecast[] = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService, public settings: SettingsService, private geojson: GeojsonService) {
     // If we navigated to this page, we will have an item available as a nav param
@@ -47,6 +48,7 @@ export class FloodLandslideListPage {
         this.dataService.getForecasts(forecastType, parentId)
           .subscribe(forecasts => {
             this._updateSections(forecastType, forecasts);
+            this.mapForecasts = forecasts;
           });
       });
 

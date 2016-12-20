@@ -30,14 +30,12 @@ export class Map {
     this.createMap();
     this.updateGeoJsonData();
     this.updateMapCenter();
-
-    console.log("init");
   }
 
   ngOnChanges(changes) {
 
     if(changes.forecasts) {
-      this.updateGeoJsonStyle();
+      this.updateGeoJsonData();
     }
 
     if(changes.geoJsonData) {
@@ -69,7 +67,8 @@ export class Map {
 
     this._geojsonLayer = L.geoJSON(this.geoJsonData, {
       style: (feature) => this.featureStyle(feature),
-      onEachFeature: (feature, layer) => this.onEachFeature(feature, layer)
+      onEachFeature: (feature, layer) => this.onEachFeature(feature, layer),
+      filter: (feature) => this.featureFilter(feature),
     }).addTo(this._map)
 
   }
@@ -104,6 +103,21 @@ export class Map {
     }
 
     return style;
+  }
+
+  private featureFilter(feature: any) {
+
+    let forecast = Forecast.findForecastWithAreaId(this.forecasts, feature.properties.omraadeid);
+
+    if(!forecast && 'B' === feature.properties.regiontype) {
+      return false;
+    }
+
+    if(forecast && forecast.isTypeB() && 0 === forecast.getDay(0).rating) {
+      return false;
+    }
+
+    return true;
   }
 
   private onEachFeature(feature:any, layer: any) {

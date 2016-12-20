@@ -19,6 +19,7 @@ export class AvalancheListPage {
   showMap: boolean = true;
   mapGeoJsonData: any;
   mapCenter: { latLng: L.LatLng, zoom: number };
+  mapForecasts: Forecast[] = [];
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService, public settings: SettingsService, public geojson: GeojsonService) {
@@ -35,6 +36,7 @@ export class AvalancheListPage {
     this.dataService.getForecasts('avalanche')
       .subscribe(forecasts => {
         this._updateSections(forecasts);
+        this.mapForecasts = forecasts;
       });
 
     this.settings.currentPositionObs

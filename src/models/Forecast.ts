@@ -22,8 +22,15 @@ export class Forecast {
     return this._areaId;
   }
 
-  get areaTypeId(): number {
-    return this._areaTypeId;
+  isTypeA(): boolean {
+    if(!this._areaTypeId) {
+      return true;
+    }
+    return this._areaTypeId === 10;
+  }
+
+  isTypeB(): boolean {
+    return this._areaTypeId === 20;
   }
 
   getDay(index: number): Warning {
@@ -119,11 +126,11 @@ export class Forecast {
   }
 
   static filterARegions(forecasts:Forecast[]) {
-    return forecasts.filter(forecast => forecast.areaTypeId === 10);
+    return forecasts.filter(forecast => forecast.isTypeA());
   }
 
   static filterBRegions(forecasts:Forecast[]) {
-    return forecasts.filter(forecast => forecast.areaTypeId === 20);
+    return forecasts.filter(forecast => forecast.isTypeB());
   }
 
   static getTimeframeFromForecasts(forecasts: Forecast[]):Date[] {
