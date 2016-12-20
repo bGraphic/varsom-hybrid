@@ -20,8 +20,19 @@
     text-transform: uppercase;
   }
 
+  .list[inset] {
+    img {
+      width: 45px;
+      height: auto;
+    }
+  }
+
   .list-md[inset] {
     border: $list-md-header-border-top;
+
+    [item-left] {
+      margin-right: 10px;
+    }
   }
 
   .list-ios {
