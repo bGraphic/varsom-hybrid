@@ -5,6 +5,7 @@ export class Forecast {
   private _forecastType: string;
   private _areaId: string;
   private _areaName: string;
+  private _areaTypeId: number;
   private _warnings: Warning[];
 
   private constructor() { }
@@ -19,6 +20,10 @@ export class Forecast {
 
   get areaId(): string {
     return this._areaId;
+  }
+
+  get areaTypeId(): number {
+    return this._areaTypeId;
   }
 
   getDay(index: number): Warning {
@@ -49,6 +54,7 @@ export class Forecast {
     forecast._forecastType = forecastType;
     forecast._areaName = item.Name;
     forecast._areaId = item.Id;
+    forecast._areaTypeId = item.TypeId;
     forecast._warnings = [
       Warning.createFromFirebaseItem(item.Forecast.day0),
       Warning.createFromFirebaseItem(item.Forecast.day1),
@@ -110,6 +116,14 @@ export class Forecast {
         return forecast;
       }
     }
+  }
+
+  static filterARegions(forecasts:Forecast[]) {
+    return forecasts.filter(forecast => forecast.areaTypeId === 10);
+  }
+
+  static filterBRegions(forecasts:Forecast[]) {
+    return forecasts.filter(forecast => forecast.areaTypeId === 20);
   }
 
   static getTimeframeFromForecasts(forecasts: Forecast[]):Date[] {

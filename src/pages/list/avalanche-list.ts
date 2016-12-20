@@ -48,13 +48,13 @@ export class AvalancheListPage {
     let sectionA = {
       titleKey: 'AVALANCHE',
       timeframe: Forecast.getTimeframeFromForecasts(forecasts),
-      forecasts: forecasts
+      forecasts: Forecast.filterARegions(forecasts)
     }
 
     let sectionB = {
       titleKey: 'B_REGIONS',
       timeframe: Forecast.getTimeframeFromForecasts(forecasts),
-      forecasts: forecasts
+      forecasts: Forecast.filterBRegions(forecasts)
     }
 
     if(!this.sections[0]) {
@@ -62,11 +62,6 @@ export class AvalancheListPage {
     } else {
       this.sections[0] = sectionA;
     }
-
-    this.sections.push({
-      titleKey: 'B_REGIONS',
-      forecasts: forecasts
-    });
 
     if(!this.sections[1]) {
       this.sections.push(sectionB);
