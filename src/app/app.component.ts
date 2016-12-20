@@ -17,7 +17,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   // make HelloIonicPage the root (or first) page
-  rootPage: any = AvalancheListPage;
+  rootPage: any = FloodLandslideListPage;
   sections: Array<{titleKey: string, icon: string, component: any }>;
 
   constructor(

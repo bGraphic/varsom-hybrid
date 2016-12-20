@@ -47,12 +47,31 @@
 
         <nve-warning-badge item-right [level]="forecasts['avalanche'].getDay(dayIndex).rating"></nve-warning-badge>
 
-        <h2>{{ forecasts['avalanche'].getDay(dayIndex).meta.DangerLevelName }}</h2>
-        <p>
+        <h2 *ngIf="forecasts['avalanche'].getDay(dayIndex).meta.DangerLevelName">
+          {{ 'DANGER_LEVEL' | translate }}
+          {{ forecasts['avalanche'].getDay(dayIndex).meta.DangerLevelName }}
+        </h2>
+        <p *ngIf="forecasts['avalanche'].getDay(dayIndex).meta.MainText">
           {{ forecasts['avalanche'].getDay(dayIndex).meta.MainText }}
         </p>
 
       </button>
+
+      <ion-item *ngFor="let problem of forecasts['avalanche'].getDay(dayIndex).meta.AvalancheProblems">
+        <h2>{{ problem.AvalancheProblemTypeName }}</h2>
+        <p>{{ problem.AvalCauseName }}</p>
+        <p>
+          <strong>{{ 'AVALANCHE_TYPE' | translate }}:</strong> {{ problem.AvalancheTypeName}}<br/>
+          <strong>{{ 'DESTRUCTIVE_SIZE_EXT' | translate }}:</strong> {{ problem.DestructiveSizeExtName}}<br/>
+          <strong>{{ 'AVAL_TRIGGER_SIMPLE' | translate }}:</strong> {{ problem.AvalTriggerSimpleName}}<br/>
+          <strong>{{ 'AVAL_PROPAGATION' | translate }}:</strong> {{ problem.AvalPropagationName}}<br/>
+          <strong>{{ 'AVAL_PROBABILITY' | translate }}:</strong> {{ problem.AvalProbabilityName}}
+        </p>
+
+        <p>{{ problem.AvalancheAdvice}}</p>
+
+      </ion-item>
+
 
     </ion-item-group>
   </ion-list>

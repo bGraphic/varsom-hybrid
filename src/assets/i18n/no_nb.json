@@ -8,7 +8,13 @@
   "CAUSE": "Årsak",
   "LANDSLIDE_TYPE": "Type",
   "UPDATES": "Oppdateringer",
+  "DANGER_LEVEL": "Faregrad",
   "AVALANCHE_DANGER": "Skredfarevurdering",
   "AVALANCHE_WARNING": "Snødekkevurdering",
-  "ALPINE_WEATHER": "Fjellvær"
+  "ALPINE_WEATHER": "Fjellvær",
+  "AVALANCHE_TYPE": "Skredtype",
+  "DESTRUCTIVE_SIZE_EXT": "Skredstørrelse",
+  "AVAL_TRIGGER_SIMPLE": "Utløsningsårsak",
+  "AVAL_PROPAGATION": "Utbredelse",
+  "AVAL_PROBABILITY": "Sannsynlighet"
 }

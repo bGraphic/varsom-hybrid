@@ -1,22 +1,49 @@
 .item-details-page {
 
-  .label p {
-    line-height: 1.4;
-    span {
-      &:after {
-        content: ", "
+  .label {
+
+    h2,
+    p {
+      white-space: normal;
+    }
+
+    h2 {
+      font-weight: 500;
+    }
+
+    h2 + p,
+    p + p {
+      margin-top: 10px;
+    }
+
+    p {
+      font-size: 1.6rem;
+      line-height: 1.4;
+
+      strong {
+        font-weight: 500;
       }
 
-      &:last-child:after {
-        content: "";
+      span {
+        &:after {
+          content: ", "
+        }
+
+        &:last-child:after {
+          content: "";
+        }
       }
     }
-  }
 
-  .label {
-    h2,
-    p:first-of-type {
-      white-space: normal;
+    table {
+      line-height: 1.4;
+
+      td:first-child {
+        padding-right: 5px;
+      }
+      td:last-child {
+        font-weight: 500;
+      }
     }
   }
 

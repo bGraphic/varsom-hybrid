@@ -1,17 +1,27 @@
 .warning-details-page {
 
   .label {
-    h2, h3, p {
+
+    h2, p {
       white-space: normal;
     }
 
-    h2, h3 {
+    h2 {
+
+      font-weight: 500;
+
       &:first-letter {
         text-transform: uppercase;
       }
     }
 
+    h2 + p,
+    p + p {
+      margin-top: 10px;
+    }
+
     p {
+      font-size: 1.6rem;
       line-height: 1.4;
     }
   }
@@ -41,6 +51,10 @@
 
   .list-ios[inset] {
     border: $list-ios-header-border-bottom;
+  }
+
+  .item-md p {
+    font-size: 1.6rem;
   }
 
 }
