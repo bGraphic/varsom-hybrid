@@ -44,7 +44,7 @@
       {{ 'UPDATES' | translate }}
     </ion-item-divider>
     <ion-item *ngFor="let post of warning.meta.MicroBlogPostList">
-      <h3>{{ post.DateTime | amDateFormat:'dddd D. MMMM' }}</h3>
+      <h3>{{ post.DateTime | amDateFormat:'dddd D. MMMM - k:mm' }}</h3>
       <p>{{ post.Text }}</p>
     </ion-item>
   </ion-list>
