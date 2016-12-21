@@ -1,10 +1,11 @@
 import {Warning} from "./Warning";
 
 export class Forecast {
-  private static readonly OSLO_ID = '03';
+
   private _forecastType: string;
   private _areaId: string;
   private _areaName: string;
+  private _areaTypeId: number;
   private _warnings: Warning[];
 
   private constructor() { }
@@ -21,12 +22,27 @@ export class Forecast {
     return this._areaId;
   }
 
+  isTypeA(): boolean {
+    if(!this._areaTypeId) {
+      return true;
+    }
+    return this._areaTypeId === 10;
+  }
+
+  isTypeB(): boolean {
+    return this._areaTypeId === 20;
+  }
+
   getDay(index: number): Warning {
     return this._warnings[index];
   }
 
   get mapWarning(): Warning {
     return this.getDay(0);
+  }
+
+  get warnings() {
+    return this._warnings;
   }
 
   static createFromFirebaseJSON(item: any, forecastType:string):Forecast {
@@ -45,6 +61,7 @@ export class Forecast {
     forecast._forecastType = forecastType;
     forecast._areaName = item.Name;
     forecast._areaId = item.Id;
+    forecast._areaTypeId = item.TypeId;
     forecast._warnings = [
       Warning.createFromFirebaseItem(item.Forecast.day0),
       Warning.createFromFirebaseItem(item.Forecast.day1),
@@ -108,8 +125,12 @@ export class Forecast {
     }
   }
 
-  static isOslo(forecast):boolean {
-    return forecast.areaId == Forecast.OSLO_ID;
+  static filterARegions(forecasts:Forecast[]) {
+    return forecasts.filter(forecast => forecast.isTypeA());
+  }
+
+  static filterBRegions(forecasts:Forecast[]) {
+    return forecasts.filter(forecast => forecast.isTypeB());
   }
 
   static getTimeframeFromForecasts(forecasts: Forecast[]):Date[] {

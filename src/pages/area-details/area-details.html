@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>{{pageTitleKey | translate }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="item-details-page">
+  <ion-list *ngIf="forecasts['flood'] && forecasts['landslide']">
+    <ion-item-group *ngFor="let dayIndex of [0,1,2]">
+
+      <ion-item-divider color="light">
+        {{ forecasts['flood'].getDay(dayIndex).date | amDateFormat:'dddd D. MMMM' }}
+      </ion-item-divider>
+
+      <button *ngFor="let forecastType of ['flood', 'landslide']" ion-item (click)="onWarningSelected(forecasts[forecastType], dayIndex)">
+
+        <nve-warning-badge item-right [level]="forecasts[forecastType].getDay(dayIndex).rating"></nve-warning-badge>
+
+        <h2>{{ forecastType | uppercase | translate }}</h2>
+
+        <p>
+          {{ forecasts[forecastType].getDay(dayIndex).meta.MainText }}
+        </p>
+
+        <!---
+
+        <p *ngIf="forecasts[forecastType].getDay(dayIndex).meta.CauseList">
+          <strong>{{ 'CAUSE' | translate }}:</strong> <span *ngFor="let cause of forecasts[forecastType].getDay(dayIndex).meta.CauseList">{{cause.Name}}</span>
+        </p>
+        <p *ngIf="forecasts[forecastType].getDay(dayIndex).meta.LandSlideTypeList">
+          <strong>{{ 'LANDSLIDE_TYPE' | translate }}:</strong> <span *ngFor="let type of forecasts[forecastType].getDay(dayIndex).meta.LandSlideTypeList">{{type.Name}}</span>
+        </p>
+        --->
+
+      </button>
+
+    </ion-item-group>
+  </ion-list>
+  <ion-list *ngIf="forecasts['avalanche']">
+    <ion-item-group *ngFor="let dayIndex of [0,1,2]">
+
+      <ion-item-divider color="light">
+        {{ forecasts['avalanche'].getDay(dayIndex).date | amDateFormat:'dddd D. MMMM' }}
+      </ion-item-divider>
+
+      <button ion-item (click)="onWarningSelected(forecasts['avalanche'], dayIndex)">
+
+        <nve-warning-badge item-right [level]="forecasts['avalanche'].getDay(dayIndex).rating"></nve-warning-badge>
+
+        <h2 *ngIf="forecasts['avalanche'].getDay(dayIndex).meta.DangerLevelName">
+          {{ 'DANGER_LEVEL' | translate }}
+          {{ forecasts['avalanche'].getDay(dayIndex).meta.DangerLevelName }}
+        </h2>
+        <p *ngIf="forecasts['avalanche'].getDay(dayIndex).meta.MainText">
+          {{ forecasts['avalanche'].getDay(dayIndex).meta.MainText }}
+        </p>
+
+      </button>
+
+      <ion-item *ngFor="let problem of forecasts['avalanche'].getDay(dayIndex).meta.AvalancheProblems">
+        <h2>{{ problem.AvalancheProblemTypeName }}</h2>
+        <p>{{ problem.AvalCauseName }}</p>
+        <p>
+          <strong>{{ 'AVALANCHE_TYPE' | translate }}:</strong> {{ problem.AvalancheTypeName}}<br/>
+          <strong>{{ 'DESTRUCTIVE_SIZE_EXT' | translate }}:</strong> {{ problem.DestructiveSizeExtName}}<br/>
+          <strong>{{ 'AVAL_TRIGGER_SIMPLE' | translate }}:</strong> {{ problem.AvalTriggerSimpleName}}<br/>
+          <strong>{{ 'AVAL_PROPAGATION' | translate }}:</strong> {{ problem.AvalPropagationName}}<br/>
+          <strong>{{ 'AVAL_PROBABILITY' | translate }}:</strong> {{ problem.AvalProbabilityName}}
+        </p>
+
+        <p>{{ problem.AvalancheAdvice}}</p>
+
+      </ion-item>
+
+
+    </ion-item-group>
+  </ion-list>
+</ion-content>

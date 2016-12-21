@@ -2,6 +2,9 @@ import { Component, ViewChild } from '@angular/core';
 import { Platform, MenuController, Nav } from 'ionic-angular';
 import { StatusBar } from 'ionic-native';
 import { TranslateService } from 'ng2-translate';
+import * as moment from 'moment';
+import 'moment/min/locales';
+
 
 import { FloodLandslideListPage } from '../pages/list/flood-landslide-list';
 import { AvalancheListPage } from "../pages/list/avalanche-list";
@@ -20,11 +23,12 @@ export class MyApp {
   constructor(
     public platform: Platform,
     public menu: MenuController,
-    translate: TranslateService
+    private translate: TranslateService,
   ) {
     this.initializeApp();
     translate.setDefaultLang('no_nb');
     translate.use('no_nb');
+    moment.locale('nb');
 
     // set our app's pages
     this.sections = [

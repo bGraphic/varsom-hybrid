@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { ItemDetailsPage } from '../item-details/item-details';
+import { AreaDetailsPage } from '../area-details/area-details';
 import { Forecast } from "../../models/Forecast";
 import { DataService } from "../../services/data";
 import { GeojsonService }       from '../../services/geojson';
@@ -21,22 +21,22 @@ export class FloodLandslideListPage {
   selectedSegment: string;
 
   pageTitleKey: string;
-  selectedCountyId: string;
   sections: {titleKey: string, timeframe: Date[], forecasts: Forecast[] }[] = [];
+  showMap: boolean = false;
   mapGeoJsonData: any;
   mapCenter: { latLng: L.LatLng, zoom: number };
+  mapForecasts: Forecast[] = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService, public settings: SettingsService, private geojson: GeojsonService) {
     // If we navigated to this page, we will have an item available as a nav param
-    let county = navParams.get('county');
-    if(county) {
-      this.pageTitleKey = county.name;
-      this.selectedCountyId = county.id;
+    let area = navParams.get('area');
+    let parentId;
+    if(area) {
+      this.pageTitleKey = area.name;
+      parentId = area.id;
     } else {
       this.pageTitleKey = 'FLOOD_LANDSLIDE';
-    }
-
-    if(this.hasMap()) {
+      this.showMap = true;
       this.geojson.getCounties().subscribe(geojsonData => {
         this.mapGeoJsonData = geojsonData;
       });
@@ -45,9 +45,10 @@ export class FloodLandslideListPage {
     this.settings.currentForecastTypeObs
       .subscribe(forecastType => {
         this.selectedSegment = forecastType;
-        this.dataService.getForecasts(forecastType, this.selectedCountyId)
+        this.dataService.getForecasts(forecastType, parentId)
           .subscribe(forecasts => {
             this._updateSections(forecastType, forecasts);
+            this.mapForecasts = forecasts;
           });
       });
 
@@ -76,38 +77,43 @@ export class FloodLandslideListPage {
     }
   }
 
-  private pushCountyFloodLandslideListPage(forecast: Forecast) {
-    if( Forecast.isOslo(forecast)) {
-      this.pushMunicipalityDetailsPage(forecast);
+  private pushListPage(area: {id:string, name:string}) {
+    if( DataService.isOslo(area.id)) {
+      this.pushDetailsPage(area);
     } else {
       this.navCtrl.push(FloodLandslideListPage, {
-        county: {
-          id: forecast.areaId,
-          name: forecast.areaName
-        }
+        area: area
       });
     }
   }
 
-  private pushMunicipalityDetailsPage(forecast: Forecast) {
-    this.navCtrl.push(ItemDetailsPage, {
-      forecast: forecast
+  private pushDetailsPage(area: {id:string, name:string}) {
+    this.navCtrl.push(AreaDetailsPage, {
+      area: area
     });
   }
 
-  onListForecastSelected(event, forecast: Forecast) {
-    if (this.selectedCountyId) {
-      this.pushMunicipalityDetailsPage(forecast);
+  private pushPage(forecast:Forecast) {
+    let area = {
+      id: forecast.areaId,
+      name: forecast.areaName
+    };
+    if(DataService.isMunicipality(area.id)) {
+      this.pushDetailsPage(area);
     } else {
-      this.pushCountyFloodLandslideListPage(forecast);
+      this.pushListPage(area);
     }
+  }
+
+  onListForecastSelected(event, forecast: Forecast) {
+    this.pushPage(forecast);
   }
 
   onMapAreaSelected(areaId: string) {
     let forecasts =  this.sections[0].forecasts;
-    let filteredForecasts = forecasts.filter(forecast => forecast.areaId == areaId);
-    if(filteredForecasts.length > 0 ) {
-      this.pushCountyFloodLandslideListPage(filteredForecasts[0]);
+    let forecast = Forecast.findForecastWithAreaId(forecasts, areaId)
+    if(forecast) {
+      this.pushPage(forecast);
     } else {
       console.log('FloodLandslideListPage: No matching area', areaId);
     }
@@ -115,13 +121,5 @@ export class FloodLandslideListPage {
 
   selectedSegmentChanged() {
     this.settings.currentForecastType = this.selectedSegment;
-  }
-
-  hasMap(): boolean {
-    if(!this.selectedCountyId) {
-      return true;
-    } else {
-      return false;
-    }
   }
 }

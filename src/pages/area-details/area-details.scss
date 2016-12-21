@@ -1,0 +1,55 @@
+.item-details-page {
+
+  .label {
+
+    h2,
+    p {
+      white-space: normal;
+    }
+
+    h2 {
+      font-weight: 500;
+    }
+
+    h2 + p,
+    p + p {
+      margin-top: 10px;
+    }
+
+    p {
+      font-size: 1.6rem;
+      line-height: 1.4;
+
+      strong {
+        font-weight: 500;
+      }
+
+      span {
+        &:after {
+          content: ", "
+        }
+
+        &:last-child:after {
+          content: "";
+        }
+      }
+    }
+
+    table {
+      line-height: 1.4;
+
+      td:first-child {
+        padding-right: 5px;
+      }
+      td:last-child {
+        font-weight: 500;
+      }
+    }
+  }
+
+  .item-divider .label:first-letter {
+    text-transform: uppercase;
+  }
+
+}
+

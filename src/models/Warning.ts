@@ -14,6 +14,10 @@ export class Warning {
     return this._date;
   }
 
+  get meta(): any {
+    return this._meta;
+  }
+
   static createFromFirebaseItem(item: any):Warning {
     let warning = new Warning();
     warning._rating = Number(item.Rating);

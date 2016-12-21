@@ -1,0 +1,61 @@
+.warning-details-page {
+
+  .label {
+
+    h2, p {
+      white-space: normal;
+    }
+
+    h2 {
+
+      font-weight: 500;
+
+      &:first-letter {
+        text-transform: uppercase;
+      }
+    }
+
+    h2 + p,
+    p + p {
+      margin-top: 10px;
+    }
+
+    p {
+      font-size: 1.6rem;
+      line-height: 1.4;
+    }
+  }
+
+  .item-divider .label:first-letter {
+    text-transform: uppercase;
+  }
+
+  .list[inset] {
+    img {
+      width: 45px;
+      height: auto;
+    }
+  }
+
+  .list-md[inset] {
+    border: $list-md-header-border-top;
+
+    [item-left] {
+      margin-right: 10px;
+    }
+  }
+
+  .list-ios {
+    margin-bottom: $list-inset-ios-margin-bottom;
+  }
+
+  .list-ios[inset] {
+    border: $list-ios-header-border-bottom;
+  }
+
+  .item-md p {
+    font-size: 1.6rem;
+  }
+
+}
+
