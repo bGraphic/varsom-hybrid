@@ -12,6 +12,7 @@
       <button color="primary" ion-item no-lines detail-none *ngFor="let section of sections" (click)="openSection(section)">
         <ion-icon item-left name="{{section.icon}}" class="nve-menu-icon"></ion-icon>
         {{ section.titleKey | translate }}
+        <ion-icon item-right *ngIf="section.url" name="open" ios="ios-open-outline"></ion-icon>
       </button>
     </ion-list>
 

@@ -16,6 +16,7 @@ import { DataService } from "../services/data";
 import { AngularFireModule } from 'angularfire2';
 import { SettingsService } from "../services/settings";
 import { Theme } from "../providers/theme";
+import { Constants } from "../providers/constants";
 
 // Must export the config
 export const firebaseConfig = {
@@ -55,6 +56,6 @@ export const firebaseConfig = {
     AreaDetailsPage,
     WarningDetailsPage
   ],
-  providers: [DataService, SettingsService, Theme, {provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [DataService, SettingsService, Theme, Constants, {provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
 export class AppModule {}

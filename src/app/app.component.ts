@@ -2,12 +2,14 @@ import { Component, ViewChild } from '@angular/core';
 import { Platform, MenuController, Nav } from 'ionic-angular';
 import { StatusBar } from 'ionic-native';
 import { TranslateService } from 'ng2-translate';
+import { InAppBrowser } from 'ionic-native';
 import * as moment from 'moment';
 import 'moment/min/locales';
 
 
 import { FloodLandslideListPage } from '../pages/list/flood-landslide-list';
 import { AvalancheListPage } from "../pages/list/avalanche-list";
+import {Constants} from "../providers/constants";
 
 
 @Component({
@@ -18,22 +20,19 @@ export class MyApp {
 
   // make HelloIonicPage the root (or first) page
   rootPage: any = FloodLandslideListPage;
-  sections: Array<{titleKey: string, icon: string, component: any }>;
+  sections: Array<{titleKey: string, icon: string, component?: any, url?: string}>;
 
-  constructor(
-    public platform: Platform,
-    public menu: MenuController,
-    private translate: TranslateService,
-  ) {
+  constructor( public platform: Platform, public menu: MenuController, private translate: TranslateService ) {
     this.initializeApp();
-    translate.setDefaultLang('no_nb');
-    translate.use('no_nb');
+    this.translate.setDefaultLang('no_nb');
+    this.translate.use('no_nb');
     moment.locale('nb');
 
     // set our app's pages
     this.sections = [
       { titleKey: 'FLOOD_LANDSLIDE', icon: 'rainy', component: FloodLandslideListPage },
-      { titleKey: 'AVALANCHE', icon: 'snow', component: AvalancheListPage }
+      { titleKey: 'AVALANCHE', icon: 'snow', component: AvalancheListPage },
+      { titleKey: 'ICE', icon: 'disc', url: Constants.ICE_URL }
     ];
   }
 
@@ -50,6 +49,10 @@ export class MyApp {
     this.menu.close();
 
     // navigate to the new page if it is not the current page
-    this.nav.setRoot(section.component, { forecastType: section.forecastType });
+    if(section.component) {
+      this.nav.setRoot(section.component, { forecastType: section.forecastType });
+    } else if(section.url) {
+      new InAppBrowser(section.url, '_system');
+    }
   }
 }
