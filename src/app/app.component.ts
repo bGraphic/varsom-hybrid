@@ -19,8 +19,8 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   // make HelloIonicPage the root (or first) page
-  rootPage: any = FloodLandslideListPage;
-  sections: Array<{titleKey: string, icon: string, component?: any, url?: string}>;
+  rootPage: any;
+  sections: Array<{titleKey: string, icon: string, component?: any, url?: string, active?:boolean}>;
 
   constructor( public platform: Platform, public menu: MenuController, private translate: TranslateService ) {
     this.initializeApp();
@@ -34,6 +34,8 @@ export class MyApp {
       { titleKey: 'AVALANCHE', icon: 'snow', component: AvalancheListPage },
       { titleKey: 'ICE', icon: 'disc', url: Constants.ICE_URL }
     ];
+
+    this.openSection(this.sections[0]);
   }
 
   initializeApp() {
@@ -46,13 +48,22 @@ export class MyApp {
 
   openSection(section) {
     // close the menu when clicking a link from the menu
-    this.menu.close();
 
     // navigate to the new page if it is not the current page
     if(section.component) {
-      this.nav.setRoot(section.component, { forecastType: section.forecastType });
+      this._activateSection(section);
+      this.rootPage = section.component;
     } else if(section.url) {
       new InAppBrowser(section.url, '_system');
     }
+
+    this.menu.close();
+  }
+
+  private _activateSection(section) {
+    for(let section of this.sections ) {
+      section.active = false;
+    }
+    section.active = true;
   }
 }

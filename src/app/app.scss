@@ -60,6 +60,12 @@ nve-warning-badge ion-badge {
     border-radius: 50%;
     border: 1px solid #{map-get($colors, 'light')};
   }
+
+  .active {
+    .nve-menu-icon {
+      border-color: #{map-get($colors, 'secondary')};
+    }
+  }
 }
 
 .nve-contact-info {
