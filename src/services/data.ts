@@ -29,12 +29,8 @@ export class DataService {
 
   private _getForecastForArea(forecastType: string, areaId:string):Observable<Forecast> {
     let forecast = new BehaviorSubject<Forecast>(null);
-    console.log(forecastType);
-    console.log("parent", DataService._getParentId(areaId));
     this._getForecasts(forecastType, DataService._getParentId(areaId))
       .subscribe(items => {
-        console.log(areaId);
-        console.log(Forecast.findForecastWithAreaId(items, areaId));
         forecast.next(Forecast.findForecastWithAreaId(items, areaId));
       });
 
