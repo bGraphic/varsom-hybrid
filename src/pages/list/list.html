@@ -25,7 +25,7 @@
   <ion-list>
 
     <ion-item-group *ngFor="let section of sections">
-      <ion-list-header>
+      <ion-list-header *ngIf="'B_REGIONS' !== section.titleKey || 0 < section.forecasts.length">
         <ion-note item-right *ngFor="let d of section.timeframe">{{ d | amDateFormat:'ddd' }}</ion-note> {{ section.titleKey | translate }}
       </ion-list-header>
 
