@@ -30,13 +30,11 @@ export class AreaDetailsPage {
 
   onWarningSelected(forecast:Forecast, dayIndex:number) {
     this.navCtrl.push(WarningDetailsPage, {
-      area: {
-        id: forecast.areaId,
-        name: forecast.areaName
-      },
       warning: {
+        areaName: forecast.areaName,
+        areaId: forecast.areaId,
         forecastType: forecast.forecastType,
-        dayIndex: dayIndex
+        forecastDay: dayIndex
       }
     });
   }

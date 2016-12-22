@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 import { NavController, NavParams } from 'ionic-angular';
-import { Warning} from "../../models/Warning";
 import { DataService } from "../../services/data";
+import { Subscription } from "rxjs";
+import { Warning } from "../../models/Warning";
 
 
 @Component({
@@ -11,21 +12,30 @@ import { DataService } from "../../services/data";
 
 export class WarningDetailsPage {
   pageTitleKey: string;
-  forecastTypeKey: string;
+  forecastType: string;
   warning: Warning;
+
+  private _areaId: string;
+  private _forecastDay: number;
+  private _subscription: Subscription;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService) {
     // If we navigated to this page, we will have an item available as a nav param
-    let area = navParams.get('area');
-    let warning = navParams.get('warning');
-    this.pageTitleKey = area.name;
-    this.forecastTypeKey = warning.forecastType.toUpperCase();
+    let warningParams:{ areaName:string, areaId: string, forecastType:string, forecastDay:number } = this.navParams.get('warning');
+    this.pageTitleKey = warningParams.areaName;
+    this._areaId = warningParams.areaId;
+    this.forecastType = warningParams.forecastType;
+    this._forecastDay = warningParams.forecastDay;
+  }
 
-    this.dataService.getForecastForArea(warning.forecastType, area.id)
+  ngOnInit() {
+    this._subscription = this.dataService.getForecastForArea(this.forecastType, this._areaId)
       .subscribe(forecast => {
-        if(forecast) {
-          this.warning = forecast.getDay(warning.dayIndex);
-        }
+        this.warning = forecast.getDay(this._forecastDay);
       });
+  }
+
+  ngOnDestroy() {
+    this._subscription.unsubscribe();
   }
 }
