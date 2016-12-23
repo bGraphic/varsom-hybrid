@@ -5,6 +5,7 @@ import { Forecast } from "../../models/Forecast";
 import { DataService } from "../../services/data";
 import { GeojsonService }       from '../../services/geojson';
 import { SettingsService } from "../../services/settings";
+import { Subscription } from "rxjs";
 
 @Component({
   templateUrl: 'list.html',
@@ -13,67 +14,85 @@ import { SettingsService } from "../../services/settings";
 
 export class FloodLandslideListPage {
 
-  segments = [
-    { slug: 'highest', titleKey: "HIGHEST" },
-    { slug: 'flood', titleKey: "FLOOD" },
-    { slug: 'landslide', titleKey: "LANDSLIDE" }
-  ];
+  pageTitleKey: string;
+  forecasts: Forecast[] = [];
+
+  sections = [];
+  segments = ['highest', 'flood', 'landslide'];
   selectedSegment: string;
 
-  pageTitleKey: string;
-  sections: {titleKey: string, timeframe: Date[], forecasts: Forecast[] }[] = [];
   showMap: boolean = false;
   mapGeoJsonData: any;
   mapCenter: { latLng: L.LatLng, zoom: number };
-  mapForecasts: Forecast[] = [];
+
+  private _floodForecast:Forecast[] = [];
+  private _landslideForecast:Forecast[] = [];
+  private _parentId:string;
+  private _subscriptions: Subscription[] = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService, public settings: SettingsService, private geojson: GeojsonService) {
-    // If we navigated to this page, we will have an item available as a nav param
     let area = navParams.get('area');
-    let parentId;
+
     if(area) {
       this.pageTitleKey = area.name;
-      parentId = area.id;
+      this._parentId = area.id;
     } else {
       this.pageTitleKey = 'FLOOD_LANDSLIDE';
       this.showMap = true;
-      this.geojson.getCounties().subscribe(geojsonData => {
+    }
+  }
+
+  ngOnInit() {
+
+    if(this.showMap) {
+      let geojsonSubscription = this.geojson.getCounties().subscribe(geojsonData => {
         this.mapGeoJsonData = geojsonData;
       });
+      this._subscriptions.push(geojsonSubscription);
     }
 
-    this.settings.currentForecastTypeObs
-      .subscribe(forecastType => {
-        this.selectedSegment = forecastType;
-        this.dataService.getForecasts(forecastType, parentId)
-          .subscribe(forecasts => {
-            this._updateSections(forecastType, forecasts);
-            this.mapForecasts = forecasts;
-          });
-      });
-
-    this.settings.currentPositionObs
+    let currentPositionSubscription = this.settings.currentPositionObs
       .subscribe(position => {
         this.mapCenter = position;
       });
+    this._subscriptions.push(currentPositionSubscription);
+
+    let forecastTypeSubscription = this.settings.currentForecastTypeObs
+      .subscribe(forecastType => {
+        this.selectedSegment = forecastType;
+        this.sections = [ forecastType.toUpperCase() ];
+        this._update();
+      });
+    this._subscriptions.push(forecastTypeSubscription);
+
+    let floodForecastSubscription = this.dataService.getForecasts('flood', this._parentId)
+      .subscribe(forecasts => {
+        this._floodForecast = forecasts;
+        this._update();
+      });
+    this._subscriptions.push(floodForecastSubscription);
+
+    let landslideSubscription = this.dataService.getForecasts('landslide', this._parentId)
+      .subscribe(forecasts => {
+        this._landslideForecast = forecasts;
+        this._update();
+      });
+    this._subscriptions.push(landslideSubscription);
   }
 
-  private _updateSections(forecastType: string, forecasts: Forecast[]) {
-
-    if(forecastType !== this.selectedSegment) {
-      return;
+  ngOnDestroy() {
+    for(let subscription of this._subscriptions) {
+      subscription.unsubscribe();
     }
+  }
 
-    let section = {
-      titleKey: forecastType.toUpperCase(),
-      timeframe: Forecast.getTimeframeFromForecasts(forecasts),
-      forecasts: forecasts
-    }
-
-    if(!this.sections[0]) {
-      this.sections.push(section);
+  private _update() {
+    if('flood' === this.selectedSegment) {
+      this.forecasts = this._floodForecast;
+    } else if('landslide' === this.selectedSegment) {
+      this.forecasts = this._landslideForecast;
     } else {
-      this.sections[0] = section;
+      this.forecasts = Forecast.createHighestForecasts(this._floodForecast, this._landslideForecast);
     }
   }
 
@@ -110,8 +129,7 @@ export class FloodLandslideListPage {
   }
 
   onMapAreaSelected(areaId: string) {
-    let forecasts =  this.sections[0].forecasts;
-    let forecast = Forecast.findForecastWithAreaId(forecasts, areaId)
+    let forecast = Forecast.findForecastWithAreaId(this.forecasts, areaId);
     if(forecast) {
       this.pushPage(forecast);
     } else {
@@ -119,7 +137,7 @@ export class FloodLandslideListPage {
     }
   }
 
-  selectedSegmentChanged() {
+  onSegmentChanged() {
     this.settings.currentForecastType = this.selectedSegment;
   }
 }
