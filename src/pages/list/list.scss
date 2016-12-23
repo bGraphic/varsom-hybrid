@@ -9,6 +9,12 @@ nve-map {
 
   ion-list {
 
+    .label {
+      p {
+        white-space: normal;
+      }
+    }
+
     .item-inner {
       padding-right: 16px !important;
     }

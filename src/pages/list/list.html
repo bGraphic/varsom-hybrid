@@ -28,6 +28,9 @@
       <ion-list-header *ngIf="'B_REGIONS' !== section || 0 < (forecasts | filterForecasts: section).length">
         <ion-note item-right *ngFor="let d of (forecasts | forecastsTimeframe)">{{ d | amDateFormat:'ddd' }}</ion-note> {{ section | translate }}
       </ion-list-header>
+      <ion-item *ngIf="'B_REGIONS' === section && 0 < (forecasts | filterForecasts: section).length">
+        <p [innerHTML]="section+'_NOTE' | translate"></p>
+      </ion-item>
 
       <button detail-none ion-item *ngFor="let forecast of (forecasts | filterForecasts: section)" (click)="onListForecastSelected($event, forecast)">
         <nve-warning-badge item-right *ngFor="let d of [0,1,2]" [level]="forecast.warnings[d].rating"></nve-warning-badge>

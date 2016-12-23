@@ -7,6 +7,7 @@
   "HIGHEST" : "Felles",
   "AVALANCHE": "Snøskred",
   "B_REGIONS": "B - regioner",
+  "B_REGIONS_NOTE": "Varsler for disse regionene utarbeides kun når skrefaren vurderes til 4 eller 5.",
   "CAUSE": "Årsak",
   "LANDSLIDE_TYPE": "Type",
   "UPDATES": "Oppdateringer",
