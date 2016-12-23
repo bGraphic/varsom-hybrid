@@ -28,13 +28,11 @@ export class DataService {
   }
 
   private _getForecastForArea(forecastType: string, areaId:string):Observable<Forecast> {
-    let forecast = new BehaviorSubject<Forecast>(null);
-    this._getForecasts(forecastType, DataService._getParentId(areaId))
-      .subscribe(items => {
-        forecast.next(Forecast.findForecastWithAreaId(items, areaId));
+    let date = new Date();
+    return this._getForecasts(forecastType, DataService._getParentId(areaId))
+      .map(forecasts => {
+        return Forecast.findForecastWithAreaId(forecasts, areaId);
       });
-
-    return forecast.asObservable();
   }
 
   private _getForecasts(forecastType: string, parentId?:string):BehaviorSubject<Forecast[]> {
