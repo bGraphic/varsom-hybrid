@@ -107,6 +107,9 @@ export class FloodLandslideListPage {
   }
 
   private pushDetailsPage(area: {id:string, name:string}) {
+    if(DataService.isOslo(area.id)) {
+      area.id = DataService.OSLO_MUNICIPALITY_ID;
+    }
     this.navCtrl.push(AreaDetailsPage, {
       area: area
     });

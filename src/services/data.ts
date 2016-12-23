@@ -6,8 +6,9 @@ import { Forecast } from "../models/Forecast";
 @Injectable()
 export class DataService {
 
+  static readonly OSLO_MUNICIPALITY_ID = '0301';
+
   private static readonly OSLO_COUNTY_ID = '03';
-  private static readonly OSLO_MUNICIPALITY_ID = '0301';
   private static readonly MUNICIPALITIES_START_OF_NUMBER_SERIES = 100;
   private static readonly MUNICIPALITIES_END_OF_NUMBER_SERIES = 3000;
 
