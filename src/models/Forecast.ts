@@ -109,6 +109,14 @@ export class Forecast {
   }
 
   static createHighestForecasts(forecastsA, forecastsB):Forecast[] {
+    if(!forecastsA || !forecastsB) {
+      return [];
+    }
+
+    if(0 === forecastsA.length || 0 === forecastsB.length) {
+      return [];
+    }
+
     let forecasts:Forecast[] = [];
     for(let forecastA of forecastsA) {
       let forecastB = Forecast.findForecastWithAreaId(forecastsB, forecastA.areaId);

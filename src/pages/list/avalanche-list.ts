@@ -5,6 +5,7 @@ import { Forecast } from "../../models/Forecast";
 import { DataService } from "../../services/data";
 import { GeojsonService }       from '../../services/geojson';
 import { SettingsService } from "../../services/settings";
+import { Subscription } from "rxjs";
 
 @Component({
   templateUrl: 'list.html',
@@ -14,61 +15,48 @@ import { SettingsService } from "../../services/settings";
 export class AvalancheListPage {
 
   pageTitleKey: string;
+  forecasts: Forecast[] = [];
+
+  sections = ['AVALANCHE', 'B_REGIONS'];
   segments = [];
-  sections: {titleKey: string, forecasts: Forecast[] }[] = [];
+
   showMap: boolean = true;
   mapGeoJsonData: any;
   mapCenter: { latLng: L.LatLng, zoom: number };
-  mapForecasts: Forecast[] = [];
+
+  private _subscriptions: Subscription[] = [];
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService, public settings: SettingsService, public geojson: GeojsonService) {
-    // If we navigated to this page, we will have an item available as a nav param
     this.pageTitleKey = "AVALANCHE";
+  }
+
+  ngOnInit() {
 
     if(this.showMap) {
-      this.geojson.getRegions()
+      let geojsonSubscription = this.geojson.getRegions()
         .subscribe(geoJsonData => {
           this.mapGeoJsonData = geoJsonData;
         });
+      this._subscriptions.push(geojsonSubscription);
     }
 
-    this.dataService.getForecasts('avalanche')
+    let avalancheSubscription =  this.dataService.getForecasts('avalanche')
       .subscribe(forecasts => {
-        this._updateSections(forecasts);
-        this.mapForecasts = forecasts;
+        this.forecasts = forecasts;
       });
+    this._subscriptions.push(avalancheSubscription);
 
-    this.settings.currentPositionObs
+    let currentPositionSubscription = this.settings.currentPositionObs
       .subscribe(position => {
         this.mapCenter = position;
       });
+    this._subscriptions.push(currentPositionSubscription);
   }
 
-  private _updateSections(forecasts) {
-
-    let sectionA = {
-      titleKey: 'AVALANCHE',
-      timeframe: Forecast.getTimeframeFromForecasts(forecasts),
-      forecasts: Forecast.filterARegions(forecasts)
-    }
-
-    let sectionB = {
-      titleKey: 'B_REGIONS',
-      timeframe: Forecast.getTimeframeFromForecasts(forecasts),
-      forecasts: Forecast.filterBRegions(forecasts)
-    }
-
-    if(!this.sections[0]) {
-      this.sections.push(sectionA);
-    } else {
-      this.sections[0] = sectionA;
-    }
-
-    if(!this.sections[1]) {
-      this.sections.push(sectionB);
-    } else {
-      this.sections[1] = sectionB;
+  ngOnDestroy() {
+    for(let subscription of this._subscriptions) {
+      subscription.unsubscribe();
     }
   }
 
@@ -90,15 +78,10 @@ export class AvalancheListPage {
   }
 
   onMapAreaSelected(areaId: string) {
-    let forecastsA =  this.sections[0].forecasts;
-    let forecastsB =  this.sections[0].forecasts;
-    let forecastA = Forecast.findForecastWithAreaId(forecastsA, areaId);
-    let forecastB = Forecast.findForecastWithAreaId(forecastsB, areaId);
+    let forecast = Forecast.findForecastWithAreaId(this.forecasts, areaId);
 
-    if(forecastA) {
-      this.pushPage(forecastA);
-    } else if(forecastB) {
-      this.pushPage(forecastB);
+    if(forecast) {
+      this.pushPage(forecast);
     } else {
       console.log('AvalancheListPage: No matching area', areaId);
     }

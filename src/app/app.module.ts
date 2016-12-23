@@ -17,6 +17,7 @@ import { AngularFireModule } from 'angularfire2';
 import { SettingsService } from "../services/settings";
 import { Theme } from "../providers/theme";
 import { Constants } from "../providers/constants";
+import { FilterForecastsPipe, ForecastsTimeframePipe } from "../pipes/forecasts";
 
 // Must export the config
 export const firebaseConfig = {
@@ -34,7 +35,9 @@ export const firebaseConfig = {
     AreaDetailsPage,
     WarningDetailsPage,
     WarningBadge,
-    Map
+    Map,
+    FilterForecastsPipe,
+    ForecastsTimeframePipe
   ],
   imports: [
     IonicModule.forRoot(MyApp, { }),
