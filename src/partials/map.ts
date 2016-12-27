@@ -28,8 +28,8 @@ export class Map {
 
   ngOnInit(): void {
     this.createMap();
-    this.updateGeoJsonData();
     this.updateMapCenter();
+    this.updateGeoJsonData();
   }
 
   ngOnChanges(changes) {
@@ -47,8 +47,19 @@ export class Map {
     }
   }
 
+  private createMap() {
+
+    this._map = L.map(this.mapEl.nativeElement, {
+      zoomControl: false,
+      minZoom: Map.MIN_ZOOM,
+      maxZoom: Map.MAX_ZOOM
+    });
+
+    L.tileLayer(Map.TILE, {}).addTo(this._map);
+  }
+
   private updateMapCenter() {
-    if(!this._map) {
+    if(!this._map || !this.center) {
       return;
     }
 
@@ -57,7 +68,7 @@ export class Map {
 
   private updateGeoJsonData() {
 
-    if(!this._map) {
+    if(!this._map || !this.geoJsonData) {
       return;
     }
 
@@ -131,17 +142,6 @@ export class Map {
         self.updateGeoJsonStyle();
       }, 100);
     });
-  }
-
-  private createMap() {
-
-    this._map = L.map(this.mapEl.nativeElement, {
-      zoomControl: false,
-      minZoom: Map.MIN_ZOOM,
-      maxZoom: Map.MAX_ZOOM
-    });
-
-    L.tileLayer(Map.TILE, {}).addTo(this._map);
   }
 
   private static transformGeoJsonToAreaId(geoJsonFeature):string {
