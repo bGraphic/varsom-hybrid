@@ -93,6 +93,18 @@ export class Forecast {
 
   static createHighestForecast(forecastA:Forecast, forecastB:Forecast):Forecast {
 
+    if(!forecastA && !forecastB) {
+      return Forecast.createEmptyForecast();
+    }
+
+    if(!forecastA && forecastB) {
+      return forecastB;
+    }
+
+    if(forecastA && !forecastB) {
+      return forecastA;
+    }
+
     let warnings:Warning[] = [];
 
     for (let i of [0, 1, 2]) {
