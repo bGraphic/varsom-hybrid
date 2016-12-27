@@ -122,7 +122,7 @@ export class Map {
 
   private onEachFeature(feature:any, layer: any) {
     let self = this;
-    layer.on("click", function (event) {
+    layer.on("mousedown", function (event) {
       feature.mousedown = true;
       self.updateGeoJsonStyle();
       self.areaSelected.emit(Map.transformGeoJsonToAreaId(feature));
