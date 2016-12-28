@@ -1,5 +1,9 @@
 export class Theme {
 
+  static  iconColor() {
+    return '#e46900';
+  }
+
   static colorForStatusBar() {
     return '#788788';
   }

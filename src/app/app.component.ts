@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { Push, PushToken } from '@ionic/cloud-angular';
 import { Platform, MenuController, Nav, Config } from 'ionic-angular';
 import { StatusBar } from 'ionic-native';
 import { TranslateService } from 'ng2-translate';
@@ -22,12 +23,48 @@ export class MyApp {
   rootPage: any;
   sections: Array<{titleKey: string, icon: string, component?: any, url?: string, active?:boolean}>;
 
-  constructor( public platform: Platform, public menu: MenuController, private translate: TranslateService, private config: Config ) {
+  constructor( public platform: Platform, public menu: MenuController, private translate: TranslateService, private config: Config, private push: Push ) {
     this.initializeApp();
+    this.initializeTranslation();
+    this.initializeSections();
+    this.initializePush();
+  }
+
+  private initializeApp() {
+    this.platform.ready().then(() => {
+
+      StatusBar.styleDefault();
+      this.translate.get('BACK').subscribe((res: string) => {
+        this.config.set('ios', 'backButtonText', res);
+      });
+
+    });
+  }
+
+  private initializePush() {
+    this.platform.ready().then(() => {
+
+      this.push.register().then((t: PushToken) => {
+        return this.push.saveToken(t);
+      }).then((t: PushToken) => {
+        console.log('MyApp: Token saved:', t.token);
+      });
+
+      this.push.rx.notification()
+        .subscribe((msg) => {
+          alert(msg.title + ': ' + msg.text);
+        });
+
+    });
+  }
+
+  private initializeTranslation() {
     this.translate.setDefaultLang('no_nb');
     this.translate.use('no_nb');
     moment.locale('nb');
+  }
 
+  private initializeSections() {
     // set our app's pages
     this.sections = [
       { titleKey: 'FLOOD_LANDSLIDE', icon: 'rainy', component: FloodLandslideListPage },
@@ -36,17 +73,6 @@ export class MyApp {
     ];
 
     this.openSection(this.sections[0]);
-  }
-
-  initializeApp() {
-    this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      StatusBar.styleDefault();
-      this.translate.get('BACK').subscribe((res: string) => {
-        this.config.set('ios', 'backButtonText', res);
-      });
-    });
   }
 
   openSection(section) {
