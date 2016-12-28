@@ -27,6 +27,9 @@ export class MyApp {
     this.initializeApp();
     this.initializeTranslation();
     this.initializeSections();
+  }
+
+  ngAfterViewInit() {
     this.initializePush();
   }
 
