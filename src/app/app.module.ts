@@ -37,7 +37,8 @@ const cloudSettings: CloudSettings = {
     'pluginConfig': {
       'ios': {
         'badge': true,
-        'sound': true
+        'sound': true,
+        'clearBadge': true
       },
       'android': {
         'iconColor': '#e46900'
