@@ -47,6 +47,10 @@ export class MyApp {
   private initializePush() {
     this.platform.ready().then(() => {
 
+      if(!this.platform.is('cordova')) {
+        return;
+      }
+
       this.push.register().then((t: PushToken) => {
         return this.push.saveToken(t);
       }).then((t: PushToken) => {
