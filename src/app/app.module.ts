@@ -1,6 +1,7 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { HttpModule, Http } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
+import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
 import { MomentModule } from 'angular2-moment';
@@ -20,11 +21,30 @@ import { Constants } from "../providers/constants";
 import { FilterForecastsPipe, ForecastsTimeframePipe } from "../pipes/forecasts";
 
 // Must export the config
-export const firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyDwiQkQSv1BCovQiPU-P9xok5pueLPJZqo",
   authDomain: "varsom-dev.firebaseapp.com",
   databaseURL: "https://varsom-dev.firebaseio.com",
   storageBucket: "varsom-dev.appspot.com"
+};
+
+const cloudSettings: CloudSettings = {
+  'core': {
+    'app_id': 'e7d79d51'
+  },
+  'push': {
+    'sender_id': '123456', // Not supporting android yet
+    'pluginConfig': {
+      'ios': {
+        'badge': true,
+        'sound': true,
+        'clearBadge': true
+      },
+      'android': {
+        'iconColor': '#e46900'
+      }
+    }
+  }
 };
 
 @NgModule({
@@ -41,6 +61,7 @@ export const firebaseConfig = {
   ],
   imports: [
     IonicModule.forRoot(MyApp, { }),
+    CloudModule.forRoot(cloudSettings),
     BrowserModule,
     HttpModule,
     AngularFireModule.initializeApp(firebaseConfig),

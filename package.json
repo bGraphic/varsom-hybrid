@@ -19,6 +19,7 @@
     "@angular/platform-browser": "2.2.1",
     "@angular/platform-browser-dynamic": "2.2.1",
     "@angular/platform-server": "2.2.1",
+    "@ionic/cloud-angular": "^0.8.0",
     "@ionic/storage": "1.1.7",
     "@types/jasmine": "^2.5.37",
     "@types/leaflet": "^1.0.41",
@@ -44,7 +45,8 @@
     "cordova-plugin-whitelist",
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
-    "ionic-plugin-keyboard"
+    "ionic-plugin-keyboard",
+    "phonegap-plugin-push"
   ],
   "cordovaPlatforms": [
     "ios",
