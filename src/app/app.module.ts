@@ -2,6 +2,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { HttpModule, Http } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
+import { Storage } from '@ionic/storage';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
 import { MomentModule } from 'angular2-moment';
@@ -18,6 +19,7 @@ import { AngularFireModule } from 'angularfire2';
 import { SettingsService } from "../services/settings";
 import { Theme } from "../providers/theme";
 import { Constants } from "../providers/constants";
+import { Favorites } from "../providers/favorites";
 import { FilterForecastsPipe, ForecastsTimeframePipe } from "../pipes/forecasts";
 
 // Must export the config
@@ -80,6 +82,6 @@ const cloudSettings: CloudSettings = {
     AreaDetailsPage,
     WarningDetailsPage
   ],
-  providers: [DataService, SettingsService, Theme, Constants, {provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [Storage, DataService, SettingsService, Theme, Constants, Favorites, {provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
 export class AppModule {}
