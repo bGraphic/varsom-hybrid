@@ -47,7 +47,13 @@
     }
   }
 
-  .item-divider .label:first-letter {
+  .item-block .label {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .item-divider .label:first-letter,
+  .list-header .label:first-letter{
     text-transform: uppercase;
   }
 
