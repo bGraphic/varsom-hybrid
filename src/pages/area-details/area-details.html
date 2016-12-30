@@ -5,12 +5,14 @@
 </ion-header>
 
 <ion-content class="item-details-page">
-  <ion-list *ngIf="forecasts['flood'] && forecasts['landslide']">
-    <ion-item-group *ngFor="let dayIndex of [0,1,2]">
+  <div *ngIf="forecasts['flood'] && forecasts['landslide']">
+  <ion-list *ngFor="let dayIndex of [0,1,2]">
 
-      <ion-item-divider color="light">
-        {{ forecasts['flood'].getDay(dayIndex).date | amDateFormat:'dddd D. MMMM' }}
-      </ion-item-divider>
+    <ion-list-header>
+      {{ forecasts['flood'].getDay(dayIndex).date | amDateFormat:'dddd D. MMMM' }}
+    </ion-list-header>
+
+    <ion-item-group>
 
       <button *ngFor="let forecastType of ['flood', 'landslide']" ion-item (click)="onWarningSelected(forecasts[forecastType], dayIndex)">
 
@@ -36,12 +38,16 @@
 
     </ion-item-group>
   </ion-list>
-  <ion-list *ngIf="forecasts['avalanche']">
-    <ion-item-group *ngFor="let dayIndex of [0,1,2]">
+  </div>
 
-      <ion-item-divider color="light">
-        {{ forecasts['avalanche'].getDay(dayIndex).date | amDateFormat:'dddd D. MMMM' }}
-      </ion-item-divider>
+  <div *ngIf="forecasts['avalanche']">
+  <ion-list *ngFor="let dayIndex of [0,1,2]">
+
+    <ion-list-header>
+      {{ forecasts['avalanche'].getDay(dayIndex).date | amDateFormat:'dddd D. MMMM' }}
+    </ion-list-header>
+
+    <ion-item-group>
 
       <button ion-item (click)="onWarningSelected(forecasts['avalanche'], dayIndex)">
 
@@ -56,6 +62,13 @@
         </p>
 
       </button>
+
+    </ion-item-group>
+    <ion-item-group>
+
+      <ion-item-divider *ngIf="forecasts['avalanche'].getDay(dayIndex).meta.AvalancheProblems">
+        {{ 'AVALANCHE_PROBLEMS' | translate }}
+      </ion-item-divider>
 
       <ion-item *ngFor="let problem of forecasts['avalanche'].getDay(dayIndex).meta.AvalancheProblems">
         <h2>{{ problem.AvalancheProblemTypeName }}</h2>
@@ -72,7 +85,7 @@
 
       </ion-item>
 
-
     </ion-item-group>
   </ion-list>
+  </div>
 </ion-content>
