@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AreaDetailsPage } from '../area-details/area-details';
 import { Forecast } from "../../models/Forecast";
-import { DataService } from "../../services/data";
+import { Forecasts } from "../../providers/forecasts";
 import { GeojsonService }       from '../../services/geojson';
 import { SettingsService } from "../../services/settings";
 import { Subscription } from "rxjs";
@@ -27,7 +27,13 @@ export class AvalancheListPage {
   private _subscriptions: Subscription[] = [];
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService, public settings: SettingsService, public geojson: GeojsonService) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private _forecasts: Forecasts,
+    public settings: SettingsService,
+    public geojson: GeojsonService
+  ) {
     this.pageTitleKey = "AVALANCHE";
   }
 
@@ -41,7 +47,7 @@ export class AvalancheListPage {
       this._subscriptions.push(geojsonSubscription);
     }
 
-    let avalancheSubscription =  this.dataService.getForecasts('avalanche')
+    let avalancheSubscription =  this._forecasts.getForecasts('avalanche')
       .subscribe(forecasts => {
         this.forecasts = forecasts;
       });

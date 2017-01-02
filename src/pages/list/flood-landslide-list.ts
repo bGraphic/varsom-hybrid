@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AreaDetailsPage } from '../area-details/area-details';
+import { AreaUtils } from "../../utils/area-utils";
 import { Forecast } from "../../models/Forecast";
-import { DataService } from "../../services/data";
+import { Forecasts } from "../../providers/forecasts";
 import { GeojsonService }       from '../../services/geojson';
 import { SettingsService } from "../../services/settings";
 import { Subscription } from "rxjs";
@@ -31,7 +32,15 @@ export class FloodLandslideListPage {
 
   private _subscriptions: Subscription[] = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService, public settings: SettingsService, private geojson: GeojsonService) {
+  constructor(
+
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private _forecasts: Forecasts,
+    public settings: SettingsService,
+    private geojson: GeojsonService
+
+  ) {
     let area = navParams.get('area');
 
     if(area) {
@@ -66,14 +75,14 @@ export class FloodLandslideListPage {
       });
     this._subscriptions.push(forecastTypeSubscription);
 
-    let floodForecastSubscription = this.dataService.getForecasts('flood', this.parentId)
+    let floodForecastSubscription = this._forecasts.getForecasts('flood', this.parentId)
       .subscribe(forecasts => {
         this._floodForecast = forecasts;
         this._update();
       });
     this._subscriptions.push(floodForecastSubscription);
 
-    let landslideSubscription = this.dataService.getForecasts('landslide', this.parentId)
+    let landslideSubscription = this._forecasts.getForecasts('landslide', this.parentId)
       .subscribe(forecasts => {
         this._landslideForecast = forecasts;
         this._update();
@@ -98,7 +107,7 @@ export class FloodLandslideListPage {
   }
 
   private pushListPage(area: {id:string, name:string}) {
-    if( DataService.isOslo(area.id)) {
+    if( AreaUtils.isOslo(area.id)) {
       this.pushDetailsPage(area);
     } else {
       this.navCtrl.push(FloodLandslideListPage, {
@@ -108,8 +117,8 @@ export class FloodLandslideListPage {
   }
 
   private pushDetailsPage(area: {id:string, name:string}) {
-    if(DataService.isOslo(area.id)) {
-      area.id = DataService.OSLO_MUNICIPALITY_ID;
+    if(AreaUtils.isOslo(area.id)) {
+      area.id = AreaUtils.OSLO_MUNICIPALITY_ID;
     }
     this.navCtrl.push(AreaDetailsPage, {
       area: area
@@ -121,7 +130,7 @@ export class FloodLandslideListPage {
       id: forecast.areaId,
       name: forecast.areaName
     };
-    if(DataService.isMunicipality(area.id)) {
+    if(AreaUtils.isMunicipality(area.id)) {
       this.pushDetailsPage(area);
     } else {
       this.pushListPage(area);

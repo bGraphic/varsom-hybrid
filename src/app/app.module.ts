@@ -14,7 +14,8 @@ import { AreaDetailsPage } from '../pages/area-details/area-details';
 import { WarningDetailsPage } from "../pages/warning-details/warning-details";
 import { WarningBadge } from "../partials/warning-badge";
 import { Map } from "../partials/map";
-import { DataService } from "../services/data";
+import { Data } from "../providers/data";
+import { Forecasts } from "../providers/forecasts";
 import { AngularFireModule } from 'angularfire2';
 import { SettingsService } from "../services/settings";
 import { Theme } from "../providers/theme";
@@ -84,6 +85,6 @@ const cloudSettings: CloudSettings = {
     AreaDetailsPage,
     WarningDetailsPage
   ],
-  providers: [Storage, DataService, SettingsService, Theme, Constants, Favorites, {provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [Storage, Forecasts, Data, SettingsService, Theme, Constants, Favorites, {provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
 export class AppModule {}

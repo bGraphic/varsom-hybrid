@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 import { NavController, NavParams } from 'ionic-angular';
+import { AreaUtils } from "../../utils/area-utils";
 import { Forecast } from "../../models/Forecast";
-import { DataService } from "../../services/data";
+import { Forecasts } from "../../providers/forecasts";
 import { WarningDetailsPage } from "../warning-details/warning-details";
 import { Subscription } from "rxjs";
 
@@ -18,7 +19,11 @@ export class AreaDetailsPage {
 
   private _subscriptions: Subscription[] = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private _forecasts: Forecasts
+  ) {
     // If we navigated to this page, we will have an item available as a nav param
     let area = navParams.get('area');
     this.pageTitleKey = area.name;
@@ -26,9 +31,9 @@ export class AreaDetailsPage {
   }
 
   ngOnInit() {
-    if(DataService.isMunicipality(this.areaId)) {
+    if(AreaUtils.isMunicipality(this.areaId)) {
       this._subscribeToMunicipalityForecasts(this.areaId);
-    } else if (DataService.isRegion(this.areaId)) {
+    } else if (AreaUtils.isRegion(this.areaId)) {
       this._subscribeToRegionForecast(this.areaId);
     } else {
       console.log("AreaDetailsPage: Only regions and municipalities has detailed page");
@@ -54,12 +59,12 @@ export class AreaDetailsPage {
 
   private _subscribeToMunicipalityForecasts(areaId:string) {
 
-    let floodSubscription = this.dataService.getForecastForArea('flood', areaId)
+    let floodSubscription = this._forecasts.getForecastForArea('flood', areaId)
       .subscribe(forecast => {
         this._updateWarnings('flood', forecast);
       });
 
-    let landslideSubscription = this.dataService.getForecastForArea('landslide', areaId)
+    let landslideSubscription = this._forecasts.getForecastForArea('landslide', areaId)
       .subscribe(forecast => {
         this._updateWarnings('landslide', forecast);
       });
@@ -69,7 +74,7 @@ export class AreaDetailsPage {
   }
 
   private _subscribeToRegionForecast(areaId:string) {
-    let subscription = this.dataService.getForecastForArea('avalanche', areaId)
+    let subscription = this._forecasts.getForecastForArea('avalanche', areaId)
       .subscribe(forecast => {
         this._updateWarnings('avalanche', forecast);
       });
