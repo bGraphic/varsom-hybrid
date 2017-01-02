@@ -1,6 +1,9 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title>{{pageTitleKey | translate }}</ion-title>
+    <ion-buttons end *ngIf="areaId">
+      <button ion-button icon-only [nveFavorite]="areaId"><ion-icon name="star"></ion-icon></button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 

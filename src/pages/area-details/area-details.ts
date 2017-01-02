@@ -13,23 +13,23 @@ import { Subscription } from "rxjs";
 
 export class AreaDetailsPage {
   pageTitleKey: string;
+  areaId: string;
   forecasts: Forecast[] = [];
 
-  private _areaId;
   private _subscriptions: Subscription[] = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService) {
     // If we navigated to this page, we will have an item available as a nav param
     let area = navParams.get('area');
     this.pageTitleKey = area.name;
-    this._areaId = area.id;
+    this.areaId = area.id;
   }
 
   ngOnInit() {
-    if(DataService.isMunicipality(this._areaId)) {
-      this._subscribeToMunicipalityForecasts(this._areaId);
-    } else if (DataService.isRegion(this._areaId)) {
-      this._subscribeToRegionForecast(this._areaId);
+    if(DataService.isMunicipality(this.areaId)) {
+      this._subscribeToMunicipalityForecasts(this.areaId);
+    } else if (DataService.isRegion(this.areaId)) {
+      this._subscribeToRegionForecast(this.areaId);
     } else {
       console.log("AreaDetailsPage: Only regions and municipalities has detailed page");
     }
