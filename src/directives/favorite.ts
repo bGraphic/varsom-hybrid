@@ -18,9 +18,9 @@ export class FavoriteDirective {
   }
 
   ngOnInit() {
-    let favoritesSubscription = this._favorites.favoriteAreaIds$
-      .subscribe(favorites => {
-        this.isFavorite = favorites.indexOf(this.areaId) > -1;
+    let favoritesSubscription = this._favorites.isFavoriteArea$(this.areaId)
+      .subscribe(isFavorite => {
+        this.isFavorite = isFavorite;
         this._updateIcon();
       })
     this._subscriptions.push(favoritesSubscription);

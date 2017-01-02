@@ -10,6 +10,7 @@ import 'moment/min/locales';
 
 import { FloodLandslideListPage } from '../pages/list/flood-landslide-list';
 import { AvalancheListPage } from "../pages/list/avalanche-list";
+import {FavoriteService} from "../providers/favorites";
 
 
 @Component({
@@ -22,7 +23,14 @@ export class MyApp {
   rootPage: any;
   sections: Array<{titleKey: string, icon: string, component?: any, url?: string, active?:boolean}>;
 
-  constructor( public platform: Platform, public menu: MenuController, private translate: TranslateService, private config: Config, private push: Push ) {
+  constructor(
+    public platform: Platform,
+    public menu: MenuController,
+    private _config: Config,
+    private _push: Push,
+    private _translateService: TranslateService,
+    private _favoriteService: FavoriteService
+  ) {
     this.initializeApp();
     this.initializeTranslation();
     this.initializeSections();
@@ -36,8 +44,8 @@ export class MyApp {
     this.platform.ready().then(() => {
 
       StatusBar.styleDefault();
-      this.translate.get('BACK').subscribe((res: string) => {
-        this.config.set('ios', 'backButtonText', res);
+      this._translateService.get('BACK').subscribe((res: string) => {
+        this._config.set('ios', 'backButtonText', res);
       });
 
     });
@@ -50,13 +58,14 @@ export class MyApp {
         return;
       }
 
-      this.push.register().then((t: PushToken) => {
-        return this.push.saveToken(t);
+      this._push.register().then((t: PushToken) => {
+        this._favoriteService.setPushToken(t.token);
+        return this._push.saveToken(t);
       }).then((t: PushToken) => {
         console.log('MyApp: Token saved:', t.token);
       });
 
-      this.push.rx.notification()
+      this._push.rx.notification()
         .subscribe((msg) => {
           alert(msg.title + ': ' + msg.text);
         });
@@ -65,8 +74,8 @@ export class MyApp {
   }
 
   private initializeTranslation() {
-    this.translate.setDefaultLang('no_nb');
-    this.translate.use('no_nb');
+    this._translateService.setDefaultLang('no_nb');
+    this._translateService.use('no_nb');
     moment.locale('nb');
   }
 
@@ -78,7 +87,7 @@ export class MyApp {
       { titleKey: 'ICE', icon: 'disc', url: "" }
     ];
 
-    this.translate.get('ICE_URL').subscribe((res: string) => {
+    this._translateService.get('ICE_URL').subscribe((res: string) => {
       this.sections[2].url = res;
     });
 

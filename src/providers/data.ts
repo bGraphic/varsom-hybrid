@@ -36,4 +36,28 @@ export class DataService {
     }
   }
 
+  addPushTokenForArea(pushToken: string, areaId:string) {
+    if(!pushToken) {
+      return;
+    }
+
+    let item = this._af.database.object('/subscriptions/id' + areaId + '/' + pushToken);
+    item.set(true)
+      .catch(error => {
+        console.log('DataService: Error saving push token', pushToken, areaId, error);
+      });
+  }
+
+  removePushTokenForArea(pushToken: string, areaId:string) {
+    if(!pushToken) {
+      return;
+    }
+
+    let item = this._af.database.object('/subscriptions/id' + areaId + '/' + pushToken);
+    item.remove()
+      .catch(error => {
+        console.log('DataService: Error saving push token', pushToken, areaId, error);
+      });
+  }
+
 }
