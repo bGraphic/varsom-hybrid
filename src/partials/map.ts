@@ -2,7 +2,7 @@ import { Component, Input, Output, ViewChild, EventEmitter } from '@angular/core
 import 'leaflet';
 import { Forecast } from '../models/Forecast';
 import { SettingsService } from "../services/settings";
-import { Theme } from "../providers/theme";
+import { ThemeUtils } from "../utils/theme-utils";
 
 @Component({
   selector: 'nve-map',
@@ -22,7 +22,7 @@ export class Map {
   private _map: L.Map;
   private _geojsonLayer: L.GeoJSON;
 
-  constructor (private settings: SettingsService, private theme: Theme) {
+  constructor (private settings: SettingsService) {
 
   }
 
@@ -94,13 +94,13 @@ export class Map {
 
   private featureStyle(feature:any) {
 
-    let color = this.theme.colorForRating(0);
+    let color = ThemeUtils.colorForRating(0);
     let fillOpacity = 0.2;
 
     if(this.forecasts) {
       let forecast = Forecast.findForecastWithAreaId(this.forecasts, Map.transformGeoJsonToAreaId(feature));
       if(forecast) {
-        color = this.theme.colorForRating(forecast.mapWarning.rating);
+        color = ThemeUtils.colorForRating(forecast.mapWarning.rating);
       }
     }
 
