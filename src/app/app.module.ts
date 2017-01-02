@@ -19,8 +19,9 @@ import { AngularFireModule } from 'angularfire2';
 import { SettingsService } from "../services/settings";
 import { Theme } from "../providers/theme";
 import { Constants } from "../providers/constants";
-import { Favorites } from "../providers/favorites";
 import { FilterForecastsPipe, ForecastsTimeframePipe } from "../pipes/forecasts";
+import { Favorites } from "../providers/favorites";
+import { FavoriteDirective } from "../directives/favorite";
 
 // Must export the config
 const firebaseConfig = {
@@ -58,6 +59,7 @@ const cloudSettings: CloudSettings = {
     WarningDetailsPage,
     WarningBadge,
     Map,
+    FavoriteDirective,
     FilterForecastsPipe,
     ForecastsTimeframePipe
   ],

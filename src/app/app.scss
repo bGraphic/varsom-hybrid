@@ -25,6 +25,10 @@ ion-label p {
   color: inherit !important;
 }
 
+.bar-button.active {
+  color: #{map-get($colors, 'secondary')};
+}
+
 // NVE globals
 
 $warning-badge-size: 40px;
