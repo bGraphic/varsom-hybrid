@@ -1,9 +1,12 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title>{{ pageTitleKey | translate }}</ion-title>
-    <button ion-button right menuToggle>
+    <button ion-button right menuToggle *ngIf="showMap">
       <ion-icon name="menu"></ion-icon>
     </button>
+    <ion-buttons end *ngIf="parentId">
+      <button ion-button icon-only [nveFavorite]="parentId"><ion-icon name="star"></ion-icon></button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 

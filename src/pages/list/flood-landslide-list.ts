@@ -15,6 +15,7 @@ import { Subscription } from "rxjs";
 export class FloodLandslideListPage {
 
   pageTitleKey: string;
+  parentId:string = null;
   forecasts: Forecast[] = [];
 
   sections = [];
@@ -27,7 +28,7 @@ export class FloodLandslideListPage {
 
   private _floodForecast:Forecast[] = [];
   private _landslideForecast:Forecast[] = [];
-  private _parentId:string;
+
   private _subscriptions: Subscription[] = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService, public settings: SettingsService, private geojson: GeojsonService) {
@@ -35,7 +36,7 @@ export class FloodLandslideListPage {
 
     if(area) {
       this.pageTitleKey = area.name;
-      this._parentId = area.id;
+      this.parentId = area.id;
     } else {
       this.pageTitleKey = 'FLOOD_LANDSLIDE';
       this.showMap = true;
@@ -65,14 +66,14 @@ export class FloodLandslideListPage {
       });
     this._subscriptions.push(forecastTypeSubscription);
 
-    let floodForecastSubscription = this.dataService.getForecasts('flood', this._parentId)
+    let floodForecastSubscription = this.dataService.getForecasts('flood', this.parentId)
       .subscribe(forecasts => {
         this._floodForecast = forecasts;
         this._update();
       });
     this._subscriptions.push(floodForecastSubscription);
 
-    let landslideSubscription = this.dataService.getForecasts('landslide', this._parentId)
+    let landslideSubscription = this.dataService.getForecasts('landslide', this.parentId)
       .subscribe(forecasts => {
         this._landslideForecast = forecasts;
         this._update();
