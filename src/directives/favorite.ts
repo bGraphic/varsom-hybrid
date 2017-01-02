@@ -1,5 +1,5 @@
 import { Directive, ElementRef, Input, HostListener, Renderer } from '@angular/core';
-import { Favorites } from "../providers/favorites";
+import { FavoriteService } from "../providers/favorites";
 import { Subscription } from "rxjs";
 
 @Directive({ selector: '[nveFavorite]' })
@@ -13,7 +13,7 @@ export class FavoriteDirective {
     this.toggleFavorite();
   }
 
-  constructor(private _renderer: Renderer, private _el: ElementRef, private _favorites: Favorites) {
+  constructor(private _renderer: Renderer, private _el: ElementRef, private _favorites: FavoriteService) {
 
   }
 

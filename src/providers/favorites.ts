@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 import {Observable, BehaviorSubject, ReplaySubject} from "rxjs";
 
 @Injectable()
-export class Favorites {
+export class FavoriteService {
 
   private readonly FAVORITES_KEY = 'favorites';
   private _favoriteAreaIds$ = new BehaviorSubject<string[]>([]);
@@ -13,13 +13,13 @@ export class Favorites {
   constructor(private _storage: Storage) {
 
     this.favoriteAreaIds$.subscribe(favorites => {
-      console.log("Favorites: Changed", favorites);
+      console.log("FavoriteService: Changed", favorites);
     });
 
     this._fetchInitialFavorites$()
       .concat(this._changeEvents$.publishReplay().refCount())
       .subscribe(event => {
-        console.log("Favoriets: Event", event.type, event.areaIds);
+        console.log("FavoriteService: Event", event.type, event.areaIds);
 
         switch(event.type) {
           case 'initial':
@@ -97,10 +97,10 @@ export class Favorites {
     this._storage.set(this.FAVORITES_KEY, favorites)
       .then(
         () => {
-          console.log("Favorites: Saved favorites", favorites);
+          console.log("FavoriteService: Saved favorites", favorites);
         },
         error => {
-          console.error('Favorites: Error storing favorites', error);
+          console.error('FavoriteService: Error storing favorites', error);
         }
       );
   }

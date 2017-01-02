@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { AreaDetailsPage } from '../area-details/area-details';
 import { Forecast } from "../../models/Forecast";
-import { Forecasts } from "../../providers/forecasts";
-import { GeojsonService }       from '../../services/geojson';
-import { SettingsService } from "../../services/settings";
+import { ForecastService } from "../../providers/forecasts";
+import { GeoJsonService }       from '../../providers/geojson';
+import { SettingService } from "../../providers/settings";
 import { Subscription } from "rxjs";
 
 @Component({
   templateUrl: 'list.html',
-  providers: [ GeojsonService ]
+  providers: [ GeoJsonService ]
 })
 
 export class AvalancheListPage {
@@ -28,11 +28,10 @@ export class AvalancheListPage {
 
 
   constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    private _forecasts: Forecasts,
-    public settings: SettingsService,
-    public geojson: GeojsonService
+    private _navCtrl: NavController,
+    private _forecastService: ForecastService,
+    private _settingService: SettingService,
+    private _geoJsonService: GeoJsonService
   ) {
     this.pageTitleKey = "AVALANCHE";
   }
@@ -40,20 +39,20 @@ export class AvalancheListPage {
   ionViewDidEnter() {
 
     if(this.showMap) {
-      let geojsonSubscription = this.geojson.getRegions()
+      let geojsonSubscription = this._geoJsonService.getRegions()
         .subscribe(geoJsonData => {
           this.mapGeoJsonData = geoJsonData;
         });
       this._subscriptions.push(geojsonSubscription);
     }
 
-    let avalancheSubscription =  this._forecasts.getForecasts('avalanche')
+    let avalancheSubscription =  this._forecastService.getForecasts('avalanche')
       .subscribe(forecasts => {
         this.forecasts = forecasts;
       });
     this._subscriptions.push(avalancheSubscription);
 
-    let currentPositionSubscription = this.settings.currentPositionObs
+    let currentPositionSubscription = this._settingService.currentPositionObs
       .subscribe(position => {
         this.mapCenter = position;
       });
@@ -67,7 +66,7 @@ export class AvalancheListPage {
   }
 
   private pushDetailsPage(area: {id: string, name: string}) {
-    this.navCtrl.push(AreaDetailsPage, {
+    this._navCtrl.push(AreaDetailsPage, {
       area: area
     });
   }

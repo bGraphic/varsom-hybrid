@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AreaUtils } from "../../utils/area-utils";
 import { Forecast } from "../../models/Forecast";
-import { Forecasts } from "../../providers/forecasts";
+import { ForecastService } from "../../providers/forecasts";
 import { WarningDetailsPage } from "../warning-details/warning-details";
 import { Subscription } from "rxjs";
 
@@ -20,12 +20,12 @@ export class AreaDetailsPage {
   private _subscriptions: Subscription[] = [];
 
   constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    private _forecasts: Forecasts
+    private _navCtrl: NavController,
+    private _navParams: NavParams,
+    private _forecastService: ForecastService
   ) {
     // If we navigated to this page, we will have an item available as a nav param
-    let area = navParams.get('area');
+    let area = _navParams.get('area');
     this.pageTitleKey = area.name;
     this.areaId = area.id;
   }
@@ -47,7 +47,7 @@ export class AreaDetailsPage {
   }
 
   onWarningSelected(forecast:Forecast, dayIndex:number) {
-    this.navCtrl.push(WarningDetailsPage, {
+    this._navCtrl.push(WarningDetailsPage, {
       warning: {
         areaName: forecast.areaName,
         areaId: forecast.areaId,
@@ -59,12 +59,12 @@ export class AreaDetailsPage {
 
   private _subscribeToMunicipalityForecasts(areaId:string) {
 
-    let floodSubscription = this._forecasts.getForecastForArea('flood', areaId)
+    let floodSubscription = this._forecastService.getForecastForArea('flood', areaId)
       .subscribe(forecast => {
         this._updateWarnings('flood', forecast);
       });
 
-    let landslideSubscription = this._forecasts.getForecastForArea('landslide', areaId)
+    let landslideSubscription = this._forecastService.getForecastForArea('landslide', areaId)
       .subscribe(forecast => {
         this._updateWarnings('landslide', forecast);
       });
@@ -74,7 +74,7 @@ export class AreaDetailsPage {
   }
 
   private _subscribeToRegionForecast(areaId:string) {
-    let subscription = this._forecasts.getForecastForArea('avalanche', areaId)
+    let subscription = this._forecastService.getForecastForArea('avalanche', areaId)
       .subscribe(forecast => {
         this._updateWarnings('avalanche', forecast);
       });

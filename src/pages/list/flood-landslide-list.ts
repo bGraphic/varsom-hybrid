@@ -3,14 +3,14 @@ import { NavController, NavParams } from 'ionic-angular';
 import { AreaDetailsPage } from '../area-details/area-details';
 import { AreaUtils } from "../../utils/area-utils";
 import { Forecast } from "../../models/Forecast";
-import { Forecasts } from "../../providers/forecasts";
-import { GeojsonService }       from '../../services/geojson';
-import { SettingsService } from "../../services/settings";
+import { ForecastService } from "../../providers/forecasts";
+import { GeoJsonService }       from '../../providers/geojson';
+import { SettingService } from "../../providers/settings";
 import { Subscription } from "rxjs";
 
 @Component({
   templateUrl: 'list.html',
-  providers: [ GeojsonService ]
+  providers: [ GeoJsonService ]
 })
 
 export class FloodLandslideListPage {
@@ -34,14 +34,14 @@ export class FloodLandslideListPage {
 
   constructor(
 
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    private _forecasts: Forecasts,
-    public settings: SettingsService,
-    private geojson: GeojsonService
+    private _navCtrl: NavController,
+    private _navParams: NavParams,
+    private _forecastService: ForecastService,
+    private _settingService: SettingService,
+    private _geoJsonService: GeoJsonService
 
   ) {
-    let area = navParams.get('area');
+    let area = _navParams.get('area');
 
     if(area) {
       this.pageTitleKey = area.name;
@@ -55,19 +55,19 @@ export class FloodLandslideListPage {
   ionViewDidEnter() {
 
     if(this.showMap) {
-      let geojsonSubscription = this.geojson.getCounties().subscribe(geojsonData => {
+      let geojsonSubscription = this._geoJsonService.getCounties().subscribe(geojsonData => {
         this.mapGeoJsonData = geojsonData;
       });
       this._subscriptions.push(geojsonSubscription);
     }
 
-    let currentPositionSubscription = this.settings.currentPositionObs
+    let currentPositionSubscription = this._settingService.currentPositionObs
       .subscribe(position => {
         this.mapCenter = position;
       });
     this._subscriptions.push(currentPositionSubscription);
 
-    let forecastTypeSubscription = this.settings.currentForecastTypeObs
+    let forecastTypeSubscription = this._settingService.currentForecastTypeObs
       .subscribe(forecastType => {
         this.selectedSegment = forecastType;
         this.sections = [ forecastType.toUpperCase() ];
@@ -75,14 +75,14 @@ export class FloodLandslideListPage {
       });
     this._subscriptions.push(forecastTypeSubscription);
 
-    let floodForecastSubscription = this._forecasts.getForecasts('flood', this.parentId)
+    let floodForecastSubscription = this._forecastService.getForecasts('flood', this.parentId)
       .subscribe(forecasts => {
         this._floodForecast = forecasts;
         this._update();
       });
     this._subscriptions.push(floodForecastSubscription);
 
-    let landslideSubscription = this._forecasts.getForecasts('landslide', this.parentId)
+    let landslideSubscription = this._forecastService.getForecasts('landslide', this.parentId)
       .subscribe(forecasts => {
         this._landslideForecast = forecasts;
         this._update();
@@ -110,7 +110,7 @@ export class FloodLandslideListPage {
     if( AreaUtils.isOslo(area.id)) {
       this.pushDetailsPage(area);
     } else {
-      this.navCtrl.push(FloodLandslideListPage, {
+      this._navCtrl.push(FloodLandslideListPage, {
         area: area
       });
     }
@@ -120,7 +120,7 @@ export class FloodLandslideListPage {
     if(AreaUtils.isOslo(area.id)) {
       area.id = AreaUtils.OSLO_MUNICIPALITY_ID;
     }
-    this.navCtrl.push(AreaDetailsPage, {
+    this._navCtrl.push(AreaDetailsPage, {
       area: area
     });
   }
@@ -151,6 +151,6 @@ export class FloodLandslideListPage {
   }
 
   onSegmentChanged() {
-    this.settings.currentForecastType = this.selectedSegment;
+    this._settingService.currentForecastType = this.selectedSegment;
   }
 }

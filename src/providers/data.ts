@@ -3,7 +3,7 @@ import { AngularFire } from 'angularfire2';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class Data {
+export class DataService {
 
   constructor(private _af: AngularFire) {
 

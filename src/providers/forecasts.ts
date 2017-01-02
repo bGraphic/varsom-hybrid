@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Forecast } from "../models/Forecast";
-import { Data } from "../providers/data";
+import { DataService } from "../providers/data";
 import { AreaUtils } from "../utils/area-utils";
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class Forecasts {
+export class ForecastService {
 
-  constructor(private _data: Data) {
+  constructor(private _data: DataService) {
 
   }
 

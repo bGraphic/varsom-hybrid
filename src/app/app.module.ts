@@ -1,6 +1,7 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { HttpModule, Http } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
+import { AngularFireModule } from 'angularfire2';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { Storage } from '@ionic/storage';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
@@ -8,18 +9,21 @@ import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-tra
 import { MomentModule } from 'angular2-moment';
 
 import { MyApp } from './app.component';
+
 import { FloodLandslideListPage } from '../pages/list/flood-landslide-list';
 import { AvalancheListPage } from "../pages/list/avalanche-list";
 import { AreaDetailsPage } from '../pages/area-details/area-details';
 import { WarningDetailsPage } from "../pages/warning-details/warning-details";
 import { WarningBadge } from "../partials/warning-badge";
 import { Map } from "../partials/map";
-import { Data } from "../providers/data";
-import { Forecasts } from "../providers/forecasts";
-import { AngularFireModule } from 'angularfire2';
-import { SettingsService } from "../services/settings";
+
+import { DataService } from "../providers/data";
+import { ForecastService } from "../providers/forecasts";
+import { FavoriteService } from "../providers/favorites";
+import { SettingService } from "../providers/settings";
+
 import { FilterForecastsPipe, ForecastsTimeframePipe } from "../pipes/forecasts";
-import { Favorites } from "../providers/favorites";
+
 import { FavoriteDirective } from "../directives/favorite";
 
 // Must export the config
@@ -83,6 +87,6 @@ const cloudSettings: CloudSettings = {
     AreaDetailsPage,
     WarningDetailsPage
   ],
-  providers: [Storage, Forecasts, Data, SettingsService, Favorites, {provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [Storage, ForecastService, DataService, SettingService, FavoriteService, {provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
 export class AppModule {}
