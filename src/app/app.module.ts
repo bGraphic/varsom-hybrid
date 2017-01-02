@@ -18,7 +18,6 @@ import { Data } from "../providers/data";
 import { Forecasts } from "../providers/forecasts";
 import { AngularFireModule } from 'angularfire2';
 import { SettingsService } from "../services/settings";
-import { Constants } from "../providers/constants";
 import { FilterForecastsPipe, ForecastsTimeframePipe } from "../pipes/forecasts";
 import { Favorites } from "../providers/favorites";
 import { FavoriteDirective } from "../directives/favorite";
@@ -84,6 +83,6 @@ const cloudSettings: CloudSettings = {
     AreaDetailsPage,
     WarningDetailsPage
   ],
-  providers: [Storage, Forecasts, Data, SettingsService, Constants, Favorites, {provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [Storage, Forecasts, Data, SettingsService, Favorites, {provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
 export class AppModule {}

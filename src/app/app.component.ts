@@ -10,7 +10,6 @@ import 'moment/min/locales';
 
 import { FloodLandslideListPage } from '../pages/list/flood-landslide-list';
 import { AvalancheListPage } from "../pages/list/avalanche-list";
-import {Constants} from "../providers/constants";
 
 
 @Component({
@@ -76,8 +75,12 @@ export class MyApp {
     this.sections = [
       { titleKey: 'FLOOD_LANDSLIDE', icon: 'rainy', component: FloodLandslideListPage },
       { titleKey: 'AVALANCHE', icon: 'snow', component: AvalancheListPage },
-      { titleKey: 'ICE', icon: 'disc', url: Constants.ICE_URL }
+      { titleKey: 'ICE', icon: 'disc', url: "" }
     ];
+
+    this.translate.get('ICE_URL').subscribe((res: string) => {
+      this.sections[2].url = res;
+    });
 
     this.openSection(this.sections[0]);
   }

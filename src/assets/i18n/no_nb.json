@@ -20,5 +20,6 @@
   "DESTRUCTIVE_SIZE_EXT": "Skredstørrelse",
   "AVAL_TRIGGER_SIMPLE": "Utløsningsårsak",
   "AVAL_PROPAGATION": "Utbredelse",
-  "AVAL_PROBABILITY": "Sannsynlighet"
+  "AVAL_PROBABILITY": "Sannsynlighet",
+  "ICE_URL": "http://www.varsom.no/isvarsling/"
 }
