@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import { AreaDetailsPage } from '../area-details/area-details';
 import { Forecast } from "../../models/Forecast";
 import { ForecastService } from "../../providers/forecasts";
+import { FavoriteService } from "../../providers/favorites";
 import { GeoJsonService }       from '../../providers/geojson';
 import { SettingService } from "../../providers/settings";
 import { Subscription } from "rxjs";
@@ -18,6 +19,7 @@ export class AvalancheListPage {
   listHeaderKey: string;
   forecasts: Forecast[] = [];
 
+  favorites: string[] = [];
   sections = ['A_REGIONS', 'B_REGIONS'];
   segments = [];
 
@@ -31,6 +33,7 @@ export class AvalancheListPage {
   constructor(
     private _navCtrl: NavController,
     private _forecastService: ForecastService,
+    private _favoriteService: FavoriteService,
     private _settingService: SettingService,
     private _geoJsonService: GeoJsonService
   ) {
@@ -59,6 +62,12 @@ export class AvalancheListPage {
         this.mapCenter = position;
       });
     this._subscriptions.push(currentPositionSubscription);
+
+    let favoriteSubscription = this._favoriteService.favoriteAreaIds$
+      .subscribe(favorites => {
+        this.favorites = favorites;
+      });
+    this._subscriptions.push(favoriteSubscription);
   }
 
   ngOnDestroy() {

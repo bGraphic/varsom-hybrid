@@ -4,6 +4,7 @@ import { AreaDetailsPage } from '../area-details/area-details';
 import { AreaUtils } from "../../utils/area-utils";
 import { Forecast } from "../../models/Forecast";
 import { ForecastService } from "../../providers/forecasts";
+import { FavoriteService } from "../../providers/favorites";
 import { GeoJsonService }       from '../../providers/geojson';
 import { SettingService } from "../../providers/settings";
 import { Subscription } from "rxjs";
@@ -20,7 +21,8 @@ export class FloodLandslideListPage {
   parentId:string = null;
   forecasts: Forecast[] = [];
 
-  sections = ['selected_segment'];
+  favorites:string[] = [];
+  sections:string[] = [];
   segments = ['flood_landslide', 'flood', 'landslide'];
   selectedSegment: string;
 
@@ -30,7 +32,6 @@ export class FloodLandslideListPage {
 
   private _floodForecast:Forecast[] = [];
   private _landslideForecast:Forecast[] = [];
-
   private _subscriptions: Subscription[] = [];
 
   constructor(
@@ -38,6 +39,7 @@ export class FloodLandslideListPage {
     private _navCtrl: NavController,
     private _navParams: NavParams,
     private _forecastService: ForecastService,
+    private _favoriteService: FavoriteService,
     private _settingService: SettingService,
     private _geoJsonService: GeoJsonService
 
@@ -47,9 +49,10 @@ export class FloodLandslideListPage {
     if(area) {
       this.pageTitleKey = area.name;
       this.parentId = area.id;
+      this.sections = ['MUNICIPALITIES'];
     } else {
-      this.pageTitleKey = 'FLOOD_LANDSLIDE';
       this.showMap = true;
+      this.sections = ['COUNTIES'];
     }
   }
 
@@ -72,6 +75,9 @@ export class FloodLandslideListPage {
       .subscribe(forecastType => {
         this.selectedSegment = forecastType;
         this.listHeaderKey = forecastType.toUpperCase();
+        if(!this.parentId) {
+          this.pageTitleKey = forecastType.toUpperCase();
+        }
         this._updateForecast();
       });
     this._subscriptions.push(forecastTypeSubscription);
@@ -89,6 +95,12 @@ export class FloodLandslideListPage {
         this._updateForecast();
       });
     this._subscriptions.push(landslideSubscription);
+
+    let favoriteSubscription = this._favoriteService.favoriteAreaIds$
+      .subscribe(favorites => {
+        this.favorites = favorites;
+      });
+    this._subscriptions.push(favoriteSubscription);
   }
 
   ngOnDestroy() {

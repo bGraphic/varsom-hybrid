@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Forecast } from "../models/Forecast";
+import { AreaUtils } from "../utils/area-utils";
 
 
 @Pipe({ name: 'filterForecasts' })
@@ -10,6 +11,28 @@ export class FilterForecastsPipe implements PipeTransform {
     } else {
       return Forecast.filterARegions(forecasts);
     }
+  }
+}
+
+@Pipe({
+  name: 'favoriteForecasts',
+  pure: false
+})
+export class FavoriteForecastsPipe implements PipeTransform {
+  transform(forecasts: Forecast[], favoriteIds?: string[]) {
+    let favoriteForecasts = [];
+    for(let areaId of favoriteIds) {
+      let favorite = Forecast.findForecastWithAreaId(forecasts, areaId);
+      if(!favorite) {
+        areaId = AreaUtils.getParentId(areaId);
+        favorite = Forecast.findForecastWithAreaId(forecasts, areaId);
+      }
+
+      if(favorite && !Forecast.findForecastWithAreaId(favoriteForecasts, areaId)) {
+        favoriteForecasts.push(favorite);
+      }
+    }
+    return favoriteForecasts;
   }
 }
 
