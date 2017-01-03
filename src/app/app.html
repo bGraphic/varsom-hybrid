@@ -1,4 +1,4 @@
-<ion-menu [content]="content" side="right" type="overlay">
+<ion-menu [content]="content" side="right" type="overlay" class="nve-sidebar">
 
   <ion-header>
     <ion-toolbar color="primary">
@@ -15,6 +15,8 @@
         <ion-icon item-right *ngIf="section.url" name="open" ios="ios-open-outline"></ion-icon>
       </button>
     </ion-list>
+
+    <img padding-bottom class="nve-logo" src="assets/icon/logo_nve_neg.svg" />
 
   </ion-content>
 

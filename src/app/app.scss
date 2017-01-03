@@ -40,6 +40,14 @@ $warning-icon-size: 40px;
   }
 }
 
+.nve-sidebar {
+  .nve-logo {
+    display: block;
+    height: 100px;
+    margin: 0 auto;
+  }
+}
+
 .nve-text-small {
   font-size: 80%;
 }
@@ -55,7 +63,6 @@ nve-warning-badge ion-badge {
 }
 
 .nve-menu {
-  margin-bottom: 0;
 
   .nve-menu-icon {
     height: $warning-icon-size;
