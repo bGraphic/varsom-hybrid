@@ -1,9 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AngularFire } from 'angularfire2';
 import { Observable } from 'rxjs';
+import {cache} from "rxjs/operator/cache";
 
 @Injectable()
 export class DataService {
+
+  private _floodCache$:Observable<any[]>[] = [];
+  private _landslideCache$:Observable<any[]>[] = [];
+  private _avalancheCache$:Observable<any[]>[] = [];
 
   constructor(private _af: AngularFire) {
 
@@ -12,7 +17,7 @@ export class DataService {
   getForecastForRegions(forecastType:string):Observable<any[]> {
 
     if ('avalanche' === forecastType) {
-      return this._af.database.list('/forecast/avalanche/regions/');
+      return this._getForecasts('/forecast/avalanche/regions/', this._avalancheCache$, 0);
     } else {
       console.error('DataService: Regions can only have avalanche forecasts, not', forecastType);
     }
@@ -20,8 +25,12 @@ export class DataService {
 
   getForecastForCounties(forecastType:string):Observable<any[]> {
 
-    if ('flood' === forecastType || 'landslide' === forecastType) {
-      return this._af.database.list('/forecast/' + forecastType + '/counties/');
+    let db_url = '/forecast/' + forecastType + '/counties/';
+
+    if ('flood' === forecastType ) {
+      return this._getForecasts(db_url, this._floodCache$, 0);
+    } else if('landslide' === forecastType) {
+      return this._getForecasts(db_url, this._landslideCache$, 0);
     } else {
       console.error('DataService: Counties can only have flood/landslide forecasts, not', forecastType);
     }
@@ -29,8 +38,12 @@ export class DataService {
 
   getForecastForMunicipalities(forecastType:string, parentId: string):Observable<any[]> {
 
-    if ('flood' === forecastType || 'landslide' === forecastType) {
-      return this._af.database.list('/forecast/' + forecastType + '/municipalities/id' + parentId);
+    let db_url = '/forecast/' + forecastType + '/municipalities/id' + parentId;
+
+    if ('flood' === forecastType ) {
+      return this._getForecasts(db_url, this._floodCache$, Number(parentId));
+    } else if('landslide' === forecastType) {
+      return this._getForecasts(db_url, this._landslideCache$, Number(parentId));
     } else {
       console.error('DataService: Municipalities can only have flood/landslide forecasts, not', forecastType);
     }
@@ -58,6 +71,16 @@ export class DataService {
       .catch(error => {
         console.log('DataService: Error saving push token', pushToken, areaId, error);
       });
+  }
+
+  private _getForecasts(db_url:string, caches$:Observable<any[]>[], cacheIndex:number) {
+    if(!caches$[cacheIndex]) {
+      console.log("DataService: Add to cache", cacheIndex);
+      caches$[cacheIndex] = this._af.database.list(db_url);
+      caches$[cacheIndex].subscribe();
+    }
+
+    return caches$[cacheIndex]
   }
 
 }
