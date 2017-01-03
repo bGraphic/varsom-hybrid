@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFire } from 'angularfire2';
 import { Observable } from 'rxjs';
+import {cache} from "rxjs/operator/cache";
 
 @Injectable()
 export class DataService {
