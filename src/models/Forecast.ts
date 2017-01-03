@@ -60,7 +60,7 @@ export class Forecast {
     let forecast = new Forecast();
     forecast._forecastType = forecastType;
     forecast._areaName = item.Name;
-    forecast._areaId = item.Id;
+    forecast._areaId = item.Id.toString();
     forecast._areaTypeId = item.TypeId;
     forecast._warnings = [
       Warning.createFromFirebaseItem(item.Forecast.day0),

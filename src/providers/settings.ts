@@ -4,9 +4,9 @@ import { Platform } from 'ionic-angular';
 import { Geolocation } from 'ionic-native';
 
 @Injectable()
-export class SettingsService {
+export class SettingService {
 
-  private _currentForecastType = new BehaviorSubject<string>('highest');
+  private _currentForecastType = new BehaviorSubject<string>('flood_landslide');
   private _currentPosition = new BehaviorSubject({ latLng: L.latLng(64.871, 16.949), zoom: 4 });
 
   constructor (public platform: Platform) {

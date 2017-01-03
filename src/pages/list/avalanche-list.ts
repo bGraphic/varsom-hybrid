@@ -1,23 +1,26 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { AreaDetailsPage } from '../area-details/area-details';
 import { Forecast } from "../../models/Forecast";
-import { DataService } from "../../services/data";
-import { GeojsonService }       from '../../services/geojson';
-import { SettingsService } from "../../services/settings";
+import { ForecastService } from "../../providers/forecasts";
+import { FavoriteService } from "../../providers/favorites";
+import { GeoJsonService }       from '../../providers/geojson';
+import { SettingService } from "../../providers/settings";
 import { Subscription } from "rxjs";
 
 @Component({
   templateUrl: 'list.html',
-  providers: [ GeojsonService ]
+  providers: [ GeoJsonService ]
 })
 
 export class AvalancheListPage {
 
   pageTitleKey: string;
+  listHeaderKey: string;
   forecasts: Forecast[] = [];
 
-  sections = ['AVALANCHE', 'B_REGIONS'];
+  favorites: string[] = [];
+  sections = ['A_REGIONS', 'B_REGIONS'];
   segments = [];
 
   showMap: boolean = true;
@@ -27,41 +30,54 @@ export class AvalancheListPage {
   private _subscriptions: Subscription[] = [];
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private dataService: DataService, public settings: SettingsService, public geojson: GeojsonService) {
+  constructor(
+    private _navCtrl: NavController,
+    private _forecastService: ForecastService,
+    private _favoriteService: FavoriteService,
+    private _settingService: SettingService,
+    private _geoJsonService: GeoJsonService
+  ) {
     this.pageTitleKey = "AVALANCHE";
+    this.listHeaderKey = "AVALANCHE";
   }
 
-  ionViewDidEnter() {
+  ngOnInit() {
 
     if(this.showMap) {
-      let geojsonSubscription = this.geojson.getRegions()
+      let geojsonSubscription = this._geoJsonService.getRegions()
         .subscribe(geoJsonData => {
           this.mapGeoJsonData = geoJsonData;
         });
       this._subscriptions.push(geojsonSubscription);
     }
 
-    let avalancheSubscription =  this.dataService.getForecasts('avalanche')
+    let avalancheSubscription =  this._forecastService.getForecasts('avalanche')
       .subscribe(forecasts => {
         this.forecasts = forecasts;
       });
     this._subscriptions.push(avalancheSubscription);
 
-    let currentPositionSubscription = this.settings.currentPositionObs
+    let currentPositionSubscription = this._settingService.currentPositionObs
       .subscribe(position => {
         this.mapCenter = position;
       });
     this._subscriptions.push(currentPositionSubscription);
+
+    let favoriteSubscription = this._favoriteService.favoriteAreaIds$
+      .subscribe(favorites => {
+        this.favorites = favorites;
+      });
+    this._subscriptions.push(favoriteSubscription);
   }
 
-  ionViewDidLeave() {
+  ngOnDestroy() {
     for(let subscription of this._subscriptions) {
       subscription.unsubscribe();
     }
   }
 
   private pushDetailsPage(area: {id: string, name: string}) {
-    this.navCtrl.push(AreaDetailsPage, {
+    this._navCtrl.push(AreaDetailsPage, {
       area: area
     });
   }

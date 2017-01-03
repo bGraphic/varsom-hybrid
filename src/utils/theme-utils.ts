@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class Theme {
+export class ThemeUtils {
 
-  private readonly _ratingColors = [
+  private static readonly RATING_COLORS = [
     '#C8C8C8',
     '#75B100',
     '#FFCC33',
@@ -16,9 +16,9 @@ export class Theme {
 
   }
 
-  colorForRating(rating:number):string {
-    if(rating >= 0 && rating < this._ratingColors.length) {
-      return this._ratingColors[rating];
+  static colorForRating(rating:number):string {
+    if(rating >= 0 && rating < this.RATING_COLORS.length) {
+      return this.RATING_COLORS[rating];
     } else {
       return 'transparent';
     }
