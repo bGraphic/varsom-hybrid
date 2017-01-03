@@ -16,11 +16,12 @@ import { Subscription } from "rxjs";
 export class FloodLandslideListPage {
 
   pageTitleKey: string;
+  listHeaderKey: string;
   parentId:string = null;
   forecasts: Forecast[] = [];
 
-  sections = [];
-  segments = ['highest', 'flood', 'landslide'];
+  sections = ['selected_segment'];
+  segments = ['flood_landslide', 'flood', 'landslide'];
   selectedSegment: string;
 
   showMap: boolean = false;
@@ -70,22 +71,22 @@ export class FloodLandslideListPage {
     let forecastTypeSubscription = this._settingService.currentForecastTypeObs
       .subscribe(forecastType => {
         this.selectedSegment = forecastType;
-        this.sections = [ forecastType.toUpperCase() ];
-        this._update();
+        this.listHeaderKey = forecastType.toUpperCase();
+        this._updateForecast();
       });
     this._subscriptions.push(forecastTypeSubscription);
 
     let floodForecastSubscription = this._forecastService.getForecasts('flood', this.parentId)
       .subscribe(forecasts => {
         this._floodForecast = forecasts;
-        this._update();
+        this._updateForecast();
       });
     this._subscriptions.push(floodForecastSubscription);
 
     let landslideSubscription = this._forecastService.getForecasts('landslide', this.parentId)
       .subscribe(forecasts => {
         this._landslideForecast = forecasts;
-        this._update();
+        this._updateForecast();
       });
     this._subscriptions.push(landslideSubscription);
   }
@@ -96,7 +97,7 @@ export class FloodLandslideListPage {
     }
   }
 
-  private _update() {
+  private _updateForecast() {
     if('flood' === this.selectedSegment) {
       this.forecasts = this._floodForecast;
     } else if('landslide' === this.selectedSegment) {

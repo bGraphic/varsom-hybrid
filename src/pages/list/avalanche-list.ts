@@ -15,9 +15,10 @@ import { Subscription } from "rxjs";
 export class AvalancheListPage {
 
   pageTitleKey: string;
+  listHeaderKey: string;
   forecasts: Forecast[] = [];
 
-  sections = ['AVALANCHE', 'B_REGIONS'];
+  sections = ['A_REGIONS', 'B_REGIONS'];
   segments = [];
 
   showMap: boolean = true;
@@ -34,6 +35,7 @@ export class AvalancheListPage {
     private _geoJsonService: GeoJsonService
   ) {
     this.pageTitleKey = "AVALANCHE";
+    this.listHeaderKey = "AVALANCHE";
   }
 
   ngOnInit() {

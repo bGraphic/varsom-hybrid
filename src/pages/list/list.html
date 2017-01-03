@@ -27,8 +27,12 @@
 
   <ion-list>
 
+    <ion-list-header>
+      <ion-note item-right *ngFor="let d of (forecasts | forecastsTimeframe)">{{ d | amDateFormat:'ddd' }}</ion-note> {{ listHeaderKey | translate }}
+    </ion-list-header>
+
     <ion-item-group *ngFor="let section of sections">
-      <ion-list-header *ngIf="'B_REGIONS' !== section || 0 < (forecasts | filterForecasts: section).length">
+      <ion-list-header *ngIf="'B_REGIONS' === section && 0 < (forecasts | filterForecasts: section).length">
         <ion-note item-right *ngFor="let d of (forecasts | forecastsTimeframe)">{{ d | amDateFormat:'ddd' }}</ion-note> {{ section | translate }}
       </ion-list-header>
       <ion-item *ngIf="'B_REGIONS' === section && 0 < (forecasts | filterForecasts: section).length">
