@@ -52,7 +52,7 @@ export class FloodLandslideListPage {
     }
   }
 
-  ionViewDidEnter() {
+  ngOnInit() {
 
     if(this.showMap) {
       let geojsonSubscription = this._geoJsonService.getCounties().subscribe(geojsonData => {
@@ -90,7 +90,7 @@ export class FloodLandslideListPage {
     this._subscriptions.push(landslideSubscription);
   }
 
-  ionViewDidLeave() {
+  ngOnDestroy() {
     for(let subscription of this._subscriptions) {
       subscription.unsubscribe();
     }

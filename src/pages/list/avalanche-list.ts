@@ -36,7 +36,7 @@ export class AvalancheListPage {
     this.pageTitleKey = "AVALANCHE";
   }
 
-  ionViewDidEnter() {
+  ngOnInit() {
 
     if(this.showMap) {
       let geojsonSubscription = this._geoJsonService.getRegions()
@@ -59,7 +59,7 @@ export class AvalancheListPage {
     this._subscriptions.push(currentPositionSubscription);
   }
 
-  ionViewDidLeave() {
+  ngOnDestroy() {
     for(let subscription of this._subscriptions) {
       subscription.unsubscribe();
     }
