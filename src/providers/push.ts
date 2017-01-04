@@ -47,12 +47,22 @@ export class PushService {
 
   private _areaPushAlert(message:IPushMessage) {
 
-    let alert = this._alertCtrl.create({
+    let confirm = this._alertCtrl.create({
       title: message.title,
       subTitle: message.text,
-      buttons: [this._translateService.instant('OK')]
+      buttons: [
+        {
+          text: this._translateService.instant('CANCEL'),
+        },
+        {
+          text: this._translateService.instant('VIEW_AREA'),
+          handler: () => {
+            this._navigateToArea(message.payload['areaId']);
+          }
+        }
+      ]
     });
-    alert.present();
+    confirm.present();
 
   }
 
@@ -64,5 +74,9 @@ export class PushService {
       buttons: [this._translateService.instant('OK')]
     });
     alert.present();
+  }
+
+  private _navigateToArea(areaId: string) {
+    console.log('PushService: Navigate to area', areaId);
   }
 }
