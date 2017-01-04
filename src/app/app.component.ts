@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { Push, PushToken } from '@ionic/cloud-angular';
 import { Platform, MenuController, Nav, Config } from 'ionic-angular';
 import { StatusBar } from 'ionic-native';
 import { TranslateService } from 'ng2-translate';
@@ -10,7 +9,7 @@ import 'moment/min/locales';
 
 import { FloodLandslideListPage } from '../pages/list/flood-landslide-list';
 import { AvalancheListPage } from "../pages/list/avalanche-list";
-import {FavoriteService} from "../providers/favorites";
+import { PushService } from "../providers/push";
 
 
 @Component({
@@ -27,17 +26,12 @@ export class MyApp {
     public platform: Platform,
     public menu: MenuController,
     private _config: Config,
-    private _push: Push,
     private _translateService: TranslateService,
-    private _favoriteService: FavoriteService
+    private _pushService: PushService
   ) {
     this.initializeApp();
     this.initializeTranslation();
     this.initializeSections();
-  }
-
-  ngAfterViewInit() {
-    this.initializePush();
   }
 
   private initializeApp() {
@@ -48,27 +42,11 @@ export class MyApp {
         this._config.set('ios', 'backButtonText', res);
       });
 
-    });
-  }
-
-  private initializePush() {
-    this.platform.ready().then(() => {
-
-      if(!this.platform.is('cordova')) {
-        return;
+      if(this.platform.is('cordova')) {
+        this._pushService.register();
+      } else {
+        console.log('MyApp: Do not register for push');
       }
-
-      this._push.register().then((t: PushToken) => {
-        this._favoriteService.setPushToken(t.token);
-        return this._push.saveToken(t);
-      }).then((t: PushToken) => {
-        console.log('MyApp: Token saved:', t.token);
-      });
-
-      this._push.rx.notification()
-        .subscribe((msg) => {
-          alert(msg.title + ': ' + msg.text);
-        });
 
     });
   }
