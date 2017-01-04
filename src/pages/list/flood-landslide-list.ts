@@ -23,7 +23,7 @@ export class FloodLandslideListPage {
 
   favorites:string[] = [];
   sections:string[] = [];
-  segments = ['flood_landslide', 'flood', 'landslide'];
+  segments = ['highest', 'flood', 'landslide'];
   selectedSegment: string;
 
   showMap: boolean = false;
