@@ -15,8 +15,6 @@
         {{ forecasts['flood'].getDay(dayIndex).date | amDateFormat:'dddd D. MMMM' }}
       </ion-list-header>
 
-      <ion-item-group>
-
         <button *ngFor="let forecastType of ['flood', 'landslide']" ion-item (click)="onWarningSelected(forecasts[forecastType], dayIndex)">
 
           <nve-warning-badge item-right [level]="forecasts[forecastType].getDay(dayIndex).rating"></nve-warning-badge>
@@ -37,7 +35,6 @@
 
         </button>
 
-      </ion-item-group>
     </ion-list>
   </div>
 

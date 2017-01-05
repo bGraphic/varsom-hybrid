@@ -17,12 +17,12 @@ import { Subscription } from "rxjs";
 export class FloodLandslideListPage {
 
   pageTitleKey: string;
-  listHeaderKey: string;
   parentId:string = null;
   forecasts: Forecast[] = [];
 
   favorites:string[] = [];
   sections:string[] = [];
+
   segments = ['highest', 'flood', 'landslide'];
   selectedSegment: string;
 
@@ -75,7 +75,6 @@ export class FloodLandslideListPage {
     let forecastTypeSubscription = this._settingService.currentForecastTypeObs
       .subscribe(forecastType => {
         this.selectedSegment = forecastType;
-        this.listHeaderKey = forecastType.toUpperCase();
         this._updateForecast();
       });
     this._subscriptions.push(forecastTypeSubscription);
@@ -108,12 +107,20 @@ export class FloodLandslideListPage {
   }
 
   private _updateForecast() {
+    let forecasts = [];
+
     if('flood' === this.selectedSegment) {
-      this.forecasts = this._floodForecast;
+      forecasts = this._floodForecast;
     } else if('landslide' === this.selectedSegment) {
-      this.forecasts = this._landslideForecast;
+      forecasts = this._landslideForecast;
     } else {
-      this.forecasts = Forecast.createHighestForecasts(this._floodForecast, this._landslideForecast);
+      forecasts = Forecast.createHighestForecasts(this._floodForecast, this._landslideForecast);
+    }
+
+    if(this.parentId) {
+      this.forecasts = Forecast.sortByAreaName(forecasts);
+    } else {
+      this.forecasts = Forecast.sortByAreaId(forecasts, true);
     }
   }
 

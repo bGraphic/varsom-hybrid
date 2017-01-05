@@ -21,42 +21,33 @@
 
   <nve-map *ngIf="showMap" [forecasts]="forecasts" [geoJsonData]="mapGeoJsonData" [center]="mapCenter" (areaSelected)="onMapAreaSelected($event)"></nve-map>
 
-  <ion-list>
-
-    <ion-list-header *ngIf="(0 === (forecasts | favoriteForecasts: favorites).length)">
-      <ion-note item-right *ngFor="let d of (forecasts | forecastsTimeframe)">{{ d | amDateFormat:'ddd' }}</ion-note> {{ listHeaderKey | translate }}
+  <ion-list *ngIf="(0 < (forecasts | favoriteForecasts: favorites).length)">
+    <ion-list-header>
+      <ion-note item-right *ngFor="let d of (forecasts | forecastsTimeframe)">{{ d | amDateFormat:'ddd' }}</ion-note> {{ 'FAVORITES' | translate }}
     </ion-list-header>
 
-    <ion-item-group>
+    <button detail-none ion-item *ngFor="let forecast of (forecasts | favoriteForecasts: favorites)" (click)="onListForecastSelected($event, forecast)">
+      <nve-warning-badge item-right *ngFor="let d of [0,1,2]" [level]="forecast.warnings[d].rating"></nve-warning-badge>
+      {{ forecast.areaName }}
+    </button>
+  </ion-list>
 
-      <ion-list-header *ngIf="(0 < (forecasts | favoriteForecasts: favorites).length)">
-        <ion-note item-right *ngFor="let d of (forecasts | forecastsTimeframe)">{{ d | amDateFormat:'ddd' }}</ion-note> {{ 'FAVORITES' | translate }}
-      </ion-list-header>
+  <ion-list *ngFor="let section of sections">
+    <!-- Always show A region list title -->
+    <ion-list-header *ngIf="('B_REGIONS' !== section || 0 < (forecasts | filterForecasts: section).length)">
+      <ion-note item-right *ngFor="let d of (forecasts | forecastsTimeframe)">{{ d | amDateFormat:'ddd' }}</ion-note> {{ section+"_LIST_TITLE" | translate }}
+    </ion-list-header>
+    <ion-item *ngIf="'B_REGIONS' === section && 0 < (forecasts | filterForecasts: section).length">
+      <p [innerHTML]="section+'_NOTE' | translate"></p>
+    </ion-item>
 
-      <button detail-none ion-item *ngFor="let forecast of (forecasts | favoriteForecasts: favorites)" (click)="onListForecastSelected($event, forecast)">
-        <nve-warning-badge item-right *ngFor="let d of [0,1,2]" [level]="forecast.warnings[d].rating"></nve-warning-badge>
-        {{ forecast.areaName }}
-      </button>
-
-    </ion-item-group>
-
-    <ion-item-group *ngFor="let section of sections">
-      <!-- Show all section headers when there are favorites, show B_REGIONS header only when there are B_REGIONS -->
-      <ion-list-header *ngIf="('B_REGIONS' === section && 0 < (forecasts | filterForecasts: section).length) || (0 < (forecasts | favoriteForecasts: favorites).length)">
-        <ion-note item-right *ngFor="let d of (forecasts | forecastsTimeframe)">{{ d | amDateFormat:'ddd' }}</ion-note> {{ section | translate }}
-      </ion-list-header>
-      <ion-item *ngIf="'B_REGIONS' === section && 0 < (forecasts | filterForecasts: section).length">
-        <p [innerHTML]="section+'_NOTE' | translate"></p>
-      </ion-item>
-
-      <button detail-none ion-item *ngFor="let forecast of (forecasts | filterForecasts: section)" (click)="onListForecastSelected($event, forecast)">
-        <nve-warning-badge item-right *ngFor="let d of [0,1,2]" [level]="forecast.warnings[d].rating"></nve-warning-badge>
-        {{ forecast.areaName }}
-      </button>
-
-    </ion-item-group>
+    <button detail-none ion-item *ngFor="let forecast of (forecasts | filterForecasts: section)" (click)="onListForecastSelected($event, forecast)">
+      <nve-warning-badge item-right *ngFor="let d of [0,1,2]" [level]="forecast.warnings[d].rating"></nve-warning-badge>
+      {{ forecast.areaName }}
+    </button>
 
   </ion-list>
+
 </ion-content>
 
 
