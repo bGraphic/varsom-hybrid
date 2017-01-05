@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar color="light">
+  <ion-navbar>
     <ion-title>{{ pageTitleKey | translate }}</ion-title>
     <button ion-button right menuToggle *ngIf="showMap">
       <ion-icon name="menu"></ion-icon>
@@ -8,18 +8,14 @@
       <button ion-button icon-only [nveFavorite]="parentId"><ion-icon name="star"></ion-icon></button>
     </ion-buttons>
   </ion-navbar>
-</ion-header>
-
-
-<ion-footer *ngIf="segments.length > 0">
-  <ion-navbar>
+  <ion-toolbar *ngIf="segments.length > 0">
     <ion-segment [(ngModel)]="selectedSegment" (ionChange)="onSegmentChanged()">
       <ion-segment-button *ngFor="let segment of segments" value="{{ segment }}" >
         {{ segment | uppercase | translate }}
       </ion-segment-button>
     </ion-segment>
-  </ion-navbar>
-</ion-footer>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content class="list-page">
 

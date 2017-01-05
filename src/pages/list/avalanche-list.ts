@@ -44,7 +44,7 @@ export class AvalancheListPage {
   ngOnInit() {
 
     if(this.showMap) {
-      let geojsonSubscription = this._geoJsonService.getRegions()
+      let geojsonSubscription = this._geoJsonService.regions$
         .subscribe(geoJsonData => {
           this.mapGeoJsonData = geoJsonData;
         });

@@ -51,6 +51,7 @@ export class FloodLandslideListPage {
       this.parentId = area.id;
       this.sections = ['MUNICIPALITIES'];
     } else {
+      this.pageTitleKey = 'FLOOD_LANDSLIDE';
       this.showMap = true;
       this.sections = ['COUNTIES'];
     }
@@ -59,7 +60,7 @@ export class FloodLandslideListPage {
   ngOnInit() {
 
     if(this.showMap) {
-      let geojsonSubscription = this._geoJsonService.getCounties().subscribe(geojsonData => {
+      let geojsonSubscription = this._geoJsonService.counties$.subscribe(geojsonData => {
         this.mapGeoJsonData = geojsonData;
       });
       this._subscriptions.push(geojsonSubscription);
@@ -75,9 +76,6 @@ export class FloodLandslideListPage {
       .subscribe(forecastType => {
         this.selectedSegment = forecastType;
         this.listHeaderKey = forecastType.toUpperCase();
-        if(!this.parentId) {
-          this.pageTitleKey = forecastType.toUpperCase();
-        }
         this._updateForecast();
       });
     this._subscriptions.push(forecastTypeSubscription);
