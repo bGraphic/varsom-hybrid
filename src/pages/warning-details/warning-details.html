@@ -8,10 +8,10 @@
 </ion-header>
 
 <ion-content class="warning-details-page" *ngIf="warning">
-  <ion-list no-lines>
-    <ion-item-divider color="light">
+  <ion-list>
+    <ion-list-header>
       {{ warning.date | amDateFormat:'dddd D. MMMM' }}
-    </ion-item-divider>
+    </ion-list-header>
     <ion-item>
       <nve-warning-badge item-right [level]="warning.rating"></nve-warning-badge>
       <h2 *ngIf="!warning.meta.DangerLevelName">{{ forecastTypeKey | translate }}</h2>
