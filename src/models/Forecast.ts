@@ -162,4 +162,37 @@ export class Forecast {
       return [forecast.getDay(0).date, forecast.getDay(1).date, forecast.getDay(2).date];
     }
   }
+
+  static sortByAreaName(forecasts: Forecast[]) {
+    return forecasts.sort((a:Forecast, b:Forecast) => {
+      let nameA = a.areaName.toUpperCase(); // ignore upper and lowercase
+      let nameB = b.areaName.toUpperCase(); // ignore upper and lowercase
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+
+      // names must be equal
+      return 0;
+    });
+  }
+
+  static sortByAreaId(forecasts: Forecast[], descending?:boolean) {
+    return forecasts.sort((a:Forecast, b:Forecast) => {
+      let areaIdA = a.areaId.toUpperCase(); // ignore upper and lowercase
+      let areaIdB = b.areaId.toUpperCase(); // ignore upper and lowercase
+      let decendingMultiplier = descending ? -1 : 1;
+      if (areaIdA < areaIdB) {
+        return -1 * decendingMultiplier;
+      }
+      if (areaIdA > areaIdB) {
+        return 1 * decendingMultiplier;
+      }
+
+      // names must be equal
+      return 0;
+    });
+  }
 }
