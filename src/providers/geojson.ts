@@ -5,28 +5,36 @@ import { Observable }     from 'rxjs/Observable';
 @Injectable()
 export class GeoJsonService {
 
-  constructor (private http: Http) {}
+  private _counties$: Observable<GeoJSON.GeoJsonObject>;
+  private _regions$: Observable<GeoJSON.GeoJsonObject>;
 
-  getCounties(): Observable<GeoJSON.GeoJsonObject> {
-    return this.getAreas('counties');
+  constructor (private http: Http) {
+    this._counties$ = this._createAreaObservable('counties');
+    this._regions$ = this._createAreaObservable('regions');
   }
 
-  getRegions(): Observable<GeoJSON.GeoJsonObject> {
-    return this.getAreas('regions');
+  get counties$(): Observable<GeoJSON.GeoJsonObject> {
+    return this._counties$;
   }
 
-  private getAreas(type:string): Observable<GeoJSON.GeoJsonObject> {
+  get regions$(): Observable<GeoJSON.GeoJsonObject> {
+    return this._regions$;
+  }
+
+  private _createAreaObservable(type:string): Observable<GeoJSON.GeoJsonObject> {
     return this.http.get('assets/geojson/' + type + '.geojson')
-      .map(this.extractData)
-      .catch(this.handleError);
+      .map(this._extractData)
+      .catch(this._handleError)
+      .publishReplay(1)
+      .refCount();
   }
 
-  private extractData(res: Response) {
+  private _extractData(res: Response) {
     let body = res.json();
     return body.features;
   }
 
-  private handleError (error: Response | any) {
+  private _handleError (error: Response | any) {
     return [];
   }
 }
