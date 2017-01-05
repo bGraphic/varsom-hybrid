@@ -14,7 +14,7 @@
     </ion-list-header>
     <ion-item>
       <nve-warning-badge item-right [level]="warning.rating"></nve-warning-badge>
-      <h2 *ngIf="!warning.meta.DangerLevelName">{{ forecastTypeKey | translate }}</h2>
+      <h2 *ngIf="!warning.meta.DangerLevelName">{{ forecastType | uppercase | translate }}</h2>
       <h2 *ngIf="warning.meta.DangerLevelName">{{ warning.meta.DangerLevelName | translate }}</h2>
       <p [innerHTML]="warning.meta.MainText"></p>
     </ion-item>
