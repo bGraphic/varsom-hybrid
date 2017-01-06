@@ -88,13 +88,14 @@ export class PushService {
 
     if(AreaUtils.isRegion(areaId)) {
       rootNav.setRoot(AvalancheListPage);
-    } else {
+      rootNav.push(AreaDetailsPage, {area: { id: areaId }});
+    } else if(AreaUtils.isCounty(areaId)) {
       rootNav.setRoot(FloodLandslideListPage);
-      if(AreaUtils.getParentId(areaId)) {
-        rootNav.push(FloodLandslideListPage, {area: { id: AreaUtils.getParentId(areaId) }});
-      }
+      rootNav.push(FloodLandslideListPage, {area: { id: areaId }});
+    } else if(AreaUtils.isMunicipality(areaId)) {
+      rootNav.setRoot(FloodLandslideListPage);
+      rootNav.push(FloodLandslideListPage, {area: { id: AreaUtils.getParentId(areaId) }});
+      rootNav.push(AreaDetailsPage, {area: { id: areaId }});
     }
-
-    rootNav.push(AreaDetailsPage, {area: { id: areaId }});
   }
 }
