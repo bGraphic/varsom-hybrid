@@ -20,6 +20,7 @@ import { Map } from "../partials/map";
 import { DataService } from "../providers/data";
 import { ForecastService } from "../providers/forecasts";
 import { FavoriteService } from "../providers/favorites";
+import { PushService } from "../providers/push";
 import { SettingService } from "../providers/settings";
 
 import { FilterForecastsPipe, FavoriteForecastsPipe, ForecastsTimeframePipe } from "../pipes/forecasts";
@@ -42,8 +43,9 @@ const cloudSettings: CloudSettings = {
     'sender_id': '123456', // Not supporting android yet
     'pluginConfig': {
       'ios': {
-        'badge': true,
-        'sound': true,
+        'alert': true,
+        'badge': false,
+        'sound': false,
         'clearBadge': true
       },
       'android': {
@@ -88,6 +90,14 @@ const cloudSettings: CloudSettings = {
     AreaDetailsPage,
     WarningDetailsPage
   ],
-  providers: [Storage, ForecastService, DataService, SettingService, FavoriteService, {provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [
+    Storage,
+    ForecastService,
+    DataService,
+    SettingService,
+    FavoriteService,
+    PushService,
+    {provide: ErrorHandler, useClass: IonicErrorHandler}
+  ]
 })
 export class AppModule {}

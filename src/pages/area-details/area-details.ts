@@ -83,6 +83,7 @@ export class AreaDetailsPage {
   }
 
   private _updateWarnings(forecastType:string, forecast:Forecast) {
+    this.pageTitleKey = forecast.areaName;
     this.forecasts[forecastType] = forecast;
   }
 }
