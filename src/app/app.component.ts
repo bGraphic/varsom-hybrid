@@ -1,15 +1,15 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, MenuController, Nav, Config } from 'ionic-angular';
+import { App, Platform, MenuController, Nav, Config } from 'ionic-angular';
 import { StatusBar } from 'ionic-native';
 import { TranslateService } from 'ng2-translate';
 import { InAppBrowser } from 'ionic-native';
 import * as moment from 'moment';
 import 'moment/min/locales';
 
-
-import { FloodLandslideListPage } from '../pages/list/flood-landslide-list';
-import { AvalancheListPage } from "../pages/list/avalanche-list";
 import { PushService } from "../providers/push";
+import { SettingService } from "../providers/settings";
+import { FloodLandslideListPage } from "../pages/list/flood-landslide-list";
+import { AvalancheListPage } from "../pages/list/avalanche-list";
 
 
 @Component({
@@ -18,35 +18,44 @@ import { PushService } from "../providers/push";
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  // make HelloIonicPage the root (or first) page
   rootPage: any;
-  sections: Array<{titleKey: string, icon: string, component?: any, url?: string, active?:boolean}>;
+  sections: {titleKey: string, icon: string, active:boolean, component?: any, url?:string }[];
 
   constructor(
     public platform: Platform,
-    public menu: MenuController,
+    private _appCtrl: App,
+    private _menu: MenuController,
     private _config: Config,
     private _translateService: TranslateService,
-    private _pushService: PushService
+    private _pushService: PushService,
+    private _settingService: SettingService
   ) {
     this.initializeApp();
     this.initializeTranslation();
-    this.initializeSections();
+
+    this.sections = [
+      { titleKey: 'FLOOD_LANDSLIDE', icon: 'rainy', active:false, component: FloodLandslideListPage },
+      { titleKey: 'AVALANCHE', icon: 'snow', active:false, component: AvalancheListPage },
+      { titleKey: 'ICE', icon: 'disc', active:false, url: "" }
+    ];
+
+    this._translateService.get('ICE_URL').subscribe((res: string) => {
+      this.sections[2].url = res;
+    });
+
+    this._settingService.sections = this.sections;
+    this.rootPage = FloodLandslideListPage;
   }
 
   private initializeApp() {
     this.platform.ready().then(() => {
 
       StatusBar.styleDefault();
+      this._pushService.register();
+
       this._translateService.get('BACK').subscribe((res: string) => {
         this._config.set('ios', 'backButtonText', res);
       });
-
-      if(this.platform.is('cordova')) {
-        this._pushService.register();
-      } else {
-        console.log('MyApp: Do not register for push');
-      }
 
     });
   }
@@ -57,39 +66,20 @@ export class MyApp {
     moment.locale('nb');
   }
 
-  private initializeSections() {
-    // set our app's pages
-    this.sections = [
-      { titleKey: 'FLOOD_LANDSLIDE', icon: 'rainy', component: FloodLandslideListPage },
-      { titleKey: 'AVALANCHE', icon: 'snow', component: AvalancheListPage },
-      { titleKey: 'ICE', icon: 'disc', url: "" }
-    ];
-
-    this._translateService.get('ICE_URL').subscribe((res: string) => {
-      this.sections[2].url = res;
-    });
-
-    this.openSection(this.sections[0]);
-  }
-
   openSection(section) {
+
+    console.log("Open section:", section);
 
     // navigate to the new page if it is not the current page
     if(section.component) {
-      this._activateSection(section);
-      this.rootPage = section.component;
+      this._appCtrl.getRootNav().setRoot(section.component);
     } else if(section.url) {
       new InAppBrowser(section.url, '_system');
+    } else {
+      console.log('MyApp: no valid action for section', section);
     }
 
     // close the menu when clicking a link from the menu
-    this.menu.close();
-  }
-
-  private _activateSection(section) {
-    for(let section of this.sections ) {
-      section.active = false;
-    }
-    section.active = true;
+    this._menu.close();
   }
 }

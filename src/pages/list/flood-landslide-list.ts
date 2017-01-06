@@ -35,13 +35,12 @@ export class FloodLandslideListPage {
   private _subscriptions: Subscription[] = [];
 
   constructor(
-
     private _navCtrl: NavController,
     private _navParams: NavParams,
     private _forecastService: ForecastService,
     private _favoriteService: FavoriteService,
-    private _settingService: SettingService,
-    private _geoJsonService: GeoJsonService
+    private _geoJsonService: GeoJsonService,
+    private _settingService: SettingService
 
   ) {
     let area = _navParams.get('area');
@@ -55,6 +54,10 @@ export class FloodLandslideListPage {
       this.showMap = true;
       this.sections = ['COUNTIES'];
     }
+  }
+
+  ionViewDidEnter() {
+    this._settingService.setActiveSection('FLOOD_LANDSLIDE');
   }
 
   ngOnInit() {
@@ -98,6 +101,14 @@ export class FloodLandslideListPage {
         this.favorites = favorites;
       });
     this._subscriptions.push(favoriteSubscription);
+
+    if(this.parentId) {
+      let areaSubscription = this._forecastService.getForecastForArea('flood', this.parentId)
+        .subscribe(forecast => {
+          this.pageTitleKey = forecast.areaName;
+        });
+      this._subscriptions.push(areaSubscription);
+    }
   }
 
   ngOnDestroy() {

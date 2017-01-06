@@ -1,15 +1,20 @@
 import { Injectable } from '@angular/core';
-import { AlertController } from 'ionic-angular';
+import { App, AlertController } from 'ionic-angular';
 import { Push, PushToken, IPushMessage } from '@ionic/cloud-angular';
 import { TranslateService } from 'ng2-translate';
 
 import { FavoriteService } from "./favorites";
+import { AreaUtils } from "../utils/area-utils";
+import { AvalancheListPage } from "../pages/list/avalanche-list";
+import { FloodLandslideListPage } from "../pages/list/flood-landslide-list";
+import { AreaDetailsPage } from '../pages/area-details/area-details';
 
 @Injectable()
 export class PushService {
 
   constructor(
     private _push: Push,
+    private _appCtrl: App,
     private _favoriteService: FavoriteService,
     private _alertCtrl: AlertController,
     private _translateService: TranslateService
@@ -27,7 +32,7 @@ export class PushService {
     }).then((t: PushToken) => {
       console.log('PushService: Token saved:', t.token);
     }).catch(error => {
-      console.log('PushService: Error saving token:', error);
+      console.log('PushService: Error saving token:', error.message);
     });
 
     this._push.rx.notification()
@@ -57,6 +62,7 @@ export class PushService {
         {
           text: this._translateService.instant('VIEW_AREA'),
           handler: () => {
+            console.log('PushService: Navigate to area', message.payload['areaId']);
             this._navigateToArea(message.payload['areaId']);
           }
         }
@@ -77,6 +83,18 @@ export class PushService {
   }
 
   private _navigateToArea(areaId: string) {
-    console.log('PushService: Navigate to area', areaId);
+
+    let rootNav= this._appCtrl.getRootNav();
+
+    if(AreaUtils.isRegion(areaId)) {
+      rootNav.setRoot(AvalancheListPage);
+    } else {
+      rootNav.setRoot(FloodLandslideListPage);
+      if(AreaUtils.getParentId(areaId)) {
+        rootNav.push(FloodLandslideListPage, {area: { id: AreaUtils.getParentId(areaId) }});
+      }
+    }
+
+    rootNav.push(AreaDetailsPage, {area: { id: areaId }});
   }
 }

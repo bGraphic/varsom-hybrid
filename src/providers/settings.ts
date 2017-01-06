@@ -2,14 +2,19 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Platform } from 'ionic-angular';
 import { Geolocation } from 'ionic-native';
+import { TranslateService } from 'ng2-translate';
 
 @Injectable()
 export class SettingService {
 
   private _currentForecastType = new BehaviorSubject<string>('highest');
   private _currentPosition = new BehaviorSubject({ latLng: L.latLng(64.871, 16.949), zoom: 4 });
+  private _sections: {titleKey: string, icon: string, active:boolean, component?: any, url?:string }[];
 
-  constructor (public platform: Platform) {
+  constructor (
+    public platform: Platform,
+    private _translateService: TranslateService
+  ) {
 
     this.platform.ready().then(() => {
       let subscription = Geolocation.watchPosition()
@@ -38,4 +43,23 @@ export class SettingService {
   get currentPositionObs():Observable<{ latLng: L.LatLng, zoom: number }> {
     return this._currentPosition.asObservable();
   }
+
+  set sections(sections: { titleKey: string, icon: string, active:boolean, component?: any, url?:string }[]) {
+    this._sections = sections;
+  }
+
+  get sections():{ titleKey: string, icon: string, active:boolean, component?: any, url?:string }[] {
+    return this._sections;
+  }
+
+  setActiveSection(sectionKey: string) {
+    for(let section of this._sections ) {
+      if(section.titleKey === sectionKey) {
+        section.active = true;
+      } else {
+        section.active = false;
+      }
+    }
+  }
+
 }

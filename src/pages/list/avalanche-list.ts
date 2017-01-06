@@ -34,10 +34,14 @@ export class AvalancheListPage {
     private _navCtrl: NavController,
     private _forecastService: ForecastService,
     private _favoriteService: FavoriteService,
-    private _settingService: SettingService,
-    private _geoJsonService: GeoJsonService
+    private _geoJsonService: GeoJsonService,
+    private _settingService: SettingService
   ) {
     this.pageTitleKey = "AVALANCHE";
+  }
+
+  ionViewDidEnter() {
+    this._settingService.setActiveSection('AVALANCHE');
   }
 
   ngOnInit() {
