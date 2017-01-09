@@ -11,7 +11,7 @@
   <div *ngIf="forecasts['flood'] && forecasts['landslide']">
     <ion-list *ngFor="let dayIndex of [0,1,2]">
 
-      <ion-list-header>
+      <ion-list-header text-capitalize>
         {{ forecasts['flood'].getDay(dayIndex).date | amDateFormat:'dddd D. MMMM' }}
       </ion-list-header>
 
@@ -41,8 +41,12 @@
   <div *ngIf="forecasts['avalanche']">
     <ion-list *ngFor="let dayIndex of [0,1,2]">
 
-      <ion-list-header>
+      <ion-list-header text-capitalize>
         {{ forecasts['avalanche'].getDay(dayIndex).date | amDateFormat:'dddd D. MMMM' }}
+        <span>
+          {{ 'PUBLISHED' | translate }} {{ forecasts['avalanche'].getDay(dayIndex).meta.PublishTime | amCalendar }} /
+          {{ 'NEXT_WITHIN' | translate }} {{ forecasts['avalanche'].getDay(dayIndex).meta.NextWarningTime | amCalendar }}
+        </span>
       </ion-list-header>
 
       <ion-item-group>

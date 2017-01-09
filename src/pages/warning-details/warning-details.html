@@ -9,8 +9,12 @@
 
 <ion-content class="warning-details-page" *ngIf="warning">
   <ion-list>
-    <ion-list-header>
+    <ion-list-header text-capitalize>
       {{ warning.date | amDateFormat:'dddd D. MMMM' }}
+      <span>
+        {{ 'PUBLISHED' | translate }} {{ warning.meta.PublishTime | amCalendar }} /
+        {{ 'NEXT_WITHIN' | translate }} {{ warning.meta.NextWarningTime | amCalendar }}
+      </span>
     </ion-list-header>
     <ion-item-group>
       <ion-item>
@@ -63,7 +67,7 @@
         {{ 'UPDATES' | translate }}
       </ion-item-divider>
       <ion-item *ngFor="let post of warning.meta.MicroBlogPostList">
-        <h3>{{ post.DateTime | amDateFormat:'dddd D. MMMM - k:mm' }}</h3>
+        <h3 text-capitalize>{{ post.DateTime | amDateFormat:'dddd D. MMMM - k:mm' }}</h3>
         <p>{{ post.Text }}</p>
       </ion-item>
     </ion-item-group>
