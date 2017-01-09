@@ -69,6 +69,12 @@
         <ion-item *ngFor="let problem of forecasts['avalanche'].getDay(dayIndex).meta.AvalancheProblems">
           <h2>{{ problem.AvalancheProblemTypeName }}</h2>
           <p [innerHTML]="problem.AvalCauseName"></p>
+          <nve-avalanche-rose
+            [validExpositions]="problem.ValidExpositions"
+            [exposedHeight1]="problem.ExposedHeight1"
+            [exposedHeight2]="problem.ExposedHeight2"
+            [exposedHeightFill]="problem.ExposedHeightFill">
+          </nve-avalanche-rose>
           <p>
             <strong>{{ 'AVALANCHE_TYPE' | translate }}:</strong> {{ problem.AvalancheTypeName}}<br/>
             <strong>{{ 'DESTRUCTIVE_SIZE_EXT' | translate }}:</strong> {{ problem.DestructiveSizeExtName}}<br/>

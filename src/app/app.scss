@@ -52,6 +52,47 @@ $warning-icon-size: 40px;
   font-size: 80%;
 }
 
+.nve-avalanche-rose {
+
+  width: 200px;
+  height: 100px;
+
+  * {
+    stroke-width: 1px;
+  }
+
+  text {
+    fill: #6a7a7b;
+    font-family: "Roboto Light", sans-serif;
+    &.centered {
+      text-anchor: middle;
+    }
+  }
+
+  .sector {
+    stroke: #c6c6c5;
+    fill: #e3e3e3;
+    &.active {
+      fill: #69797a;
+    }
+  }
+
+  .circle-outline {
+    stroke: #69797a;
+  }
+
+  .circle-label {
+    stroke: #69797a;
+    fill: #ffffff;
+  }
+
+  .arrow {
+    stroke: #69797a;
+    fill: #69797a;
+  }
+
+}
+
 nve-warning-badge ion-badge {
   height: $warning-badge-size;
   width: $warning-badge-size;

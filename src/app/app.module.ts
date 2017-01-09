@@ -26,6 +26,7 @@ import { SettingService } from "../providers/settings";
 import { FilterForecastsPipe, FavoriteForecastsPipe, ForecastsTimeframePipe } from "../pipes/forecasts";
 
 import { FavoriteDirective } from "../directives/favorite";
+import {AvalancheRose} from "../partials/avalanche-rose";
 
 // Must export the config
 const firebaseConfig = {
@@ -64,6 +65,7 @@ const cloudSettings: CloudSettings = {
     WarningDetailsPage,
     WarningBadge,
     Map,
+    AvalancheRose,
     FavoriteDirective,
     FilterForecastsPipe,
     FavoriteForecastsPipe,
