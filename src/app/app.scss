@@ -111,9 +111,15 @@ nve-warning-badge ion-badge {
     line-height: $warning-badge-size !important;
     border-radius: 50%;
     border: 1px solid #{map-get($colors, 'light')};
+    text-align: center;
   }
 
-  .active {
+  .nve-menu-icon:last-child {
+    margin-right: 16px;
+  }
+
+  .active,
+  .activated {
     .nve-menu-icon {
       border-color: #{map-get($colors, 'secondary')};
     }
@@ -132,25 +138,3 @@ nve-warning-badge ion-badge {
     opacity: 0.7;
   }
 }
-
-.nve-contact-info {
-  [ion-button] {
-    height: auto;
-    padding: 1em 0.5em;
-
-    .button-inner {
-      flex-direction: column;
-
-      span:first-child {
-        margin-bottom: 5px;
-      }
-    }
-  }
-}
-
-.nve-level-card {
-  .nve-level-badge {
-    margin-right: 8px;
-  }
-}
-

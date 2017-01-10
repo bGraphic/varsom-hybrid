@@ -30,27 +30,48 @@
   "AVAL_TRIGGER_SIMPLE": "Utløsningsårsak",
   "AVAL_PROPAGATION": "Utbredelse",
   "AVAL_PROBABILITY": "Sannsynlighet",
-  "ICE": "Is",
-  "EXTERNAL_LINKS_HEADER": "Lenker til varsom.no",
-  "EXTERNAL_LINKS": [
-    {
-      "url": "http://www.varsom.no/isvarsling/",
-      "label": "Isvarsling"
-    },
-    {
-      "url": "http://www.varsom.no/flom-og-jordskredvarsling/aktsomhetsnivaer-for-flom-og-jordskredvarsling/",
-      "label": "Aktsomhetsnivåer - Flom / Jordskred",
-      "description": "Beskrivelse av aktsomhetsnivåer for flom- og jordskredvarsling."
-    },
-    {
-      "url": "http://www.varsom.no/snoskredvarsling/faregradsskala-for-snoskredvarsling/",
-      "label": "Fargeskala - Snøskred",
-      "description": "Beskrivelse av faregradsskala for snøskredvarsling."
-    },
-    {
-      "url": "http://www.varsom.no/en/",
-      "label": "English",
-      "description": "Norwegian avalanche, flood and landslide hazard warnings in english."
-    }
-  ]
+  "EXTERNAL_MENU": {
+    "HEADER": "Lenker til varsom.no",
+    "LINKS": [
+      {
+        "url": "http://www.varsom.no/isvarsling/",
+        "label": "Isvarsling"
+      },
+      {
+        "url": "http://www.varsom.no/flom-og-jordskredvarsling/aktsomhetsnivaer-for-flom-og-jordskredvarsling/",
+        "label": "Aktsomhetsnivåer - Flom / Jordskred",
+        "description": "Beskrivelse av aktsomhetsnivåer for flom- og jordskredvarsling."
+      },
+      {
+        "url": "http://www.varsom.no/snoskredvarsling/faregradsskala-for-snoskredvarsling/",
+        "label": "Fargeskala - Snøskred",
+        "description": "Beskrivelse av faregradsskala for snøskredvarsling."
+      },
+      {
+        "url": "http://www.varsom.no/en/",
+        "label": "English",
+        "description": "Norwegian avalanche, flood and landslide hazard warnings in english."
+      }
+    ]
+  },
+  "CONTACT_INFO": {
+    "HEADER": "Kontaktinformasjon",
+    "LINKS": [
+      {
+        "url": "tel:+4740436000",
+        "label": "Flomvarsling",
+        "description": "08.00-21.00 alle dager<br/>404 36 000 (ikke sms)"
+      },
+      {
+        "url": "tel:+4740028777",
+        "label": "Jordskredvarsling",
+        "description": "08.00-21.00 alle dager<br/>400 28 777 (ikke sms)"
+      },
+      {
+        "url": "tel:+4748880100",
+        "label": "Snøskredvarsling",
+        "description": "07.00-20.00 alle dager<br/>488 80 100 (ikke sms)"
+      }
+    ]
+  }
 }

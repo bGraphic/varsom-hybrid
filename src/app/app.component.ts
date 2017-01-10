@@ -19,7 +19,8 @@ export class MyApp {
 
   rootPage: any;
   sections: {titleKey: string, icon: string, active:boolean, component: any }[];
-  links: { url: string, label: string, description: string};
+  external_links: { url: string, label: string, description: string};
+  contact_links: { url: string, label: string, description: string};
 
   constructor(
     public platform: Platform,
@@ -38,9 +39,12 @@ export class MyApp {
       { titleKey: 'AVALANCHE', icon: 'snow', active:false, component: AvalancheListPage }
     ];
 
-    this._translateService.get('EXTERNAL_LINKS').subscribe((res: any) => {
-      console.log("links", res);
-      this.links = res;
+    this._translateService.get('EXTERNAL_MENU.LINKS').subscribe((res: any) => {
+      this.external_links = res;
+    });
+
+    this._translateService.get('CONTACT_INFO.LINKS').subscribe((res: any) => {
+      this.contact_links = res;
     });
 
     this._settingService.sections = this.sections;
