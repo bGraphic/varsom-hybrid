@@ -118,6 +118,19 @@ nve-warning-badge ion-badge {
       border-color: #{map-get($colors, 'secondary')};
     }
   }
+
+  a .label {
+    padding: 0.5em 0;
+  }
+
+  h3, p {
+    white-space: normal;
+  }
+
+  p {
+    font-size: 0.8em;
+    opacity: 0.7;
+  }
 }
 
 .nve-contact-info {

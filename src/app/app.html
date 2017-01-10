@@ -8,12 +8,23 @@
 
   <ion-content nve-bg-color="primary">
 
-    <ion-list padding-top padding-bottom class="nve-menu">
-      <button  [ngClass]="{'active': section.active }" color="primary" ion-item no-lines detail-none *ngFor="let section of sections" (click)="openSection(section)">
+    <ion-list padding-top class="nve-menu">
+      <button [ngClass]="{'active': section.active }" color="primary" ion-item no-lines detail-none *ngFor="let section of sections" (click)="openSection(section)">
         <ion-icon item-left name="{{section.icon}}" class="nve-menu-icon"></ion-icon>
         {{ section.titleKey | translate }}
         <ion-icon item-right *ngIf="section.url" name="open" ios="ios-open-outline"></ion-icon>
       </button>
+    </ion-list>
+
+    <ion-list class="nve-menu">
+      <ion-list-header color="primary">
+        {{ "EXTERNAL_LINKS_HEADER" | translate}}
+      </ion-list-header>
+      <a *ngFor="let item of links" ion-item href="{{item.url}}" color="light">
+        <h2 *ngIf="!item.description">{{ item.label}}</h2>
+        <h3 *ngIf="item.description">{{ item.label}}</h3>
+        <p *ngIf="item.description">{{ item.description}}</p>
+      </a>
     </ion-list>
 
     <img padding-bottom class="nve-logo" src="assets/icon/logo_nve_neg.svg" />

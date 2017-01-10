@@ -30,5 +30,27 @@
   "AVAL_TRIGGER_SIMPLE": "Utløsningsårsak",
   "AVAL_PROPAGATION": "Utbredelse",
   "AVAL_PROBABILITY": "Sannsynlighet",
-  "ICE_URL": "http://www.varsom.no/isvarsling/"
+  "ICE": "Is",
+  "EXTERNAL_LINKS_HEADER": "Lenker til varsom.no",
+  "EXTERNAL_LINKS": [
+    {
+      "url": "http://www.varsom.no/isvarsling/",
+      "label": "Isvarsling"
+    },
+    {
+      "url": "http://www.varsom.no/flom-og-jordskredvarsling/aktsomhetsnivaer-for-flom-og-jordskredvarsling/",
+      "label": "Aktsomhetsnivåer - Flom / Jordskred",
+      "description": "Beskrivelse av aktsomhetsnivåer for flom- og jordskredvarsling."
+    },
+    {
+      "url": "http://www.varsom.no/snoskredvarsling/faregradsskala-for-snoskredvarsling/",
+      "label": "Fargeskala - Snøskred",
+      "description": "Beskrivelse av faregradsskala for snøskredvarsling."
+    },
+    {
+      "url": "http://www.varsom.no/en/",
+      "label": "English",
+      "description": "Norwegian avalanche, flood and landslide hazard warnings in english."
+    }
+  ]
 }

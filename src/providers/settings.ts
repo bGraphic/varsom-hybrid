@@ -9,7 +9,7 @@ export class SettingService {
 
   private _currentForecastType = new BehaviorSubject<string>('highest');
   private _currentPosition = new BehaviorSubject({ latLng: L.latLng(64.871, 16.949), zoom: 4 });
-  private _sections: {titleKey: string, icon: string, active:boolean, component?: any, url?:string }[];
+  private _sections: {titleKey: string, icon: string, active:boolean, component: any }[];
 
   constructor (
     public platform: Platform,
@@ -44,11 +44,11 @@ export class SettingService {
     return this._currentPosition.asObservable();
   }
 
-  set sections(sections: { titleKey: string, icon: string, active:boolean, component?: any, url?:string }[]) {
+  set sections(sections: { titleKey: string, icon: string, active:boolean, component: any }[]) {
     this._sections = sections;
   }
 
-  get sections():{ titleKey: string, icon: string, active:boolean, component?: any, url?:string }[] {
+  get sections():{ titleKey: string, icon: string, active:boolean, component: any }[] {
     return this._sections;
   }
 

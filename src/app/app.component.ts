@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { App, Platform, MenuController, Nav, Config } from 'ionic-angular';
 import { StatusBar } from 'ionic-native';
 import { TranslateService } from 'ng2-translate';
-import { InAppBrowser } from 'ionic-native';
 import * as moment from 'moment';
 import 'moment/min/locales';
 
@@ -19,7 +18,8 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any;
-  sections: {titleKey: string, icon: string, active:boolean, component?: any, url?:string }[];
+  sections: {titleKey: string, icon: string, active:boolean, component: any }[];
+  links: { url: string, label: string, description: string};
 
   constructor(
     public platform: Platform,
@@ -35,12 +35,12 @@ export class MyApp {
 
     this.sections = [
       { titleKey: 'FLOOD_LANDSLIDE', icon: 'rainy', active:false, component: FloodLandslideListPage },
-      { titleKey: 'AVALANCHE', icon: 'snow', active:false, component: AvalancheListPage },
-      { titleKey: 'ICE', icon: 'disc', active:false, url: "" }
+      { titleKey: 'AVALANCHE', icon: 'snow', active:false, component: AvalancheListPage }
     ];
 
-    this._translateService.get('ICE_URL').subscribe((res: string) => {
-      this.sections[2].url = res;
+    this._translateService.get('EXTERNAL_LINKS').subscribe((res: any) => {
+      console.log("links", res);
+      this.links = res;
     });
 
     this._settingService.sections = this.sections;
@@ -69,17 +69,8 @@ export class MyApp {
   openSection(section) {
 
     console.log("Open section:", section);
+    this._appCtrl.getRootNav().setRoot(section.component);
 
-    // navigate to the new page if it is not the current page
-    if(section.component) {
-      this._appCtrl.getRootNav().setRoot(section.component);
-    } else if(section.url) {
-      new InAppBrowser(section.url, '_system');
-    } else {
-      console.log('MyApp: no valid action for section', section);
-    }
-
-    // close the menu when clicking a link from the menu
     this._menu.close();
   }
 }
