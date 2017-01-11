@@ -16,6 +16,7 @@ import { Subscription } from "rxjs";
 export class AvalancheListPage {
 
   pageTitleKey: string;
+  emptyListTitleKey: string;
   forecasts: Forecast[] = [];
 
   favorites: string[] = [];
@@ -38,6 +39,7 @@ export class AvalancheListPage {
     private _settingService: SettingService
   ) {
     this.pageTitleKey = "AVALANCHE";
+    this.emptyListTitleKey = "A_REGIONS_LIST_TITLE";
   }
 
   ionViewDidEnter() {

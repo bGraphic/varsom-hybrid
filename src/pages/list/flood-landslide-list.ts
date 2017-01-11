@@ -17,6 +17,7 @@ import { Subscription } from "rxjs";
 export class FloodLandslideListPage {
 
   pageTitleKey: string;
+  emptyListTitleKey: string;
   parentId:string = null;
   forecasts: Forecast[] = [];
 
@@ -47,10 +48,12 @@ export class FloodLandslideListPage {
 
     if(area) {
       this.pageTitleKey = area.name;
+      this.emptyListTitleKey = 'MUNICIPALITIES_LIST_TITLE';
       this.parentId = area.id;
       this.sections = ['MUNICIPALITIES'];
     } else {
       this.pageTitleKey = 'FLOOD_LANDSLIDE';
+      this.emptyListTitleKey = 'COUNTIES_LIST_TITLE';
       this.showMap = true;
       this.sections = ['COUNTIES'];
     }
