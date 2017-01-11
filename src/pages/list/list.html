@@ -34,7 +34,7 @@
 
   <ion-list *ngFor="let section of sections">
     <!-- Always show A region list title -->
-    <ion-list-header *ngIf="('B_REGIONS' !== section || 0 < (forecasts | filterForecasts: section).length)">
+    <ion-list-header *ngIf="(section.indexOf('B_REGIONS') !== -1 || 0 < (forecasts | filterForecasts: section).length)">
       <ion-note item-right *ngFor="let d of (forecasts | forecastsTimeframe)">{{ d | amDateFormat:'ddd' }}</ion-note> {{ section+"_LIST_TITLE" | translate }}
     </ion-list-header>
     <ion-item *ngIf="'B_REGIONS' === section && 0 < (forecasts | filterForecasts: section).length">
