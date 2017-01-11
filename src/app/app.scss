@@ -105,6 +105,11 @@ nve-warning-badge ion-badge {
 
 .nve-menu {
 
+  button .label {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+  }
+
   .nve-menu-icon {
     height: $warning-icon-size;
     width: $warning-icon-size;
@@ -123,10 +128,6 @@ nve-warning-badge ion-badge {
     .nve-menu-icon {
       border-color: #{map-get($colors, 'secondary')};
     }
-  }
-
-  a .label {
-    padding: 0.5em 0;
   }
 
   h3, p {

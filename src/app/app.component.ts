@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { App, Platform, MenuController, Nav, Config } from 'ionic-angular';
-import { StatusBar } from 'ionic-native';
+import { StatusBar, InAppBrowser } from 'ionic-native';
 import { TranslateService } from 'ng2-translate';
 import * as moment from 'moment';
 import 'moment/min/locales';
@@ -70,11 +70,15 @@ export class MyApp {
     moment.locale('nb');
   }
 
-  openSection(section) {
+  openSection(section: {titleKey: string, icon: string, active:boolean, component: any }) {
 
     console.log("Open section:", section);
     this._appCtrl.getRootNav().setRoot(section.component);
 
     this._menu.close();
+  }
+
+  launch(url: string) {
+    new InAppBrowser(url, '_system');
   }
 }

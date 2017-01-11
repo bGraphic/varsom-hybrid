@@ -20,22 +20,22 @@
       <ion-list-header color="primary">
         {{ "EXTERNAL_MENU.HEADER" | translate}}
       </ion-list-header>
-      <a href="{{item.url}}" *ngFor="let item of external_links" ion-item color="light">
+      <button (click)="launch(item.url)" *ngFor="let item of external_links" ion-item color="light">
         <h2 *ngIf="!item.description">{{ item.label}}</h2>
         <h3 *ngIf="item.description">{{ item.label}}</h3>
         <p *ngIf="item.description" [innerHtml]="item.description"></p>
-      </a>
+      </button>
     </ion-list>
 
     <ion-list class="nve-menu">
       <ion-list-header color="primary">
         {{ "CONTACT_INFO.HEADER" | translate}}
       </ion-list-header>
-      <a href="{{item.url}}" *ngFor="let item of contact_links" ion-item detail-none color="primary">
+      <button (click)="launch(item.url)" *ngFor="let item of contact_links" ion-item detail-none color="primary">
         <ion-icon item-right name="call" class="nve-menu-icon"></ion-icon>
         <h2>{{ item.label}}</h2>
         <p *ngIf="item.description" [innerHtml]="item.description"></p>
-      </a>
+      </button>
     </ion-list>
 
     <img padding-bottom class="nve-logo" src="assets/icon/logo_nve_neg.svg" />
