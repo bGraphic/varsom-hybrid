@@ -6,7 +6,9 @@ import { AreaUtils } from "../utils/area-utils";
 @Pipe({ name: 'filterForecasts' })
 export class FilterForecastsPipe implements PipeTransform {
   transform(forecasts: Forecast[], regionType?: string) {
-    if("B_REGIONS" === regionType) {
+    if("B_REGIONS_ACTIVE" === regionType) {
+      return Forecast.filterBRegionsActive(forecasts);
+    } else if("B_REGIONS" === regionType) {
       return Forecast.filterBRegions(forecasts);
     } else {
       return Forecast.filterARegions(forecasts);

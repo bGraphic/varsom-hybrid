@@ -19,7 +19,7 @@ export class AvalancheListPage {
   forecasts: Forecast[] = [];
 
   favorites: string[] = [];
-  sections = ['A_REGIONS', 'B_REGIONS'];
+  sections = ['B_REGIONS_ACTIVE', 'A_REGIONS', 'B_REGIONS'];
 
   segments = [];
 

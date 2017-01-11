@@ -16,6 +16,7 @@
   "MUNICIPALITIES_LIST_TITLE": "Alfabetisk",
   "A_REGIONS_LIST_TITLE": "Nord til sør",
   "B_REGIONS_LIST_TITLE": "Fylkesregioner",
+  "B_REGIONS_ACTIVE_LIST_TITLE": "Aktive fylkesregioner",
   "B_REGIONS_NOTE": "Varsler for fylkesregionene utarbeides kun når skrefaren vurderes til 4 eller 5.",
   "CAUSE": "Årsak",
   "LANDSLIDE_TYPE": "Type",
