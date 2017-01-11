@@ -33,6 +33,15 @@ export class Forecast {
     return this._areaTypeId === 20;
   }
 
+  isActive(): boolean {
+    for(let warning of this._warnings) {
+      if(warning.rating > 0) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   getDay(index: number): Warning {
     return this._warnings[index];
   }
@@ -151,6 +160,14 @@ export class Forecast {
 
   static filterBRegions(forecasts:Forecast[]) {
     return forecasts.filter(forecast => forecast.isTypeB());
+  }
+
+  static filterBRegionsActive(forecasts:Forecast[]) {
+    return forecasts.filter(forecast => forecast.isTypeB()).filter(forecast => forecast.isActive());
+  }
+
+  static filterBRegionsUnactive(forecasts:Forecast[]) {
+    return forecasts.filter(forecast => forecast.isTypeB()).filter(forecast => !forecast.isActive());
   }
 
   static getTimeframeFromForecasts(forecasts: Forecast[]):Date[] {
