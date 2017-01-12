@@ -7,7 +7,7 @@ import { TranslateService } from 'ng2-translate';
 @Injectable()
 export class SettingService {
 
-  private _currentForecastType = new BehaviorSubject<string>('highest');
+  private _activeFloodLandslideSegment$ = new BehaviorSubject<string>('highest');
   private _currentPosition$ = new BehaviorSubject({ latLng: L.latLng(64.871, 16.949), zoom: 4 });
   private _sections: {titleKey: string, icon: string, active:boolean, component: any }[];
 
@@ -32,12 +32,12 @@ export class SettingService {
 
   }
 
-  get currentForecastTypeObs():Observable<string> {
-    return this._currentForecastType.asObservable();
+  get activeFloodLandslideSegment$():Observable<string> {
+    return this._activeFloodLandslideSegment$.asObservable();
   }
 
-  set currentForecastType(forecastType: string) {
-    this._currentForecastType.next(forecastType);
+  set activeFloodLandslideSegment(forecastType: string) {
+    this._activeFloodLandslideSegment$.next(forecastType);
   }
 
   get currentPosition$():Observable<{ latLng: L.LatLng, zoom: number }> {

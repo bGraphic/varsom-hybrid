@@ -78,7 +78,7 @@ export class FloodLandslideListPage {
       });
     this._subscriptions.push(currentPositionSubscription);
 
-    let forecastTypeSubscription = this._settingService.currentForecastTypeObs
+    let forecastTypeSubscription = this._settingService.activeFloodLandslideSegment$
       .subscribe(forecastType => {
         this.selectedSegment = forecastType;
         this._updateForecast();
@@ -183,6 +183,6 @@ export class FloodLandslideListPage {
   }
 
   onSegmentChanged() {
-    this._settingService.currentForecastType = this.selectedSegment;
+    this._settingService.activeFloodLandslideSegment = this.selectedSegment;
   }
 }
