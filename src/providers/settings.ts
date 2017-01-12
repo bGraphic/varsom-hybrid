@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Platform } from 'ionic-angular';
 import { Geolocation } from 'ionic-native';
 import { Storage } from '@ionic/storage';
-import { TranslateService } from 'ng2-translate';
 
 @Injectable()
 export class SettingService {
@@ -16,7 +15,6 @@ export class SettingService {
 
   constructor (
     public platform: Platform,
-    private _translateService: TranslateService,
     private _storage: Storage
   ) {
 
