@@ -62,7 +62,7 @@ export class AvalancheListPage {
       });
     this._subscriptions.push(avalancheSubscription);
 
-    let currentPositionSubscription = this._settingService.currentPositionObs
+    let currentPositionSubscription = this._settingService.currentPosition$
       .subscribe(position => {
         this.mapCenter = position;
       });

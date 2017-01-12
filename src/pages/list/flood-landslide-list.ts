@@ -72,7 +72,7 @@ export class FloodLandslideListPage {
       this._subscriptions.push(geojsonSubscription);
     }
 
-    let currentPositionSubscription = this._settingService.currentPositionObs
+    let currentPositionSubscription = this._settingService.currentPosition$
       .subscribe(position => {
         this.mapCenter = position;
       });

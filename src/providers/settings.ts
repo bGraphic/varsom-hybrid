@@ -8,7 +8,7 @@ import { TranslateService } from 'ng2-translate';
 export class SettingService {
 
   private _currentForecastType = new BehaviorSubject<string>('highest');
-  private _currentPosition = new BehaviorSubject({ latLng: L.latLng(64.871, 16.949), zoom: 4 });
+  private _currentPosition$ = new BehaviorSubject({ latLng: L.latLng(64.871, 16.949), zoom: 4 });
   private _sections: {titleKey: string, icon: string, active:boolean, component: any }[];
 
   constructor (
@@ -25,7 +25,7 @@ export class SettingService {
           return { latLng: L.latLng(p.coords.latitude, p.coords.longitude), zoom: 6 }
         })
         .subscribe((p:{ latLng: L.LatLng, zoom: number }) => {
-          this._currentPosition.next(p);
+          this._currentPosition$.next(p);
           subscription.unsubscribe();
         });
     });
@@ -40,8 +40,8 @@ export class SettingService {
     this._currentForecastType.next(forecastType);
   }
 
-  get currentPositionObs():Observable<{ latLng: L.LatLng, zoom: number }> {
-    return this._currentPosition.asObservable();
+  get currentPosition$():Observable<{ latLng: L.LatLng, zoom: number }> {
+    return this._currentPosition$.asObservable();
   }
 
   set sections(sections: { titleKey: string, icon: string, active:boolean, component: any }[]) {
