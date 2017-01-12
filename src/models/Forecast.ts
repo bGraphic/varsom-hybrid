@@ -166,10 +166,6 @@ export class Forecast {
     return forecasts.filter(forecast => forecast.isTypeB()).filter(forecast => forecast.isActive());
   }
 
-  static filterBRegionsUnactive(forecasts:Forecast[]) {
-    return forecasts.filter(forecast => forecast.isTypeB()).filter(forecast => !forecast.isActive());
-  }
-
   static getTimeframeFromForecasts(forecasts: Forecast[]):Date[] {
     // In production this should work as all forecasts are updated at the same time
     if(!forecasts || 0 === forecasts.length) {
