@@ -18,6 +18,7 @@ export class FloodLandslideListPage {
 
   pageTitleKey: string;
   emptyListTitleKey: string;
+  dummyForecasts = new Array(19);
   parentId:string = null;
   forecasts: Forecast[] = [];
 
@@ -58,6 +59,8 @@ export class FloodLandslideListPage {
       this.sections = ['COUNTIES'];
     }
   }
+
+
 
   ionViewDidEnter() {
     this._settingService.setActiveSection('FLOOD_LANDSLIDE');
