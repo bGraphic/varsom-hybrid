@@ -60,7 +60,7 @@ export class FloodLandslideListPage {
   }
 
   ionViewDidEnter() {
-    this._settingService.setActiveSection('FLOOD_LANDSLIDE');
+    this._settingService.activeSection = 'FLOOD_LANDSLIDE';
   }
 
   ngOnInit() {

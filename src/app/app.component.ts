@@ -47,8 +47,10 @@ export class MyApp {
       this.contact_links = res;
     });
 
-    this._settingService.sections = this.sections;
-    this.rootPage = FloodLandslideListPage;
+    this._settingService.activeSection$
+      .subscribe(section => {
+        this._activateSection(section);
+      });
   }
 
   private initializeApp() {
@@ -70,11 +72,34 @@ export class MyApp {
     moment.locale('nb');
   }
 
+  private _activateSection(sectionKey: string) {
+    console.log("MyApp: Activate section", sectionKey);
+
+    for(let section of this.sections) {
+      if( section.titleKey === sectionKey ) {
+        section.active = true;
+        this._setRootPage(section);
+      } else {
+        section.active = false;
+      }
+    }
+  }
+
+  private _setRootPage(section) {
+    let rootNav = this._appCtrl.getRootNav();
+    let rootPage = rootNav.first();
+
+    if(!rootPage || rootPage.component !== section.component) {
+      this._appCtrl.getRootNav().setRoot(section.component);
+    } else {
+      console.log("MyApp: Root already at: ", section.titleKey);
+    }
+  }
+
   openSection(section: {titleKey: string, icon: string, active:boolean, component: any }) {
 
-    console.log("Open section:", section);
-    this._appCtrl.getRootNav().setRoot(section.component);
-
+    console.log("MyApp: Open section", section.titleKey);
+    this._settingService.activeSection = section.titleKey;
     this._menu.close();
   }
 

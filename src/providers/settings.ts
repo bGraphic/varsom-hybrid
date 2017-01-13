@@ -7,11 +7,12 @@ import { Storage } from '@ionic/storage';
 @Injectable()
 export class SettingService {
 
-  private readonly ACTIVE_FLOOD_LANDSLIDE_SEGMENT_KEY = 'ACTIVE_FLOOD_LANDSLIDE_SEGMENT_KEY';
+  private readonly ACTIVE_SECTION = 'SETTINGS.ACTIVE_SECTION';
+  private readonly ACTIVE_FLOOD_LANDSLIDE_SEGMENT_KEY = 'SETTINGS.ACTIVE_FLOOD_LANDSLIDE_SEGMENT_KEY';
 
+  private _activeSection$ = new BehaviorSubject<string>(null);
   private _activeFloodLandslideSegment$ = new BehaviorSubject<string>(null);
   private _currentPosition$ = new BehaviorSubject({ latLng: L.latLng(64.871, 16.949), zoom: 4 });
-  private _sections: {titleKey: string, icon: string, active:boolean, component: any }[];
 
   constructor (
     public platform: Platform,
@@ -32,10 +33,31 @@ export class SettingService {
         });
     });
 
-    this._activeFloodLandslideSegment$
+    let activeFloodLandslideSegmentSave$ = this._activeFloodLandslideSegment$
+      .distinctUntilChanged()
       .skip(1)
+      .map(segment => {
+        return { key: this.ACTIVE_FLOOD_LANDSLIDE_SEGMENT_KEY, value: segment };
+      });
+
+    let activeSectionSave$ = this._activeSection$
+      .distinctUntilChanged()
+      .skip(1)
+      .map(section => {
+        return { key: this.ACTIVE_SECTION, value: section };
+      });
+
+    activeSectionSave$
+      .merge(activeFloodLandslideSegmentSave$)
+      .subscribe(item => {
+        this._saveSetting(item.key, item.value);
+      });
+
+    this._fetchSavedValue(this.ACTIVE_SECTION)
       .subscribe(value => {
-        this._saveSetting(this.ACTIVE_FLOOD_LANDSLIDE_SEGMENT_KEY, value);
+        if(!this._activeSection$.getValue()) {
+          this._activeSection$.next(value);
+        }
       });
 
     this._fetchSavedValue(this.ACTIVE_FLOOD_LANDSLIDE_SEGMENT_KEY)
@@ -46,33 +68,23 @@ export class SettingService {
   }
 
   get activeFloodLandslideSegment$():Observable<string> {
-    return this._activeFloodLandslideSegment$.asObservable();
+    return this._activeFloodLandslideSegment$.asObservable().distinctUntilChanged();
   }
 
   set activeFloodLandslideSegment(forecastType: string) {
     this._activeFloodLandslideSegment$.next(forecastType);
   }
 
+  get activeSection$():Observable<string> {
+    return this._activeSection$.asObservable().distinctUntilChanged();
+  }
+
+  set activeSection(forecastType: string) {
+    this._activeSection$.next(forecastType);
+  }
+
   get currentPosition$():Observable<{ latLng: L.LatLng, zoom: number }> {
     return this._currentPosition$.asObservable();
-  }
-
-  set sections(sections: { titleKey: string, icon: string, active:boolean, component: any }[]) {
-    this._sections = sections;
-  }
-
-  get sections():{ titleKey: string, icon: string, active:boolean, component: any }[] {
-    return this._sections;
-  }
-
-  setActiveSection(sectionKey: string) {
-    for(let section of this._sections ) {
-      if(section.titleKey === sectionKey) {
-        section.active = true;
-      } else {
-        section.active = false;
-      }
-    }
   }
 
   private _fetchSavedValue(key):Observable<string> {
@@ -82,6 +94,8 @@ export class SettingService {
         if(!value) {
           if(this.ACTIVE_FLOOD_LANDSLIDE_SEGMENT_KEY === key) {
             return 'highest';
+          } else if(this.ACTIVE_SECTION === key) {
+            return 'FLOOD_LANDSLIDE';
           }
         } else {
           return value;

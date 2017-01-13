@@ -43,7 +43,7 @@ export class AvalancheListPage {
   }
 
   ionViewDidEnter() {
-    this._settingService.setActiveSection('AVALANCHE');
+    this._settingService.activeSection = 'AVALANCHE';
   }
 
   ngOnInit() {
