@@ -41,8 +41,10 @@ export class MyApp {
 
     this._settingService.activeSection$
       .subscribe(section => {
-        this._activateSection(section);
-        Splashscreen.hide();
+        if(section) {
+          this._activateSection(section);
+          Splashscreen.hide();
+        }
       });
   }
 

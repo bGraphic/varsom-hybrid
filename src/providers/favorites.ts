@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import { Platform } from 'ionic-angular';
 import { Observable, BehaviorSubject, ReplaySubject } from "rxjs";
 import { DataService } from "./data";
 
@@ -12,8 +13,16 @@ export class FavoriteService {
   private _favoriteAreaIds$ = new BehaviorSubject<string[]>([]);
   private _changeEvents$ = new ReplaySubject<{type:string, data:string[]}>();
 
-  constructor(private _storage: Storage, private _dataService: DataService) {
+  constructor(
+    private _platform: Platform,
+    private _storage: Storage,
+    private _dataService: DataService) {
+    this._platform.ready().then(() => {
+      this._initFavorites();
+    });
+  }
 
+  private _initFavorites() {
     this._fetchInitialFavorites$()
       .concat(this._fetchSavedPushToken$())
       .concat(this._changeEvents$.publishReplay().refCount())

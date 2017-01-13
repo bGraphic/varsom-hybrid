@@ -15,24 +15,32 @@ export class SettingService {
   private _currentPosition$ = new BehaviorSubject({ latLng: L.latLng(64.871, 16.949), zoom: 4 });
 
   constructor (
-    public platform: Platform,
+    private _platform: Platform,
     private _storage: Storage
   ) {
 
-    this.platform.ready().then(() => {
-      let subscription = Geolocation.watchPosition()
-        .filter((p:any) => {
-          return p.code === undefined; //Filter Out Errors
-        })
-        .map((p:any) => {
-          return { latLng: L.latLng(p.coords.latitude, p.coords.longitude), zoom: 6 }
-        })
-        .subscribe((p:{ latLng: L.LatLng, zoom: number }) => {
-          this._currentPosition$.next(p);
-          subscription.unsubscribe();
-        });
+    this._platform.ready().then(() => {
+      this._watchPosition();
+      this._watchChangesToSetting();
+      this._fetchSavedSettings();
     });
+  }
 
+  private _watchPosition() {
+    let subscription = Geolocation.watchPosition()
+      .filter((p:any) => {
+        return p.code === undefined; //Filter Out Errors
+      })
+      .map((p:any) => {
+        return { latLng: L.latLng(p.coords.latitude, p.coords.longitude), zoom: 6 }
+      })
+      .subscribe((p:{ latLng: L.LatLng, zoom: number }) => {
+        this._currentPosition$.next(p);
+        subscription.unsubscribe();
+      });
+  }
+
+  private _watchChangesToSetting() {
     let activeFloodLandslideSegmentSave$ = this._activeFloodLandslideSegment$
       .distinctUntilChanged()
       .skip(1)
@@ -52,7 +60,9 @@ export class SettingService {
       .subscribe(item => {
         this._saveSetting(item.key, item.value);
       });
+  }
 
+  private _fetchSavedSettings() {
     this._fetchSavedValue(this.ACTIVE_SECTION)
       .subscribe(value => {
         if(!this._activeSection$.getValue()) {
@@ -64,7 +74,6 @@ export class SettingService {
       .subscribe(value => {
         this._activeFloodLandslideSegment$.next(value)
       });
-
   }
 
   get activeFloodLandslideSegment$():Observable<string> {
