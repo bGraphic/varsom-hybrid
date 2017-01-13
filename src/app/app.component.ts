@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { App, Platform, MenuController, Nav, Config } from 'ionic-angular';
-import { StatusBar, InAppBrowser } from 'ionic-native';
+import { StatusBar, InAppBrowser, Splashscreen } from 'ionic-native';
 import { TranslateService } from 'ng2-translate';
 import * as moment from 'moment';
 import 'moment/min/locales';
@@ -39,17 +39,10 @@ export class MyApp {
       { titleKey: 'AVALANCHE', icon: 'snow', active:false, component: AvalancheListPage }
     ];
 
-    this._translateService.get('EXTERNAL_MENU.LINKS').subscribe((res: any) => {
-      this.external_links = res;
-    });
-
-    this._translateService.get('CONTACT_INFO.LINKS').subscribe((res: any) => {
-      this.contact_links = res;
-    });
-
     this._settingService.activeSection$
       .subscribe(section => {
         this._activateSection(section);
+        Splashscreen.hide();
       });
   }
 
@@ -58,6 +51,14 @@ export class MyApp {
 
       StatusBar.styleDefault();
       this._pushService.register();
+
+      this._translateService.get('EXTERNAL_MENU.LINKS').subscribe((res: any) => {
+        this.external_links = res;
+      });
+
+      this._translateService.get('CONTACT_INFO.LINKS').subscribe((res: any) => {
+        this.contact_links = res;
+      });
 
       this._translateService.get('BACK').subscribe((res: string) => {
         this._config.set('ios', 'backButtonText', res);
