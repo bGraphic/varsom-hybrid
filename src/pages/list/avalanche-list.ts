@@ -44,7 +44,7 @@ export class AvalancheListPage {
   }
 
   ionViewDidEnter() {
-    this._settingService.setActiveSection('AVALANCHE');
+    this._settingService.activeSection = 'AVALANCHE';
   }
 
   ngOnInit() {
@@ -63,7 +63,7 @@ export class AvalancheListPage {
       });
     this._subscriptions.push(avalancheSubscription);
 
-    let currentPositionSubscription = this._settingService.currentPositionObs
+    let currentPositionSubscription = this._settingService.currentPosition$
       .subscribe(position => {
         this.mapCenter = position;
       });
