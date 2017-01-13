@@ -25,10 +25,13 @@
     <ion-list-header >
       {{ emptyListTitleKey | translate }}
     </ion-list-header>
+    <ion-item detail-none *ngFor="let f of dummyForecasts">
+      <nve-warning-badge item-right *ngFor="let d of [0,1,2]"></nve-warning-badge>
+    </ion-item>
   </ion-list>
 
-  <ion-list>
-    <ion-list-header *ngIf="0 < (forecasts | favoriteForecasts: favorites).length">
+  <ion-list *ngIf="0 < (forecasts | favoriteForecasts: favorites).length">
+    <ion-list-header>
       <ion-note item-right *ngFor="let d of (forecasts | forecastsTimeframe)">{{ d | amDateFormat:'ddd' }}</ion-note> {{ 'FAVORITES' | translate }}
     </ion-list-header>
 

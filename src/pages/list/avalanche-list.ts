@@ -17,6 +17,7 @@ export class AvalancheListPage {
 
   pageTitleKey: string;
   emptyListTitleKey: string;
+  dummyForecasts = new Array(21);
   forecasts: Forecast[] = [];
 
   favorites: string[] = [];
