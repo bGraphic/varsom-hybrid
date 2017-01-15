@@ -49,6 +49,11 @@ export class DataService {
     }
   }
 
+  getParseFavorites(pushToken:string):Observable<string[]> {
+    console.log('DataService: Fetching parse favorites for token', pushToken);
+    return this._af.database.list('/parse_favorites/' + pushToken);
+  }
+
   addPushTokenForArea(pushToken: string, areaId:string) {
     if(!pushToken) {
       return;

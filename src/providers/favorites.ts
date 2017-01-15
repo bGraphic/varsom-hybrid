@@ -9,6 +9,7 @@ export class FavoriteService {
 
   private readonly FAVORITES_KEY = 'FAVORITES';
   private readonly TOKEN_KEY = 'TOKEN';
+  private readonly IMPORTED_KEY = 'FAVORITES_IMPORTED2'
   private _pushTokens$ = new BehaviorSubject<{ oldTokens: string[], activeToken: string }>( { oldTokens: [], activeToken: null } );
   private _pushTokensChanges$ = new Subject<{ type:string, token: string }>();
   private _favoriteAreasWithStatus$ = new BehaviorSubject<{ areaId: string, active: boolean }[]>([]);
@@ -24,7 +25,7 @@ export class FavoriteService {
 
       this._initFavorites();
       this._initSubscription();
-
+      this._initParseImport();
     });
 
   }
@@ -81,7 +82,7 @@ export class FavoriteService {
             pushTokens.activeToken = change.token;
           }
 
-        } else if('SAVED' == change.type) {
+        } else if('SAVED' === change.type || 'PARSE' === change.type) {
 
           if(!pushTokens.activeToken) {
             pushTokens.activeToken = change.token;
@@ -109,6 +110,27 @@ export class FavoriteService {
       .subscribe(areasWithStatus => {
         this._updateSubscriptions(areasWithStatus, this._pushTokens$.getValue());
       })
+  }
+
+  private _initParseImport() {
+    this._fetchFromStorage(this.IMPORTED_KEY)
+      .filter(imported => {
+        return !imported;
+      })
+      .concatMap(imported => {
+        this._saveToStorage(this.IMPORTED_KEY, true);
+        return this._pushTokens$;
+      })
+      .concatMap(pushTokens => {
+        let parseFavorites$ = new Subject<string[]>();
+        for(let token of pushTokens.oldTokens.concat(pushTokens.activeToken)) {
+          parseFavorites$.merge(this._dataService.getParseFavorites(token));
+        }
+        return parseFavorites$;
+      })
+      .subscribe(parseFavorites => {
+        this._favoriteChanges$.next( { type: 'PARSE', areaIds: parseFavorites });
+      });
   }
 
   get favoriteAreaIds$():Observable<string[]> {
