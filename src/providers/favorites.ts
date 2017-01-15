@@ -25,8 +25,8 @@ export class FavoriteService {
       this._initFavorites();
       this._initSubscription();
 
-      this.setPushToken('50000-pushToken');
     });
+
   }
 
   private _initFavorites() {

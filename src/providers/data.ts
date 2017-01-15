@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFire } from 'angularfire2';
 import { Observable } from 'rxjs';
+import * as moment from 'moment';
 
 @Injectable()
 export class DataService {
@@ -52,9 +53,9 @@ export class DataService {
     if(!pushToken) {
       return;
     }
-
+    console.log('DataService: Adding push token to area', pushToken, areaId);
     let item = this._af.database.object('/subscriptions/id' + areaId + '/' + pushToken);
-    item.set(true)
+    item.set(moment().format())
       .catch(error => {
         console.log('DataService: Error saving push token', pushToken, areaId, error);
       });
@@ -65,6 +66,7 @@ export class DataService {
       return;
     }
 
+    console.log('DataService: Removing push token from area', pushToken, areaId);
     let item = this._af.database.object('/subscriptions/id' + areaId + '/' + pushToken);
     item.remove()
       .catch(error => {
