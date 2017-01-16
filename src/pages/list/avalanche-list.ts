@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { Splashscreen } from 'ionic-native';
 import { AreaDetailsPage } from '../area-details/area-details';
 import { Forecast } from "../../models/Forecast";
 import { ForecastService } from "../../providers/forecasts";
@@ -44,6 +45,7 @@ export class AvalancheListPage {
   }
 
   ionViewDidEnter() {
+    Splashscreen.hide();
     this._settingService.activeSection = 'AVALANCHE';
   }
 
