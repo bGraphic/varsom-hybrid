@@ -1,167 +1,188 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Platform } from 'ionic-angular';
-import { Observable, BehaviorSubject, ReplaySubject } from "rxjs";
+import {Observable, BehaviorSubject, Subject} from "rxjs";
 import { DataService } from "./data";
 
 @Injectable()
 export class FavoriteService {
 
-  private readonly FAVORITES_KEY = 'favorites';
-  private readonly TOKEN_KEY = 'token';
-  private _pushToken:string;
-  private _favoriteAreaIds$ = new BehaviorSubject<string[]>([]);
-  private _changeEvents$ = new ReplaySubject<{type:string, data:string[]}>();
+  private readonly FAVORITES_KEY = 'FAVORITES';
+  private readonly TOKEN_KEY = 'TOKEN';
+  private readonly IMPORTED_KEY = 'FAVORITES_IMPORTED';
+  private _pushToken$ = new BehaviorSubject<string>( null );
+  private _favoriteAreasWithStatus$ = new BehaviorSubject<{ areaId: string, active: boolean }[]>([]);
+  private _favoriteChanges$ = new Subject<{ type:string, areaIds: string[] }>();
 
   constructor(
     private _platform: Platform,
     private _storage: Storage,
-    private _dataService: DataService) {
+    private _dataService: DataService)
+  {
+
     this._platform.ready().then(() => {
+
       this._initFavorites();
+      this._initSubscription();
+      this._initParseImport();
+
     });
+
   }
 
   private _initFavorites() {
-    this._fetchInitialFavorites$()
-      .concat(this._fetchSavedPushToken$())
-      .concat(this._changeEvents$.publishReplay().refCount())
-      .subscribe(event => {
-        console.log("FavoriteService: Event", event.type, event.data);
 
-        switch(event.type) {
-          case 'token':
-            this._updateToken(event.data[0]);
-            break;
-          case 'initial':
-            this._favoriteAreaIds$.next(event.data);
-            break;
-          case 'add':
-            this._addFavoriteAreas(event.data);
-            break;
-          case 'remove':
-            this._removeFavoriteAreas(event.data);
-            break;
-        }
+    this._favoriteChanges$
+      .subscribe(change => {
+        console.log("FavoriteService: Change in favorites: ", change.type, change.areaIds);
 
+        let areas = this._favoriteAreasWithStatus$.getValue();
+        let setToActive = 'REMOVE' !== change.type;
+        let overrideExistingStatus = 'ADD' === change.type || 'REMOVE' == change.type; // Do not override when change type is PARSE or SAVED
+
+        areas = this._changeStatusOfAreas(areas, change.areaIds, setToActive, overrideExistingStatus);
+
+        this._favoriteAreasWithStatus$.next(areas);
+      });
+
+    this._fetchFromStorage(this.FAVORITES_KEY)
+      .map(favorites => {
+        return favorites ? favorites : [];
+      })
+      .concatMap(favorites => {
+        this._favoriteChanges$.next({ type: "SAVED", areaIds: favorites });
+        return this.favoriteAreaIds$;
+      })
+      .subscribe(areaIds => {
+        this._saveToStorage(this.FAVORITES_KEY, areaIds);
       });
   }
 
-  get favoriteAreaIds$():Observable<string[]> {
-    return this._favoriteAreaIds$.asObservable();
+  private _initSubscription() {
+
+    this._pushToken$
+      .filter( token => { return !!token })
+      .distinctUntilChanged()
+      .subscribe(token => {
+        console.log("FavoriteService: Push token changed", token);
+        this._updateSubscriptions(this._favoriteAreasWithStatus$.getValue(), token);
+      });
+
+    this._favoriteAreasWithStatus$
+      .subscribe(areasWithStatus => {
+        if(this._pushToken$.getValue()) {
+          this._updateSubscriptions(areasWithStatus, this._pushToken$.getValue());
+        }
+      });
+
+    this._fetchFromStorage(this.TOKEN_KEY)
+      .concatMap(token => {
+        if(!this._pushToken$.getValue()) {
+          console.log("FavoriteService: Push token set to saved", token);
+          this._pushToken$.next(token);
+        }
+        return this._pushToken$.filter( token => { return !!token }).distinctUntilChanged()
+      })
+      .subscribe(token => {
+        this._saveToStorage(this.TOKEN_KEY, token);
+      })
+
   }
 
-  setPushToken(newToken:string) {
-    this._changeEvents$.next({type: 'token', data:[newToken]});
+  private _initParseImport() {
+
+    this._fetchFromStorage(this.IMPORTED_KEY)
+      .filter(imported => {
+        return !imported;
+      })
+      .concatMap(imported => {
+        this._saveToStorage(this.IMPORTED_KEY, true);
+        return this._pushToken$.filter( token => { return !!token });
+      })
+      .concatMap(token => {
+        return this._dataService.getParseFavorites(token).first()
+      })
+      .subscribe(parseFavorites => {
+        this._favoriteChanges$.next( { type: 'PARSE', areaIds: parseFavorites });
+      });
+
+  }
+
+  get favoriteAreaIds$():Observable<string[]> {
+    return this._favoriteAreasWithStatus$.asObservable()
+      .map(items => this._transformsItemsToActiveAreaIds(items));
+  }
+
+  setPushToken(token:string) {
+    console.log("FavoriteService: Push token set to", token);
+    this._pushToken$.next(token)
   }
 
   isFavoriteArea$(areaId):Observable<boolean> {
-    return this._favoriteAreaIds$
+    return this.favoriteAreaIds$
       .map(favorites => {
         return favorites.indexOf(areaId) > -1;
       })
   }
 
-  removeFavoriteArea(areaId: string) {
-    this._changeEvents$.next({type:'remove', data: [areaId]});
-  }
-
   addFavoriteArea(areaId: string) {
-    this._changeEvents$.next({type:'add', data: [areaId]});
+    this._favoriteChanges$.next({ type: 'ADD', areaIds: [ areaId ] });
   }
 
-  private _addFavoriteAreas(areaIds: string[]) {
-    let favorites = this._favoriteAreaIds$.getValue();
-    let changed = false;
-    for (let areaId of areaIds){
-      let index = favorites.indexOf(areaId);
-      if( index === -1) {
-        favorites.push(areaId);
-        this._dataService.addPushTokenForArea(this._pushToken, areaId);
-        changed = true;
+  removeFavoriteArea(areaId: string) {
+    this._favoriteChanges$.next({ type: 'REMOVE', areaIds: [ areaId ] });
+  }
+
+  private _transformsItemsToActiveAreaIds(items: {areaId: string, active: boolean}[]) {
+    let activeItems = items.filter(item => { return item.active });
+    let transformedItems = activeItems.map(item => { return item.areaId });
+    return transformedItems;
+  }
+
+  private _updateSubscriptions(areasWithStatus: { areaId: string, active: boolean }[], token: string ) {
+    console.log("FavoriteService: Update subscriptions", token, areasWithStatus);
+
+    for(let area of areasWithStatus) {
+      if(area.active) {
+        this._dataService.addPushTokenForArea(token, area.areaId);
+      } else {
+        this._dataService.removePushTokenForArea(token, area.areaId);
       }
     }
-
-    if(changed) {
-      this._favoriteAreaIds$.next(favorites);
-      this._saveFavorites(favorites);
-    }
   }
 
-  private _removeFavoriteAreas(areaIds: string[]) {
-    let favorites = this._favoriteAreaIds$.getValue();
-    let changed = false;
-    for (let areaId of areaIds){
-      let index = favorites.indexOf(areaId);
-      if( index > -1) {
-        favorites = favorites.slice(0, index).concat(favorites.slice(index+1, favorites.length));
-        this._dataService.removePushTokenForArea(this._pushToken, areaId);
-        changed = true;
+  private _changeStatusOfAreas(areas:{ areaId: string, active: boolean }[], areaIds: string[], active: boolean, overrideExisting = true ):{ areaId: string, active: boolean }[] {
+    console.log("FavoriteService: Change status of areas", areaIds, active, overrideExisting);
+
+    for(let areaId of areaIds) {
+      let area = areas.find(item => { return item.areaId === areaId});
+      if(area && overrideExisting) {
+        area.active = active;
+      } else if(!area) {
+        area = { areaId: areaId, active: active};
+        areas.push(area);
       }
     }
-
-    if(changed) {
-      this._favoriteAreaIds$.next(favorites);
-      this._saveFavorites(favorites);
-    }
+    return areas;
   }
 
-  private _fetchInitialFavorites$():Observable<{type:string, data:string[]}> {
+  private _fetchFromStorage(key:string) {
     return Observable
-      .fromPromise(this._storage.get(this.FAVORITES_KEY))
-      .filter(favorites => {
-        return !!favorites;
-      })
-      .map(favorites => {
-        return { type: 'initial', data: favorites}
+      .fromPromise(this._storage.get(key))
+      .map(value => {
+        console.log("FavoriteService: Fetched", key, value);
+        return value;
       });
   }
 
-  private _saveFavorites(favorites: string[]) {
-    this._storage.set(this.FAVORITES_KEY, favorites)
+  private _saveToStorage(key:string, value:any) {
+    this._storage.set(key, value)
       .then(
         () => {
-          console.log("FavoriteService: Saved favorites", favorites);
+          console.log("FavoriteService: Saved", key, value);
         },
         error => {
-          console.error('FavoriteService: Error storing favorites', error);
-        }
-      );
-  }
-
-  private _updateToken(newToken: string) {
-    if(this._pushToken === newToken) {
-      return;
-    }
-
-    this._updatePushSubscriptions(newToken, this._pushToken);
-    this._pushToken = newToken;
-    this._saveToken(newToken);
-  }
-
-  private _updatePushSubscriptions(newToken: string, oldToken:string) {
-    for(let areaId of this._favoriteAreaIds$.getValue()) {
-      this._dataService.removePushTokenForArea(this._pushToken, areaId);
-      this._dataService.addPushTokenForArea(newToken, areaId);
-    }
-  }
-
-  private _fetchSavedPushToken$():Observable<{ type: string, data:string[] }> {
-    return Observable
-      .fromPromise(this._storage.get(this.TOKEN_KEY))
-      .map(pushToken => {
-        return { type: 'token', data: [pushToken] }
-      });
-  }
-
-  private _saveToken(token: string) {
-    this._storage.set(this.TOKEN_KEY, token)
-      .then(
-        () => {
-          console.log("FavoriteService: Saved token", token);
-        },
-        error => {
-          console.error('FavoriteService: Error storing token', token);
+          console.error("FavoriteService: Error storing", key, value);
         }
       );
   }
