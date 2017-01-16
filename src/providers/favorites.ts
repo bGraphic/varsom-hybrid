@@ -9,9 +9,8 @@ export class FavoriteService {
 
   private readonly FAVORITES_KEY = 'FAVORITES';
   private readonly TOKEN_KEY = 'TOKEN';
-  private readonly IMPORTED_KEY = 'FAVORITES_IMPORTED2'
-  private _pushTokens$ = new BehaviorSubject<{ oldTokens: string[], activeToken: string }>( { oldTokens: [], activeToken: null } );
-  private _pushTokensChanges$ = new Subject<{ type:string, token: string }>();
+  private readonly IMPORTED_KEY = 'FAVORITES_IMPORTED';
+  private _pushToken$ = new BehaviorSubject<string>( null );
   private _favoriteAreasWithStatus$ = new BehaviorSubject<{ areaId: string, active: boolean }[]>([]);
   private _favoriteChanges$ = new Subject<{ type:string, areaIds: string[] }>();
 
@@ -26,111 +25,87 @@ export class FavoriteService {
       this._initFavorites();
       this._initSubscription();
       this._initParseImport();
+
     });
 
   }
 
   private _initFavorites() {
 
-    this._fetchFromStorage(this.FAVORITES_KEY)
-      .map(favorites => {
-        if(!favorites) {
-          favorites = [];
-        }
-        return { type: "SAVED", areaIds: favorites }
-      })
-      .merge(this._favoriteChanges$)
+    this._favoriteChanges$
       .subscribe(change => {
-
         console.log("FavoriteService: Change in favorites: ", change.type, change.areaIds);
-        let areas = this._favoriteAreasWithStatus$.getValue();
 
-        if('ADD' === change.type) {
-          areas = this._changeStatusOfAreas(areas, change.areaIds, true);
-        } else if('REMOVE' === change.type) {
-          areas = this._changeStatusOfAreas(areas, change.areaIds, false);
-        } else if('SAVED' == change.type) {
-          areas = this._changeStatusOfAreas(areas, change.areaIds, true, false);
-          this.favoriteAreaIds$
-            .subscribe(areaIds => {
-              this._saveToStorage(this.FAVORITES_KEY, areaIds)
-            });
-        }
+        let areas = this._favoriteAreasWithStatus$.getValue();
+        let setToActive = 'REMOVE' !== change.type;
+        let overrideExistingStatus = 'ADD' === change.type || 'REMOVE' == change.type; // Do not override when change type is PARSE or SAVED
+
+        areas = this._changeStatusOfAreas(areas, change.areaIds, setToActive, overrideExistingStatus);
 
         this._favoriteAreasWithStatus$.next(areas);
+      });
+
+    this._fetchFromStorage(this.FAVORITES_KEY)
+      .map(favorites => {
+        return favorites ? favorites : [];
+      })
+      .concatMap(favorites => {
+        this._favoriteChanges$.next({ type: "SAVED", areaIds: favorites });
+        return this.favoriteAreaIds$;
+      })
+      .subscribe(areaIds => {
+        this._saveToStorage(this.FAVORITES_KEY, areaIds);
       });
   }
 
   private _initSubscription() {
 
-    this._fetchFromStorage(this.TOKEN_KEY)
-      .map(token => {
-        return { type: "SAVED", token: token }
-      })
-      .merge(this._pushTokensChanges$)
-      .subscribe(change => {
-
-        console.log("FavoriteService: Change in token: ", change.type, change.token);
-        let pushTokens = this._pushTokens$.getValue();
-
-        if('NEW' === change.type) {
-
-          if(pushTokens.activeToken !== change.token) {
-            if(pushTokens.activeToken) {
-              pushTokens.oldTokens.push(pushTokens.activeToken);
-            }
-            pushTokens.activeToken = change.token;
-          }
-
-        } else if('SAVED' === change.type || 'PARSE' === change.type) {
-
-          if(!pushTokens.activeToken) {
-            pushTokens.activeToken = change.token;
-          } else if (pushTokens.activeToken !== change.token) {
-            pushTokens.oldTokens.push(change.token);
-          }
-
-          this._pushTokens$
-            .map(tokens => {
-              return tokens.activeToken;
-            })
-            .subscribe(activeToken => {
-              this._saveToStorage(this.TOKEN_KEY, activeToken)
-            });
-        }
-
-        this._updateSubscriptions(this._favoriteAreasWithStatus$.getValue(), pushTokens);
-        this._pushTokens$.next(pushTokens);
+    this._pushToken$
+      .filter( token => { return !!token })
+      .distinctUntilChanged()
+      .subscribe(token => {
+        console.log("FavoriteService: Push token changed", token);
+        this._updateSubscriptions(this._favoriteAreasWithStatus$.getValue(), token);
       });
 
     this._favoriteAreasWithStatus$
-      .filter(areasWithStatus => {
-        return areasWithStatus.length > 0;
-      })
       .subscribe(areasWithStatus => {
-        this._updateSubscriptions(areasWithStatus, this._pushTokens$.getValue());
+        if(this._pushToken$.getValue()) {
+          this._updateSubscriptions(areasWithStatus, this._pushToken$.getValue());
+        }
+      });
+
+    this._fetchFromStorage(this.TOKEN_KEY)
+      .concatMap(token => {
+        if(!this._pushToken$.getValue()) {
+          console.log("FavoriteService: Push token set to saved", token);
+          this._pushToken$.next(token);
+        }
+        return this._pushToken$.filter( token => { return !!token }).distinctUntilChanged()
       })
+      .subscribe(token => {
+        this._saveToStorage(this.TOKEN_KEY, token);
+      })
+
   }
 
   private _initParseImport() {
+
     this._fetchFromStorage(this.IMPORTED_KEY)
       .filter(imported => {
         return !imported;
       })
       .concatMap(imported => {
         this._saveToStorage(this.IMPORTED_KEY, true);
-        return this._pushTokens$;
+        return this._pushToken$.filter( token => { return !!token });
       })
-      .concatMap(pushTokens => {
-        let parseFavorites$ = new Subject<string[]>();
-        for(let token of pushTokens.oldTokens.concat(pushTokens.activeToken)) {
-          parseFavorites$.merge(this._dataService.getParseFavorites(token));
-        }
-        return parseFavorites$;
+      .concatMap(token => {
+        return this._dataService.getParseFavorites(token).first()
       })
       .subscribe(parseFavorites => {
         this._favoriteChanges$.next( { type: 'PARSE', areaIds: parseFavorites });
       });
+
   }
 
   get favoriteAreaIds$():Observable<string[]> {
@@ -139,7 +114,8 @@ export class FavoriteService {
   }
 
   setPushToken(token:string) {
-   this._pushTokensChanges$.next({ type: 'NEW', token: token});
+    console.log("FavoriteService: Push token set to", token);
+    this._pushToken$.next(token)
   }
 
   isFavoriteArea$(areaId):Observable<boolean> {
@@ -163,23 +139,21 @@ export class FavoriteService {
     return transformedItems;
   }
 
-  private _updateSubscriptions(areasWithStatus: { areaId: string, active: boolean }[], tokens: { oldTokens: string[], activeToken: string }) {
-    console.log("FavoriteService: Update subscriptions", tokens, areasWithStatus);
+  private _updateSubscriptions(areasWithStatus: { areaId: string, active: boolean }[], token: string ) {
+    console.log("FavoriteService: Update subscriptions", token, areasWithStatus);
 
     for(let area of areasWithStatus) {
-      for(let oldToken of tokens.oldTokens) {
-        this._dataService.removePushTokenForArea(oldToken, area.areaId);
-      }
-
       if(area.active) {
-        this._dataService.addPushTokenForArea(tokens.activeToken, area.areaId);
+        this._dataService.addPushTokenForArea(token, area.areaId);
       } else {
-        this._dataService.removePushTokenForArea(tokens.activeToken, area.areaId);
+        this._dataService.removePushTokenForArea(token, area.areaId);
       }
     }
   }
 
   private _changeStatusOfAreas(areas:{ areaId: string, active: boolean }[], areaIds: string[], active: boolean, overrideExisting = true ):{ areaId: string, active: boolean }[] {
+    console.log("FavoriteService: Change status of areas", areaIds, active, overrideExisting);
+
     for(let areaId of areaIds) {
       let area = areas.find(item => { return item.areaId === areaId});
       if(area && overrideExisting) {
