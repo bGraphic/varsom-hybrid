@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { App, AlertController } from 'ionic-angular';
+import { App, AlertController, Platform } from 'ionic-angular';
+
 import { Push, PushToken, IPushMessage } from '@ionic/cloud-angular';
 import { TranslateService } from 'ng2-translate';
 
@@ -15,10 +16,22 @@ export class PushService {
   constructor(
     private _push: Push,
     private _appCtrl: App,
+    private _platform: Platform,
     private _favoriteService: FavoriteService,
     private _alertCtrl: AlertController,
-    private _translateService: TranslateService
+    private _translateService: TranslateService,
+
   ) {
+
+    this._platform.ready().then(() => {
+
+      console.log('PushService: Subscribe to push');
+      this._push.rx.notification()
+        .subscribe((message) => {
+          this._onPush(message);
+        });
+
+    });
 
   }
 
@@ -34,11 +47,6 @@ export class PushService {
     }).catch(error => {
       console.log('PushService: Error saving token:', error.message);
     });
-
-    this._push.rx.notification()
-      .subscribe((message) => {
-        this._onPush(message);
-      });
   }
 
   private _onPush(message:IPushMessage) {

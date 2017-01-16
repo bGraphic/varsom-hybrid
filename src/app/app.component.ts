@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { App, Platform, MenuController, Nav, Config } from 'ionic-angular';
-import { StatusBar, InAppBrowser, Splashscreen } from 'ionic-native';
+import { StatusBar, InAppBrowser } from 'ionic-native';
 import { TranslateService } from 'ng2-translate';
 import * as moment from 'moment';
 import 'moment/min/locales';
@@ -31,48 +31,49 @@ export class MyApp {
     private _pushService: PushService,
     private _settingService: SettingService
   ) {
-    this.initializeApp();
-    this.initializeTranslation();
 
     this.sections = [
       { titleKey: 'FLOOD_LANDSLIDE', icon: 'rainy', active:false, component: FloodLandslideListPage },
       { titleKey: 'AVALANCHE', icon: 'snow', active:false, component: AvalancheListPage }
     ];
 
+    this.platform.ready().then(() => {
+      this.initializeApp();
+      this.initializeTranslation();
+    });
+  }
+
+  private initializeApp() {
+
     this._settingService.activeSection$
       .subscribe(section => {
         if(section) {
           this._activateSection(section);
-          Splashscreen.hide();
         }
       });
-  }
 
-  private initializeApp() {
-    this.platform.ready().then(() => {
+    StatusBar.styleDefault();
 
-      StatusBar.styleDefault();
-      this._pushService.register();
+    this._pushService.register();
 
-      this._translateService.get('EXTERNAL_MENU.LINKS').subscribe((res: any) => {
-        this.external_links = res;
-      });
-
-      this._translateService.get('CONTACT_INFO.LINKS').subscribe((res: any) => {
-        this.contact_links = res;
-      });
-
-      this._translateService.get('BACK').subscribe((res: string) => {
-        this._config.set('ios', 'backButtonText', res);
-      });
-
-    });
   }
 
   private initializeTranslation() {
     this._translateService.setDefaultLang('no_nb');
     this._translateService.use('no_nb');
     moment.locale('nb');
+
+    this._translateService.get('EXTERNAL_MENU.LINKS').subscribe((res: any) => {
+      this.external_links = res;
+    });
+
+    this._translateService.get('CONTACT_INFO.LINKS').subscribe((res: any) => {
+      this.contact_links = res;
+    });
+
+    this._translateService.get('BACK').subscribe((res: string) => {
+      this._config.set('ios', 'backButtonText', res);
+    });
   }
 
   private _activateSection(sectionKey: string) {
@@ -81,6 +82,7 @@ export class MyApp {
     for(let section of this.sections) {
       if( section.titleKey === sectionKey ) {
         section.active = true;
+        console.log("MyApp: Setting root");
         this._setRootPage(section);
       } else {
         section.active = false;
