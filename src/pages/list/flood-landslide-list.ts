@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { Splashscreen } from 'ionic-native';
 import { AreaDetailsPage } from '../area-details/area-details';
 import { AreaUtils } from "../../utils/area-utils";
 import { Forecast } from "../../models/Forecast";
@@ -64,7 +63,7 @@ export class FloodLandslideListPage {
 
 
   ionViewDidEnter() {
-    Splashscreen.hide();
+
     this._settingService.activeSection = 'FLOOD_LANDSLIDE';
   }
 
