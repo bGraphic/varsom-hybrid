@@ -7,6 +7,7 @@ import { ForecastService } from "../../providers/forecasts";
 import { FavoriteService } from "../../providers/favorites";
 import { GeoJsonService }       from '../../providers/geojson';
 import { SettingService } from "../../providers/settings";
+import { LocationService } from "../../providers/location";
 import { Subscription } from "rxjs";
 
 @Component({
@@ -41,7 +42,8 @@ export class FloodLandslideListPage {
     private _forecastService: ForecastService,
     private _favoriteService: FavoriteService,
     private _geoJsonService: GeoJsonService,
-    private _settingService: SettingService
+    private _settingService: SettingService,
+    private _locationService: LocationService
   ) {
     let area = _navParams.get('area');
 
@@ -72,7 +74,7 @@ export class FloodLandslideListPage {
       this._subscriptions.push(geojsonSubscription);
     }
 
-    let currentPositionSubscription = this._settingService.currentPosition$
+    let currentPositionSubscription = this._locationService.currentPosition$
       .subscribe(position => {
         this.mapCenter = position;
       });

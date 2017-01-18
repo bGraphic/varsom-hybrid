@@ -1,7 +1,6 @@
 import { Component, Input, Output, ViewChild, EventEmitter } from '@angular/core';
 import 'leaflet';
 import { Forecast } from '../models/Forecast';
-import { SettingService } from "../providers/settings";
 import { ThemeUtils } from "../utils/theme-utils";
 
 @Component({
@@ -22,7 +21,7 @@ export class Map {
   private _map: L.Map;
   private _geojsonLayer: L.GeoJSON;
 
-  constructor (private settings: SettingService) {
+  constructor () {
 
   }
 

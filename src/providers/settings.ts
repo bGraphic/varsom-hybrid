@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { Geolocation } from 'ionic-native';
 import { Storage } from '@ionic/storage';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
@@ -12,7 +11,6 @@ export class SettingService {
 
   private _activeSection$ = new Subject<string>();
   private _activeFloodLandslideSegment$ = new BehaviorSubject<string>(null);
-  private _currentPosition$ = new BehaviorSubject({ latLng: L.latLng(64.871, 16.949), zoom: 4 });
 
   constructor (
     private _platform: Platform,
@@ -20,24 +18,9 @@ export class SettingService {
   ) {
 
     this._platform.ready().then(() => {
-      this._watchPosition();
       this._watchChangesToSetting();
       this._fetchSavedSettings();
     });
-  }
-
-  private _watchPosition() {
-    let subscription = Geolocation.watchPosition()
-      .filter((p:any) => {
-        return p.code === undefined; //Filter Out Errors
-      })
-      .map((p:any) => {
-        return { latLng: L.latLng(p.coords.latitude, p.coords.longitude), zoom: 6 }
-      })
-      .subscribe((p:{ latLng: L.LatLng, zoom: number }) => {
-        this._currentPosition$.next(p);
-        subscription.unsubscribe();
-      });
   }
 
   private _watchChangesToSetting() {
@@ -88,10 +71,6 @@ export class SettingService {
 
   set activeSection(forecastType: string) {
     this._activeSection$.next(forecastType);
-  }
-
-  get currentPosition$():Observable<{ latLng: L.LatLng, zoom: number }> {
-    return this._currentPosition$.asObservable();
   }
 
   private _fetchSavedValue(key):Observable<string> {

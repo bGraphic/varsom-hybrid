@@ -6,6 +6,7 @@ import { ForecastService } from "../../providers/forecasts";
 import { FavoriteService } from "../../providers/favorites";
 import { GeoJsonService }       from '../../providers/geojson';
 import { SettingService } from "../../providers/settings";
+import { LocationService } from "../../providers/location";
 import { Subscription } from "rxjs";
 
 @Component({
@@ -36,7 +37,8 @@ export class AvalancheListPage {
     private _forecastService: ForecastService,
     private _favoriteService: FavoriteService,
     private _geoJsonService: GeoJsonService,
-    private _settingService: SettingService
+    private _settingService: SettingService,
+    private _locationService: LocationService
   ) {
     this.pageTitleKey = "AVALANCHE";
     this.emptyListTitleKey = "A_REGIONS_LIST_TITLE";
@@ -62,7 +64,7 @@ export class AvalancheListPage {
       });
     this._subscriptions.push(avalancheSubscription);
 
-    let currentPositionSubscription = this._settingService.currentPosition$
+    let currentPositionSubscription = this._locationService.currentPosition$
       .subscribe(position => {
         this.mapCenter = position;
       });
