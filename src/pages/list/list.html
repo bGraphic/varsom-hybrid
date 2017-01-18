@@ -26,7 +26,7 @@
       {{ emptyListTitleKey | translate }}
     </ion-list-header>
     <ion-item detail-none *ngFor="let f of dummyForecasts">
-      <nve-warning-badge item-right *ngFor="let d of [0,1,2]"></nve-warning-badge>
+      <nve-warning-badge item-right *ngFor="let d of [0,1,2]" [level]="0"></nve-warning-badge>
     </ion-item>
   </ion-list>
 

@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { App, Platform, MenuController, Nav, Config } from 'ionic-angular';
-import { StatusBar, InAppBrowser } from 'ionic-native';
+import { StatusBar, InAppBrowser, Splashscreen } from 'ionic-native';
 import { TranslateService } from 'ng2-translate';
 import * as moment from 'moment';
 import 'moment/min/locales';
@@ -32,36 +32,13 @@ export class MyApp {
     private _settingService: SettingService
   ) {
 
+    this.initializeTranslation();
+    this.initializeApp();
+
     this.sections = [
       { titleKey: 'FLOOD_LANDSLIDE', icon: 'rainy', active:false, component: FloodLandslideListPage },
       { titleKey: 'AVALANCHE', icon: 'snow', active:false, component: AvalancheListPage }
     ];
-
-    this.platform.ready().then(() => {
-      this.initializeApp();
-      this.initializeTranslation();
-    });
-  }
-
-  private initializeApp() {
-
-    this._settingService.activeSection$
-      .subscribe(section => {
-        if(section) {
-          this._activateSection(section);
-        }
-      });
-
-    StatusBar.styleDefault();
-
-    this._pushService.register();
-
-  }
-
-  private initializeTranslation() {
-    this._translateService.setDefaultLang('no_nb');
-    this._translateService.use('no_nb');
-    moment.locale('nb');
 
     this._translateService.get('EXTERNAL_MENU.LINKS').subscribe((res: any) => {
       this.external_links = res;
@@ -70,41 +47,63 @@ export class MyApp {
     this._translateService.get('CONTACT_INFO.LINKS').subscribe((res: any) => {
       this.contact_links = res;
     });
+  }
 
-    this._translateService.get('BACK').subscribe((res: string) => {
-      this._config.set('ios', 'backButtonText', res);
+  private initializeApp() {
+    this.platform.ready().then(() => {
+
+      StatusBar.styleDefault();
+      this._pushService.register();
+
+      this._translateService.get('BACK').subscribe((res: string) => {
+        this._config.set('ios', 'backButtonText', res);
+      });
+
+      this._settingService.activeSection$
+        .subscribe(activeSection => {
+          this._activateSection(activeSection);
+          this._setInitalRootPage(activeSection);
+        });
     });
   }
 
-  private _activateSection(sectionKey: string) {
-    console.log("MyApp: Activate section", sectionKey);
+  private initializeTranslation() {
+    this._translateService.setDefaultLang('no_nb');
+    this._translateService.use('no_nb');
+    moment.locale('nb');
+  }
 
+  private _activateSection(sectionKey: string) {
     for(let section of this.sections) {
-      if( section.titleKey === sectionKey ) {
+      if(section.titleKey === sectionKey.toUpperCase()) {
         section.active = true;
-        console.log("MyApp: Setting root");
-        this._setRootPage(section);
       } else {
         section.active = false;
       }
     }
   }
 
-  private _setRootPage(section) {
-    let rootNav = this._appCtrl.getRootNav();
-    let rootPage = rootNav.first();
-
-    if(!rootPage || rootPage.component !== section.component) {
-      this._appCtrl.getRootNav().setRoot(section.component);
-    } else {
-      console.log("MyApp: Root already at: ", section.titleKey);
+  private _setInitalRootPage(sectionKey: string) {
+    if(this._appCtrl.getRootNav().first()) {
+      return;
     }
+
+    let component = FloodLandslideListPage;
+    for(let section of this.sections) {
+      if(section.titleKey === sectionKey.toUpperCase()) {
+        component = section.component;
+      }
+    }
+
+    console.log("MyApp: Setting inital root", sectionKey, component.name);
+    this._appCtrl.getRootNav().setRoot(component);
+    Splashscreen.hide();
   }
 
   openSection(section: {titleKey: string, icon: string, active:boolean, component: any }) {
 
-    console.log("MyApp: Open section", section.titleKey);
-    this._settingService.activeSection = section.titleKey;
+    console.log("Open section:", section);
+    this._appCtrl.getRootNav().setRoot(section.component);
     this._menu.close();
   }
 

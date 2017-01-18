@@ -4,8 +4,6 @@
   "homepage": "http://nve.no/",
   "private": true,
   "scripts": {
-    "clean": "ionic-app-scripts clean",
-    "build": "ionic-app-scripts build",
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve"
   },
@@ -26,18 +24,18 @@
     "angular2-moment": "^1.0.0",
     "angularfire2": "^2.0.0-beta.6",
     "firebase": "^3.6.0",
-    "ionic-angular": "^2.0.0-rc.4",
-    "ionic-native": "2.2.11",
+    "ionic-angular": "2.0.0-rc.5",
+    "ionic-native": "2.2.16",
     "ionicons": "3.0.0",
     "leaflet": "^1.0.2",
     "moment": "^2.17.1",
-    "ng2-translate": "^4.2.0",
+    "ng2-translate": "^5.0.0",
     "rxjs": "5.0.0-beta.12",
     "zone.js": "~0.6.26"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "0.0.47",
-    "typescript": "2.1.4"
+    "@ionic/app-scripts": "1.0.0",
+    "typescript": "2.0.9"
   },
   "cordovaPlugins": [
     "cordova-plugin-device",

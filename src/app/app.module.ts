@@ -56,6 +56,10 @@ const cloudSettings: CloudSettings = {
   }
 };
 
+export function createTranslateLoader(http: Http) {
+  return new TranslateStaticLoader(http, 'assets/i18n', '.json');
+}
+
 @NgModule({
   declarations: [
     MyApp,
@@ -79,7 +83,7 @@ const cloudSettings: CloudSettings = {
     AngularFireModule.initializeApp(firebaseConfig),
     TranslateModule.forRoot({
       provide: TranslateLoader,
-      useFactory: (http: Http) => new TranslateStaticLoader(http, 'assets/i18n', '.json'),
+      useFactory: (createTranslateLoader),
       deps: [Http]
     }),
     MomentModule

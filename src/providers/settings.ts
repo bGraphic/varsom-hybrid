@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { Platform } from 'ionic-angular';
 import { Geolocation } from 'ionic-native';
 import { Storage } from '@ionic/storage';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class SettingService {
@@ -10,7 +10,7 @@ export class SettingService {
   private readonly ACTIVE_SECTION = 'SETTINGS.ACTIVE_SECTION';
   private readonly ACTIVE_FLOOD_LANDSLIDE_SEGMENT_KEY = 'SETTINGS.ACTIVE_FLOOD_LANDSLIDE_SEGMENT_KEY';
 
-  private _activeSection$ = new BehaviorSubject<string>(null);
+  private _activeSection$ = new Subject<string>();
   private _activeFloodLandslideSegment$ = new BehaviorSubject<string>(null);
   private _currentPosition$ = new BehaviorSubject({ latLng: L.latLng(64.871, 16.949), zoom: 4 });
 
@@ -65,9 +65,7 @@ export class SettingService {
   private _fetchSavedSettings() {
     this._fetchSavedValue(this.ACTIVE_SECTION)
       .subscribe(value => {
-        if(!this._activeSection$.getValue()) {
-          this._activeSection$.next(value);
-        }
+        this._activeSection$.next(value);
       });
 
     this._fetchSavedValue(this.ACTIVE_FLOOD_LANDSLIDE_SEGMENT_KEY)
