@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Platform } from "ionic-angular";
 import { AngularFire } from 'angularfire2';
-import { Observable } from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import * as moment from 'moment';
 
 @Injectable()
@@ -9,9 +10,17 @@ export class DataService {
   private _floodCache$:Observable<any[]>[] = [];
   private _landslideCache$:Observable<any[]>[] = [];
   private _avalancheCache$:Observable<any[]>[] = [];
+  private _subscriptions:Subscription[] = [];
 
-  constructor(private _af: AngularFire) {
+  constructor(
+    private _af: AngularFire,
+    private _platform: Platform
 
+  ) {
+
+    this._platform.pause.subscribe(e => {
+      this._clearCache();
+    });
   }
 
   getForecastForRegions(forecastType:string):Observable<any[]> {
@@ -86,11 +95,24 @@ export class DataService {
       });
   }
 
+  private _clearCache() {
+    console.log('DataService: Clear cache');
+
+    for(let subscription of this._subscriptions) {
+      subscription.unsubscribe();
+    }
+
+    this._subscriptions = [];
+    this._floodCache$ = [];
+    this._landslideCache$ = [];
+    this._avalancheCache$ = [];
+  }
+
   private _getForecasts(db_url:string, caches$:Observable<any[]>[], cacheIndex:number) {
     if(!caches$[cacheIndex]) {
       console.log("DataService: Add to cache", cacheIndex);
       caches$[cacheIndex] = this._af.database.list(db_url);
-      caches$[cacheIndex].subscribe();
+      this._subscriptions.push(caches$[cacheIndex].subscribe());
     }
 
     return caches$[cacheIndex]
