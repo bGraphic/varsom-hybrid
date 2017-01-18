@@ -133,14 +133,19 @@ export class Map {
 
   private onEachFeature(feature:any, layer: any) {
     let self = this;
+
     layer.on("mousedown", function (event) {
       feature.mousedown = true;
       self.updateGeoJsonStyle();
+    });
+
+    layer.on("click", function (event) {
       self.areaSelected.emit(Map.transformGeoJsonToAreaId(feature));
+    });
+
+    layer.on("mouseup", function (event) {
       feature.mousedown = false;
-      setTimeout(() => {
-        self.updateGeoJsonStyle();
-      }, 100);
+      self.updateGeoJsonStyle();
     });
   }
 
