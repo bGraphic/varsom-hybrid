@@ -31,7 +31,7 @@ export class MyApp {
     private _translateService: TranslateService,
     private _pushService: PushService,
     private _settingService: SettingService,
-    private _appVersionService: AppVersionService
+    private _appVersionService: AppVersionService,
   ) {
 
     this.initializeTranslation();

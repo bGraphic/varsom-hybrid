@@ -40,7 +40,7 @@ export class PushService {
     console.log('PushService: Register for push');
 
     this._push.register().then((t: PushToken) => {
-      this._favoriteService.setPushToken(t.token);
+      this._favoriteService.pushToken = t.token;
       return this._push.saveToken(t);
     }).then((t: PushToken) => {
       console.log('PushService: Token saved:', t.token);
