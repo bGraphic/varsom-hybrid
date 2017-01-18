@@ -11,6 +11,8 @@ export class GeoJsonService {
   constructor (private http: Http) {
     this._counties$ = this._createAreaObservable('counties');
     this._regions$ = this._createAreaObservable('regions');
+    this._counties$.subscribe();
+    this._regions$.subscribe();
   }
 
   get counties$(): Observable<GeoJSON.GeoJsonObject> {

@@ -23,6 +23,7 @@ import { FavoriteService } from "../providers/favorites";
 import { PushService } from "../providers/push";
 import { SettingService } from "../providers/settings";
 import { AppVersionService } from "../providers/app-version";
+import { GeoJsonService } from "../providers/geojson";
 
 import { FilterForecastsPipe, FavoriteForecastsPipe, ForecastsTimeframePipe } from "../pipes/forecasts";
 
@@ -105,6 +106,7 @@ export function createTranslateLoader(http: Http) {
     FavoriteService,
     PushService,
     AppVersionService,
+    GeoJsonService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

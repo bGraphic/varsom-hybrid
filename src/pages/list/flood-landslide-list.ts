@@ -10,8 +10,7 @@ import { SettingService } from "../../providers/settings";
 import { Subscription } from "rxjs";
 
 @Component({
-  templateUrl: 'list.html',
-  providers: [ GeoJsonService ]
+  templateUrl: 'list.html'
 })
 
 export class FloodLandslideListPage {
