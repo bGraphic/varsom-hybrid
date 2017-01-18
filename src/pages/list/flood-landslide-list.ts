@@ -43,7 +43,6 @@ export class FloodLandslideListPage {
     private _favoriteService: FavoriteService,
     private _geoJsonService: GeoJsonService,
     private _settingService: SettingService
-
   ) {
     let area = _navParams.get('area');
 
@@ -59,8 +58,6 @@ export class FloodLandslideListPage {
       this.sections = ['COUNTIES'];
     }
   }
-
-
 
   ionViewDidEnter() {
 
