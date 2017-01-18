@@ -22,11 +22,12 @@ import { ForecastService } from "../providers/forecasts";
 import { FavoriteService } from "../providers/favorites";
 import { PushService } from "../providers/push";
 import { SettingService } from "../providers/settings";
+import { AppVersionService } from "../providers/app-version";
 
 import { FilterForecastsPipe, FavoriteForecastsPipe, ForecastsTimeframePipe } from "../pipes/forecasts";
 
 import { FavoriteDirective } from "../directives/favorite";
-import {AvalancheRose} from "../partials/avalanche-rose";
+import { AvalancheRose } from "../partials/avalanche-rose";
 
 // Must export the config
 const firebaseConfig = {
@@ -103,6 +104,7 @@ export function createTranslateLoader(http: Http) {
     SettingService,
     FavoriteService,
     PushService,
+    AppVersionService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

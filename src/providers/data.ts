@@ -54,6 +54,13 @@ export class DataService {
     return this._af.database.list('/parse_favorites/' + pushToken);
   }
 
+  getAppVersion():Observable<{ versionNumber: string, hard: boolean }> {
+    return this._af.database.object('/api/app_release')
+      .map( appRelease => {
+        return { versionNumber: appRelease.version_number, hard: appRelease.hard };
+      });
+  }
+
   addPushTokenForArea(pushToken: string, areaId:string) {
     if(!pushToken) {
       return;

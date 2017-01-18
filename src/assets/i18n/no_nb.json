@@ -74,5 +74,16 @@
         "description": "07.00-20.00 alle dager<br/>488 80 100 (ikke sms)"
       }
     ]
+  },
+  "UPDATE": {
+    "TITLE": "Ny versjon",
+    "MESSAGE": {
+      "FORCE": "Varsom-appen må oppdateres til denne versjonen.",
+      "REGULAR": "Vennligst oppdater til den nyeste versjonen av Varsom-appen."
+    },
+    "BUTTON": {
+      "UPDATE": "Oppdater",
+      "SKIP": "Ikke nå"
+    }
   }
 }

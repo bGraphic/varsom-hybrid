@@ -7,6 +7,7 @@ import 'moment/min/locales';
 
 import { PushService } from "../providers/push";
 import { SettingService } from "../providers/settings";
+import { AppVersionService } from "../providers/app-version";
 import { FloodLandslideListPage } from "../pages/list/flood-landslide-list";
 import { AvalancheListPage } from "../pages/list/avalanche-list";
 
@@ -29,7 +30,8 @@ export class MyApp {
     private _config: Config,
     private _translateService: TranslateService,
     private _pushService: PushService,
-    private _settingService: SettingService
+    private _settingService: SettingService,
+    private _appVersionService: AppVersionService
   ) {
 
     this.initializeTranslation();
