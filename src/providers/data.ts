@@ -60,11 +60,11 @@ export class DataService {
 
   getParseFavorites(pushToken:string):Observable<string[]> {
     console.log('DataService: Fetching parse favorites for token', pushToken);
-    return this._af.database.list('/parse_favorites/' + pushToken);
+    return this._getList('/parse_favorites/' + pushToken);
   }
 
   getAppVersion():Observable<{ versionNumber: string, hard: boolean }> {
-    return this._af.database.object('/api/app_release')
+    return this._getObject('/api/app_release')
       .map( appRelease => {
         return { versionNumber: appRelease.version_number, hard: appRelease.hard };
       });
@@ -111,11 +111,25 @@ export class DataService {
   private _getForecasts(db_url:string, caches$:Observable<any[]>[], cacheIndex:number) {
     if(!caches$[cacheIndex]) {
       console.log("DataService: Add to cache", cacheIndex);
-      caches$[cacheIndex] = this._af.database.list(db_url);
+      caches$[cacheIndex] = this._getList(db_url);
       this._subscriptions.push(caches$[cacheIndex].subscribe());
     }
 
     return caches$[cacheIndex]
+  }
+
+  private _getList(db_url: string):Observable<any[]> {
+    return this._af.database.list(db_url).catch(error => {
+      console.log("DataService: Error getting", db_url, error);
+      return Observable.of([]);
+    });
+  }
+
+  private _getObject(db_url: string):Observable<any> {
+    return this._af.database.list(db_url).catch(error => {
+      console.log("DataService: Error getting", db_url, error);
+      return Observable.of(null);
+    });
   }
 
 }
