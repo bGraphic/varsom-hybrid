@@ -13,7 +13,8 @@ interface IStoredValues {
   rootSection: string,
   pushToken: string,
   favoritesAreaIds: string[],
-  parseImportDone: boolean
+  parseImportDone: boolean,
+  lastNotifiedAppVersion: string
 }
 
 @Injectable()
@@ -26,7 +27,8 @@ export class StorageService {
     rootSection: 'FLOOD_LANDSLIDE',
     pushToken: null,
     favoritesAreaIds: [],
-    parseImportDone: false
+    parseImportDone: false,
+    lastNotifiedAppVersion: '0.0.0'
   };
 
   get rootSection$():Observable<string> {
@@ -63,6 +65,17 @@ export class StorageService {
 
   set parseImportDone(isDone:boolean) {
     this._newValues$.next(Object.assign(this._newValues$.getValue(), { parseImportDone: isDone }));
+  }
+
+  get lastNotifiedAppVersion$():Observable<string> {
+    return this._storedValues$
+      .map(values => {
+        return values.lastNotifiedAppVersion;
+      });
+  }
+
+  set lastNotifiedAppVersion(appVersion:string) {
+    this._newValues$.next(Object.assign(this._newValues$.getValue(), { lastNotifiedAppVersion: appVersion }));
   }
 
   constructor(
