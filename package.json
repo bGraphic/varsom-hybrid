@@ -1,5 +1,5 @@
 {
-  "name": "ionic-hello-world",
+  "name": "Varsom",
   "author": "NVE",
   "homepage": "http://nve.no/",
   "private": true,
@@ -54,5 +54,5 @@
       "locator": "ios"
     }
   ],
-  "description": "cutePuppyPics: An Ionic project"
+  "description": "App version of varsom.no."
 }
