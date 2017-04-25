@@ -16,8 +16,8 @@
       </button>
     </ion-list>
 
-    <ion-list class="nve-menu">
-      <ion-list-header color="primary">
+    <ion-list class="nve-menu nve-menu-external">
+      <ion-list-header color="light">
         {{ "EXTERNAL_MENU.HEADER" | translate}}
       </ion-list-header>
       <button (click)="launch(item.url)" *ngFor="let item of external_links" ion-item color="light">
