@@ -2,10 +2,12 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { HttpModule, Http } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
-import { Storage } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MomentModule } from 'angular2-moment';
 
 import { MyApp } from './app.component';
@@ -61,8 +63,9 @@ const cloudSettings: CloudSettings = {
 };
 
 export function createTranslateLoader(http: Http) {
-  return new TranslateStaticLoader(http, 'assets/i18n', '.json');
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+
 
 @NgModule({
   declarations: [
@@ -80,15 +83,19 @@ export function createTranslateLoader(http: Http) {
     ForecastsTimeframePipe
   ],
   imports: [
+    BrowserModule,
     IonicModule.forRoot(MyApp, { }),
     CloudModule.forRoot(cloudSettings),
-    BrowserModule,
+    IonicStorageModule.forRoot(),
     HttpModule,
     AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule,
     TranslateModule.forRoot({
-      provide: TranslateLoader,
-      useFactory: (createTranslateLoader),
-      deps: [Http]
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [Http]
+      }
     }),
     MomentModule
   ],
@@ -101,7 +108,6 @@ export function createTranslateLoader(http: Http) {
     WarningDetailsPage
   ],
   providers: [
-    Storage,
     ForecastService,
     DataService,
     SettingService,

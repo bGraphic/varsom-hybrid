@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Platform } from "ionic-angular";
-import { AngularFire } from 'angularfire2';
+import { AngularFireDatabase } from 'angularfire2/database';
 import {Observable, Subscription} from 'rxjs';
 import * as moment from 'moment';
 
@@ -13,7 +13,7 @@ export class DataService {
   private _subscriptions:Subscription[] = [];
 
   constructor(
-    private _af: AngularFire,
+    private _db: AngularFireDatabase,
     private _platform: Platform
 
   ) {
@@ -75,7 +75,7 @@ export class DataService {
       return;
     }
     console.log('DataService: Adding push token to area', pushToken, areaId);
-    let item = this._af.database.object('/subscriptions/id' + areaId + '/' + pushToken);
+    let item = this._db.object('/subscriptions/id' + areaId + '/' + pushToken);
     item.set(moment().format())
       .catch(error => {
         console.log('DataService: Error saving push token', pushToken, areaId, error);
@@ -88,7 +88,7 @@ export class DataService {
     }
 
     console.log('DataService: Removing push token from area', pushToken, areaId);
-    let item = this._af.database.object('/subscriptions/id' + areaId + '/' + pushToken);
+    let item = this._db.object('/subscriptions/id' + areaId + '/' + pushToken);
     item.remove()
       .catch(error => {
         console.log('DataService: Error saving push token', pushToken, areaId, error);
@@ -119,14 +119,14 @@ export class DataService {
   }
 
   private _getList(db_url: string):Observable<any[]> {
-    return this._af.database.list(db_url).catch(error => {
+    return this._db.list(db_url).catch(error => {
       console.log("DataService: Error getting", db_url, error);
       return Observable.of([]);
     });
   }
 
   private _getObject(db_url: string):Observable<any> {
-    return this._af.database.list(db_url).catch(error => {
+    return this._db.list(db_url).catch(error => {
       console.log("DataService: Error getting", db_url, error);
       return Observable.of(null);
     });

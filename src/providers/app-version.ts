@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Platform, AlertController } from 'ionic-angular';
 import { AppVersion, InAppBrowser } from 'ionic-native';
-import { TranslateService } from 'ng2-translate';
+import {TranslateService} from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { DataService } from "./data";
 import { StorageService } from "./storage";
