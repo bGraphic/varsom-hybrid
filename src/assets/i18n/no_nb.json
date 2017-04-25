@@ -36,7 +36,8 @@
     "LINKS": [
       {
         "url": "http://www.varsom.no/isvarsling/",
-        "label": "Isvarsling"
+        "label": "Isvarsling",
+        "description": "Beskrivelse av isforholdene i hele landet."
       },
       {
         "url": "http://www.varsom.no/flom-og-jordskredvarsling/aktsomhetsnivaer-for-flom-og-jordskredvarsling/",
@@ -45,8 +46,13 @@
       },
       {
         "url": "http://www.varsom.no/snoskredvarsling/faregradsskala-for-snoskredvarsling/",
-        "label": "Fargeskala - Snøskred",
+        "label": "Faregradsskala - Snøskred",
         "description": "Beskrivelse av faregradsskala for snøskredvarsling."
+      },
+      {
+        "url": "http://www.varsom.no/snoskredskolen/",
+        "label": "Snøskredskolen",
+        "description": "Vi kaller det skredskole, men du kan godt kalle det skredvett."
       },
       {
         "url": "http://www.varsom.no/en/",
