@@ -2,6 +2,13 @@
 
 The app version of varsom.no
 
+== Getting started ==
+1. Clone this repo
+2. Make sure you have ionic installed globally
+  * This app uses ionic-cli version 3
+  * At the moment version 3 is in beta `npm install -g ionic@beta` 
+3. Run `npm install`
+
 == Prod routines ==
 
 * Update values in `ionic.config.json` to prod values.
