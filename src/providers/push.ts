@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { App, AlertController, Platform } from 'ionic-angular';
 
 import { Push, PushToken, IPushMessage } from '@ionic/cloud-angular';
-import { TranslateService } from 'ng2-translate';
+import {TranslateService} from '@ngx-translate/core';
 
 import { FavoriteService } from "./favorites";
 import { AreaUtils } from "../utils/area-utils";

@@ -2,10 +2,12 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { HttpModule, Http } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
-import { Storage } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MomentModule } from 'angular2-moment';
 
 import { MyApp } from './app.component';
@@ -31,6 +33,11 @@ import { FilterForecastsPipe, FavoriteForecastsPipe, ForecastsTimeframePipe } fr
 
 import { FavoriteDirective } from "../directives/favorite";
 import { AvalancheRose } from "../partials/avalanche-rose";
+
+import { AppVersion } from '@ionic-native/app-version';
+import { InAppBrowser } from "@ionic-native/in-app-browser";
+import { SplashScreen } from "@ionic-native/splash-screen";
+import { StatusBar } from "@ionic-native/status-bar";
 
 // Must export the config
 const firebaseConfig = {
@@ -61,8 +68,9 @@ const cloudSettings: CloudSettings = {
 };
 
 export function createTranslateLoader(http: Http) {
-  return new TranslateStaticLoader(http, 'assets/i18n', '.json');
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+
 
 @NgModule({
   declarations: [
@@ -80,15 +88,19 @@ export function createTranslateLoader(http: Http) {
     ForecastsTimeframePipe
   ],
   imports: [
+    BrowserModule,
     IonicModule.forRoot(MyApp, { }),
     CloudModule.forRoot(cloudSettings),
-    BrowserModule,
+    IonicStorageModule.forRoot(),
     HttpModule,
     AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule,
     TranslateModule.forRoot({
-      provide: TranslateLoader,
-      useFactory: (createTranslateLoader),
-      deps: [Http]
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [Http]
+      }
     }),
     MomentModule
   ],
@@ -101,7 +113,10 @@ export function createTranslateLoader(http: Http) {
     WarningDetailsPage
   ],
   providers: [
-    Storage,
+    AppVersion,
+    InAppBrowser,
+    SplashScreen,
+    StatusBar,
     ForecastService,
     DataService,
     SettingService,
