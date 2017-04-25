@@ -1,6 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { App, Platform, MenuController, Nav, Config } from 'ionic-angular';
-import { StatusBar, InAppBrowser, Splashscreen } from 'ionic-native';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import 'moment/min/locales';
@@ -32,10 +34,14 @@ export class MyApp {
     private _pushService: PushService,
     private _settingService: SettingService,
     private _appVersionService: AppVersionService,
+    private _splashScreen: SplashScreen,
+    private _statusBar: StatusBar,
+    private _iab: InAppBrowser
   ) {
 
     this.initializeTranslation();
     this.initializeApp();
+    this._appVersionService.checkAppVersion();
 
     this.sections = [
       { titleKey: 'FLOOD_LANDSLIDE', icon: 'rainy', active:false, component: FloodLandslideListPage },
@@ -54,7 +60,7 @@ export class MyApp {
   private initializeApp() {
     this.platform.ready().then(() => {
 
-      StatusBar.styleDefault();
+      this._statusBar.styleDefault();
       this._pushService.register();
 
       this._translateService.get('BACK').subscribe((res: string) => {
@@ -99,7 +105,7 @@ export class MyApp {
 
     console.log("MyApp: Setting inital root", sectionKey, component.name);
     this._appCtrl.getRootNav().setRoot(component);
-    Splashscreen.hide();
+    this._splashScreen.hide();
   }
 
   openSection(section: {titleKey: string, icon: string, active:boolean, component: any }) {
@@ -110,6 +116,6 @@ export class MyApp {
   }
 
   launch(url: string) {
-    new InAppBrowser(url, '_system');
+    this._iab.create(url, '_system');
   }
 }

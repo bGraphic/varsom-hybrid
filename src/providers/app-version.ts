@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Platform, AlertController } from 'ionic-angular';
-import { AppVersion, InAppBrowser } from 'ionic-native';
-import {TranslateService} from '@ngx-translate/core';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { AppVersion } from '@ionic-native/app-version';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { DataService } from "./data";
 import { StorageService } from "./storage";
@@ -18,16 +19,16 @@ export class AppVersionService {
     private _alertCtrl: AlertController,
     private _translateService: TranslateService,
     private _dataService: DataService,
-    private _storageService: StorageService
+    private _storageService: StorageService,
+    private _iab: InAppBrowser,
+    private _appVersion: AppVersion
   ) {
-
-    this.checkAppVersion();
 
   }
 
-  private checkAppVersion() {
+  public checkAppVersion() {
 
-    let thisVersionNumber$ = Observable.fromPromise(AppVersion.getVersionNumber());
+    let thisVersionNumber$ = Observable.fromPromise(this._appVersion.getVersionNumber());
     let latestAppRelease$ = this._dataService.getAppVersion();
     let appActivated$ = this._platform.resume.merge(Observable.fromPromise(this._platform.ready()));
 
@@ -76,7 +77,7 @@ export class AppVersionService {
       handler: () => {
         this._activeAlert = false;
         console.log("AppVersionService: Go to App Store");
-        new InAppBrowser(this.APP_STORE_URL, "_system");
+        this._iab.create(this.APP_STORE_URL, "_system");
       }
     };
 

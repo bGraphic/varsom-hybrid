@@ -34,6 +34,11 @@ import { FilterForecastsPipe, FavoriteForecastsPipe, ForecastsTimeframePipe } fr
 import { FavoriteDirective } from "../directives/favorite";
 import { AvalancheRose } from "../partials/avalanche-rose";
 
+import { AppVersion } from '@ionic-native/app-version';
+import { InAppBrowser } from "@ionic-native/in-app-browser";
+import { SplashScreen } from "@ionic-native/splash-screen";
+import { StatusBar } from "@ionic-native/status-bar";
+
 // Must export the config
 const firebaseConfig = {
   apiKey: "AIzaSyDwiQkQSv1BCovQiPU-P9xok5pueLPJZqo",
@@ -108,6 +113,10 @@ export function createTranslateLoader(http: Http) {
     WarningDetailsPage
   ],
   providers: [
+    AppVersion,
+    InAppBrowser,
+    SplashScreen,
+    StatusBar,
     ForecastService,
     DataService,
     SettingService,
