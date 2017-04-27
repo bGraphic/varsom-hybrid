@@ -12,6 +12,13 @@ import { MomentModule } from 'angular2-moment';
 
 import { MyApp } from './app.component';
 
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
+import { reducer } from './../store/reducers';
+import { LocalStorageEffects } from './../store/effects/local-storage.effects';
+
 import { FloodLandslideListPage } from '../pages/list/flood-landslide-list';
 import { AvalancheListPage } from "../pages/list/avalanche-list";
 import { AreaDetailsPage } from '../pages/area-details/area-details';
@@ -92,6 +99,9 @@ export function createTranslateLoader(http: Http) {
     IonicModule.forRoot(MyApp, { }),
     CloudModule.forRoot(cloudSettings),
     IonicStorageModule.forRoot(),
+    StoreModule.provideStore( reducer ),
+    StoreDevtoolsModule.instrumentOnlyWithExtension(),
+    EffectsModule.run(LocalStorageEffects),
     HttpModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
