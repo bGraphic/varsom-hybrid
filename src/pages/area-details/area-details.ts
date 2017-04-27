@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { NavController, NavParams } from 'ionic-angular';
 import { AreaUtils } from "../../utils/area-utils";
-import { Forecast } from "../../models/Forecast";
+import { Forecast } from "../../store/models/Forecast";
 import { ForecastService } from "../../providers/forecasts";
 import { WarningDetailsPage } from "../warning-details/warning-details";
 import { Subscription } from "rxjs";

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Forecast } from "../models/Forecast";
+import { Forecast } from "../store/models/Forecast";
 import { AreaUtils } from "../utils/area-utils";
 
 

@@ -1,6 +1,6 @@
 import { Component, Input, Output, ViewChild, EventEmitter } from '@angular/core';
 import 'leaflet';
-import { Forecast } from '../models/Forecast';
+import { Forecast } from '../store/models/Forecast';
 import { ThemeUtils } from "../utils/theme-utils";
 
 @Component({

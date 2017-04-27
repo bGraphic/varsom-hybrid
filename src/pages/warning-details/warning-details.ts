@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { NavParams } from 'ionic-angular';
 import { ForecastService } from "../../providers/forecasts";
 import { Subscription } from "rxjs";
-import { Warning } from "../../models/Warning";
+import { Warning } from "../../store/models/Warning";
 
 @Component({
   templateUrl: 'warning-details.html'

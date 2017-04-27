@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Forecast } from "../models/Forecast";
+import { Forecast } from "../store/models/Forecast";
 import { DataService } from "../providers/data";
 import { AreaUtils } from "../utils/area-utils";
 import { Observable } from 'rxjs';

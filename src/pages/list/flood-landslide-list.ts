@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AreaDetailsPage } from '../area-details/area-details';
 import { AreaUtils } from "../../utils/area-utils";
-import { Forecast } from "../../models/Forecast";
+import { Forecast } from "../../store/models/Forecast";
 import { ForecastService } from "../../providers/forecasts";
 import { FavoriteService } from "../../providers/favorites";
 import { GeoJsonService }       from '../../providers/geojson';
