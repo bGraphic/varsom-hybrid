@@ -28,4 +28,4 @@ export function reducer(state = initialState, action: appInfo.Actions | localSto
   }
 }
 
-export const getLastNotifiedAppVersion= (state: State) => state.lastNotifiedAppVersion;
+export const getLastNotifiedAppVersion = (state: State) => state.lastNotifiedAppVersion;

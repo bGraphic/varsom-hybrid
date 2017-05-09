@@ -24,7 +24,7 @@ export class LocalStorageEffects {
     private _actions$: Actions,
     private _store: Store<fromRoot.State>,
     private _localStorage: Storage,
-  ) { 
+  ) {
 
     Observable.combineLatest(
       this._store.select(fromRoot.getFavoriteAreaIds),
@@ -33,13 +33,13 @@ export class LocalStorageEffects {
       this._store.select(fromRoot.getLastNotifiedAppVersion),
       (favoritesAreaIds, pushToken, rootSection, lastNotifiedAppVersion) => (<localStorage.LocalData>{ favoritesAreaIds, pushToken, rootSection, lastNotifiedAppVersion })
     )
-    .skipUntil(this._store.select(fromRoot.getLocalStorageLoaded).filter(loaded => loaded))
-    .subscribe((data) => {
-      this._store.dispatch(new localStorage.SaveAction(data));
-    });
+      .skipUntil(this._store.select(fromRoot.getLocalStorageLoaded).filter(loaded => loaded))
+      .subscribe((data) => {
+        this._store.dispatch(new localStorage.SaveAction(data));
+      });
   }
 
-  @Effect() 
+  @Effect()
   loadLocalData$: Observable<Action> = this._actions$
     .ofType(localStorage.LOAD)
     .startWith(localStorage.LOAD)
@@ -57,13 +57,13 @@ export class LocalStorageEffects {
       return new localStorage.LoadSucessAction(Object.assign({}, defaultLocalData, data));
     })
     .catch(error => of(new localStorage.LoadFailAction(error)));
-  
-  @Effect() 
+
+  @Effect()
   saveLocalData$: Observable<Action> = this._actions$
     .ofType(localStorage.SAVE)
     .map(toPayload)
     .switchMap((data: localStorage.LocalData) => {
-      return Observable.fromPromise( 
+      return Observable.fromPromise(
         this._localStorage.set(STORAGE_KEY, data)
       )
     })

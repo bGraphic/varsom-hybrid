@@ -3,9 +3,11 @@ import * as localStorage from './../actions/local-storage.actions';
 
 export interface State {
   activeRootSection: string;
-  rootSections: { [id: string]: {
-    filter: string;
-  } }
+  rootSections: {
+    [id: string]: {
+      filter: string;
+    }
+  }
 }
 
 const initialState: State = {
@@ -43,5 +45,5 @@ export function reducer(state = initialState, action: layout.Actions | localStor
   }
 }
 
-export const getActiveSection= (state: State) => state.activeRootSection;
-export const getSections= (state: State) => state.rootSections;
+export const getActiveSection = (state: State) => state.activeRootSection;
+export const getSections = (state: State) => state.rootSections;

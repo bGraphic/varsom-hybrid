@@ -14,24 +14,24 @@ const initialState: State = {
   lastSaved: null
 };
 
-export function reducer(state = initialState, action: localStorage.Actions ): State {
+export function reducer(state = initialState, action: localStorage.Actions): State {
 
-  switch(action.type) {
+  switch (action.type) {
     case localStorage.LOAD:
-      return Object.assign({}, state, { 
-        loading: true 
+      return Object.assign({}, state, {
+        loading: true
       });
     case localStorage.LOAD_SUCESS:
-      return Object.assign({}, state, { 
+      return Object.assign({}, state, {
         loaded: true,
         loading: false,
       });
     case localStorage.SAVE:
-      return Object.assign({}, state, { 
-        saving: true 
+      return Object.assign({}, state, {
+        saving: true
       });
     case localStorage.SAVE_SUCESS:
-      return Object.assign({}, state, { 
+      return Object.assign({}, state, {
         saving: false,
         lastSaved: Date.now()
       });

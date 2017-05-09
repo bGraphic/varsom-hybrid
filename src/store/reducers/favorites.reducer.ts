@@ -13,20 +13,20 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: favorites.Actions | localStorage.Actions): State {
 
-  switch(action.type) {
+  switch (action.type) {
     case favorites.ADD:
       if (state.areaIds.indexOf(action.payload) > -1) {
         return state;
       }
       return Object.assign({}, state, {
-        areaIds: [ ...state.areaIds, action.payload ]
+        areaIds: [...state.areaIds, action.payload]
       });
     case favorites.REMOVE:
       return Object.assign({}, state, {
         areaIds: state.areaIds.filter(id => id !== action.payload)
       });
-    case localStorage.LOAD_SUCESS:    
-      return Object.assign( {}, state, {
+    case localStorage.LOAD_SUCESS:
+      return Object.assign({}, state, {
         // Will override areaIds on load sucess
         areaIds: [...action.payload.favoritesAreaIds],
         // Will not override in case new push token is set

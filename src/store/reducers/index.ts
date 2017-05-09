@@ -75,11 +75,9 @@ export function reducer(state: any, action: any) {
   if (environment.production) {
     return productionReducer(state, action);
   } else {
-    console.log("DEVELOPMENT");
     return developmentReducer(state, action);
   }
 }
-
 
 /**
  * A selector function is a map function factory. We pass it parameters and it
@@ -108,8 +106,8 @@ export const getFavoritesState = (state: State) => state.favorites;
  * The created selectors can also be composed together to select different
  * pieces of state.
  */
- export const getFavoriteAreaIds = createSelector(getFavoritesState, fromFavorites.getAreaIds);
- export const getFavoritePushToken = createSelector(getFavoritesState, fromFavorites.getPushToken);
+export const getFavoriteAreaIds = createSelector(getFavoritesState, fromFavorites.getAreaIds);
+export const getFavoritePushToken = createSelector(getFavoritesState, fromFavorites.getPushToken);
 
 
 /**
