@@ -20,7 +20,8 @@ export class LocalStorageEffects {
     Observable.combineLatest(
       this._store.select(fromRoot.getFavoriteAreaIds),
       this._store.select(fromRoot.getFavoritePushToken),
-      (areaIds, pushToken) => (<localStorage.LocalData>{ favoritesAreaIds: areaIds, pushToken: pushToken })
+      this._store.select(fromRoot.getActiveSection),
+      (favoritesAreaIds, pushToken, rootSection) => (<localStorage.LocalData>{ favoritesAreaIds, pushToken, rootSection })
     )
     .skipUntil(this._store.select(fromRoot.getLocalStorageLoaded).filter(loaded => loaded))
     .subscribe((data) => {

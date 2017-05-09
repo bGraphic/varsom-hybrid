@@ -38,6 +38,7 @@ import { combineReducers } from '@ngrx/store';
  */
 import * as fromFavorites from './favorites.reducer';
 import * as fromLocalStorage from './local-storage.reducer';
+import * as fromLayout from './layout.reducer';
 
 
 /**
@@ -46,7 +47,8 @@ import * as fromLocalStorage from './local-storage.reducer';
  */
 export interface State {
   favorites: fromFavorites.State;
-  localStorage: fromLocalStorage.State
+  localStorage: fromLocalStorage.State;
+  layout: fromLayout.State;
 }
 
 
@@ -59,7 +61,8 @@ export interface State {
  */
 const reducers = {
   favorites: fromFavorites.reducer,
-  localStorage: fromLocalStorage.reducer
+  localStorage: fromLocalStorage.reducer,
+  layout: fromLayout.reducer
 };
 
 const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
@@ -69,6 +72,7 @@ export function reducer(state: any, action: any) {
   if (environment.production) {
     return productionReducer(state, action);
   } else {
+    console.log("DEVELOPMENT");
     return developmentReducer(state, action);
   }
 }
@@ -116,6 +120,7 @@ export const getLocalStorageLoaded = createSelector(getLocalStorageState, fromLo
 /**
  * Layout Reducers
  */
-// export const getLayoutState = (state: State) => state.layout;
+export const getLayoutState = (state: State) => state.layout;
 
-// export const getShowSidenav = createSelector(getLayoutState, fromLayout.getShowSidenav);
+export const getSections = createSelector(getLayoutState, fromLayout.getSections);
+export const getActiveSection = createSelector(getLayoutState, fromLayout.getActiveSection);
