@@ -8,10 +8,10 @@ export const LOAD_SUCESS = '[LocalStorage] Load Sucess';
 export const LOAD_FAIL = '[LocalStorage] Load Fail';
 
 export interface LocalData {
-  rootSection?: string,
-  favoritesAreaIds?: string[],
-  pushToken?: string,
-  lastNotifiedAppVersion?: string
+  rootSection: string,
+  favoritesAreaIds: string[],
+  pushToken: string,
+  lastNotifiedAppVersion: string
 }
 
 /**

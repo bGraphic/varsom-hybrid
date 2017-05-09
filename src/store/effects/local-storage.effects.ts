@@ -10,6 +10,13 @@ import * as localStorage from './../actions/local-storage.actions';
 
 const STORAGE_KEY = 'varsom-store';
 
+const defaultLocalData: localStorage.LocalData = {
+  rootSection: '',
+  favoritesAreaIds: [],
+  pushToken: '',
+  lastNotifiedAppVersion: '0.0.0'
+}
+
 @Injectable()
 export class LocalStorageEffects {
 
@@ -47,7 +54,7 @@ export class LocalStorageEffects {
       )
     })
     .map((data: localStorage.LocalData) => {
-      return new localStorage.LoadSucessAction(data);
+      return new localStorage.LoadSucessAction(Object.assign({}, defaultLocalData, data));
     })
     .catch(error => of(new localStorage.LoadFailAction(error)));
   
