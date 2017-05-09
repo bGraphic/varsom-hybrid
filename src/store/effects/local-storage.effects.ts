@@ -8,6 +8,8 @@ import { of } from 'rxjs/observable/of';
 import * as fromRoot from './../reducers';
 import * as localStorage from './../actions/local-storage.actions';
 
+const STORAGE_KEY = 'varsom-store';
+
 @Injectable()
 export class LocalStorageEffects {
 
@@ -21,7 +23,8 @@ export class LocalStorageEffects {
       this._store.select(fromRoot.getFavoriteAreaIds),
       this._store.select(fromRoot.getFavoritePushToken),
       this._store.select(fromRoot.getActiveSection),
-      (favoritesAreaIds, pushToken, rootSection) => (<localStorage.LocalData>{ favoritesAreaIds, pushToken, rootSection })
+      this._store.select(fromRoot.getLastNotifiedAppVersion),
+      (favoritesAreaIds, pushToken, rootSection, lastNotifiedAppVersion) => (<localStorage.LocalData>{ favoritesAreaIds, pushToken, rootSection, lastNotifiedAppVersion })
     )
     .skipUntil(this._store.select(fromRoot.getLocalStorageLoaded).filter(loaded => loaded))
     .subscribe((data) => {
@@ -40,7 +43,7 @@ export class LocalStorageEffects {
     })
     .switchMap(() => {
       return Observable.fromPromise(
-        this._localStorage.get('varsom-store')
+        this._localStorage.get(STORAGE_KEY)
       )
     })
     .map((data: localStorage.LocalData) => {
@@ -54,7 +57,7 @@ export class LocalStorageEffects {
     .map(toPayload)
     .switchMap((data: localStorage.LocalData) => {
       return Observable.fromPromise( 
-        this._localStorage.set('varsom-bla', data)
+        this._localStorage.set(STORAGE_KEY, data)
       )
     })
     .map((data: localStorage.LocalData) => {

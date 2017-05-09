@@ -39,6 +39,7 @@ import { combineReducers } from '@ngrx/store';
 import * as fromFavorites from './favorites.reducer';
 import * as fromLocalStorage from './local-storage.reducer';
 import * as fromLayout from './layout.reducer';
+import * as fromAppInfo from './app-info.reducer';
 
 
 /**
@@ -49,6 +50,7 @@ export interface State {
   favorites: fromFavorites.State;
   localStorage: fromLocalStorage.State;
   layout: fromLayout.State;
+  appInfo: fromAppInfo.State;
 }
 
 
@@ -62,7 +64,8 @@ export interface State {
 const reducers = {
   favorites: fromFavorites.reducer,
   localStorage: fromLocalStorage.reducer,
-  layout: fromLayout.reducer
+  layout: fromLayout.reducer,
+  appInfo: fromAppInfo.reducer
 };
 
 const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
@@ -124,3 +127,10 @@ export const getLayoutState = (state: State) => state.layout;
 
 export const getSections = createSelector(getLayoutState, fromLayout.getSections);
 export const getActiveSection = createSelector(getLayoutState, fromLayout.getActiveSection);
+
+/**
+ * AppInfo Reducers
+ */
+export const getAppInfoState = (state: State) => state.appInfo;
+
+export const getLastNotifiedAppVersion = createSelector(getAppInfoState, fromAppInfo.getLastNotifiedAppVersion);
