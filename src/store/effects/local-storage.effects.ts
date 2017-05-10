@@ -27,10 +27,10 @@ export class LocalStorageEffects {
   ) {
 
     Observable.combineLatest(
-      this._store.select(fromRoot.getFavoriteAreaIds),
-      this._store.select(fromRoot.getFavoritePushToken),
-      this._store.select(fromRoot.getActiveSection),
-      this._store.select(fromRoot.getLastNotifiedAppVersion),
+      this._store.select(fromRoot.getFavoriteAreaIds).distinctUntilChanged(),
+      this._store.select(fromRoot.getPushToken).distinctUntilChanged(),
+      this._store.select(fromRoot.getActiveSection).distinctUntilChanged(),
+      this._store.select(fromRoot.getLastNotifiedAppVersion).distinctUntilChanged(),
       (favoritesAreaIds, pushToken, rootSection, lastNotifiedAppVersion) => (<localStorage.LocalData>{ favoritesAreaIds, pushToken, rootSection, lastNotifiedAppVersion })
     )
       .skipUntil(this._store.select(fromRoot.getLocalStorageLoaded).filter(loaded => loaded))
@@ -43,32 +43,16 @@ export class LocalStorageEffects {
   loadLocalData$: Observable<Action> = this._actions$
     .ofType(localStorage.LOAD)
     .startWith(localStorage.LOAD)
-    .switchMap(() => {
-      return Observable.fromPromise(
-        this._localStorage.ready()
-      )
-    })
-    .switchMap(() => {
-      return Observable.fromPromise(
-        this._localStorage.get(STORAGE_KEY)
-      )
-    })
-    .map((data: localStorage.LocalData) => {
-      return new localStorage.LoadSucessAction(Object.assign({}, defaultLocalData, data));
-    })
+    .switchMapTo(this._localStorage.ready())
+    .switchMapTo(this._localStorage.get(STORAGE_KEY))
+    .map((data: localStorage.LocalData) => new localStorage.LoadSucessAction(Object.assign({}, defaultLocalData, data)))
     .catch(error => of(new localStorage.LoadFailAction(error)));
 
   @Effect()
   saveLocalData$: Observable<Action> = this._actions$
     .ofType(localStorage.SAVE)
     .map(toPayload)
-    .switchMap((data: localStorage.LocalData) => {
-      return Observable.fromPromise(
-        this._localStorage.set(STORAGE_KEY, data)
-      )
-    })
-    .map((data: localStorage.LocalData) => {
-      return new localStorage.SaveSucessAction(data);
-    })
+    .switchMap((data: localStorage.LocalData) => this._localStorage.set(STORAGE_KEY, data))
+    .map((data: localStorage.LocalData) => new localStorage.SaveSucessAction(data))
     .catch(error => of(new localStorage.SaveFailAction(error)));
 }

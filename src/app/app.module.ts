@@ -18,6 +18,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { reducer } from './../store/reducers';
 import { LocalStorageEffects } from './../store/effects/local-storage.effects';
+import { PushEffects } from './../store/effects/push.effects';
 
 import { FloodLandslideListPage } from '../pages/list/flood-landslide-list';
 import { AvalancheListPage } from "../pages/list/avalanche-list";
@@ -102,6 +103,7 @@ export function createTranslateLoader(http: Http) {
     StoreModule.provideStore( reducer ),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     EffectsModule.run(LocalStorageEffects),
+    EffectsModule.run(PushEffects),
     HttpModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,

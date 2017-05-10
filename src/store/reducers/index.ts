@@ -40,6 +40,7 @@ import * as fromFavorites from './favorites.reducer';
 import * as fromLocalStorage from './local-storage.reducer';
 import * as fromLayout from './layout.reducer';
 import * as fromAppInfo from './app-info.reducer';
+import * as fromPush from './push.reducer';
 
 
 /**
@@ -51,6 +52,7 @@ export interface State {
   localStorage: fromLocalStorage.State;
   layout: fromLayout.State;
   appInfo: fromAppInfo.State;
+  push: fromPush.State;
 }
 
 
@@ -65,7 +67,8 @@ const reducers = {
   favorites: fromFavorites.reducer,
   localStorage: fromLocalStorage.reducer,
   layout: fromLayout.reducer,
-  appInfo: fromAppInfo.reducer
+  appInfo: fromAppInfo.reducer,
+  push: fromPush.reducer
 };
 
 const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
@@ -107,7 +110,6 @@ export const getFavoritesState = (state: State) => state.favorites;
  * pieces of state.
  */
 export const getFavoriteAreaIds = createSelector(getFavoritesState, fromFavorites.getAreaIds);
-export const getFavoritePushToken = createSelector(getFavoritesState, fromFavorites.getPushToken);
 
 
 /**
@@ -132,3 +134,11 @@ export const getActiveSection = createSelector(getLayoutState, fromLayout.getAct
 export const getAppInfoState = (state: State) => state.appInfo;
 
 export const getLastNotifiedAppVersion = createSelector(getAppInfoState, fromAppInfo.getLastNotifiedAppVersion);
+
+/**
+ * Push Reducers
+ */
+export const getPushState = (state: State) => state.push;
+
+export const getPushToken = createSelector(getPushState, fromPush.getToken);
+export const getPushMessages = createSelector(getPushState, fromPush.getMessages);
