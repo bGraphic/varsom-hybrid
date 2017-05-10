@@ -4,11 +4,13 @@ import { AreaDetailsPage } from '../area-details/area-details';
 import { AreaUtils } from "../../utils/area-utils";
 import { Forecast } from "../../store/models/Forecast";
 import { ForecastService } from "../../providers/forecasts";
-import { FavoriteService } from "../../providers/favorites";
 import { GeoJsonService }       from '../../providers/geojson';
 import { SettingService } from "../../providers/settings";
 import { LocationService } from "../../providers/location";
 import { Subscription } from "rxjs";
+import { Store } from '@ngrx/store';
+
+import * as fromRoot from './../../store/reducers';
 
 @Component({
   templateUrl: 'list.html'
@@ -40,10 +42,10 @@ export class FloodLandslideListPage {
     private _navCtrl: NavController,
     private _navParams: NavParams,
     private _forecastService: ForecastService,
-    private _favoriteService: FavoriteService,
     private _geoJsonService: GeoJsonService,
     private _settingService: SettingService,
-    private _locationService: LocationService
+    private _locationService: LocationService,
+    private _store: Store<fromRoot.State>
   ) {
     let area = _navParams.get('area');
 
@@ -101,7 +103,7 @@ export class FloodLandslideListPage {
       });
     this._subscriptions.push(landslideSubscription);
 
-    let favoriteSubscription = this._favoriteService.favoriteAreaIds$
+    let favoriteSubscription = this._store.select(fromRoot.getFavoriteAreaIds)
       .subscribe(favorites => {
         this.favorites = favorites;
       });

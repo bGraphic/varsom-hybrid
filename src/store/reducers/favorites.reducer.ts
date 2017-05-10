@@ -9,19 +9,40 @@ const initialState: State = {
   areaIds: [],
 }
 
+function add(areaIds:string[], areaId:string) {
+  if (areaIds.indexOf(areaId) > -1) {
+    return areaIds;
+  } else {
+    return [...areaIds, areaId];
+  }
+}
+
+function remove(areaIds:string[], areaId:string) {
+  return areaIds.filter(id => id !== areaId);
+}
+
+function toogle(areaIds:string[], areaId:string) {
+  if (areaIds.indexOf(areaId) > -1) {
+    return remove(areaIds, areaId);
+  } else {
+    return add(areaIds, areaId);
+  }
+}
+
 export function reducer(state = initialState, action: favorites.Actions | localStorage.Actions): State {
 
   switch (action.type) {
     case favorites.ADD:
-      if (state.areaIds.indexOf(action.payload) > -1) {
-        return state;
-      }
       return Object.assign({}, state, <State> {
-        areaIds: [...state.areaIds, action.payload]
+        areaIds: add(state.areaIds, action.payload)
       });
     case favorites.REMOVE:
       return Object.assign({}, state, <State> {
-        areaIds: state.areaIds.filter(id => id !== action.payload)
+        areaIds: remove(state.areaIds, action.payload)
+      });
+    case favorites.TOOGLE:
+      return Object.assign({}, state, <State> {
+        areaIds: toogle(state.areaIds, action.payload)
       });
     case localStorage.LOAD_SUCESS:
       return Object.assign({}, state, <State> {

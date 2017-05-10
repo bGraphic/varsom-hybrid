@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 export const ADD = '[Favorite] Add';
 export const REMOVE = '[Favorite] Remove';
+export const TOOGLE = '[Favorite] Toogle';
 
 /**
  * Every action is comprised of at least a type and an optional
@@ -22,10 +23,17 @@ export class RemoveAction implements Action {
   constructor(public payload: string) { }
 }
 
+export class ToggleAction implements Action {
+  readonly type = TOOGLE;
+
+  constructor(public payload: string) { }
+}
+
 /**
  * Export a type alias of all actions in this action group
  * so that reducers can easily compose action types
  */
 export type Actions
   = AddAction
-  | RemoveAction;
+  | RemoveAction
+  | ToggleAction;

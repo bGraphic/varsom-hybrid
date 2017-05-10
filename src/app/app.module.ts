@@ -29,7 +29,6 @@ import { Map } from "../partials/map";
 
 import { DataService } from "../providers/data";
 import { ForecastService } from "../providers/forecasts";
-import { FavoriteService } from "../providers/favorites";
 import { PushService } from "../providers/push";
 import { SettingService } from "../providers/settings";
 import { AppVersionService } from "../providers/app-version";
@@ -132,7 +131,6 @@ export function createTranslateLoader(http: Http) {
     ForecastService,
     DataService,
     SettingService,
-    FavoriteService,
     PushService,
     AppVersionService,
     GeoJsonService,

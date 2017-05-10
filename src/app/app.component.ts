@@ -61,7 +61,6 @@ export class MyApp {
     this.platform.ready().then(() => {
 
       this._statusBar.styleDefault();
-      this._pushService.register();
 
       this._translateService.get('BACK').subscribe((res: string) => {
         this._config.set('ios', 'backButtonText', res);

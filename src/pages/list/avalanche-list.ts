@@ -3,11 +3,13 @@ import { NavController } from 'ionic-angular';
 import { AreaDetailsPage } from '../area-details/area-details';
 import { Forecast } from "../../store/models/Forecast";
 import { ForecastService } from "../../providers/forecasts";
-import { FavoriteService } from "../../providers/favorites";
 import { GeoJsonService }       from '../../providers/geojson';
 import { SettingService } from "../../providers/settings";
 import { LocationService } from "../../providers/location";
 import { Subscription } from "rxjs";
+import { Store } from '@ngrx/store';
+
+import * as fromRoot from './../../store/reducers';
 
 @Component({
   templateUrl: 'list.html'
@@ -35,10 +37,10 @@ export class AvalancheListPage {
   constructor(
     private _navCtrl: NavController,
     private _forecastService: ForecastService,
-    private _favoriteService: FavoriteService,
     private _geoJsonService: GeoJsonService,
     private _settingService: SettingService,
-    private _locationService: LocationService
+    private _locationService: LocationService,
+    private _store: Store<fromRoot.State>
   ) {
     this.pageTitleKey = "AVALANCHE";
     this.emptyListTitleKey = "A_REGIONS_LIST_TITLE";
@@ -70,7 +72,7 @@ export class AvalancheListPage {
       });
     this._subscriptions.push(currentPositionSubscription);
 
-    let favoriteSubscription = this._favoriteService.favoriteAreaIds$
+    let favoriteSubscription = this._store.select(fromRoot.getFavoriteAreaIds)
       .subscribe(favorites => {
         this.favorites = favorites;
       });

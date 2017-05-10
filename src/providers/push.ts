@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { App, AlertController, Platform } from 'ionic-angular';
 
-import { Push, PushToken, IPushMessage } from '@ionic/cloud-angular';
+import { Push, IPushMessage } from '@ionic/cloud-angular';
 import {TranslateService} from '@ngx-translate/core';
 
-import { FavoriteService } from "./favorites";
 import { AreaUtils } from "../utils/area-utils";
 import { AvalancheListPage } from "../pages/list/avalanche-list";
 import { FloodLandslideListPage } from "../pages/list/flood-landslide-list";
@@ -17,7 +16,6 @@ export class PushService {
     private _push: Push,
     private _appCtrl: App,
     private _platform: Platform,
-    private _favoriteService: FavoriteService,
     private _alertCtrl: AlertController,
     private _translateService: TranslateService,
 
@@ -33,20 +31,6 @@ export class PushService {
 
     });
 
-  }
-
-  register() {
-
-    console.log('PushService: Register for push');
-
-    this._push.register().then((t: PushToken) => {
-      this._favoriteService.pushToken = t.token;
-      return this._push.saveToken(t);
-    }).then((t: PushToken) => {
-      console.log('PushService: Token saved:', t.token);
-    }).catch(error => {
-      console.log('PushService: Error saving token:', error.message);
-    });
   }
 
   private _onPush(message:IPushMessage) {
