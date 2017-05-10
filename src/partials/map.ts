@@ -14,14 +14,14 @@ export class Map {
 
   @Input() forecasts: Forecast[];
   @Input() geoJsonData: any;
-  @Input() center: {latLng: L.LatLng, zoom: number};
+  @Input() center: { latLng: L.LatLng, zoom: number };
   @Output() areaSelected: EventEmitter<string> = new EventEmitter<string>();
   @ViewChild('map') mapEl: any;
 
   private _map: L.Map;
   private _geojsonLayer: L.GeoJSON;
 
-  constructor () {
+  constructor() {
 
   }
 
@@ -33,15 +33,15 @@ export class Map {
 
   ngOnChanges(changes) {
 
-    if(changes.forecasts) {
+    if (changes.forecasts) {
       this.updateGeoJsonData();
     }
 
-    if(changes.geoJsonData) {
+    if (changes.geoJsonData) {
       this.updateGeoJsonData();
     }
 
-    if(changes.center){
+    if (changes.center) {
       this.updateMapCenter();
     }
   }
@@ -58,7 +58,7 @@ export class Map {
   }
 
   private updateMapCenter() {
-    if(!this._map || !this.center) {
+    if (!this._map || !this.center) {
       return;
     }
 
@@ -67,11 +67,11 @@ export class Map {
 
   private updateGeoJsonData() {
 
-    if(!this._map || !this.geoJsonData) {
+    if (!this._map || !this.geoJsonData) {
       return;
     }
 
-    if(this._geojsonLayer) {
+    if (this._geojsonLayer) {
       this._geojsonLayer.removeFrom(this._map);
     }
 
@@ -84,26 +84,26 @@ export class Map {
   }
 
   private updateGeoJsonStyle() {
-    if(!this._geojsonLayer) {
+    if (!this._geojsonLayer) {
       return;
     }
 
     this._geojsonLayer.setStyle((feature) => this.featureStyle(feature));
   }
 
-  private featureStyle(feature:any) {
+  private featureStyle(feature: any) {
 
     let color = ThemeUtils.colorForRating(0);
     let fillOpacity = 0.2;
 
-    if(this.forecasts) {
+    if (this.forecasts) {
       let forecast = Forecast.findForecastWithAreaId(this.forecasts, Map.transformGeoJsonToAreaId(feature));
-      if(forecast) {
+      if (forecast) {
         color = ThemeUtils.colorForRating(forecast.mapWarning.rating);
       }
     }
 
-    if(feature.mousedown) {
+    if (feature.mousedown) {
       fillOpacity = 0.5;
     }
 
@@ -119,18 +119,18 @@ export class Map {
 
     let forecast = Forecast.findForecastWithAreaId(this.forecasts, feature.properties.omraadeid);
 
-    if(!forecast && 'B' === feature.properties.regiontype) {
+    if (!forecast && 'B' === feature.properties.regiontype) {
       return false;
     }
 
-    if(forecast && forecast.isTypeB() && 0 === forecast.getDay(0).rating) {
+    if (forecast && forecast.isTypeB() && 0 === forecast.getDay(0).rating) {
       return false;
     }
 
     return true;
   }
 
-  private onEachFeature(feature:any, layer: any) {
+  private onEachFeature(feature: any, layer: any) {
     let self = this;
 
     layer.on("mousedown", function (event) {
@@ -148,19 +148,19 @@ export class Map {
     });
   }
 
-  private static transformGeoJsonToAreaId(geoJsonFeature):string {
+  private static transformGeoJsonToAreaId(geoJsonFeature): string {
 
     let id: number;
 
-    if(geoJsonFeature.hasOwnProperty('properties')) {
-      if(geoJsonFeature.properties.hasOwnProperty('fylkesnr')) {
+    if (geoJsonFeature.hasOwnProperty('properties')) {
+      if (geoJsonFeature.properties.hasOwnProperty('fylkesnr')) {
         id = Number(geoJsonFeature.properties.fylkesnr);
-      } else if (geoJsonFeature.properties.hasOwnProperty('omraadeid')){
+      } else if (geoJsonFeature.properties.hasOwnProperty('omraadeid')) {
         id = Number(geoJsonFeature.properties.omraadeid);
       }
     }
 
-    if(id < 10) {
+    if (id < 10) {
       return "0" + id;
     } else {
       return "" + id;

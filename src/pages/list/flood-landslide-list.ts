@@ -5,7 +5,7 @@ import { AreaUtils } from "../../utils/area-utils";
 import { Forecast } from "../../models/Forecast";
 import { ForecastService } from "../../providers/forecasts";
 import { FavoriteService } from "../../providers/favorites";
-import { GeoJsonService }       from '../../providers/geojson';
+import { GeoJsonService } from '../../providers/geojson';
 import { SettingService } from "../../providers/settings";
 import { LocationService } from "../../providers/location";
 import { Subscription } from "rxjs";
@@ -19,11 +19,11 @@ export class FloodLandslideListPage {
   pageTitleKey: string;
   emptyListTitleKey: string;
   dummyForecasts = new Array(19);
-  parentId:string = null;
+  parentId: string = null;
   forecasts: Forecast[] = [];
 
-  favorites:string[] = [];
-  sections:string[] = [];
+  favorites: string[] = [];
+  sections: string[] = [];
 
   segments = ['highest', 'flood', 'landslide'];
   selectedSegment: string;
@@ -32,8 +32,8 @@ export class FloodLandslideListPage {
   mapGeoJsonData: any;
   mapCenter: { latLng: L.LatLng, zoom: number };
 
-  private _floodForecast:Forecast[] = [];
-  private _landslideForecast:Forecast[] = [];
+  private _floodForecast: Forecast[] = [];
+  private _landslideForecast: Forecast[] = [];
   private _subscriptions: Subscription[] = [];
 
   constructor(
@@ -47,7 +47,7 @@ export class FloodLandslideListPage {
   ) {
     let area = _navParams.get('area');
 
-    if(area) {
+    if (area) {
       this.pageTitleKey = area.name;
       this.emptyListTitleKey = 'MUNICIPALITIES_LIST_TITLE';
       this.parentId = area.id;
@@ -67,7 +67,7 @@ export class FloodLandslideListPage {
 
   ngOnInit() {
 
-    if(this.showMap) {
+    if (this.showMap) {
       let geojsonSubscription = this._geoJsonService.counties$.subscribe(geojsonData => {
         this.mapGeoJsonData = geojsonData;
       });
@@ -107,7 +107,7 @@ export class FloodLandslideListPage {
       });
     this._subscriptions.push(favoriteSubscription);
 
-    if(this.parentId) {
+    if (this.parentId) {
       let areaSubscription = this._forecastService.getForecastForArea('flood', this.parentId)
         .subscribe(forecast => {
           this.pageTitleKey = forecast.areaName;
@@ -117,7 +117,7 @@ export class FloodLandslideListPage {
   }
 
   ngOnDestroy() {
-    for(let subscription of this._subscriptions) {
+    for (let subscription of this._subscriptions) {
       subscription.unsubscribe();
     }
   }
@@ -125,23 +125,23 @@ export class FloodLandslideListPage {
   private _updateForecast() {
     let forecasts = [];
 
-    if('flood' === this.selectedSegment) {
+    if ('flood' === this.selectedSegment) {
       forecasts = this._floodForecast;
-    } else if('landslide' === this.selectedSegment) {
+    } else if ('landslide' === this.selectedSegment) {
       forecasts = this._landslideForecast;
     } else {
       forecasts = Forecast.createHighestForecasts(this._floodForecast, this._landslideForecast);
     }
 
-    if(this.parentId) {
+    if (this.parentId) {
       this.forecasts = Forecast.sortByAreaName(forecasts);
     } else {
       this.forecasts = Forecast.sortByAreaId(forecasts, true);
     }
   }
 
-  private pushListPage(area: {id:string, name:string}) {
-    if( AreaUtils.isOslo(area.id)) {
+  private pushListPage(area: { id: string, name: string }) {
+    if (AreaUtils.isOslo(area.id)) {
       this.pushDetailsPage(area);
     } else {
       this._navCtrl.push(FloodLandslideListPage, {
@@ -150,8 +150,8 @@ export class FloodLandslideListPage {
     }
   }
 
-  private pushDetailsPage(area: {id:string, name:string}) {
-    if(AreaUtils.isOslo(area.id)) {
+  private pushDetailsPage(area: { id: string, name: string }) {
+    if (AreaUtils.isOslo(area.id)) {
       area.id = AreaUtils.OSLO_MUNICIPALITY_ID;
     }
     this._navCtrl.push(AreaDetailsPage, {
@@ -159,12 +159,12 @@ export class FloodLandslideListPage {
     });
   }
 
-  private pushPage(forecast:Forecast) {
+  private pushPage(forecast: Forecast) {
     let area = {
       id: forecast.areaId,
       name: forecast.areaName
     };
-    if(AreaUtils.isMunicipality(area.id)) {
+    if (AreaUtils.isMunicipality(area.id)) {
       this.pushDetailsPage(area);
     } else {
       this.pushListPage(area);
@@ -177,7 +177,7 @@ export class FloodLandslideListPage {
 
   onMapAreaSelected(areaId: string) {
     let forecast = Forecast.findForecastWithAreaId(this.forecasts, areaId);
-    if(forecast) {
+    if (forecast) {
       this.pushPage(forecast);
     } else {
       console.log('FloodLandslideListPage: No matching area', areaId);

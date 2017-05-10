@@ -16,8 +16,8 @@ export class ThemeUtils {
 
   }
 
-  static colorForRating(rating:number):string {
-    if(rating >= 0 && rating < this.RATING_COLORS.length) {
+  static colorForRating(rating: number): string {
+    if (rating >= 0 && rating < this.RATING_COLORS.length) {
       return this.RATING_COLORS[rating];
     } else {
       return 'transparent';

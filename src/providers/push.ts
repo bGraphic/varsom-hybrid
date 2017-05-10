@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { App, AlertController, Platform } from 'ionic-angular';
 
 import { Push, PushToken, IPushMessage } from '@ionic/cloud-angular';
-import {TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { FavoriteService } from "./favorites";
 import { AreaUtils } from "../utils/area-utils";
@@ -49,16 +49,16 @@ export class PushService {
     });
   }
 
-  private _onPush(message:IPushMessage) {
+  private _onPush(message: IPushMessage) {
 
-    if(message.payload && message.payload['areaId']) {
+    if (message.payload && message.payload['areaId']) {
       this._areaPushAlert(message);
     } else {
       this._defaultPushAlert(message);
     }
   }
 
-  private _areaPushAlert(message:IPushMessage) {
+  private _areaPushAlert(message: IPushMessage) {
 
     let confirm = this._alertCtrl.create({
       title: message.title,
@@ -80,7 +80,7 @@ export class PushService {
 
   }
 
-  private _defaultPushAlert(message:IPushMessage) {
+  private _defaultPushAlert(message: IPushMessage) {
 
     let alert = this._alertCtrl.create({
       title: message.title,
@@ -92,18 +92,18 @@ export class PushService {
 
   private _navigateToArea(areaId: string) {
 
-    let rootNav= this._appCtrl.getRootNav();
+    let rootNav = this._appCtrl.getRootNav();
 
-    if(AreaUtils.isRegion(areaId)) {
+    if (AreaUtils.isRegion(areaId)) {
       rootNav.setRoot(AvalancheListPage);
-      rootNav.push(AreaDetailsPage, {area: { id: areaId }});
-    } else if(AreaUtils.isCounty(areaId)) {
+      rootNav.push(AreaDetailsPage, { area: { id: areaId } });
+    } else if (AreaUtils.isCounty(areaId)) {
       rootNav.setRoot(FloodLandslideListPage);
-      rootNav.push(FloodLandslideListPage, {area: { id: areaId }});
-    } else if(AreaUtils.isMunicipality(areaId)) {
+      rootNav.push(FloodLandslideListPage, { area: { id: areaId } });
+    } else if (AreaUtils.isMunicipality(areaId)) {
       rootNav.setRoot(FloodLandslideListPage);
-      rootNav.push(FloodLandslideListPage, {area: { id: AreaUtils.getParentId(areaId) }});
-      rootNav.push(AreaDetailsPage, {area: { id: areaId }});
+      rootNav.push(FloodLandslideListPage, { area: { id: AreaUtils.getParentId(areaId) } });
+      rootNav.push(AreaDetailsPage, { area: { id: areaId } });
     }
   }
 }

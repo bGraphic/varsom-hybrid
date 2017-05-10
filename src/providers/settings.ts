@@ -8,7 +8,7 @@ export class SettingService {
   private _activeSection$ = new Subject<string>();
   private _activeFloodLandslideSegment$ = new BehaviorSubject<string>('highest');
 
-  get activeFloodLandslideSegment$():Observable<string> {
+  get activeFloodLandslideSegment$(): Observable<string> {
     return this._activeFloodLandslideSegment$.asObservable().distinctUntilChanged();
   }
 
@@ -16,7 +16,7 @@ export class SettingService {
     this._activeFloodLandslideSegment$.next(forecastType);
   }
 
-  get activeSection$():Observable<string> {
+  get activeSection$(): Observable<string> {
     return this._activeSection$.asObservable().distinctUntilChanged();
   }
 
@@ -24,7 +24,7 @@ export class SettingService {
     this._activeSection$.next(forecastType);
   }
 
-  constructor (
+  constructor(
     private storageService: StorageService
   ) {
 

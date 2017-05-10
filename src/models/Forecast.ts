@@ -1,4 +1,4 @@
-import {Warning} from "./Warning";
+import { Warning } from "./Warning";
 
 export class Forecast {
 
@@ -23,7 +23,7 @@ export class Forecast {
   }
 
   isTypeA(): boolean {
-    if(!this._areaTypeId) {
+    if (!this._areaTypeId) {
       return true;
     }
     return this._areaTypeId === 10;
@@ -34,8 +34,8 @@ export class Forecast {
   }
 
   isActive(): boolean {
-    for(let warning of this._warnings) {
-      if(warning.rating > 0) {
+    for (let warning of this._warnings) {
+      if (warning.rating > 0) {
         return true;
       }
     }
@@ -54,14 +54,14 @@ export class Forecast {
     return this._warnings;
   }
 
-  static createFromFirebaseJSON(item: any, forecastType:string):Forecast {
+  static createFromFirebaseJSON(item: any, forecastType: string): Forecast {
 
-    if(!item.hasOwnProperty('Forecast') || !item.Forecast.hasOwnProperty('day0') || !item.Forecast.hasOwnProperty('day1') || !item.Forecast.hasOwnProperty('day2') ) {
+    if (!item.hasOwnProperty('Forecast') || !item.Forecast.hasOwnProperty('day0') || !item.Forecast.hasOwnProperty('day1') || !item.Forecast.hasOwnProperty('day2')) {
       console.log("Forecast: Item does not have warnings", item);
       return Forecast.createEmptyForecast();
     }
 
-    if(!item.hasOwnProperty('Name') || !item.hasOwnProperty('Id')) {
+    if (!item.hasOwnProperty('Name') || !item.hasOwnProperty('Id')) {
       console.log("Forecast: Item does not have name and/or id", item);
       return Forecast.createEmptyForecast();
     }
@@ -80,8 +80,8 @@ export class Forecast {
     return forecast;
   }
 
-  static createWithWarnings(forecastType:string, warnings: Warning[]) {
-    if(!warnings) {
+  static createWithWarnings(forecastType: string, warnings: Warning[]) {
+    if (!warnings) {
       return this.createEmptyForecast();
     }
 
@@ -100,21 +100,21 @@ export class Forecast {
     return forecast;
   }
 
-  static createHighestForecast(forecastA:Forecast, forecastB:Forecast):Forecast {
+  static createHighestForecast(forecastA: Forecast, forecastB: Forecast): Forecast {
 
-    if(!forecastA && !forecastB) {
+    if (!forecastA && !forecastB) {
       return Forecast.createEmptyForecast();
     }
 
-    if(!forecastA && forecastB) {
+    if (!forecastA && forecastB) {
       return forecastB;
     }
 
-    if(forecastA && !forecastB) {
+    if (forecastA && !forecastB) {
       return forecastA;
     }
 
-    let warnings:Warning[] = [];
+    let warnings: Warning[] = [];
 
     for (let i of [0, 1, 2]) {
       warnings[i] = Warning.getHighest(forecastA.getDay(i), forecastB.getDay(i));
@@ -129,46 +129,46 @@ export class Forecast {
     return forecast;
   }
 
-  static createHighestForecasts(forecastsA, forecastsB):Forecast[] {
-    if(!forecastsA || !forecastsB) {
+  static createHighestForecasts(forecastsA, forecastsB): Forecast[] {
+    if (!forecastsA || !forecastsB) {
       return [];
     }
 
-    if(0 === forecastsA.length || 0 === forecastsB.length) {
+    if (0 === forecastsA.length || 0 === forecastsB.length) {
       return [];
     }
 
-    let forecasts:Forecast[] = [];
-    for(let forecastA of forecastsA) {
+    let forecasts: Forecast[] = [];
+    for (let forecastA of forecastsA) {
       let forecastB = Forecast.findForecastWithAreaId(forecastsB, forecastA.areaId);
       forecasts.push(Forecast.createHighestForecast(forecastA, forecastB));
     }
     return forecasts;
   }
 
-  static findForecastWithAreaId(forecasts:Forecast[], areaId:string ) {
+  static findForecastWithAreaId(forecasts: Forecast[], areaId: string) {
     for (let forecast of forecasts) {
-      if(forecast.areaId == areaId) {
+      if (forecast.areaId == areaId) {
         return forecast;
       }
     }
   }
 
-  static filterARegions(forecasts:Forecast[]) {
+  static filterARegions(forecasts: Forecast[]) {
     return forecasts.filter(forecast => forecast.isTypeA());
   }
 
-  static filterBRegions(forecasts:Forecast[]) {
+  static filterBRegions(forecasts: Forecast[]) {
     return forecasts.filter(forecast => forecast.isTypeB());
   }
 
-  static filterBRegionsActive(forecasts:Forecast[]) {
+  static filterBRegionsActive(forecasts: Forecast[]) {
     return forecasts.filter(forecast => forecast.isTypeB()).filter(forecast => forecast.isActive());
   }
 
-  static getTimeframeFromForecasts(forecasts: Forecast[]):Date[] {
+  static getTimeframeFromForecasts(forecasts: Forecast[]): Date[] {
     // In production this should work as all forecasts are updated at the same time
-    if(!forecasts || 0 === forecasts.length) {
+    if (!forecasts || 0 === forecasts.length) {
       return [];
     } else {
       let forecast = forecasts[0];
@@ -177,7 +177,7 @@ export class Forecast {
   }
 
   static sortByAreaName(forecasts: Forecast[]) {
-    return forecasts.sort((a:Forecast, b:Forecast) => {
+    return forecasts.sort((a: Forecast, b: Forecast) => {
       let nameA = a.areaName.toUpperCase(); // ignore upper and lowercase
       let nameB = b.areaName.toUpperCase(); // ignore upper and lowercase
       if (nameA < nameB) {
@@ -192,8 +192,8 @@ export class Forecast {
     });
   }
 
-  static sortByAreaId(forecasts: Forecast[], descending?:boolean) {
-    return forecasts.sort((a:Forecast, b:Forecast) => {
+  static sortByAreaId(forecasts: Forecast[], descending?: boolean) {
+    return forecasts.sort((a: Forecast, b: Forecast) => {
       let areaIdA = a.areaId.toUpperCase(); // ignore upper and lowercase
       let areaIdB = b.areaId.toUpperCase(); // ignore upper and lowercase
       let decendingMultiplier = descending ? -1 : 1;

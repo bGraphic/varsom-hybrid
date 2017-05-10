@@ -89,7 +89,7 @@ export function createTranslateLoader(http: Http) {
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp, { }),
+    IonicModule.forRoot(MyApp, {}),
     CloudModule.forRoot(cloudSettings),
     IonicStorageModule.forRoot(),
     HttpModule,
@@ -126,7 +126,7 @@ export function createTranslateLoader(http: Http) {
     GeoJsonService,
     LocationService,
     StorageService,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
-export class AppModule {}
+export class AppModule { }

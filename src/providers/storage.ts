@@ -3,7 +3,6 @@ import { Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 
-
 interface IStoredFavorites {
   pushToken: string,
   areaIds: string[]
@@ -23,7 +22,7 @@ export class StorageService {
   private readonly STORE_KEY = 'varsom-store';
   private _newValues$ = new BehaviorSubject<any>({});
   private _storedValues$ = new Subject<IStoredValues>();
-  private _defaultValues:IStoredValues = {
+  private _defaultValues: IStoredValues = {
     rootSection: 'FLOOD_LANDSLIDE',
     pushToken: null,
     favoritesAreaIds: [],
@@ -31,18 +30,18 @@ export class StorageService {
     lastNotifiedAppVersion: '0.0.0'
   };
 
-  get rootSection$():Observable<string> {
+  get rootSection$(): Observable<string> {
     return this._storedValues$
       .map(values => {
         return values.rootSection;
       });
   }
 
-  set rootSection(section:string) {
-    this._newValues$.next(Object.assign(this._newValues$.getValue(), { rootSection: section}));
+  set rootSection(section: string) {
+    this._newValues$.next(Object.assign(this._newValues$.getValue(), { rootSection: section }));
   }
 
-  get favorites$():Observable<IStoredFavorites> {
+  get favorites$(): Observable<IStoredFavorites> {
     return this._storedValues$
       .map(values => {
         return {
@@ -52,29 +51,29 @@ export class StorageService {
       });
   }
 
-  set favorites(favorites:IStoredFavorites) {
+  set favorites(favorites: IStoredFavorites) {
     this._newValues$.next(Object.assign(this._newValues$.getValue(), { pushToken: favorites.pushToken, favoritesAreaIds: favorites.areaIds }));
   }
 
-  get parseImportDone$():Observable<boolean> {
+  get parseImportDone$(): Observable<boolean> {
     return this._storedValues$
       .map(values => {
         return values.parseImportDone;
       });
   }
 
-  set parseImportDone(isDone:boolean) {
+  set parseImportDone(isDone: boolean) {
     this._newValues$.next(Object.assign(this._newValues$.getValue(), { parseImportDone: isDone }));
   }
 
-  get lastNotifiedAppVersion$():Observable<string> {
+  get lastNotifiedAppVersion$(): Observable<string> {
     return this._storedValues$
       .map(values => {
         return values.lastNotifiedAppVersion;
       });
   }
 
-  set lastNotifiedAppVersion(appVersion:string) {
+  set lastNotifiedAppVersion(appVersion: string) {
     this._newValues$.next(Object.assign(this._newValues$.getValue(), { lastNotifiedAppVersion: appVersion }));
   }
 
@@ -85,7 +84,7 @@ export class StorageService {
 
     platform.ready().then(() => {
 
-      if(!platform.is('ios')) {
+      if (!platform.is('ios')) {
         this._saveContinously(storage);
       } else {
         this._saveOnPause(platform, storage);
@@ -112,7 +111,7 @@ export class StorageService {
       });
   }
 
-  private _loadValues(storage: Storage, key:string, storedValues$:Subject<IStoredValues>, defaultValues:IStoredValues) {
+  private _loadValues(storage: Storage, key: string, storedValues$: Subject<IStoredValues>, defaultValues: IStoredValues) {
     storage.get(key).then(
       values => {
         console.log("StorageService: Loaded", key, JSON.stringify(values));
@@ -124,7 +123,7 @@ export class StorageService {
     );
   }
 
-  private _saveValues(storage: Storage, key:string, values:IStoredValues) {
+  private _saveValues(storage: Storage, key: string, values: IStoredValues) {
     storage.set(key, values).then(
       () => {
         console.log("StorageService: Saved", key, JSON.stringify(values));

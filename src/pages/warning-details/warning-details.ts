@@ -23,7 +23,7 @@ export class WarningDetailsPage {
     private _forecastService: ForecastService
   ) {
     // If we navigated to this page, we will have an item available as a nav param
-    let warningParams:{ areaName:string, areaId: string, forecastType:string, forecastDay:number } = this._navParams.get('warning');
+    let warningParams: { areaName: string, areaId: string, forecastType: string, forecastDay: number } = this._navParams.get('warning');
     this.pageTitleKey = warningParams.areaName;
     this.areaId = warningParams.areaId;
     this.forecastType = warningParams.forecastType;

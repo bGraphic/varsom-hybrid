@@ -31,7 +31,7 @@ export class AreaDetailsPage {
   }
 
   ngOnInit() {
-    if(AreaUtils.isMunicipality(this.areaId)) {
+    if (AreaUtils.isMunicipality(this.areaId)) {
       this._subscribeToMunicipalityForecasts(this.areaId);
     } else if (AreaUtils.isRegion(this.areaId)) {
       this._subscribeToRegionForecast(this.areaId);
@@ -41,12 +41,12 @@ export class AreaDetailsPage {
   }
 
   ngOnDestroy() {
-    for(let subscription of this._subscriptions) {
+    for (let subscription of this._subscriptions) {
       subscription.unsubscribe();
     }
   }
 
-  onWarningSelected(forecast:Forecast, dayIndex:number) {
+  onWarningSelected(forecast: Forecast, dayIndex: number) {
     this._navCtrl.push(WarningDetailsPage, {
       warning: {
         areaName: forecast.areaName,
@@ -57,7 +57,7 @@ export class AreaDetailsPage {
     });
   }
 
-  private _subscribeToMunicipalityForecasts(areaId:string) {
+  private _subscribeToMunicipalityForecasts(areaId: string) {
 
     let floodSubscription = this._forecastService.getForecastForArea('flood', areaId)
       .subscribe(forecast => {
@@ -73,7 +73,7 @@ export class AreaDetailsPage {
     this._subscriptions.push(landslideSubscription);
   }
 
-  private _subscribeToRegionForecast(areaId:string) {
+  private _subscribeToRegionForecast(areaId: string) {
     let subscription = this._forecastService.getForecastForArea('avalanche', areaId)
       .subscribe(forecast => {
         this._updateWarnings('avalanche', forecast);
@@ -82,7 +82,7 @@ export class AreaDetailsPage {
     this._subscriptions.push(subscription);
   }
 
-  private _updateWarnings(forecastType:string, forecast:Forecast) {
+  private _updateWarnings(forecastType: string, forecast: Forecast) {
     this.pageTitleKey = forecast.areaName;
     this.forecasts[forecastType] = forecast;
   }

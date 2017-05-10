@@ -8,9 +8,9 @@ export class FavoriteService {
 
   private _pushToken$ = new BehaviorSubject<string>(null);
   private _favoriteAreasWithStatus$ = new BehaviorSubject<{ areaId: string, active: boolean }[]>([]);
-  private _favoriteChanges$ = new Subject<{ type:string, areaIds: string[] }>();
+  private _favoriteChanges$ = new Subject<{ type: string, areaIds: string[] }>();
 
-  get favoriteAreaIds$():Observable<string[]> {
+  get favoriteAreaIds$(): Observable<string[]> {
     return this._favoriteAreasWithStatus$
       .map(items => this._transformsItemsToActiveAreaIds(items));
   }
@@ -23,7 +23,7 @@ export class FavoriteService {
       .distinctUntilChanged();
   }
 
-  set pushToken(token:string) {
+  set pushToken(token: string) {
     console.log("FavoriteService: Push token set to", token);
     this._pushToken$.next(token)
   }
@@ -41,7 +41,7 @@ export class FavoriteService {
 
   }
 
-  isFavoriteArea$(areaId):Observable<boolean> {
+  isFavoriteArea$(areaId): Observable<boolean> {
     return this.favoriteAreaIds$
       .map(favorites => {
         return favorites.indexOf(areaId) > -1;
@@ -49,11 +49,11 @@ export class FavoriteService {
   }
 
   addFavoriteArea(areaId: string) {
-    this._favoriteChanges$.next({ type: 'ADD', areaIds: [ areaId ] });
+    this._favoriteChanges$.next({ type: 'ADD', areaIds: [areaId] });
   }
 
   removeFavoriteArea(areaId: string) {
-    this._favoriteChanges$.next({ type: 'REMOVE', areaIds: [ areaId ] });
+    this._favoriteChanges$.next({ type: 'REMOVE', areaIds: [areaId] });
   }
 
   private _watchChangesToFavoriteAreaIds() {
@@ -80,7 +80,7 @@ export class FavoriteService {
           this._pushToken$.next(favorites.pushToken);
         }
 
-        this._favoriteChanges$.next({ type: 'SAVED', areaIds: favorites.areaIds});
+        this._favoriteChanges$.next({ type: 'SAVED', areaIds: favorites.areaIds });
       });
 
     this.favoriteAreaIds$
@@ -97,17 +97,17 @@ export class FavoriteService {
       });
   }
 
-  private _transformsItemsToActiveAreaIds(items: {areaId: string, active: boolean}[]) {
+  private _transformsItemsToActiveAreaIds(items: { areaId: string, active: boolean }[]) {
     let activeItems = items.filter(item => { return item.active });
     let transformedItems = activeItems.map(item => { return item.areaId });
     return transformedItems;
   }
 
-  private _updateSubscriptions(areasWithStatus: { areaId: string, active: boolean }[], token: string ) {
+  private _updateSubscriptions(areasWithStatus: { areaId: string, active: boolean }[], token: string) {
     console.log("FavoriteService: Update subscriptions", token, JSON.stringify(areasWithStatus));
 
-    for(let area of areasWithStatus) {
-      if(area.active) {
+    for (let area of areasWithStatus) {
+      if (area.active) {
         this._dataService.addPushTokenForArea(token, area.areaId);
       } else {
         this._dataService.removePushTokenForArea(token, area.areaId);
@@ -115,15 +115,15 @@ export class FavoriteService {
     }
   }
 
-  private _changeStatusOfAreas(areas:{ areaId: string, active: boolean }[], areaIds: string[], active: boolean, overrideExisting = true ):{ areaId: string, active: boolean }[] {
+  private _changeStatusOfAreas(areas: { areaId: string, active: boolean }[], areaIds: string[], active: boolean, overrideExisting = true): { areaId: string, active: boolean }[] {
     console.log("FavoriteService: Change active state of areas to", active, JSON.stringify(areaIds), overrideExisting);
 
-    for(let areaId of areaIds) {
-      let area = areas.find(item => { return item.areaId === areaId});
-      if(area && overrideExisting) {
+    for (let areaId of areaIds) {
+      let area = areas.find(item => { return item.areaId === areaId });
+      if (area && overrideExisting) {
         area.active = active;
-      } else if(!area) {
-        area = { areaId: areaId, active: active};
+      } else if (!area) {
+        area = { areaId: areaId, active: active };
         areas.push(area);
       }
     }
@@ -139,13 +139,13 @@ export class FavoriteService {
       .concatMap(isImported => {
         console.log("FavoritesService: Import parse favorites");
         this._storageService.parseImportDone = true;
-        return this.pushToken$.filter( token => { return !!token });
+        return this.pushToken$.filter(token => { return !!token });
       })
       .concatMap(token => {
         return this._dataService.getParseFavorites(token).first()
       })
       .subscribe(parseFavorites => {
-        this._favoriteChanges$.next( { type: 'PARSE', areaIds: parseFavorites });
+        this._favoriteChanges$.next({ type: 'PARSE', areaIds: parseFavorites });
       });
 
   }

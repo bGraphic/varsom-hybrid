@@ -6,9 +6,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable()
 export class LocationService {
 
-  private _currentPosition$ = new BehaviorSubject({latLng: L.latLng(64.871, 16.949), zoom: 4});
+  private _currentPosition$ = new BehaviorSubject({ latLng: L.latLng(64.871, 16.949), zoom: 4 });
 
-  get currentPosition$():Observable<{ latLng: L.LatLng, zoom: number }> {
+  get currentPosition$(): Observable<{ latLng: L.LatLng, zoom: number }> {
     return this._currentPosition$.asObservable();
   }
 
@@ -27,14 +27,14 @@ export class LocationService {
 
   private _watchPosition() {
     Geolocation.watchPosition()
-      .filter((p:any) => {
+      .filter((p: any) => {
         return p.code === undefined; //Filter Out Errors
       })
       .first()
-      .map((p:any) => {
+      .map((p: any) => {
         return { latLng: L.latLng(p.coords.latitude, p.coords.longitude), zoom: 6 }
       })
-      .subscribe((p:{ latLng: L.LatLng, zoom: number }) => {
+      .subscribe((p: { latLng: L.LatLng, zoom: number }) => {
         this._currentPosition$.next(p);
       });
   }

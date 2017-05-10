@@ -11,15 +11,15 @@ export class ForecastService {
 
   }
 
-  getForecasts(forecastType: string, parentId?:string):Observable<Forecast[]> {
+  getForecasts(forecastType: string, parentId?: string): Observable<Forecast[]> {
     return this._getForecasts(forecastType, parentId);
   }
 
-  getForecastForArea(forecastType: string, areaId:string):Observable<Forecast> {
+  getForecastForArea(forecastType: string, areaId: string): Observable<Forecast> {
     return this._getForecastForArea(forecastType, areaId);
   }
 
-  private _getForecastForArea(forecastType: string, areaId:string):Observable<Forecast> {
+  private _getForecastForArea(forecastType: string, areaId: string): Observable<Forecast> {
     return this._getForecasts(forecastType, AreaUtils.getParentId(areaId))
       .filter(forecasts => {
         return Forecast.findForecastWithAreaId(forecasts, areaId) ? true : false;
@@ -30,9 +30,9 @@ export class ForecastService {
 
   }
 
-  private _getForecasts(forecastType: string, parentId?:string):Observable<Forecast[]> {
+  private _getForecasts(forecastType: string, parentId?: string): Observable<Forecast[]> {
     let forecasts$: Observable<any>;
-    if('avalanche' === forecastType) {
+    if ('avalanche' === forecastType) {
       forecasts$ = this._data.getForecastForRegions(forecastType);
     } else if (parentId) {
       forecasts$ = this._data.getForecastForMunicipalities(forecastType, parentId);

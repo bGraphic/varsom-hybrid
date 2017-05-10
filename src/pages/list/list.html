@@ -10,7 +10,7 @@
   </ion-navbar>
   <ion-toolbar *ngIf="segments.length > 0">
     <ion-segment [(ngModel)]="selectedSegment" (ionChange)="onSegmentChanged()">
-      <ion-segment-button *ngFor="let segment of segments" value="{{ segment }}" >
+      <ion-segment-button *ngFor="let segment of segments" value="{{ segment }}">
         {{ segment | uppercase | translate }}
       </ion-segment-button>
     </ion-segment>
@@ -22,7 +22,7 @@
   <nve-map tappable *ngIf="showMap" [forecasts]="forecasts" [geoJsonData]="mapGeoJsonData" [center]="mapCenter" (areaSelected)="onMapAreaSelected($event)"></nve-map>
 
   <ion-list *ngIf="0 === forecasts.length">
-    <ion-list-header >
+    <ion-list-header>
       {{ emptyListTitleKey | translate }}
     </ion-list-header>
     <ion-item detail-none *ngFor="let f of dummyForecasts">
@@ -58,5 +58,3 @@
   </ion-list>
 
 </ion-content>
-
-

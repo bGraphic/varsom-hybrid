@@ -6,9 +6,9 @@ import { AreaUtils } from "../utils/area-utils";
 @Pipe({ name: 'filterForecasts' })
 export class FilterForecastsPipe implements PipeTransform {
   transform(forecasts: Forecast[], regionType?: string) {
-    if("B_REGIONS_ACTIVE" === regionType) {
+    if ("B_REGIONS_ACTIVE" === regionType) {
       return Forecast.filterBRegionsActive(forecasts);
-    } else if("B_REGIONS" === regionType) {
+    } else if ("B_REGIONS" === regionType) {
       return Forecast.filterBRegions(forecasts);
     } else {
       return Forecast.filterARegions(forecasts);
@@ -23,14 +23,14 @@ export class FilterForecastsPipe implements PipeTransform {
 export class FavoriteForecastsPipe implements PipeTransform {
   transform(forecasts: Forecast[], favoriteIds?: string[]) {
     let favoriteForecasts = [];
-    for(let areaId of favoriteIds) {
+    for (let areaId of favoriteIds) {
       let favorite = Forecast.findForecastWithAreaId(forecasts, areaId);
-      if(!favorite) {
+      if (!favorite) {
         areaId = AreaUtils.getParentId(areaId);
         favorite = Forecast.findForecastWithAreaId(forecasts, areaId);
       }
 
-      if(favorite && !Forecast.findForecastWithAreaId(favoriteForecasts, areaId)) {
+      if (favorite && !Forecast.findForecastWithAreaId(favoriteForecasts, areaId)) {
         favoriteForecasts.push(favorite);
       }
     }

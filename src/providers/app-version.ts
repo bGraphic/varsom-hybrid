@@ -12,9 +12,9 @@ export class AppVersionService {
 
   private readonly APP_STORE_URL = "itms-apps://itunes.apple.com/us/app/pages/id623785979";
   private _activeAlert = false;
-  private _lastNotifiedVersionNumber:string;
+  private _lastNotifiedVersionNumber: string;
 
-  constructor (
+  constructor(
     private _platform: Platform,
     private _alertCtrl: AlertController,
     private _translateService: TranslateService,
@@ -37,7 +37,7 @@ export class AppVersionService {
         this._lastNotifiedVersionNumber = versionNumber;
         return Observable.combineLatest(thisVersionNumber$, latestAppRelease$, appActivated$);
       }).subscribe(latestValues => {
-        const [ thisAppVersionNumber, latestAppRelease ] = latestValues;
+        const [thisAppVersionNumber, latestAppRelease] = latestValues;
         const latestAppReleaseVersionNumber = latestAppRelease.versionNumber;
         const latestAppReleaseHardRelease = latestAppRelease.hard;
 
@@ -46,22 +46,22 @@ export class AppVersionService {
         console.log("AppVersionService: latestAppReleaseVersionNumber", latestAppReleaseVersionNumber);
         console.log("AppVersionService: latestAppReleaseHardRelease", latestAppReleaseHardRelease);
 
-        if(latestAppReleaseVersionNumber > thisAppVersionNumber && latestAppReleaseHardRelease) {
+        if (latestAppReleaseVersionNumber > thisAppVersionNumber && latestAppReleaseHardRelease) {
           this._showAlert(true);
-        } else if(latestAppReleaseVersionNumber > thisAppVersionNumber && this._lastNotifiedVersionNumber !== latestAppReleaseVersionNumber) {
+        } else if (latestAppReleaseVersionNumber > thisAppVersionNumber && this._lastNotifiedVersionNumber !== latestAppReleaseVersionNumber) {
           this._showAlert(false);
         }
 
         this._storageService.lastNotifiedAppVersion = latestAppReleaseVersionNumber;
         this._lastNotifiedVersionNumber = latestAppReleaseVersionNumber;
-    }, error => {
+      }, error => {
         console.log("AppVersion: ", error);
-    });
+      });
   }
 
   private _showAlert(forceUpdate: boolean) {
 
-    if(this._activeAlert) {
+    if (this._activeAlert) {
       return;
     }
 
@@ -84,14 +84,14 @@ export class AppVersionService {
     let confirm = this._alertCtrl.create({
       title: this._translateService.instant('UPDATE.TITLE'),
       subTitle: this._translateService.instant('UPDATE.MESSAGE.REGULAR'),
-      buttons: [ skipButton, updateButton ]
+      buttons: [skipButton, updateButton]
     });
 
-    if(forceUpdate) {
+    if (forceUpdate) {
       confirm = this._alertCtrl.create({
         title: this._translateService.instant('UPDATE.TITLE'),
         subTitle: this._translateService.instant('UPDATE.MESSAGE.FORCE'),
-        buttons: [ updateButton ]
+        buttons: [updateButton]
       });
     }
 

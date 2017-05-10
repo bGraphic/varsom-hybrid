@@ -4,7 +4,7 @@ import { AreaDetailsPage } from '../area-details/area-details';
 import { Forecast } from "../../models/Forecast";
 import { ForecastService } from "../../providers/forecasts";
 import { FavoriteService } from "../../providers/favorites";
-import { GeoJsonService }       from '../../providers/geojson';
+import { GeoJsonService } from '../../providers/geojson';
 import { SettingService } from "../../providers/settings";
 import { LocationService } from "../../providers/location";
 import { Subscription } from "rxjs";
@@ -50,7 +50,7 @@ export class AvalancheListPage {
 
   ngOnInit() {
 
-    if(this.showMap) {
+    if (this.showMap) {
       let geojsonSubscription = this._geoJsonService.regions$
         .subscribe(geoJsonData => {
           this.mapGeoJsonData = geoJsonData;
@@ -58,7 +58,7 @@ export class AvalancheListPage {
       this._subscriptions.push(geojsonSubscription);
     }
 
-    let avalancheSubscription =  this._forecastService.getForecasts('avalanche')
+    let avalancheSubscription = this._forecastService.getForecasts('avalanche')
       .subscribe(forecasts => {
         this.forecasts = Forecast.sortByAreaId(forecasts);
       });
@@ -78,18 +78,18 @@ export class AvalancheListPage {
   }
 
   ngOnDestroy() {
-    for(let subscription of this._subscriptions) {
+    for (let subscription of this._subscriptions) {
       subscription.unsubscribe();
     }
   }
 
-  private pushDetailsPage(area: {id: string, name: string}) {
+  private pushDetailsPage(area: { id: string, name: string }) {
     this._navCtrl.push(AreaDetailsPage, {
       area: area
     });
   }
 
-  private pushPage(forecast:Forecast) {
+  private pushPage(forecast: Forecast) {
     this.pushDetailsPage({
       id: forecast.areaId,
       name: forecast.areaName
@@ -103,7 +103,7 @@ export class AvalancheListPage {
   onMapAreaSelected(areaId: string) {
     let forecast = Forecast.findForecastWithAreaId(this.forecasts, areaId);
 
-    if(forecast) {
+    if (forecast) {
       this.pushPage(forecast);
     } else {
       console.log('AvalancheListPage: No matching area', areaId);

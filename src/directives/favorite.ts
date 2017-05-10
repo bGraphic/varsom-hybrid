@@ -27,13 +27,13 @@ export class FavoriteDirective {
   }
 
   ngOnDestroy() {
-    for(let subscription of this._subscriptions) {
+    for (let subscription of this._subscriptions) {
       subscription.unsubscribe();
     }
   }
 
   private _updateIcon() {
-    if(this.isFavorite) {
+    if (this.isFavorite) {
       this._renderer.setElementClass(this._el.nativeElement, 'active', true);
     } else {
       this._renderer.setElementClass(this._el.nativeElement, 'active', false);
@@ -44,7 +44,7 @@ export class FavoriteDirective {
     this.isFavorite = !this.isFavorite;
     this._updateIcon();
 
-    if(this.isFavorite) {
+    if (this.isFavorite) {
       this._favorites.addFavoriteArea(this.areaId);
     } else {
       this._favorites.removeFavoriteArea(this.areaId);

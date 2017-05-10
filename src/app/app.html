@@ -9,7 +9,8 @@
   <ion-content nve-bg-color="primary">
 
     <ion-list padding-top class="nve-menu">
-      <button [ngClass]="{'active': section.active }" color="primary" ion-item no-lines detail-none *ngFor="let section of sections" (click)="openSection(section)">
+      <button [ngClass]="{'active': section.active }" color="primary" ion-item no-lines detail-none *ngFor="let section of sections"
+        (click)="openSection(section)">
         <ion-icon item-left name="{{section.icon}}" class="nve-menu-icon"></ion-icon>
         {{ section.titleKey | translate }}
         <ion-icon item-right *ngIf="section.url" name="open" ios="ios-open-outline"></ion-icon>

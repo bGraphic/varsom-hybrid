@@ -18,7 +18,7 @@ export class Warning {
     return this._meta;
   }
 
-  static createFromFirebaseItem(item: any):Warning {
+  static createFromFirebaseItem(item: any): Warning {
     let warning = new Warning();
     warning._rating = Number(item.Rating);
     warning._meta = item;
@@ -26,7 +26,7 @@ export class Warning {
     return warning;
   }
 
-  static createEmptyWarning():Warning {
+  static createEmptyWarning(): Warning {
     let warning = new Warning();
     warning._meta = {};
     return warning;
