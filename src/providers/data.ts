@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Platform } from "ionic-angular";
 import { AngularFireDatabase } from 'angularfire2/database';
-import {Observable, Subscription} from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import * as moment from 'moment';
 
 @Injectable()
 export class DataService {
 
-  private _floodCache$:Observable<any[]>[] = [];
-  private _landslideCache$:Observable<any[]>[] = [];
-  private _avalancheCache$:Observable<any[]>[] = [];
-  private _subscriptions:Subscription[] = [];
+  private _floodCache$: Observable<any[]>[] = [];
+  private _landslideCache$: Observable<any[]>[] = [];
+  private _avalancheCache$: Observable<any[]>[] = [];
+  private _subscriptions: Subscription[] = [];
 
   constructor(
     private _db: AngularFireDatabase,
@@ -23,7 +23,7 @@ export class DataService {
     });
   }
 
-  getForecastForRegions(forecastType:string):Observable<any[]> {
+  getForecastForRegions(forecastType: string): Observable<any[]> {
 
     if ('avalanche' === forecastType) {
       return this._getForecasts('/forecast/avalanche/regions/', this._avalancheCache$, 0);
@@ -32,46 +32,46 @@ export class DataService {
     }
   }
 
-  getForecastForCounties(forecastType:string):Observable<any[]> {
+  getForecastForCounties(forecastType: string): Observable<any[]> {
 
     let db_url = '/forecast/' + forecastType + '/counties/';
 
-    if ('flood' === forecastType ) {
+    if ('flood' === forecastType) {
       return this._getForecasts(db_url, this._floodCache$, 0);
-    } else if('landslide' === forecastType) {
+    } else if ('landslide' === forecastType) {
       return this._getForecasts(db_url, this._landslideCache$, 0);
     } else {
       console.error('DataService: Counties can only have flood/landslide forecasts, not', forecastType);
     }
   }
 
-  getForecastForMunicipalities(forecastType:string, parentId: string):Observable<any[]> {
+  getForecastForMunicipalities(forecastType: string, parentId: string): Observable<any[]> {
 
     let db_url = '/forecast/' + forecastType + '/municipalities/id' + parentId;
 
-    if ('flood' === forecastType ) {
+    if ('flood' === forecastType) {
       return this._getForecasts(db_url, this._floodCache$, Number(parentId));
-    } else if('landslide' === forecastType) {
+    } else if ('landslide' === forecastType) {
       return this._getForecasts(db_url, this._landslideCache$, Number(parentId));
     } else {
       console.error('DataService: Municipalities can only have flood/landslide forecasts, not', forecastType);
     }
   }
 
-  getParseFavorites(pushToken:string):Observable<string[]> {
+  getParseFavorites(pushToken: string): Observable<string[]> {
     console.log('DataService: Fetching parse favorites for token', pushToken);
     return this._getList('/parse_favorites/' + pushToken);
   }
 
-  getAppVersion():Observable<{ versionNumber: string, hard: boolean }> {
+  getAppVersion(): Observable<{ versionNumber: string, hard: boolean }> {
     return this._getObject('/api/app_release')
-      .map( appRelease => {
+      .map(appRelease => {
         return { versionNumber: appRelease.version_number, hard: appRelease.hard };
       });
   }
 
-  addPushTokenForArea(pushToken: string, areaId:string) {
-    if(!pushToken) {
+  addPushTokenForArea(pushToken: string, areaId: string) {
+    if (!pushToken) {
       return;
     }
     console.log('DataService: Adding push token to area', pushToken, areaId);
@@ -82,8 +82,8 @@ export class DataService {
       });
   }
 
-  removePushTokenForArea(pushToken: string, areaId:string) {
-    if(!pushToken) {
+  removePushTokenForArea(pushToken: string, areaId: string) {
+    if (!pushToken) {
       return;
     }
 
@@ -98,7 +98,7 @@ export class DataService {
   private _clearCache() {
     console.log('DataService: Clear cache');
 
-    for(let subscription of this._subscriptions) {
+    for (let subscription of this._subscriptions) {
       subscription.unsubscribe();
     }
 
@@ -108,8 +108,8 @@ export class DataService {
     this._avalancheCache$ = [];
   }
 
-  private _getForecasts(db_url:string, caches$:Observable<any[]>[], cacheIndex:number) {
-    if(!caches$[cacheIndex]) {
+  private _getForecasts(db_url: string, caches$: Observable<any[]>[], cacheIndex: number) {
+    if (!caches$[cacheIndex]) {
       console.log("DataService: Add to cache", cacheIndex);
       caches$[cacheIndex] = this._getList(db_url);
       this._subscriptions.push(caches$[cacheIndex].subscribe());
@@ -118,15 +118,15 @@ export class DataService {
     return caches$[cacheIndex]
   }
 
-  private _getList(db_url: string):Observable<any[]> {
+  private _getList(db_url: string): Observable<any[]> {
     return this._db.list(db_url).catch(error => {
       console.log("DataService: Error getting", db_url, error);
       return Observable.of([]);
     });
   }
 
-  private _getObject(db_url: string):Observable<any> {
-    return this._db.list(db_url).catch(error => {
+  private _getObject(db_url: string): Observable<any> {
+    return this._db.object(db_url).catch(error => {
       console.log("DataService: Error getting", db_url, error);
       return Observable.of(null);
     });
