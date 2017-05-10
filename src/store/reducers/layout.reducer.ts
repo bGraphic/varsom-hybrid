@@ -25,11 +25,11 @@ const initialState: State = {
 export function reducer(state = initialState, action: layout.Actions | localStorage.Actions): State {
   switch (action.type) {
     case layout.OPEN_SECTION:
-      return Object.assign({}, state, {
+      return Object.assign({}, state, <State> {
         activeRootSection: action.payload
       });
     case layout.FILTER_SECTION:
-      return Object.assign({}, state, {
+      return Object.assign({}, state, <State> {
         rootSections: Object.assign({}, state.rootSections, {
           [action.payload.sectionId]: {
             filter: action.payload.filter
@@ -37,7 +37,7 @@ export function reducer(state = initialState, action: layout.Actions | localStor
         })
       });
     case localStorage.LOAD_SUCESS:
-      return Object.assign({}, state, {
+      return Object.assign({}, state, <State> {
         activeRootSection: action.payload.rootSection
       });
     default:

@@ -18,15 +18,15 @@ const initialState: State = {
 export function reducer(state = initialState, action: push.Actions | localStorage.Actions): State {
   switch (action.type) {
     case push.REGISTER_SUCESS:
-      return Object.assign({}, state, {
+      return Object.assign({}, state, <State> {
         token: action.payload.token
       });
     case push.NEW_MESSAGE:
-      return Object.assign({}, state, {
+      return Object.assign({}, state, <State> {
         messages: [...state.messages, action.payload]
       });
     case localStorage.LOAD_SUCESS:
-      return Object.assign({}, state, {
+      return Object.assign({}, state, <State> {
         // Will not override in case new push token has been set
         savedToken: action.payload.pushToken
       });

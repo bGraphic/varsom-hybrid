@@ -16,11 +16,11 @@ const initialState: State = {
 export function reducer(state = initialState, action: appInfo.Actions | localStorage.Actions): State {
   switch (action.type) {
     case appInfo.NOTIFIED_USER:
-      return Object.assign({}, state, {
+      return Object.assign({}, state, <State> {
         lastNotifiedAppVersion: action.payload
       });
     case localStorage.LOAD_SUCESS:
-      return Object.assign({}, state, {
+      return Object.assign({}, state, <State> {
         lastNotifiedAppVersion: action.payload.lastNotifiedAppVersion
       });
     default:
