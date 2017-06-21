@@ -1,6 +1,5 @@
 {
   "name": "Beta Varsom",
   "app_id": "e7d79d51",
-  "v2": true,
-  "typescript": true
+  "type": "ionic-angular"
 }
