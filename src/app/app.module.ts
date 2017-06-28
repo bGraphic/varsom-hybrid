@@ -44,7 +44,9 @@ const firebaseConfig = {
   apiKey: "AIzaSyDwiQkQSv1BCovQiPU-P9xok5pueLPJZqo",
   authDomain: "varsom-dev.firebaseapp.com",
   databaseURL: "https://varsom-dev.firebaseio.com",
-  storageBucket: "varsom-dev.appspot.com"
+  projectId: "varsom-dev",
+  storageBucket: "varsom-dev.appspot.com",
+  messagingSenderId: "417120623194"
 };
 
 const cloudSettings: CloudSettings = {
@@ -52,7 +54,7 @@ const cloudSettings: CloudSettings = {
     'app_id': 'e7d79d51'
   },
   'push': {
-    'sender_id': '123456', // Not supporting android yet
+    'sender_id': '417120623194',
     'pluginConfig': {
       'ios': {
         'alert': true,

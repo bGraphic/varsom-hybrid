@@ -78,7 +78,9 @@
             "cordova-plugin-whitelist": {},
             "cordova-sqlite-storage": {},
             "ionic-plugin-keyboard": {},
-            "phonegap-plugin-push": {}
+            "phonegap-plugin-push": {
+                "SENDER_ID": "417120623194"
+            }
         },
         "platforms": [
             "android"
