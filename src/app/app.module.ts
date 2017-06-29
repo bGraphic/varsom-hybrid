@@ -35,6 +35,8 @@ import { FavoriteDirective } from "../directives/favorite";
 import { AvalancheRose } from "../partials/avalanche-rose";
 
 import { AppVersion } from '@ionic-native/app-version';
+import { Diagnostic } from '@ionic-native/diagnostic';
+import { Geolocation } from '@ionic-native/geolocation';
 import { InAppBrowser } from "@ionic-native/in-app-browser";
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { StatusBar } from "@ionic-native/status-bar";
@@ -116,9 +118,12 @@ export function createTranslateLoader(http: Http) {
   ],
   providers: [
     AppVersion,
+    Diagnostic,
+    Geolocation,
     InAppBrowser,
     SplashScreen,
     StatusBar,
+    Geolocation,
     ForecastService,
     DataService,
     SettingService,

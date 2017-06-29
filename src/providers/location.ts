@@ -1,5 +1,6 @@
+import { Diagnostic } from '@ionic-native/diagnostic';
+import { Geolocation } from '@ionic-native/geolocation';
 import { Injectable } from '@angular/core';
-import { Geolocation } from 'ionic-native';
 import { Platform } from 'ionic-angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -13,7 +14,9 @@ export class LocationService {
   }
 
   constructor(
-    private _platform: Platform
+    private _platform: Platform,
+    private _geolocation: Geolocation,
+    private _diagnostic: Diagnostic
   ) {
 
     this._platform.ready().then(() => {
@@ -21,15 +24,20 @@ export class LocationService {
     });
 
     this._platform.resume.subscribe(e => {
-      this._watchPosition();
+      this._diagnostic.isLocationAuthorized().then((authorized) => {
+        if (authorized) {
+          this._watchPosition();
+        }
+      })
     });
   }
 
   private _watchPosition() {
-    Geolocation.watchPosition()
+    this._geolocation.watchPosition()
       .filter((p: any) => {
         return p.code === undefined; //Filter Out Errors
       })
+      .do(p => console.log("Position", p))
       .first()
       .map((p: any) => {
         return { latLng: L.latLng(p.coords.latitude, p.coords.longitude), zoom: 6 }
