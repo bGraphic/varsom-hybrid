@@ -65,7 +65,10 @@ const cloudSettings: CloudSettings = {
         'clearBadge': true
       },
       'android': {
-        'iconColor': '#e46900'
+        'icon': 'ic_stat_not_icon',
+        'iconColor': '#e46900',
+        'clearBadge': true,
+        'clearNotifications': false,
       }
     }
   }
