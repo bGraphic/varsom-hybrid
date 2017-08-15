@@ -21,9 +21,13 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any;
-  sections: {titleKey: string, icon: string, active:boolean, component: any }[];
-  external_links: { url: string, label: string, description: string};
-  contact_links: { url: string, label: string, description: string};
+  sections: { titleKey: string, icon: string, active: boolean, component: any }[];
+  external_links: { url: string, label: string, description: string };
+  contact_links: { url: string, label: string, description: string };
+  logos: {
+    header: string,
+    list: string[]
+  }[];
 
   constructor(
     public platform: Platform,
@@ -44,8 +48,8 @@ export class MyApp {
     this._appVersionService.checkAppVersion();
 
     this.sections = [
-      { titleKey: 'FLOOD_LANDSLIDE', icon: 'rainy', active:false, component: FloodLandslideListPage },
-      { titleKey: 'AVALANCHE', icon: 'snow', active:false, component: AvalancheListPage }
+      { titleKey: 'FLOOD_LANDSLIDE', icon: 'rainy', active: false, component: FloodLandslideListPage },
+      { titleKey: 'AVALANCHE', icon: 'snow', active: false, component: AvalancheListPage }
     ];
 
     this._translateService.get('EXTERNAL_MENU.LINKS').subscribe((res: any) => {
@@ -54,6 +58,18 @@ export class MyApp {
 
     this._translateService.get('CONTACT_INFO.LINKS').subscribe((res: any) => {
       this.contact_links = res;
+    });
+
+    this._translateService.get('LOGOS').subscribe((res: { [key: string]: { HEADER: string, LIST: string[] } }) => {
+      console.log(res);
+      this.logos = Object.keys(res).reduce((logos, key) => {
+        logos.push({
+          header: res[key].HEADER,
+          list: res[key].LIST
+        });
+        return logos;
+      }, []);
+      console.log(this.logos);
     });
   }
 
@@ -82,8 +98,8 @@ export class MyApp {
   }
 
   private _activateSection(sectionKey: string) {
-    for(let section of this.sections) {
-      if(section.titleKey === sectionKey.toUpperCase()) {
+    for (let section of this.sections) {
+      if (section.titleKey === sectionKey.toUpperCase()) {
         section.active = true;
       } else {
         section.active = false;
@@ -92,13 +108,13 @@ export class MyApp {
   }
 
   private _setInitalRootPage(sectionKey: string) {
-    if(this._appCtrl.getRootNav().first()) {
+    if (this._appCtrl.getRootNav().first()) {
       return;
     }
 
     let component = FloodLandslideListPage;
-    for(let section of this.sections) {
-      if(section.titleKey === sectionKey.toUpperCase()) {
+    for (let section of this.sections) {
+      if (section.titleKey === sectionKey.toUpperCase()) {
         component = section.component;
       }
     }
@@ -108,7 +124,7 @@ export class MyApp {
     this._splashScreen.hide();
   }
 
-  openSection(section: {titleKey: string, icon: string, active:boolean, component: any }) {
+  openSection(section: { titleKey: string, icon: string, active: boolean, component: any }) {
 
     console.log("Open section:", section);
     this._appCtrl.getRootNav().setRoot(section.component);

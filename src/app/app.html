@@ -6,7 +6,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-content nve-bg-color="primary">
+  <ion-content padding-bottom nve-bg-color="primary">
 
     <ion-list padding-top class="nve-menu">
       <button [ngClass]="{'active': section.active }" color="primary" ion-item no-lines detail-none *ngFor="let section of sections"
@@ -39,7 +39,14 @@
       </button>
     </ion-list>
 
-    <img padding-bottom class="nve-logo" src="assets/icon/logo_nve_neg.svg" />
+    <div class="logos">
+      <div *ngFor="let section of logos">
+        <p>{{ section.header }}</p>
+        <a *ngFor="let item of section.list" (click)="launch('http://' + item + '.no')">
+          <img class="logo {{ item }}" src="{{ 'assets/icon/' + item + '.svg' }}" />
+        </a>
+      </div>
+    </div>
 
   </ion-content>
 

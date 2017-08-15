@@ -36,11 +36,39 @@ $warning-icon-size: 40px;
   }
 }
 
-.nve-sidebar {
-  .nve-logo {
+.logos {
+
+  color: white;
+  text-align: center;
+  margin-top: 6rem;
+
+  a {
+    cursor: pointer;
+  }
+
+  .logo {
     display: block;
-    height: 100px;
-    margin: 0 auto;
+    margin: 3rem auto;
+    max-width: 80%;
+
+    &.nve {
+      height: 100px;
+      padding-left: 15px;
+    }
+
+    &.banenor {
+      height: 25px;
+      margin-bottom: -5px;
+    }
+
+    &.vegvesen {
+      height: 100px;
+    }
+
+    &.met {
+      height: 50px;
+      padding-left: 5px;
+    }
   }
 }
 

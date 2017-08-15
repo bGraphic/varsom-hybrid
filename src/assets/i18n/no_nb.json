@@ -81,6 +81,22 @@
       }
     ]
   },
+  "LOGOS": {
+    "NVE": {
+      "HEADER": "En app fra",
+      "LIST": [
+        "nve"
+      ]
+    },
+    "PARTNERS": {
+      "HEADER": "i samarbeid med",
+      "LIST": [
+        "banenor",
+        "vegvesen",
+        "met"
+      ]
+    }
+  },
   "UPDATE": {
     "TITLE": "Ny versjon",
     "MESSAGE": {
