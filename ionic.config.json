@@ -1,5 +1,8 @@
 {
   "name": "Beta Varsom",
   "app_id": "e7d79d51",
-  "type": "ionic-angular"
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
 }
