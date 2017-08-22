@@ -29,10 +29,13 @@ The app version of varsom.no
   * Check [varsom-secrets](https://github.com/bGraphic/varsom-secrets)
 * Update values in `.io-config.json` to prod values.
   * Check [varsom-secrets](https://github.com/bGraphic/varsom-secrets)
-* Update `name`, `widget.id` and `SENDER_ID` in config.xml
-  * `<name>Varsom</name>`
-  * `<widget id="no.nve.varsom">` for iOS and `<widget id="no.nve.varsom2">` for Android.
-  * * Check [varsom-secrets](https://github.com/bGraphic/varsom-secrets) for `SENDER_ID`.
+* Update `name`, `widget.id`, `android-packageName` and `SENDER_ID` in config.xml
+  * Check [varsom-secrets](https://github.com/bGraphic/varsom-secrets) for prod values
+* Update `version`, `android-versionCode` and `ios-CFBundleVersion` in config.xml
+  * Version follows [Semantic Versioning](http://semver.org/).
+  * `android-versionCode` and `ios-CFBundleVersion` should follow the version:
+    * with 2 digits set aside for each part of the semver
+    * and three number at det end for numbering different builds of the same version
 * Update `SENDER_ID` in package.json
   * Check [varsom-secrets](https://github.com/bGraphic/varsom-secrets)
 * Save plugins, remove platform and add platform again. 
@@ -47,7 +50,7 @@ The app version of varsom.no
     * Archive
     * Upload to App Store
 * Build using `ionic cordova build android --prod --release`
-  * Sign using `jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ../varsom-secrets/nve.keystore platforms/android/build/outputs/apk/android-release-unsigned.apk regobs`
+  * Sign using `jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore '../varsom-secrets/nve.keystore' 'platforms/android/build/outputs/apk/android-release-unsigned.apk' regobs`
   * Zip using `zipalign -v 4 platforms/android/build/outputs/apk/android-release-unsigned.apk varsom.apk`
   * Verify using `jarsigner -verify varsom.apk`
   * Upload to Google Play
