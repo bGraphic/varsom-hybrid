@@ -12,6 +12,8 @@ The app version of varsom.no
 
 == Dev routines ==
 
+* Copy `src/config/config.example.ts` and rename `src/config/config.ts`
+  * Get current dev values from [varsom-secrets](https://github.com/bGraphic/varsom-secrets)
 * Run the app in the browser with `ionic serve`
   * User `ionic serve --lab` to see both iOS and Android styling
 
@@ -22,8 +24,7 @@ The app version of varsom.no
 
 == Prod routines ==
 
-* Update values in `src/app/app.module.ts` to prod values
-  * Both firebase and ionic
+* Update values in `src/config/config.ts` to prod values
   * Check [varsom-secrets](https://github.com/bGraphic/varsom-secrets)
 * Update values in `ionic.config.json` to prod values.
   * Check [varsom-secrets](https://github.com/bGraphic/varsom-secrets)

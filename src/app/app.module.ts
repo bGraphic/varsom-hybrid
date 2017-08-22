@@ -3,7 +3,7 @@ import { HttpModule, Http } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
+import { CloudModule } from '@ionic/cloud-angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -11,6 +11,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MomentModule } from 'angular2-moment';
 
 import { MyApp } from './app.component';
+import { firebase, ionicCloud } from './../config/config'
 
 import { FloodLandslideListPage } from '../pages/list/flood-landslide-list';
 import { AvalancheListPage } from "../pages/list/avalanche-list";
@@ -41,43 +42,9 @@ import { InAppBrowser } from "@ionic-native/in-app-browser";
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { StatusBar } from "@ionic-native/status-bar";
 
-// Must export the config
-const firebaseConfig = {
-  apiKey: "AIzaSyDwiQkQSv1BCovQiPU-P9xok5pueLPJZqo",
-  authDomain: "varsom-dev.firebaseapp.com",
-  databaseURL: "https://varsom-dev.firebaseio.com",
-  projectId: "varsom-dev",
-  storageBucket: "varsom-dev.appspot.com",
-  messagingSenderId: "417120623194"
-};
-
-const cloudSettings: CloudSettings = {
-  'core': {
-    'app_id': 'e7d79d51'
-  },
-  'push': {
-    'sender_id': '417120623194',
-    'pluginConfig': {
-      'ios': {
-        'alert': true,
-        'badge': false,
-        'sound': false,
-        'clearBadge': true
-      },
-      'android': {
-        'icon': 'ic_stat_not_icon',
-        'iconColor': '#e46900',
-        'clearBadge': true,
-        'clearNotifications': false,
-      }
-    }
-  }
-};
-
 export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
-
 
 @NgModule({
   declarations: [
@@ -97,10 +64,10 @@ export function createTranslateLoader(http: Http) {
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp, {}),
-    CloudModule.forRoot(cloudSettings),
+    CloudModule.forRoot(ionicCloud),
     IonicStorageModule.forRoot(),
     HttpModule,
-    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireModule.initializeApp(firebase),
     AngularFireDatabaseModule,
     TranslateModule.forRoot({
       loader: {
