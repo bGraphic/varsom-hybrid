@@ -11,7 +11,9 @@ import { SettingService } from "../../providers/settings";
 import { Observable } from 'rxjs/rx';
 import { Subscription } from "rxjs";
 import { Store } from "@ngrx/store";
+
 import * as fromRoot from './../../store/reducers';
+import { Position } from './../../store/models/Location';
 
 @Component({
   templateUrl: 'list.html'
@@ -33,7 +35,8 @@ export class FloodLandslideListPage {
 
   showMap: boolean = false;
   mapGeoJsonData: any;
-  mapCenter: Observable<{ latitude: number, longitude: number }>;
+  mapCenter: Observable<Position>;
+  mapMarker: Observable<Position>;
   mapZoomLevel: Observable<number>;
 
   private _floodForecast: Forecast[] = [];
@@ -65,6 +68,8 @@ export class FloodLandslideListPage {
     }
 
     this.mapCenter = this._store.select(fromRoot.getPosition);
+    // Position only has timestamp when actual position and not default
+    this.mapMarker = this._store.select(fromRoot.getPosition).filter(pos => !!pos.timestamp);
     this.mapZoomLevel = this._store.select(fromRoot.getLocationZoomLevel);
   }
 

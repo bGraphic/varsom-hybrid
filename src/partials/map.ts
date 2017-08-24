@@ -15,12 +15,14 @@ export class Map {
   @Input() forecasts: Forecast[];
   @Input() geoJsonData: any;
   @Input() center: { latitude: number, longitude: number };
+  @Input() marker: { latitude: number, longitude: number };
   @Input() zoomLevel: number;
   @Output() areaSelected: EventEmitter<string> = new EventEmitter<string>();
   @ViewChild('map') mapEl: any;
 
   private _map: L.Map;
   private _geojsonLayer: L.GeoJSON;
+  private _marker: L.Marker;
 
   constructor() {
 
@@ -29,6 +31,7 @@ export class Map {
   ngOnInit(): void {
     this.createMap();
     this.updateMapCenter();
+    this.updateMapMarker();
     this.updateGeoJsonData();
   }
 
@@ -44,6 +47,10 @@ export class Map {
 
     if (changes.center) {
       this.updateMapCenter();
+    }
+
+    if (changes.marker) {
+      this.updateMapMarker();
     }
   }
 
@@ -64,6 +71,19 @@ export class Map {
     }
 
     this._map.setView(new L.LatLng(this.center.latitude, this.center.longitude), this.zoomLevel);
+  }
+
+  private updateMapMarker() {
+    if (!this._map || !this.marker) {
+      return;
+    }
+
+    if (!this._marker) {
+      this._marker = new L.Marker(new L.LatLng(this.marker.latitude, this.marker.longitude));
+      this._marker.addTo(this._map);
+    } else {
+      this._marker.setLatLng(new L.LatLng(this.marker.latitude, this.marker.longitude));
+    }
   }
 
   private updateGeoJsonData() {

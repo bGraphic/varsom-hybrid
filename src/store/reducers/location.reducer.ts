@@ -1,24 +1,17 @@
 import * as LocationActions from '../actions/location.actions';
+import { Position, PositionError } from '../models/Location';
 
 export interface State {
-  position: {
-    latitude: number,
-    longitude: number
-  },
-  timestamp: Date,
+  position: Position,
   zoom: number,
-  error?: {
-    code: number,
-    message: string
-  }
+  error?: PositionError
 }
 
 const initialState: State = {
   position: {
     latitude: 64.871,
-    longitude: 16.949,
+    longitude: 16.949
   },
-  timestamp: new Date(),
   zoom: 4
 }
 
@@ -30,7 +23,6 @@ export function reducer(state = initialState, action: LocationActions.All) {
         { ...state },
         {
           zoom: 6,
-          timezone: new Date(),
           position: action.payload
         });
     case LocationActions.POSITION_ERROR:

@@ -10,7 +10,9 @@ import { SettingService } from "../../providers/settings";
 import { Observable } from 'rxjs/rx';
 import { Subscription } from "rxjs";
 import { Store } from "@ngrx/store";
+
 import * as fromRoot from './../../store/reducers';
+import { Position } from './../../store/models/Location';
 
 @Component({
   templateUrl: 'list.html'
@@ -30,7 +32,8 @@ export class AvalancheListPage {
 
   showMap: boolean = true;
   mapGeoJsonData: any;
-  mapCenter: Observable<{ latitude: number, longitude: number }>;
+  mapCenter: Observable<Position>;
+  mapMarker: Observable<Position>;
   mapZoomLevel: Observable<number>;
 
   private _subscriptions: Subscription[] = [];
@@ -47,6 +50,7 @@ export class AvalancheListPage {
     this.emptyListTitleKey = "A_REGIONS_LIST_TITLE";
 
     this.mapCenter = this._store.select(fromRoot.getPosition);
+    this.mapMarker = this._store.select(fromRoot.getPosition).filter(pos => !!pos.timestamp);
     this.mapZoomLevel = this._store.select(fromRoot.getLocationZoomLevel);
   }
 

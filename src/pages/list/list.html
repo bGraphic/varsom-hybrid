@@ -19,7 +19,7 @@
 
 <ion-content class="list-page">
 
-  <nve-map tappable *ngIf="showMap" [forecasts]="forecasts" [geoJsonData]="mapGeoJsonData" [center]="mapCenter | async" [zoomLevel]="mapZoomLevel | async"
+  <nve-map tappable *ngIf="showMap" [forecasts]="forecasts" [geoJsonData]="mapGeoJsonData" [marker]="mapMarker | async" [center]="mapCenter | async" [zoomLevel]="mapZoomLevel | async"
     (areaSelected)="onMapAreaSelected($event)"></nve-map>
 
   <ion-list *ngIf="0 === forecasts.length">
