@@ -1,3 +1,4 @@
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { HttpModule, Http } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -71,6 +72,7 @@ export function createTranslateLoader(http: Http) {
     IonicStorageModule.forRoot(),
     StoreModule.provideStore(reducer),
     HttpModule,
+    StoreDevtoolsModule.instrumentOnlyWithExtension(),
     AngularFireModule.initializeApp(firebase),
     AngularFireDatabaseModule,
     TranslateModule.forRoot({
