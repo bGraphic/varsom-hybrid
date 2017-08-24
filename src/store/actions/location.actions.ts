@@ -1,16 +1,12 @@
-import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
-
 import { Coords } from '../models/location';
 
-@Injectable()
-export class LocationActions {
+export const COORDS_UPDATED = '[Location] Coords updated';
 
-  static COORDS_UPDATED = '[ LocationActions ] Coords updated';
-  newCoords(coords: Coords): Action {
-    return {
-      type: LocationActions.COORDS_UPDATED,
-      payload: coords
-    }
-  }
+export class CoordsUpdated implements Action {
+  readonly type = COORDS_UPDATED;
+  constructor(public payload: Coords) { }
 }
+
+export type All
+  = CoordsUpdated;

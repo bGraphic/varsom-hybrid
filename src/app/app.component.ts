@@ -1,4 +1,3 @@
-import { LocationActions } from './../store/actions/location.actions';
 import { Component, ViewChild } from '@angular/core';
 import { App, Platform, MenuController, Nav, Config } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
@@ -9,7 +8,10 @@ import * as moment from 'moment';
 import 'moment/min/locales';
 
 import { Store } from "@ngrx/store";
-import { AppState } from "../store/state/app-state";
+import { Observable } from 'rxjs';
+import * as fromRoot from './../store/reducers';
+import * as fromLocation from './location.reducer';
+import * as LocationActions from "../store/actions/location.actions";
 
 import { PushService } from "../providers/push";
 import { SettingService } from "../providers/settings";
@@ -24,6 +26,7 @@ import { AvalancheListPage } from "../pages/list/avalanche-list";
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
+  location$: Observable<any>;
   rootPage: any;
   sections: { titleKey: string, icon: string, active: boolean, component: any }[];
   external_links: { url: string, label: string, description: string };
@@ -45,11 +48,14 @@ export class MyApp {
     private _splashScreen: SplashScreen,
     private _statusBar: StatusBar,
     private _iab: InAppBrowser,
-    private store: Store<AppState>,
-    private locationActions: LocationActions
+    private _store: Store<fromRoot.State>,
   ) {
+    this.location$ = _store.select('location');
+    this.location$.subscribe(location => {
+      console.log("Location", location);
+    });
 
-    this.store.dispatch(this.locationActions.newCoords({ latitude: 0, longitude: 0 }));
+    this._store.dispatch(new LocationActions.CoordsUpdated({ latitude: 0, longitude: 0 }));
 
     this.initializeTranslation();
     this.initializeApp();
