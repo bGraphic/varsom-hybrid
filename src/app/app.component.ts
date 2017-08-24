@@ -1,3 +1,4 @@
+import { LocationActions } from './../store/actions/location.actions';
 import { Component, ViewChild } from '@angular/core';
 import { App, Platform, MenuController, Nav, Config } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
@@ -6,6 +7,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import 'moment/min/locales';
+
+import { Store } from "@ngrx/store";
+import { AppState } from "../store/state/app-state";
 
 import { PushService } from "../providers/push";
 import { SettingService } from "../providers/settings";
@@ -40,8 +44,12 @@ export class MyApp {
     private _appVersionService: AppVersionService,
     private _splashScreen: SplashScreen,
     private _statusBar: StatusBar,
-    private _iab: InAppBrowser
+    private _iab: InAppBrowser,
+    private store: Store<AppState>,
+    private locationActions: LocationActions
   ) {
+
+    this.store.dispatch(this.locationActions.newCoords({ latitude: 0, longitude: 0 }));
 
     this.initializeTranslation();
     this.initializeApp();
