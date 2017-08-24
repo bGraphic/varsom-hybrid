@@ -7,8 +7,11 @@ import { ForecastService } from "../../providers/forecasts";
 import { FavoriteService } from "../../providers/favorites";
 import { GeoJsonService } from '../../providers/geojson';
 import { SettingService } from "../../providers/settings";
-import { LocationService } from "../../providers/location";
+
+import { Observable } from 'rxjs/rx';
 import { Subscription } from "rxjs";
+import { Store } from "@ngrx/store";
+import * as fromRoot from './../../store/reducers';
 
 @Component({
   templateUrl: 'list.html'
@@ -30,7 +33,8 @@ export class FloodLandslideListPage {
 
   showMap: boolean = false;
   mapGeoJsonData: any;
-  mapCenter: { latLng: L.LatLng, zoom: number };
+  mapCenter: Observable<{ latitude: number, longitude: number }>;
+  mapZoomLevel: Observable<number>;
 
   private _floodForecast: Forecast[] = [];
   private _landslideForecast: Forecast[] = [];
@@ -43,7 +47,8 @@ export class FloodLandslideListPage {
     private _favoriteService: FavoriteService,
     private _geoJsonService: GeoJsonService,
     private _settingService: SettingService,
-    private _locationService: LocationService
+    private _store: Store<fromRoot.State>,
+
   ) {
     let area = _navParams.get('area');
 
@@ -58,6 +63,9 @@ export class FloodLandslideListPage {
       this.showMap = true;
       this.sections = ['COUNTIES'];
     }
+
+    this.mapCenter = this._store.select(fromRoot.getPosition);
+    this.mapZoomLevel = this._store.select(fromRoot.getLocationZoomLevel);
   }
 
   ionViewDidEnter() {
@@ -73,12 +81,6 @@ export class FloodLandslideListPage {
       });
       this._subscriptions.push(geojsonSubscription);
     }
-
-    let currentPositionSubscription = this._locationService.currentPosition$
-      .subscribe(position => {
-        this.mapCenter = position;
-      });
-    this._subscriptions.push(currentPositionSubscription);
 
     let forecastTypeSubscription = this._settingService.activeFloodLandslideSegment$
       .subscribe(forecastType => {

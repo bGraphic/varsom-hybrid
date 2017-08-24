@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { ActionReducer } from '@ngrx/store';
-// import { environment } from './../../environments/environment';
+import { store as config } from './../../config/config'
 
 /**
  * The compose function is one of our most handy tools. In basic terms, you give
@@ -37,11 +37,6 @@ import { combineReducers } from '@ngrx/store';
  * notation packages up all of the exports into a single object.
  */
 import * as fromLocation from './location.reducer';
-// import * as fromLocalStorage from './local-storage.reducer';
-// import * as fromLayout from './layout.reducer';
-// import * as fromAppInfo from './app-info.reducer';
-// import * as fromPush from './push.reducer';
-// import * as fromForecasts from './forecasts.reducer';
 
 
 /**
@@ -50,11 +45,6 @@ import * as fromLocation from './location.reducer';
  */
 export interface State {
   location: fromLocation.State;
-  // localStorage: fromLocalStorage.State;
-  // layout: fromLayout.State;
-  // appInfo: fromAppInfo.State;
-  // push: fromPush.State;
-  // forecasts: fromForecasts.State;
 }
 
 
@@ -67,107 +57,21 @@ export interface State {
  */
 const reducers = {
   location: fromLocation.reducer,
-  // localStorage: fromLocalStorage.reducer,
-  // layout: fromLayout.reducer,
-  // appInfo: fromAppInfo.reducer,
-  // push: fromPush.reducer,
-  // forecasts: fromForecasts.reducer
 };
 
 const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
-// const productionReducer: ActionReducer<State> = combineReducers(reducers);
+const productionReducer: ActionReducer<State> = combineReducers(reducers);
 
 export function reducer(state: any, action: any) {
-  // if (environment.production) {
-  // return productionReducer(state, action);
-  // } else {
-  return developmentReducer(state, action);
-  // }
+  if (!config.storeFreeze) {
+    return productionReducer(state, action);
+  } else {
+    return developmentReducer(state, action);
+  }
 }
 
-/**
- * A selector function is a map function factory. We pass it parameters and it
- * returns a function that maps from the larger state tree into a smaller
- * piece of state. This selector simply selects the `books` state.
- *
- * Selectors are used with the `select` operator.
- *
- * ```ts
- * class MyComponent {
- * 	constructor(state$: Observable<State>) {
- * 	  this.booksState$ = state$.select(getBooksState);
- * 	}
- * }
- * ```
- */
+// Selectors
+
 export const getLocation = (state: State) => state.location;
-
-/**
- * Every reducer module exports selector functions, however child reducers
- * have no knowledge of the overall state tree. To make them useable, we
- * need to make new selectors that wrap them.
- *
- * The createSelector function from the reselect library creates
- * very efficient selectors that are memoized and only recompute when arguments change.
- * The created selectors can also be composed together to select different
- * pieces of state.
- */
-// export const getFavoriteAreaIds = createSelector(getFavoritesState, fromFavorites.getAreaIds);
-
-
-/**
- * Just like with the books selectors, we also have to compose the search
- * reducer's and collection reducer's selectors.
- */
-// export const getLocalStorageState = (state: State) => state.localStorage;
-
-// export const getLocalStorageLoaded = createSelector(getLocalStorageState, fromLocalStorage.getLoaded);
-
-/**
- * Layout Reducers
- */
-// export const getLayoutState = (state: State) => state.layout;
-
-// export const getSections = createSelector(getLayoutState, fromLayout.getSections);
-// export const getActiveSectionKey = createSelector(getLayoutState, fromLayout.getActiveSectionKey);
-// export const getFloodForecastFilterKey = createSelector(getSections, (sections) => sections.FLOOD_LANDSLIDE.filter);
-
-/**
- * AppInfo Reducers
- */
-// export const getAppInfoState = (state: State) => state.appInfo;
-
-// export const getAppVersionNumber = createSelector(getAppInfoState, fromAppInfo.getAppVersionNumber);
-// export const getNotifiedAppVersionNumber = createSelector(getAppInfoState, fromAppInfo.getNotifiedAppVersionNumber);
-// export const getLatestAppVersion = createSelector(getAppInfoState, fromAppInfo.getLatestAppVersion);
-
-// export const getAlertVersion = createSelector(getAppInfoState, fromAppInfo.getAlertVersion);
-
-/**
- * Push Reducers
-//  */
-// export const getPushState = (state: State) => state.push;
-
-// export const getPushToken = createSelector(getPushState, fromPush.getToken);
-// export const getPushMessages = createSelector(getPushState, fromPush.getMessages);
-
-/**
- * Forecasts Reducers
- */
-// export const getForecastsState = (state: State) => state.forecasts;
-
-// export const getAvalancheForecasts = createSelector(getForecastsState, fromForecasts.getAvalancheForecasts);
-// export const getFloodForecasts = createSelector(getForecastsState, fromForecasts.getFloodForecasts);
-// export const getLandslideForecasts = createSelector(getForecastsState, fromForecasts.getLandslideForecasts);
-// const getHighestForecasts = createSelector(getForecastsState, fromForecasts.getFloodLandslideForecasts);
-
-// export const getFiltredFloodLandslideForecast = createSelector(getFloodForecasts, getLandslideForecasts, getHighestForecasts, getFloodForecastFilterKey, (floodForecasts, landslideForecasts, highestForecasts, filterKey) => {
-//   switch (filterKey) {
-//     case 'FLOOD':
-//       return floodForecasts;
-//     case 'LANDSLIDE':
-//       return landslideForecasts;
-//     case 'HIGHEST':
-//       return highestForecasts;
-//   }
-// });
+export const getPosition = createSelector(getLocation, (state) => state.position);
+export const getLocationZoomLevel = createSelector(getLocation, (state) => state.zoom);

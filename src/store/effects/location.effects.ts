@@ -3,10 +3,9 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { Effect, Actions } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
+import { Geolocation } from '@ionic-native/geolocation';
 
 import * as locationActions from './../actions/location.actions';
-
-import { Geolocation } from '@ionic-native/geolocation';
 
 @Injectable()
 export class LocationEffects {
@@ -23,11 +22,17 @@ export class LocationEffects {
     .ofType(locationActions.FETCH_POSITION)
     .startWith(new locationActions.FetchPosition())
     .switchMapTo(this._geolocation.getCurrentPosition())
-    .do(res => console.log(res))
-    .map((res) => new locationActions.PositionSucess({
-      latitude: res.coords.latitude,
-      longitude: res.coords.longitude,
-      timestamp: new Date(res.timestamp)
-    }))
-    .catch(error => of(new locationActions.PositionError(error)));
+    .map((res) => {
+      return {
+        latitude: res.coords.latitude,
+        longitude: res.coords.longitude
+      }
+    })
+    .map((res) => new locationActions.PositionSucceeded(res))
+    .catch((error) => {
+      return of(new locationActions.PositionFailed({
+        code: error.code,
+        message: error.message
+      }));
+    });
 }

@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { Position, PositionError } from '../models/Location'
 
 export const FETCH_POSITION = '[Location] Fetch Position';
 export const POSITION_SUCCESS = '[Location] Position Sucess';
@@ -9,17 +10,17 @@ export class FetchPosition implements Action {
   constructor() { }
 }
 
-export class PositionSucess implements Action {
+export class PositionSucceeded implements Action {
   readonly type = POSITION_SUCCESS;
-  constructor(public payload: { latitude: number, longitude: number, timestamp: Date }) { }
+  constructor(public payload: Position) { }
 }
 
-export class PositionError implements Action {
+export class PositionFailed implements Action {
   readonly type = POSITION_ERROR;
-  constructor(public payload: Error) { }
+  constructor(public payload: PositionError) { }
 }
 
 export type All
   = FetchPosition
-  | PositionSucess
-  | PositionError;
+  | PositionSucceeded
+  | PositionFailed;

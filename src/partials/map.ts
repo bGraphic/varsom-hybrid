@@ -14,7 +14,8 @@ export class Map {
 
   @Input() forecasts: Forecast[];
   @Input() geoJsonData: any;
-  @Input() center: { latLng: L.LatLng, zoom: number };
+  @Input() center: { latitude: number, longitude: number };
+  @Input() zoomLevel: number;
   @Output() areaSelected: EventEmitter<string> = new EventEmitter<string>();
   @ViewChild('map') mapEl: any;
 
@@ -62,7 +63,7 @@ export class Map {
       return;
     }
 
-    this._map.setView(this.center.latLng, this.center.zoom);
+    this._map.setView(new L.LatLng(this.center.latitude, this.center.longitude), this.zoomLevel);
   }
 
   private updateGeoJsonData() {

@@ -29,3 +29,7 @@ export const ionicCloud = {
     }
   }
 }
+
+export const state = {
+  storeFreeze: true
+}

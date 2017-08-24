@@ -31,7 +31,6 @@ import { PushService } from "../providers/push";
 import { SettingService } from "../providers/settings";
 import { AppVersionService } from "../providers/app-version";
 import { GeoJsonService } from "../providers/geojson";
-import { LocationService } from "../providers/location";
 import { StorageService } from "../providers/storage";
 
 import { reducer } from './../store/reducers';
@@ -111,7 +110,6 @@ export function createTranslateLoader(http: Http) {
     PushService,
     AppVersionService,
     GeoJsonService,
-    LocationService,
     StorageService,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
