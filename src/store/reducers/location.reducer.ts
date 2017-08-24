@@ -14,7 +14,7 @@ const initialState: State = {
   zoom: 4
 }
 
-export function reducer(state = initialState, action) {
+export function reducer(state = initialState, action: LocationActions.All) {
   switch (action.type) {
     case LocationActions.POSITION_SUCCESS:
       return Object.assign(
@@ -22,5 +22,7 @@ export function reducer(state = initialState, action) {
         { ...state },
         { ...action.payload },
         { zoom: 10 });
+    default:
+      return state
   };
 }
