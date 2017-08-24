@@ -11,7 +11,6 @@ export interface State {
 export function reducer(state: State, action) {
   switch (action.type) {
     case LocationActions.COORDS_UPDATED:
-      console.log('Updating', action);
       return Object.assign({}, { ...state }, { coords: action.payload, updated: new Date() });
   };
 }

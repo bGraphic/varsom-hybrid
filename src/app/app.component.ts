@@ -26,7 +26,6 @@ import { AvalancheListPage } from "../pages/list/avalanche-list";
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  location$: Observable<any>;
   rootPage: any;
   sections: { titleKey: string, icon: string, active: boolean, component: any }[];
   external_links: { url: string, label: string, description: string };
@@ -50,10 +49,6 @@ export class MyApp {
     private _iab: InAppBrowser,
     private _store: Store<fromRoot.State>,
   ) {
-    this.location$ = _store.select('location');
-    this.location$.subscribe(location => {
-      console.log("Location", location);
-    });
 
     this._store.dispatch(new LocationActions.CoordsUpdated({ latitude: 0, longitude: 0 }));
 
