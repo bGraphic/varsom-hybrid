@@ -1,12 +1,25 @@
 import { Action } from '@ngrx/store';
-import { Coords } from '../models/location';
 
-export const COORDS_UPDATED = '[Location] Coords updated';
+export const FETCH_POSITION = '[Location] Fetch Position';
+export const POSITION_SUCCESS = '[Location] Position Sucess';
+export const POSITION_ERROR = '[Location] Position Error';
 
-export class CoordsUpdated implements Action {
-  readonly type = COORDS_UPDATED;
-  constructor(public payload: Coords) { }
+export class FetchPosition implements Action {
+  readonly type = FETCH_POSITION;
+  constructor() { }
+}
+
+export class PositionSucess implements Action {
+  readonly type = POSITION_SUCCESS;
+  constructor(public payload: { latitude: number, longitude: number, timestamp: Date }) { }
+}
+
+export class PositionError implements Action {
+  readonly type = POSITION_ERROR;
+  constructor(public payload: Error) { }
 }
 
 export type All
-  = CoordsUpdated;
+  = FetchPosition
+  | PositionSucess
+  | PositionError;

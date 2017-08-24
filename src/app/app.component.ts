@@ -50,8 +50,6 @@ export class MyApp {
     private _store: Store<fromRoot.State>,
   ) {
 
-    this._store.dispatch(new LocationActions.CoordsUpdated({ latitude: 0, longitude: 0 }));
-
     this.initializeTranslation();
     this.initializeApp();
     this._appVersionService.checkAppVersion();

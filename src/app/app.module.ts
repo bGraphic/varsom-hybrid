@@ -10,7 +10,9 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MomentModule } from 'angular2-moment';
+
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 import { MyApp } from './app.component';
 import { firebase, ionicCloud } from './../config/config'
@@ -33,6 +35,7 @@ import { LocationService } from "../providers/location";
 import { StorageService } from "../providers/storage";
 
 import { reducer } from './../store/reducers';
+import { LocationEffects } from './../store/effects/location.effects';
 
 import { FilterForecastsPipe, FavoriteForecastsPipe, ForecastsTimeframePipe } from "../pipes/forecasts";
 
@@ -71,6 +74,7 @@ export function createTranslateLoader(http: Http) {
     CloudModule.forRoot(ionicCloud),
     IonicStorageModule.forRoot(),
     StoreModule.provideStore(reducer),
+    EffectsModule.run(LocationEffects),
     HttpModule,
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     AngularFireModule.initializeApp(firebase),

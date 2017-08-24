@@ -1,16 +1,26 @@
-import { ActionReducer, Action } from '@ngrx/store';
 import * as LocationActions from '../actions/location.actions';
-import { Coords } from '../models/location';
 
 export interface State {
-  coords?: Coords;
-  updated?: Date;
-  zoom: Number
+  latitude: number,
+  longitude: number,
+  timestamp: Date,
+  zoom: number
 }
 
-export function reducer(state: State, action) {
+const initialState: State = {
+  latitude: 64.871,
+  longitude: 16.949,
+  timestamp: new Date(),
+  zoom: 4
+}
+
+export function reducer(state = initialState, action) {
   switch (action.type) {
-    case LocationActions.COORDS_UPDATED:
-      return Object.assign({}, { ...state }, { coords: action.payload, updated: new Date() });
+    case LocationActions.POSITION_SUCCESS:
+      return Object.assign(
+        {},
+        { ...state },
+        { ...action.payload },
+        { zoom: 10 });
   };
 }
