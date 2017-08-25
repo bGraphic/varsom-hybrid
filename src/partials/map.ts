@@ -22,7 +22,7 @@ export class Map {
 
   private _map: L.Map;
   private _geojsonLayer: L.GeoJSON;
-  private _marker: L.Marker;
+  private _marker: L.CircleMarker;
 
   constructor() {
 
@@ -79,7 +79,14 @@ export class Map {
     }
 
     if (!this._marker) {
-      this._marker = new L.Marker(new L.LatLng(this.marker.latitude, this.marker.longitude));
+      this._marker = new L.CircleMarker(new L.LatLng(this.marker.latitude, this.marker.longitude), {
+        radius: 5,
+        weight: 0,
+        fill: true,
+        fillOpacity: 1,
+        interactive: false,
+        pane: 'markerPane'
+      });
       this._marker.addTo(this._map);
     } else {
       this._marker.setLatLng(new L.LatLng(this.marker.latitude, this.marker.longitude));
