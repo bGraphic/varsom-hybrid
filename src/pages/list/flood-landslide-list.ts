@@ -67,10 +67,9 @@ export class FloodLandslideListPage {
       this.sections = ['COUNTIES'];
     }
 
-    this.mapCenter = this._store.select(fromRoot.getPosition);
-    // Position only has timestamp when actual position and not default
-    this.mapMarker = this._store.select(fromRoot.getPosition).filter(pos => !!pos.timestamp);
-    this.mapZoomLevel = this._store.select(fromRoot.getLocationZoomLevel);
+    this.mapMarker = this._store.select(fromRoot.getPosition);
+    this.mapCenter = this._store.select(fromRoot.getMapCenter('FLOOD_LANDSLIDE'));
+    this.mapZoomLevel = this._store.select(fromRoot.getMapZoom('FLOOD_LANDSLIDE'));
   }
 
   ionViewDidEnter() {

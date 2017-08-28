@@ -49,10 +49,9 @@ export class AvalancheListPage {
     this.pageTitleKey = "AVALANCHE";
     this.emptyListTitleKey = "A_REGIONS_LIST_TITLE";
 
-    this.mapCenter = this._store.select(fromRoot.getPosition);
-    // Position only has timestamp when actual position and not default
-    this.mapMarker = this._store.select(fromRoot.getPosition).filter(pos => !!pos.timestamp);
-    this.mapZoomLevel = this._store.select(fromRoot.getLocationZoomLevel);
+    this.mapMarker = this._store.select(fromRoot.getPosition);
+    this.mapCenter = this._store.select(fromRoot.getMapCenter('AVALANCHE'));
+    this.mapZoomLevel = this._store.select(fromRoot.getMapZoom('AVALANCHE'));
   }
 
   ionViewDidEnter() {

@@ -37,6 +37,7 @@ import { combineReducers } from '@ngrx/store';
  * notation packages up all of the exports into a single object.
  */
 import * as fromLocation from './location.reducer';
+import * as fromMapUIState from './ui-map.reducer';
 
 
 /**
@@ -45,6 +46,7 @@ import * as fromLocation from './location.reducer';
  */
 export interface State {
   location: fromLocation.State;
+  mapUI: fromMapUIState.State;
 }
 
 
@@ -57,6 +59,7 @@ export interface State {
  */
 const reducers = {
   location: fromLocation.reducer,
+  mapUI: fromMapUIState.reducer
 };
 
 const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
@@ -73,5 +76,8 @@ export function reducer(state: any, action: any) {
 // Selectors
 
 export const getLocation = (state: State) => state.location;
-export const getPosition = createSelector(getLocation, (state) => state.position);
-export const getLocationZoomLevel = createSelector(getLocation, (state) => state.zoom);
+export const getPosition = createSelector(getLocation, (state: fromLocation.State) => state.position);
+
+export const getMapUI = (state: State) => state.mapUI;
+export const getMapCenter = (key: string) => createSelector(getMapUI, (state: fromMapUIState.State) => state[key].center);
+export const getMapZoom = (key: string) => createSelector(getMapUI, (state: fromMapUIState.State) => state[key].zoom);
