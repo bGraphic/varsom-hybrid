@@ -35,6 +35,7 @@ export class AvalancheListPage {
   mapCenter: Observable<Position>;
   mapMarker: Observable<Position>;
   mapZoomLevel: Observable<number>;
+  mapFullscreen: Observable<boolean>;
 
   private _subscriptions: Subscription[] = [];
 
@@ -52,6 +53,15 @@ export class AvalancheListPage {
     this.mapMarker = this._store.select(fromRoot.getPosition);
     this.mapCenter = this._store.select(fromRoot.getMapCenter('AVALANCHE'));
     this.mapZoomLevel = this._store.select(fromRoot.getMapZoom('AVALANCHE'));
+    this.mapFullscreen = this._store.select(fromRoot.getMapFullscreen('AVALANCHE'));
+
+    this.mapFullscreen.subscribe((test) => {
+      console.log('Fullscreen', test);
+    })
+
+    this.mapZoomLevel.subscribe((test) => {
+      console.log('Zoom', test);
+    })
   }
 
   ionViewDidEnter() {

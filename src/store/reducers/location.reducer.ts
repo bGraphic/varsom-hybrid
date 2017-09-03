@@ -16,7 +16,6 @@ export function reducer(state = initialState, action: LocationActions.All) {
       return Object.assign(
         { ...state },
         {
-          zoom: 6,
           position: action.payload
         });
     case LocationActions.POSITION_ERROR:

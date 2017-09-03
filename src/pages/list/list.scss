@@ -1,11 +1,32 @@
-nve-map {
-  > div {
-    height: 35%;
-    width: 100%;
-  }
-}
-
 .list-page {
+
+  .map {
+    position: fixed;
+    top: calc(-50vh + 35vh/2 - 64px);
+    left: -200px;
+    right: -200px;
+    bottom: 0;
+    z-index: -1;
+  }
+
+  &.content-md .map {
+    top: calc(-50vh + 35vh/2 - 56px);
+  }
+
+  .map-overlay {
+    pointer-events: none;
+    transition: height 250ms ease-in-out;
+    height: 35vh;
+
+    &.fullscreen {
+      height: 100%;
+    }
+  }
+
+  .list-wrapper {
+    background: $list-background-color;
+    z-index: 1;
+  }
 
   ion-list {
 

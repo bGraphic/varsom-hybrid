@@ -38,6 +38,7 @@ export class FloodLandslideListPage {
   mapCenter: Observable<Position>;
   mapMarker: Observable<Position>;
   mapZoomLevel: Observable<number>;
+  mapFullscreen: Observable<boolean>;
 
   private _floodForecast: Forecast[] = [];
   private _landslideForecast: Forecast[] = [];
@@ -70,6 +71,7 @@ export class FloodLandslideListPage {
     this.mapMarker = this._store.select(fromRoot.getPosition);
     this.mapCenter = this._store.select(fromRoot.getMapCenter('FLOOD_LANDSLIDE'));
     this.mapZoomLevel = this._store.select(fromRoot.getMapZoom('FLOOD_LANDSLIDE'));
+    this.mapFullscreen = this._store.select(fromRoot.getMapFullscreen('FLOOD_LANDSLIDE'));
   }
 
   ionViewDidEnter() {
