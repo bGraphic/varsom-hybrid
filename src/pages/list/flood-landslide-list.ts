@@ -13,6 +13,7 @@ import { Subscription } from "rxjs";
 import { Store } from "@ngrx/store";
 
 import * as fromRoot from './../../store/reducers';
+import * as UIMapActions from './../../store/actions/ui-map.actions';
 import { Position } from './../../store/models/Location';
 
 @Component({
@@ -181,6 +182,10 @@ export class FloodLandslideListPage {
 
   onListForecastSelected(event, forecast: Forecast) {
     this.pushPage(forecast);
+  }
+
+  onMapFullscreenToggle(event) {
+    this._store.dispatch(new UIMapActions.ToogleFullscreen('FLOOD_LANDSLIDE'));
   }
 
   onMapAreaSelected(areaId: string) {

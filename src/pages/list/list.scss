@@ -3,8 +3,8 @@
   .map {
     transition: top 250ms ease-in-out !important;
     position: fixed;
-    left: -50px;
-    right: -50px;
+    left: -100px;
+    right: -100px;
     height: 100vh;
     z-index: -1;
 
@@ -19,15 +19,34 @@
 
   &.content-ios .map {
     top: calc(-15vh - 35vh/2 + 64px);
+    border-width: 0.5px;
   }
 
   .map-overlay {
     pointer-events: none;
+    position: relative;
     transition: height 250ms ease-in-out;
     height: 35vh;
 
     &.fullscreen {
       height: 100%;
+    }
+
+    button {
+      pointer-events: all;
+      position: fixed;
+      z-index: -1;
+      right: 0;
+      background: color($colors, light);
+
+      &.button-ios {
+        margin: 12px;
+      }
+
+      &.button-md {
+        margin: 12px 6px;
+        box-shadow: none;
+      }
     }
   }
 
@@ -37,6 +56,12 @@
   }
 
   ion-list {
+
+    &.list-ios {
+      .list-header {
+        background: $list-background-color;
+      }
+    }
 
     .label {
       p {

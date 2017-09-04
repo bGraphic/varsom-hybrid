@@ -12,6 +12,7 @@ import { Subscription } from "rxjs";
 import { Store } from "@ngrx/store";
 
 import * as fromRoot from './../../store/reducers';
+import * as UIMapActions from './../../store/actions/ui-map.actions';
 import { Position } from './../../store/models/Location';
 
 @Component({
@@ -108,6 +109,10 @@ export class AvalancheListPage {
       id: forecast.areaId,
       name: forecast.areaName
     });
+  }
+
+  onMapFullscreenToggle(event) {
+    this._store.dispatch(new UIMapActions.ToogleFullscreen('AVALANCHE'));
   }
 
   onListForecastSelected(event, forecast: Forecast) {
