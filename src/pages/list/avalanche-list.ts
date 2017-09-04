@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, Content } from 'ionic-angular';
 import { AreaDetailsPage } from '../area-details/area-details';
 import { Forecast } from "../../models/Forecast";
 import { ForecastService } from "../../providers/forecasts";
@@ -20,6 +20,7 @@ import { Position } from './../../store/models/Location';
 })
 
 export class AvalancheListPage {
+  @ViewChild(Content) content: Content;
 
   pageTitleKey: string;
   emptyListTitleKey: string;
@@ -109,6 +110,15 @@ export class AvalancheListPage {
       id: forecast.areaId,
       name: forecast.areaName
     });
+  }
+
+  mapOffset(mapFullscreen) {
+    if( mapFullscreen ) {
+      return 0;
+    }
+
+    const height = this.content.contentTop + this.content.contentHeight;
+    return - (height*0.15 + height*0.35/2 - this.content.contentTop);
   }
 
   onMapFullscreenToggle(event) {

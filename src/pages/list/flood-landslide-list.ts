@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, NavParams, Content } from 'ionic-angular';
 import { AreaDetailsPage } from '../area-details/area-details';
 import { AreaUtils } from "../../utils/area-utils";
 import { Forecast } from "../../models/Forecast";
@@ -21,6 +21,7 @@ import { Position } from './../../store/models/Location';
 })
 
 export class FloodLandslideListPage {
+  @ViewChild(Content) content: Content;
 
   pageTitleKey: string;
   emptyListTitleKey: string;
@@ -178,6 +179,15 @@ export class FloodLandslideListPage {
     } else {
       this.pushListPage(area);
     }
+  }
+
+  mapOffset(mapFullscreen) {
+    if( mapFullscreen ) {
+      return 0;
+    }
+
+    const height = this.content.contentTop + this.content.contentHeight;
+    return - (height*0.15 + height*0.35/2 - this.content.contentTop);
   }
 
   onListForecastSelected(event, forecast: Forecast) {

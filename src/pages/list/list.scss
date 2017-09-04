@@ -3,14 +3,11 @@
   .map {
     transition: top 250ms ease-in-out !important;
     position: fixed;
+    top: 0;
     left: -100px;
     right: -100px;
     height: 100vh;
     z-index: -1;
-
-    &.fullscreen {
-      top: 0 !important;
-    }
   }
 
   &.content-md .map {
