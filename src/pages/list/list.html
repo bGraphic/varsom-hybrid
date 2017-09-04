@@ -17,7 +17,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen class="list-page">
+<ion-content class="list-page">
 
   <div class="map" tappable nveMap *ngIf="showMap" [ngClass]="{ 'fullscreen': (mapFullscreen | async) }" [fullscreen]="(mapFullscreen | async)"
     [forecasts]="forecasts" [geoJsonData]="mapGeoJsonData" [marker]="mapMarker | async" [center]="mapCenter | async" [zoomLevel]="mapZoomLevel | async"

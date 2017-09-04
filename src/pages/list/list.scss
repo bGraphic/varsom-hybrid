@@ -1,16 +1,24 @@
 .list-page {
 
   .map {
+    transition: top 250ms ease-in-out !important;
     position: fixed;
-    top: calc(-50vh + 35vh/2 - 64px);
-    left: -200px;
-    right: -200px;
-    bottom: 0;
+    left: -50px;
+    right: -50px;
+    height: 100vh;
     z-index: -1;
+
+    &.fullscreen {
+      top: 0 !important;
+    }
   }
 
   &.content-md .map {
-    top: calc(-50vh + 35vh/2 - 56px);
+    top: calc(-15vh - 35vh/2 + 56px);
+  }
+
+  &.content-ios .map {
+    top: calc(-15vh - 35vh/2 + 64px);
   }
 
   .map-overlay {
