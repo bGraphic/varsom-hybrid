@@ -29,20 +29,23 @@
       height: 100%;
     }
 
-    button {
+    .controls {
       pointer-events: all;
       position: fixed;
       z-index: -1;
       right: 0;
-      background: color($colors, light);
 
-      &.button-ios {
-        margin: 12px;
-      }
+      button {
+        background: color($colors, light);
 
-      &.button-md {
-        margin: 12px 6px;
-        box-shadow: none;
+        &.button-ios {
+          margin: 12px;
+        }
+  
+        &.button-md {
+          margin: 12px 6px;
+          box-shadow: none;
+        }
       }
     }
   }
