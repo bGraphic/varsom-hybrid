@@ -6,8 +6,13 @@ import { ForecastService } from "../../providers/forecasts";
 import { FavoriteService } from "../../providers/favorites";
 import { GeoJsonService } from '../../providers/geojson';
 import { SettingService } from "../../providers/settings";
-import { LocationService } from "../../providers/location";
+
+import { Observable } from 'rxjs/rx';
 import { Subscription } from "rxjs";
+import { Store } from "@ngrx/store";
+
+import * as fromRoot from './../../store/reducers';
+import { Position } from './../../store/models/Location';
 
 @Component({
   templateUrl: 'list.html'
@@ -27,10 +32,11 @@ export class AvalancheListPage {
 
   showMap: boolean = true;
   mapGeoJsonData: any;
-  mapCenter: { latLng: L.LatLng, zoom: number };
+  mapCenter: Observable<Position>;
+  mapMarker: Observable<Position>;
+  mapZoomLevel: Observable<number>;
 
   private _subscriptions: Subscription[] = [];
-
 
   constructor(
     private _navCtrl: NavController,
@@ -38,10 +44,15 @@ export class AvalancheListPage {
     private _favoriteService: FavoriteService,
     private _geoJsonService: GeoJsonService,
     private _settingService: SettingService,
-    private _locationService: LocationService
+    private _store: Store<fromRoot.State>,
   ) {
     this.pageTitleKey = "AVALANCHE";
     this.emptyListTitleKey = "A_REGIONS_LIST_TITLE";
+
+    this.mapCenter = this._store.select(fromRoot.getPosition);
+    // Position only has timestamp when actual position and not default
+    this.mapMarker = this._store.select(fromRoot.getPosition).filter(pos => !!pos.timestamp);
+    this.mapZoomLevel = this._store.select(fromRoot.getLocationZoomLevel);
   }
 
   ionViewDidEnter() {
@@ -63,12 +74,6 @@ export class AvalancheListPage {
         this.forecasts = Forecast.sortByAreaId(forecasts);
       });
     this._subscriptions.push(avalancheSubscription);
-
-    let currentPositionSubscription = this._locationService.currentPosition$
-      .subscribe(position => {
-        this.mapCenter = position;
-      });
-    this._subscriptions.push(currentPositionSubscription);
 
     let favoriteSubscription = this._favoriteService.favoriteAreaIds$
       .subscribe(favorites => {

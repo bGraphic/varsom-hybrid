@@ -1,3 +1,4 @@
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { HttpModule, Http } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -9,6 +10,9 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MomentModule } from 'angular2-moment';
+
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 import { MyApp } from './app.component';
 import { firebase, ionicCloud } from './../config/config'
@@ -27,8 +31,10 @@ import { PushService } from "../providers/push";
 import { SettingService } from "../providers/settings";
 import { AppVersionService } from "../providers/app-version";
 import { GeoJsonService } from "../providers/geojson";
-import { LocationService } from "../providers/location";
 import { StorageService } from "../providers/storage";
+
+import { reducer } from './../store/reducers';
+import { LocationEffects } from './../store/effects/location.effects';
 
 import { FilterForecastsPipe, FavoriteForecastsPipe, ForecastsTimeframePipe } from "../pipes/forecasts";
 
@@ -66,7 +72,10 @@ export function createTranslateLoader(http: Http) {
     IonicModule.forRoot(MyApp, {}),
     CloudModule.forRoot(ionicCloud),
     IonicStorageModule.forRoot(),
+    StoreModule.provideStore(reducer),
+    EffectsModule.run(LocationEffects),
     HttpModule,
+    StoreDevtoolsModule.instrumentOnlyWithExtension(),
     AngularFireModule.initializeApp(firebase),
     AngularFireDatabaseModule,
     TranslateModule.forRoot({
@@ -101,7 +110,6 @@ export function createTranslateLoader(http: Http) {
     PushService,
     AppVersionService,
     GeoJsonService,
-    LocationService,
     StorageService,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]

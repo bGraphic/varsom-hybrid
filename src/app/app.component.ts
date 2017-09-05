@@ -7,6 +7,12 @@ import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import 'moment/min/locales';
 
+import { Store } from "@ngrx/store";
+import { Observable } from 'rxjs';
+import * as fromRoot from './../store/reducers';
+import * as fromLocation from './location.reducer';
+import * as LocationActions from "../store/actions/location.actions";
+
 import { PushService } from "../providers/push";
 import { SettingService } from "../providers/settings";
 import { AppVersionService } from "../providers/app-version";
@@ -40,7 +46,8 @@ export class MyApp {
     private _appVersionService: AppVersionService,
     private _splashScreen: SplashScreen,
     private _statusBar: StatusBar,
-    private _iab: InAppBrowser
+    private _iab: InAppBrowser,
+    private _store: Store<fromRoot.State>,
   ) {
 
     this.initializeTranslation();

@@ -14,12 +14,15 @@ export class Map {
 
   @Input() forecasts: Forecast[];
   @Input() geoJsonData: any;
-  @Input() center: { latLng: L.LatLng, zoom: number };
+  @Input() center: { latitude: number, longitude: number };
+  @Input() marker: { latitude: number, longitude: number };
+  @Input() zoomLevel: number;
   @Output() areaSelected: EventEmitter<string> = new EventEmitter<string>();
   @ViewChild('map') mapEl: any;
 
   private _map: L.Map;
   private _geojsonLayer: L.GeoJSON;
+  private _marker: L.CircleMarker;
 
   constructor() {
 
@@ -28,6 +31,7 @@ export class Map {
   ngOnInit(): void {
     this.createMap();
     this.updateMapCenter();
+    this.updateMapMarker();
     this.updateGeoJsonData();
   }
 
@@ -43,6 +47,10 @@ export class Map {
 
     if (changes.center) {
       this.updateMapCenter();
+    }
+
+    if (changes.marker) {
+      this.updateMapMarker();
     }
   }
 
@@ -62,7 +70,27 @@ export class Map {
       return;
     }
 
-    this._map.setView(this.center.latLng, this.center.zoom);
+    this._map.setView(new L.LatLng(this.center.latitude, this.center.longitude), this.zoomLevel);
+  }
+
+  private updateMapMarker() {
+    if (!this._map || !this.marker) {
+      return;
+    }
+
+    if (!this._marker) {
+      this._marker = new L.CircleMarker(new L.LatLng(this.marker.latitude, this.marker.longitude), {
+        radius: 5,
+        weight: 0,
+        fill: true,
+        fillOpacity: 1,
+        interactive: false,
+        pane: 'markerPane'
+      });
+      this._marker.addTo(this._map);
+    } else {
+      this._marker.setLatLng(new L.LatLng(this.marker.latitude, this.marker.longitude));
+    }
   }
 
   private updateGeoJsonData() {
