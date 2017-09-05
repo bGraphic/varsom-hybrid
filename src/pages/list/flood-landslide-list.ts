@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, NavParams, Content } from 'ionic-angular';
 import { AreaDetailsPage } from '../area-details/area-details';
 import { AreaUtils } from "../../utils/area-utils";
 import { Forecast } from "../../models/Forecast";
@@ -13,6 +13,7 @@ import { Subscription } from "rxjs";
 import { Store } from "@ngrx/store";
 
 import * as fromRoot from './../../store/reducers';
+import * as UIMapActions from './../../store/actions/ui-map.actions';
 import { Position } from './../../store/models/Location';
 
 @Component({
@@ -20,6 +21,7 @@ import { Position } from './../../store/models/Location';
 })
 
 export class FloodLandslideListPage {
+  @ViewChild(Content) content: Content;
 
   pageTitleKey: string;
   emptyListTitleKey: string;
@@ -38,6 +40,7 @@ export class FloodLandslideListPage {
   mapCenter: Observable<Position>;
   mapMarker: Observable<Position>;
   mapZoomLevel: Observable<number>;
+  mapFullscreen: Observable<boolean>;
 
   private _floodForecast: Forecast[] = [];
   private _landslideForecast: Forecast[] = [];
@@ -67,10 +70,10 @@ export class FloodLandslideListPage {
       this.sections = ['COUNTIES'];
     }
 
-    this.mapCenter = this._store.select(fromRoot.getPosition);
-    // Position only has timestamp when actual position and not default
-    this.mapMarker = this._store.select(fromRoot.getPosition).filter(pos => !!pos.timestamp);
-    this.mapZoomLevel = this._store.select(fromRoot.getLocationZoomLevel);
+    this.mapMarker = this._store.select(fromRoot.getPosition);
+    this.mapCenter = this._store.select(fromRoot.getMapCenter('FLOOD_LANDSLIDE'));
+    this.mapZoomLevel = this._store.select(fromRoot.getMapZoom('FLOOD_LANDSLIDE'));
+    this.mapFullscreen = this._store.select(fromRoot.getMapFullscreen('FLOOD_LANDSLIDE'));
   }
 
   ionViewDidEnter() {
@@ -178,8 +181,21 @@ export class FloodLandslideListPage {
     }
   }
 
+  mapOffset(mapFullscreen) {
+    if (mapFullscreen) {
+      return 0;
+    }
+
+    const height = this.content.contentTop + this.content.contentHeight;
+    return - (height * 0.15 + height * 0.35 / 2 - this.content.contentTop);
+  }
+
   onListForecastSelected(event, forecast: Forecast) {
     this.pushPage(forecast);
+  }
+
+  onMapFullscreenToggle(event) {
+    this._store.dispatch(new UIMapActions.ToogleFullscreen('FLOOD_LANDSLIDE'));
   }
 
   onMapAreaSelected(areaId: string) {

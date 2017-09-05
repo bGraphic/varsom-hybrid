@@ -22,7 +22,6 @@ import { AvalancheListPage } from "../pages/list/avalanche-list";
 import { AreaDetailsPage } from '../pages/area-details/area-details';
 import { WarningDetailsPage } from "../pages/warning-details/warning-details";
 import { WarningBadge } from "../partials/warning-badge";
-import { Map } from "../partials/map";
 
 import { DataService } from "../providers/data";
 import { ForecastService } from "../providers/forecasts";
@@ -38,6 +37,7 @@ import { LocationEffects } from './../store/effects/location.effects';
 
 import { FilterForecastsPipe, FavoriteForecastsPipe, ForecastsTimeframePipe } from "../pipes/forecasts";
 
+import { MapDirective } from "../directives/map";
 import { FavoriteDirective } from "../directives/favorite";
 import { AvalancheRose } from "../partials/avalanche-rose";
 
@@ -60,7 +60,7 @@ export function createTranslateLoader(http: Http) {
     AreaDetailsPage,
     WarningDetailsPage,
     WarningBadge,
-    Map,
+    MapDirective,
     AvalancheRose,
     FavoriteDirective,
     FilterForecastsPipe,

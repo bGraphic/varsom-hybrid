@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, Content } from 'ionic-angular';
 import { AreaDetailsPage } from '../area-details/area-details';
 import { Forecast } from "../../models/Forecast";
 import { ForecastService } from "../../providers/forecasts";
@@ -12,6 +12,7 @@ import { Subscription } from "rxjs";
 import { Store } from "@ngrx/store";
 
 import * as fromRoot from './../../store/reducers';
+import * as UIMapActions from './../../store/actions/ui-map.actions';
 import { Position } from './../../store/models/Location';
 
 @Component({
@@ -19,6 +20,7 @@ import { Position } from './../../store/models/Location';
 })
 
 export class AvalancheListPage {
+  @ViewChild(Content) content: Content;
 
   pageTitleKey: string;
   emptyListTitleKey: string;
@@ -35,6 +37,7 @@ export class AvalancheListPage {
   mapCenter: Observable<Position>;
   mapMarker: Observable<Position>;
   mapZoomLevel: Observable<number>;
+  mapFullscreen: Observable<boolean>;
 
   private _subscriptions: Subscription[] = [];
 
@@ -49,10 +52,18 @@ export class AvalancheListPage {
     this.pageTitleKey = "AVALANCHE";
     this.emptyListTitleKey = "A_REGIONS_LIST_TITLE";
 
-    this.mapCenter = this._store.select(fromRoot.getPosition);
-    // Position only has timestamp when actual position and not default
-    this.mapMarker = this._store.select(fromRoot.getPosition).filter(pos => !!pos.timestamp);
-    this.mapZoomLevel = this._store.select(fromRoot.getLocationZoomLevel);
+    this.mapMarker = this._store.select(fromRoot.getPosition);
+    this.mapCenter = this._store.select(fromRoot.getMapCenter('AVALANCHE'));
+    this.mapZoomLevel = this._store.select(fromRoot.getMapZoom('AVALANCHE'));
+    this.mapFullscreen = this._store.select(fromRoot.getMapFullscreen('AVALANCHE'));
+
+    this.mapFullscreen.subscribe((test) => {
+      console.log('Fullscreen', test);
+    })
+
+    this.mapZoomLevel.subscribe((test) => {
+      console.log('Zoom', test);
+    })
   }
 
   ionViewDidEnter() {
@@ -99,6 +110,19 @@ export class AvalancheListPage {
       id: forecast.areaId,
       name: forecast.areaName
     });
+  }
+
+  mapOffset(mapFullscreen) {
+    if (mapFullscreen) {
+      return 0;
+    }
+
+    const height = this.content.contentTop + this.content.contentHeight;
+    return - (height * 0.15 + height * 0.35 / 2 - this.content.contentTop);
+  }
+
+  onMapFullscreenToggle(event) {
+    this._store.dispatch(new UIMapActions.ToogleFullscreen('AVALANCHE'));
   }
 
   onListForecastSelected(event, forecast: Forecast) {

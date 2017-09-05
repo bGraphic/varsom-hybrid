@@ -1,7 +1,6 @@
 export interface Position {
   latitude: number,
-  longitude: number,
-  timestamp?: Date 
+  longitude: number
 }
 
 export interface PositionError {

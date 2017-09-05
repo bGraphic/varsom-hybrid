@@ -1,22 +1,41 @@
-import { Component, Input, Output, ViewChild, EventEmitter } from '@angular/core';
+import { Directive, Input, Output, ViewChild, EventEmitter, ElementRef } from '@angular/core';
 import 'leaflet';
 import { Forecast } from '../models/Forecast';
 import { ThemeUtils } from "../utils/theme-utils";
 
-@Component({
-  selector: 'nve-map',
-  template: '<div #map></div>'
-})
-export class Map {
-  private static TILE = 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png';
-  private static MIN_ZOOM = 4;
-  private static MAX_ZOOM = 7;
+const TILE = 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png';
+const MIN_ZOOM = 4;
+const MAX_ZOOM = 7;
+
+function transformGeoJsonToAreaId(geoJsonFeature): string {
+
+  let id: number;
+
+  if (geoJsonFeature.hasOwnProperty('properties')) {
+    if (geoJsonFeature.properties.hasOwnProperty('fylkesnr')) {
+      id = Number(geoJsonFeature.properties.fylkesnr);
+    } else if (geoJsonFeature.properties.hasOwnProperty('omraadeid')) {
+      id = Number(geoJsonFeature.properties.omraadeid);
+    }
+  }
+
+  if (id < 10) {
+    return "0" + id;
+  } else {
+    return "" + id;
+  }
+}
+
+
+@Directive({ selector: '[nveMap]' })
+export class MapDirective {
 
   @Input() forecasts: Forecast[];
   @Input() geoJsonData: any;
   @Input() center: { latitude: number, longitude: number };
   @Input() marker: { latitude: number, longitude: number };
   @Input() zoomLevel: number;
+  @Input() fullscreen: boolean;
   @Output() areaSelected: EventEmitter<string> = new EventEmitter<string>();
   @ViewChild('map') mapEl: any;
 
@@ -24,11 +43,11 @@ export class Map {
   private _geojsonLayer: L.GeoJSON;
   private _marker: L.CircleMarker;
 
-  constructor() {
+  constructor(private _el: ElementRef) {
 
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.createMap();
     this.updateMapCenter();
     this.updateMapMarker();
@@ -52,17 +71,24 @@ export class Map {
     if (changes.marker) {
       this.updateMapMarker();
     }
+
+    if (changes.fullscreen) {
+      console.log('fullscreen');
+      if (this._map) {
+        setTimeout(() => { this._map.invalidateSize(true) }, 400);
+      }
+    }
   }
 
   private createMap() {
 
-    this._map = L.map(this.mapEl.nativeElement, {
+    this._map = L.map(this._el.nativeElement, {
       zoomControl: false,
-      minZoom: Map.MIN_ZOOM,
-      maxZoom: Map.MAX_ZOOM
+      minZoom: MIN_ZOOM,
+      maxZoom: MAX_ZOOM
     });
 
-    L.tileLayer(Map.TILE, {}).addTo(this._map);
+    L.tileLayer(TILE, {}).addTo(this._map);
   }
 
   private updateMapCenter() {
@@ -125,7 +151,7 @@ export class Map {
     let fillOpacity = 0.2;
 
     if (this.forecasts) {
-      let forecast = Forecast.findForecastWithAreaId(this.forecasts, Map.transformGeoJsonToAreaId(feature));
+      let forecast = Forecast.findForecastWithAreaId(this.forecasts, transformGeoJsonToAreaId(feature));
       if (forecast) {
         color = ThemeUtils.colorForRating(forecast.mapWarning.rating);
       }
@@ -167,31 +193,12 @@ export class Map {
     });
 
     layer.on("click", function (event) {
-      self.areaSelected.emit(Map.transformGeoJsonToAreaId(feature));
+      self.areaSelected.emit(transformGeoJsonToAreaId(feature));
     });
 
     layer.on("mouseup", function (event) {
       feature.mousedown = false;
       self.updateGeoJsonStyle();
     });
-  }
-
-  private static transformGeoJsonToAreaId(geoJsonFeature): string {
-
-    let id: number;
-
-    if (geoJsonFeature.hasOwnProperty('properties')) {
-      if (geoJsonFeature.properties.hasOwnProperty('fylkesnr')) {
-        id = Number(geoJsonFeature.properties.fylkesnr);
-      } else if (geoJsonFeature.properties.hasOwnProperty('omraadeid')) {
-        id = Number(geoJsonFeature.properties.omraadeid);
-      }
-    }
-
-    if (id < 10) {
-      return "0" + id;
-    } else {
-      return "" + id;
-    }
   }
 }

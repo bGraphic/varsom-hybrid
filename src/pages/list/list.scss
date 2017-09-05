@@ -1,13 +1,67 @@
-nve-map {
-  > div {
-    height: 35%;
-    width: 100%;
-  }
-}
-
 .list-page {
 
+  .map {
+    transition: top 250ms ease-in-out !important;
+    position: fixed;
+    top: 0;
+    left: -100px;
+    right: -100px;
+    height: 100vh;
+    z-index: -1;
+  }
+
+  &.content-md .map {
+    top: calc(-15vh - 35vh/2 + 56px);
+  }
+
+  &.content-ios .map {
+    top: calc(-15vh - 35vh/2 + 64px);
+    border-width: 0.5px;
+  }
+
+  .map-overlay {
+    pointer-events: none;
+    position: relative;
+    transition: height 250ms ease-in-out;
+    height: 35vh;
+
+    &.fullscreen {
+      height: 100%;
+    }
+
+    .controls {
+      pointer-events: all;
+      position: fixed;
+      z-index: -1;
+      right: 0;
+
+      button {
+        background: color($colors, light);
+
+        &.button-ios {
+          margin: 12px;
+        }
+  
+        &.button-md {
+          margin: 12px 6px;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+
+  .list-wrapper {
+    background: $list-background-color;
+    z-index: 1;
+  }
+
   ion-list {
+
+    &.list-ios {
+      .list-header {
+        background: $list-background-color;
+      }
+    }
 
     .label {
       p {

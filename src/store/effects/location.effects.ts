@@ -25,8 +25,7 @@ export class LocationEffects {
     .map((res) => {
       return {
         latitude: res.coords.latitude,
-        longitude: res.coords.longitude,
-        timestamp: new Date(res.timestamp)
+        longitude: res.coords.longitude
       }
     })
     .map((res) => new locationActions.PositionSucceeded(res))
