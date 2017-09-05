@@ -74,8 +74,8 @@ export class MapDirective {
 
     if (changes.fullscreen) {
       console.log('fullscreen');
-      if(this._map) {
-        setTimeout(() => { this._map.invalidateSize(true)}, 400);
+      if (this._map) {
+        setTimeout(() => { this._map.invalidateSize(true) }, 400);
       }
     }
   }

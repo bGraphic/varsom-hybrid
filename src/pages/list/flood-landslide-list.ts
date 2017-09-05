@@ -182,12 +182,12 @@ export class FloodLandslideListPage {
   }
 
   mapOffset(mapFullscreen) {
-    if( mapFullscreen ) {
+    if (mapFullscreen) {
       return 0;
     }
 
     const height = this.content.contentTop + this.content.contentHeight;
-    return - (height*0.15 + height*0.35/2 - this.content.contentTop);
+    return - (height * 0.15 + height * 0.35 / 2 - this.content.contentTop);
   }
 
   onListForecastSelected(event, forecast: Forecast) {
