@@ -87,7 +87,7 @@
             "cordova-sqlite-storage": {},
             "ionic-plugin-keyboard": {},
             "phonegap-plugin-push": {
-                "SENDER_ID": "199288057278"
+                "SENDER_ID": "12345678"
             },
             "cordova.plugins.diagnostic": {}
         },

@@ -49,12 +49,12 @@ The app version of varsom.no
   * Open workspace in Xcode
     * Add push capabilities
     * Archive
-    * Upload to App Store
+    * Upload to [App Store](https://itunesconnect.apple.com)
 * Build using `ionic cordova build android --prod --release`
   * Sign using `jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore '../varsom-secrets/nve.keystore' 'platforms/android/build/outputs/apk/android-release-unsigned.apk' regobs`
   * Zip using `zipalign -v 4 platforms/android/build/outputs/apk/android-release-unsigned.apk varsom.apk`
   * Verify using `jarsigner -verify varsom.apk`
-  * Upload to Google Play
+  * Upload to [Google Play](https://play.google.com/apps/publish) 
   
 
 
