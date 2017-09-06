@@ -43,6 +43,7 @@ export class FloodLandslideListPage {
   mapZoomLevel: Observable<number>;
   mapMoved: Observable<boolean>;
   mapFullscreen: Observable<boolean>;
+  recenterMap: Observable<boolean>;
 
   private _floodForecast: Forecast[] = [];
   private _landslideForecast: Forecast[] = [];
@@ -77,6 +78,7 @@ export class FloodLandslideListPage {
     this.mapZoomLevel = this._store.select(fromRoot.getMapZoom('FLOOD_LANDSLIDE'));
     this.mapMoved = this._store.select(fromRoot.getMapMoved('FLOOD_LANDSLIDE'));
     this.mapFullscreen = this._store.select(fromRoot.getMapFullscreen('FLOOD_LANDSLIDE'));
+    this.recenterMap = this._store.select(fromRoot.getRecenterMap('FLOOD_LANDSLIDE'));
   }
 
   ionViewDidEnter() {
@@ -202,11 +204,11 @@ export class FloodLandslideListPage {
   }
 
   onMapCenterOnMarker() {
-    this._store.dispatch(new UIMapActions.CenterOnMarker({ mapKey: 'FLOOD_LANDSLIDE' }));
+    this._store.dispatch(new UIMapActions.Recenter({ mapKey: 'FLOOD_LANDSLIDE' }));
   }
 
   onMapMoved(position: Position) {
-    this._store.dispatch(new UIMapActions.MapMoved({ mapKey: 'FLOOD_LANDSLIDE' }));
+    this._store.dispatch(new UIMapActions.Moved({ mapKey: 'FLOOD_LANDSLIDE' }));
   }
 
   onMapZoomUpdated(zoom: number) {

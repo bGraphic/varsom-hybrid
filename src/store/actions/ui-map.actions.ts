@@ -3,8 +3,8 @@ import { Action } from '@ngrx/store';
 import { Position } from './../models/Location';
 
 export const TOOGLE_FULLSCREEN = '[UI Map] Toogle Fullscreen';
-export const CENTER_ON_MARKER = '[UI Map] Center On Marker';
-export const MAP_MOVED = '[UI Map] Map Moved';
+export const RECENTER = '[UI Map] Recenter';
+export const MOVED = '[UI Map] Moved';
 export const ZOOM_UPDATED = '[UI Map] Zoom Updated';
 
 export class ToogleFullscreen implements Action {
@@ -12,13 +12,13 @@ export class ToogleFullscreen implements Action {
   constructor(public payload: { mapKey: string }) { }
 }
 
-export class CenterOnMarker implements Action {
-  readonly type = CENTER_ON_MARKER;
+export class Recenter implements Action {
+  readonly type = RECENTER;
   constructor(public payload: { mapKey: string }) { }
 }
 
-export class MapMoved implements Action {
-  readonly type = MAP_MOVED;
+export class Moved implements Action {
+  readonly type = MOVED;
   constructor(public payload: { mapKey: string }) { }
 }
 
@@ -29,6 +29,6 @@ export class ZoomUpdated implements Action {
 
 export type All
   = ToogleFullscreen
-  | CenterOnMarker
-  | MapMoved
+  | Recenter
+  | Moved
   | ZoomUpdated;

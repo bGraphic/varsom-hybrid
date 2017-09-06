@@ -35,6 +35,7 @@ export class MapDirective {
   @Input() center: { latitude: number, longitude: number };
   @Input() marker: { latitude: number, longitude: number };
   @Input() zoomLevel: number;
+  @Input() recenter: boolean;
   @Output() areaSelected: EventEmitter<string> = new EventEmitter<string>();
   @Output() zoomUpdated: EventEmitter<number> = new EventEmitter<number>();
   @Output() mapMoved: EventEmitter<null> = new EventEmitter<null>();
@@ -50,7 +51,6 @@ export class MapDirective {
 
   ngAfterViewInit(): void {
     this.createMap();
-    this.updateMapCenter();
     this.updateMapMarker();
     this.updateGeoJsonData();
   }
@@ -65,12 +65,17 @@ export class MapDirective {
       this.updateGeoJsonData();
     }
 
-    if (changes.center) {
-      this.updateMapCenter();
-    }
-
     if (changes.marker) {
       this.updateMapMarker();
+    }
+
+    if (changes.center) {
+      console.log('center update', changes.center);
+    }
+
+    if (changes.recenter && changes.recenter.currentValue) {
+      console.log('recenter update', changes.recenter);
+      this.updateMapCenter();
     }
   }
 
@@ -78,6 +83,8 @@ export class MapDirective {
 
     this._map = L.map(this._el.nativeElement, {
       zoomControl: false,
+      center: [this.center.latitude, this.center.longitude],
+      zoom: this.zoomLevel,
       minZoom: MIN_ZOOM,
       maxZoom: MAX_ZOOM
     });

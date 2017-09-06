@@ -128,11 +128,11 @@ export class AvalancheListPage {
   }
 
   onMapCenterOnMarker() {
-    this._store.dispatch(new UIMapActions.CenterOnMarker({ mapKey: 'AVALANCHE' }));
+    this._store.dispatch(new UIMapActions.Recenter({ mapKey: 'AVALANCHE' }));
   }
 
   onMapMoved(position: Position) {
-    this._store.dispatch(new UIMapActions.MapMoved({ mapKey: 'AVALANCHE' }));
+    this._store.dispatch(new UIMapActions.Moved({ mapKey: 'AVALANCHE' }));
   }
 
   onMapZoomUpdated(zoom: number) {

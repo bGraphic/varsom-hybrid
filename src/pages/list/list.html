@@ -20,8 +20,8 @@
 <ion-content class="list-page">
 
   <div class="map" tappable nveMap *ngIf="showMap" [style.top.px]="mapOffset((mapFullscreen | async))" [forecasts]="forecasts"
-    [geoJsonData]="mapGeoJsonData" [marker]="mapMarker | async" [center]="mapCenter | async" [zoomLevel]="mapZoomLevel | async"
-    (zoomUpdated)="onMapZoomUpdated($event)" (mapMoved)="onMapMoved($event)" (areaSelected)="onMapAreaSelected($event)">
+    [geoJsonData]="mapGeoJsonData" [marker]="mapMarker | async" [center]="mapCenter | async" [recenter]="recenterMap | async"
+    [zoomLevel]="mapZoomLevel | async" (zoomUpdated)="onMapZoomUpdated($event)" (mapMoved)="onMapMoved($event)" (areaSelected)="onMapAreaSelected($event)">
   </div>
 
   <div class="map-overlay" *ngIf="showMap" [ngClass]="{ 'fullscreen': (mapFullscreen | async) }">

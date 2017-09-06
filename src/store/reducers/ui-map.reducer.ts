@@ -9,7 +9,7 @@ interface MapState {
   center: Position,
   zoom: number,
   fullscreen: boolean,
-  moved: boolean
+  status: string
 }
 
 export interface State {
@@ -24,7 +24,7 @@ const initialMapState: MapState = {
   },
   zoom: 4,
   fullscreen: false,
-  moved: false
+  status: 'INIT'
 }
 
 const initialState: State = {
@@ -42,45 +42,28 @@ export function reducer(state = initialState, action: LocationActions.All | UIMa
             marker: action.payload,
             // If map is moved let zoom/center/moved be whatever it is
             center: action.payload,
-            zoom: state[key].moved ? state[key].zoom : ZOOM_DEFAULT,
-            moved: state[key].moved ? state[key].moved : false,
+            zoom: state[key].status === 'INIT' ? state[key].zoom : ZOOM_DEFAULT,
+            status: state[key].status === 'CENTERED' ? 'RECENTER' : state[key].status
           }
         )
         return prev;
       }, {})
-    case UIMapActions.TOOGLE_FULLSCREEN:
+    case UIMapActions.RECENTER:
       return Object.keys(state).reduce((prev, key) => {
         prev[key] = Object.assign(
           { ...state[key] },
           {
-            fullscreen: key === action.payload.mapKey ? !state[key].fullscreen : state[key].fullscreen
+            status: key === action.payload.mapKey && state[key].status !== 'CENTERED' ? 'RECENTER' : state[key].status
           }
         )
         return prev;
       }, {})
-    case UIMapActions.CENTER_ON_MARKER:
-      return Object.keys(state).reduce((prev, key) => {
-        const markerCenter = state[key].marker ? state[key].marker : initialMapState.center;
-        const markerZoom = state[key].marker ? ZOOM_DEFAULT : initialMapState.zoom;
-
-        prev[key] = Object.assign(
-          { ...state[key] },
-          {
-            center: key === action.payload.mapKey && state[key].moved ? markerCenter : state[key].center,
-            moved: key === action.payload.mapKey && state[key].moved ? false : state[key].moved,
-            zoom: key === action.payload.mapKey && state[key].moved ? markerZoom : state[key].zoom
-          }
-        )
-        return prev;
-      }, {})
-    case UIMapActions.MAP_MOVED:
+    case UIMapActions.MOVED:
       return Object.keys(state).reduce((prev, key) => {
         prev[key] = Object.assign(
           { ...state[key] },
           {
-            // If first move after setting center, remove center. Else turn on moved.
-            center: key === action.payload.mapKey && state[key].center ? null : state[key].center,
-            moved: key === action.payload.mapKey && !state[key].center ? true : state[key].moved,
+            status: key === action.payload.mapKey && state[key].status === 'RECENTER' ? 'CENTERED' : 'OFF_CENTER',
           }
         )
         return prev;
@@ -97,5 +80,15 @@ export function reducer(state = initialState, action: LocationActions.All | UIMa
       }, {})
     default:
       return state
+    case UIMapActions.TOOGLE_FULLSCREEN:
+      return Object.keys(state).reduce((prev, key) => {
+        prev[key] = Object.assign(
+          { ...state[key] },
+          {
+            fullscreen: key === action.payload.mapKey ? !state[key].fullscreen : state[key].fullscreen
+          }
+        )
+        return prev;
+      }, {})
   };
 }
