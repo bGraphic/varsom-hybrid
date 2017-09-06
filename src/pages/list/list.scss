@@ -30,15 +30,22 @@
     }
 
     .controls {
-      pointer-events: all;
+      pointer-events: none;
       position: fixed;
       z-index: -1;
       right: 0;
       padding: 6px;
 
       button {
+        pointer-events: all;
         background: color($colors, light);
         display: block;
+        transition: opacity 250ms ease-in-out;
+
+        &.disabled {
+          opacity: 0;
+          pointer-events: none;
+        }
 
         &.button-ios {
           margin: 6px;

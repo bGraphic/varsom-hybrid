@@ -77,20 +77,20 @@
     <allow-navigation href="http://10.0.0.15:8000" />
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
-    <plugin name="cordova-plugin-device" spec="~1.1.3" />
+    <engine name="android" spec="^6.2.3" />
+    <engine name="ios" spec="^4.4.0" />
+    <plugin name="cordova-plugin-app-version" spec="~0.1.9" />
     <plugin name="cordova-plugin-console" spec="~1.0.4" />
-    <plugin name="cordova-plugin-whitelist" spec="~1.3.0" />
+    <plugin name="cordova-plugin-device" spec="~1.1.3" />
+    <plugin name="cordova-plugin-geolocation" spec="~2.4.1" />
+    <plugin name="cordova-plugin-inappbrowser" spec="~1.7.1" />
     <plugin name="cordova-plugin-splashscreen" spec="~4.0.0" />
     <plugin name="cordova-plugin-statusbar" spec="~2.2.0" />
+    <plugin name="cordova-plugin-whitelist" spec="~1.3.0" />
+    <plugin name="cordova-sqlite-storage" spec="~2.0.0" />
+    <plugin name="cordova.plugins.diagnostic" spec="^3.6.6" />
     <plugin name="ionic-plugin-keyboard" spec="~2.2.1" />
-    <plugin name="cordova-plugin-geolocation" spec="~2.4.1" />
-    <plugin name="phonegap-plugin-push" spec="~1.9.2">
+    <plugin name="phonegap-plugin-push" spec="~2.0.0">
         <variable name="SENDER_ID" value="12345678" />
     </plugin>
-    <plugin name="cordova-sqlite-storage" spec="~2.0.0" />
-    <plugin name="cordova-plugin-inappbrowser" spec="~1.6.1" />
-    <plugin name="cordova-plugin-app-version" spec="~0.1.9" />
-    <plugin name="cordova.plugins.diagnostic" spec="^3.6.5" />
-    <engine name="android" spec="~6.2.3" />
-    <engine name="ios" spec="~4.4.0" />
 </widget>

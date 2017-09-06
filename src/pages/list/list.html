@@ -30,7 +30,7 @@
         <ion-icon *ngIf="!(mapFullscreen | async)" name="expand"></ion-icon>
         <ion-icon *ngIf="(mapFullscreen | async)" name="contract"></ion-icon>
       </button>
-      <button *ngIf="(mapMoved | async)" ion-button icon-only small outline color="dark" (click)="onMapCenterOnMarker($event)">
+      <button [ngClass]="{ 'disabled': !(mapMoved | async) }" ion-button icon-only small outline color="dark" (click)="onMapCenterOnMarker($event)">
         <ion-icon name="locate"></ion-icon>
       </button>
     </div>
