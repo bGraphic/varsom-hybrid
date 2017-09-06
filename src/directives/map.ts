@@ -35,13 +35,15 @@ export class MapDirective {
   @Input() center: { latitude: number, longitude: number };
   @Input() marker: { latitude: number, longitude: number };
   @Input() zoomLevel: number;
-  @Input() fullscreen: boolean;
   @Output() areaSelected: EventEmitter<string> = new EventEmitter<string>();
+  @Output() zoomUpdated: EventEmitter<number> = new EventEmitter<number>();
+  @Output() centerUpdated: EventEmitter<{ latitude: number, longitude: number }> = new EventEmitter<{ latitude: number, longitude: number }>();
   @ViewChild('map') mapEl: any;
 
   private _map: L.Map;
   private _geojsonLayer: L.GeoJSON;
   private _marker: L.CircleMarker;
+  private _center: { latitude: number, longitude: number };
 
   constructor(private _el: ElementRef) {
 
@@ -71,13 +73,6 @@ export class MapDirective {
     if (changes.marker) {
       this.updateMapMarker();
     }
-
-    if (changes.fullscreen) {
-      console.log('fullscreen');
-      if (this._map) {
-        setTimeout(() => { this._map.invalidateSize(true) }, 400);
-      }
-    }
   }
 
   private createMap() {
@@ -86,6 +81,16 @@ export class MapDirective {
       zoomControl: false,
       minZoom: MIN_ZOOM,
       maxZoom: MAX_ZOOM
+    });
+
+    this._map.on('zoomend', (event) => {
+      this.zoomUpdated.emit(this._map.getZoom());
+    });
+
+    this._map.on('moveend', (event) => {
+      const center = this._map.getCenter();
+      this._center = { latitude: center.lat, longitude: center.lng };
+      this.centerUpdated.emit(this._center);
     });
 
     L.tileLayer(TILE, {}).addTo(this._map);

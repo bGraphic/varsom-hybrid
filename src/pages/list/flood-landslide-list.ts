@@ -1,3 +1,4 @@
+import { getMapMoved } from './../../store/reducers/index';
 import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, Content } from 'ionic-angular';
 import { AreaDetailsPage } from '../area-details/area-details';
@@ -40,6 +41,7 @@ export class FloodLandslideListPage {
   mapCenter: Observable<Position>;
   mapMarker: Observable<Position>;
   mapZoomLevel: Observable<number>;
+  mapMoved: Observable<boolean>;
   mapFullscreen: Observable<boolean>;
 
   private _floodForecast: Forecast[] = [];
@@ -73,6 +75,7 @@ export class FloodLandslideListPage {
     this.mapMarker = this._store.select(fromRoot.getPosition);
     this.mapCenter = this._store.select(fromRoot.getMapCenter('FLOOD_LANDSLIDE'));
     this.mapZoomLevel = this._store.select(fromRoot.getMapZoom('FLOOD_LANDSLIDE'));
+    this.mapMoved = this._store.select(fromRoot.getMapMoved('FLOOD_LANDSLIDE'));
     this.mapFullscreen = this._store.select(fromRoot.getMapFullscreen('FLOOD_LANDSLIDE'));
   }
 
@@ -194,8 +197,20 @@ export class FloodLandslideListPage {
     this.pushPage(forecast);
   }
 
-  onMapFullscreenToggle(event) {
-    this._store.dispatch(new UIMapActions.ToogleFullscreen('FLOOD_LANDSLIDE'));
+  onMapFullscreenToggle() {
+    this._store.dispatch(new UIMapActions.ToogleFullscreen({ mapKey: 'FLOOD_LANDSLIDE' }));
+  }
+
+  onMapCenterOnMarker() {
+    this._store.dispatch(new UIMapActions.CenterOnMarker({ mapKey: 'FLOOD_LANDSLIDE' }));
+  }
+
+  onMapCenterUpdated(position: Position) {
+    this._store.dispatch(new UIMapActions.CenterUpdated({ mapKey: 'FLOOD_LANDSLIDE', position }));
+  }
+
+  onMapZoomUpdated(zoom: number) {
+    this._store.dispatch(new UIMapActions.ZoomUpdated({ mapKey: 'FLOOD_LANDSLIDE', zoom }));
   }
 
   onMapAreaSelected(areaId: string) {

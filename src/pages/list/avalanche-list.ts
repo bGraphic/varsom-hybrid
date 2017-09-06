@@ -37,6 +37,7 @@ export class AvalancheListPage {
   mapCenter: Observable<Position>;
   mapMarker: Observable<Position>;
   mapZoomLevel: Observable<number>;
+  mapMoved: Observable<boolean>;
   mapFullscreen: Observable<boolean>;
 
   private _subscriptions: Subscription[] = [];
@@ -55,6 +56,7 @@ export class AvalancheListPage {
     this.mapMarker = this._store.select(fromRoot.getPosition);
     this.mapCenter = this._store.select(fromRoot.getMapCenter('AVALANCHE'));
     this.mapZoomLevel = this._store.select(fromRoot.getMapZoom('AVALANCHE'));
+    this.mapMoved = this._store.select(fromRoot.getMapMoved('AVALANCHE'));
     this.mapFullscreen = this._store.select(fromRoot.getMapFullscreen('AVALANCHE'));
 
     this.mapFullscreen.subscribe((test) => {
@@ -121,8 +123,20 @@ export class AvalancheListPage {
     return - (height * 0.15 + height * 0.35 / 2 - this.content.contentTop);
   }
 
-  onMapFullscreenToggle(event) {
-    this._store.dispatch(new UIMapActions.ToogleFullscreen('AVALANCHE'));
+  onMapFullscreenToggle() {
+    this._store.dispatch(new UIMapActions.ToogleFullscreen({ mapKey: 'AVALANCHE' }));
+  }
+
+  onMapCenterOnMarker() {
+    this._store.dispatch(new UIMapActions.CenterOnMarker({ mapKey: 'AVALANCHE' }));
+  }
+
+  onMapCenterUpdated(position: Position) {
+    this._store.dispatch(new UIMapActions.CenterUpdated({ mapKey: 'AVALANCHE', position }));
+  }
+
+  onMapZoomUpdated(zoom: number) {
+    this._store.dispatch(new UIMapActions.ZoomUpdated({ mapKey: 'AVALANCHE', zoom }));
   }
 
   onListForecastSelected(event, forecast: Forecast) {

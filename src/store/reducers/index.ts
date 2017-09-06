@@ -81,4 +81,5 @@ export const getPosition = createSelector(getLocation, (state: fromLocation.Stat
 export const getMapUI = (state: State) => state.mapUI;
 export const getMapCenter = (key: string) => createSelector(getMapUI, (state: fromMapUIState.State) => state[key].center);
 export const getMapZoom = (key: string) => createSelector(getMapUI, (state: fromMapUIState.State) => state[key].zoom);
+export const getMapMoved = (key: string) => createSelector(getMapUI, (state: fromMapUIState.State) => state[key].moved);
 export const getMapFullscreen = (key: string) => createSelector(getMapUI, (state: fromMapUIState.State) => state[key].fullscreen);
