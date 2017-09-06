@@ -41,7 +41,7 @@ export function reducer(state = initialState, action: LocationActions.All | UIMa
           {
             marker: action.payload,
             // If map is moved let zoom/center/moved be whatever it is
-            center: state[key].moved ? state[key].center : action.payload,
+            center: action.payload,
             zoom: state[key].moved ? state[key].zoom : ZOOM_DEFAULT,
             moved: state[key].moved ? state[key].moved : false,
           }
@@ -73,7 +73,7 @@ export function reducer(state = initialState, action: LocationActions.All | UIMa
         )
         return prev;
       }, {})
-    case UIMapActions.CENTER_UPDATED:
+    case UIMapActions.MAP_MOVED:
       return Object.keys(state).reduce((prev, key) => {
         prev[key] = Object.assign(
           { ...state[key] },

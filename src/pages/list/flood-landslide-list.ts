@@ -205,8 +205,8 @@ export class FloodLandslideListPage {
     this._store.dispatch(new UIMapActions.CenterOnMarker({ mapKey: 'FLOOD_LANDSLIDE' }));
   }
 
-  onMapCenterUpdated(position: Position) {
-    this._store.dispatch(new UIMapActions.CenterUpdated({ mapKey: 'FLOOD_LANDSLIDE', position }));
+  onMapMoved(position: Position) {
+    this._store.dispatch(new UIMapActions.MapMoved({ mapKey: 'FLOOD_LANDSLIDE' }));
   }
 
   onMapZoomUpdated(zoom: number) {

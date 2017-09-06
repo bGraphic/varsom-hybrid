@@ -21,7 +21,7 @@
 
   <div class="map" tappable nveMap *ngIf="showMap" [style.top.px]="mapOffset((mapFullscreen | async))" [forecasts]="forecasts"
     [geoJsonData]="mapGeoJsonData" [marker]="mapMarker | async" [center]="mapCenter | async" [zoomLevel]="mapZoomLevel | async"
-    (zoomUpdated)="onMapZoomUpdated($event)" (centerUpdated)="onMapCenterUpdated($event)" (areaSelected)="onMapAreaSelected($event)">
+    (zoomUpdated)="onMapZoomUpdated($event)" (mapMoved)="onMapMoved($event)" (areaSelected)="onMapAreaSelected($event)">
   </div>
 
   <div class="map-overlay" *ngIf="showMap" [ngClass]="{ 'fullscreen': (mapFullscreen | async) }">

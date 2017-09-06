@@ -37,13 +37,12 @@ export class MapDirective {
   @Input() zoomLevel: number;
   @Output() areaSelected: EventEmitter<string> = new EventEmitter<string>();
   @Output() zoomUpdated: EventEmitter<number> = new EventEmitter<number>();
-  @Output() centerUpdated: EventEmitter<{ latitude: number, longitude: number }> = new EventEmitter<{ latitude: number, longitude: number }>();
+  @Output() mapMoved: EventEmitter<null> = new EventEmitter<null>();
   @ViewChild('map') mapEl: any;
 
   private _map: L.Map;
   private _geojsonLayer: L.GeoJSON;
   private _marker: L.CircleMarker;
-  private _center: { latitude: number, longitude: number };
 
   constructor(private _el: ElementRef) {
 
@@ -87,10 +86,8 @@ export class MapDirective {
       this.zoomUpdated.emit(this._map.getZoom());
     });
 
-    this._map.on('moveend', (event) => {
-      const center = this._map.getCenter();
-      this._center = { latitude: center.lat, longitude: center.lng };
-      this.centerUpdated.emit(this._center);
+    this._map.on('movestart', (event) => {
+      this.mapMoved.emit();
     });
 
     L.tileLayer(TILE, {}).addTo(this._map);

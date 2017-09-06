@@ -4,7 +4,7 @@ import { Position } from './../models/Location';
 
 export const TOOGLE_FULLSCREEN = '[UI Map] Toogle Fullscreen';
 export const CENTER_ON_MARKER = '[UI Map] Center On Marker';
-export const CENTER_UPDATED = '[UI Map] Center Updated';
+export const MAP_MOVED = '[UI Map] Map Moved';
 export const ZOOM_UPDATED = '[UI Map] Zoom Updated';
 
 export class ToogleFullscreen implements Action {
@@ -17,9 +17,9 @@ export class CenterOnMarker implements Action {
   constructor(public payload: { mapKey: string }) { }
 }
 
-export class CenterUpdated implements Action {
-  readonly type = CENTER_UPDATED;
-  constructor(public payload: { mapKey: string, position: Position }) { }
+export class MapMoved implements Action {
+  readonly type = MAP_MOVED;
+  constructor(public payload: { mapKey: string }) { }
 }
 
 export class ZoomUpdated implements Action {
@@ -30,5 +30,5 @@ export class ZoomUpdated implements Action {
 export type All
   = ToogleFullscreen
   | CenterOnMarker
-  | CenterUpdated
+  | MapMoved
   | ZoomUpdated;
