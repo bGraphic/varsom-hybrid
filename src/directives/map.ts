@@ -109,6 +109,7 @@ export class MapDirective {
     if (!this._map || !this.center) {
       return;
     }
+    this._map.stop();
     this._centering = true;
     this._map.setView(new L.LatLng(this.center.latitude, this.center.longitude), this.zoomLevel);
   }
