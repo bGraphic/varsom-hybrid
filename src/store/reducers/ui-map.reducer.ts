@@ -2,10 +2,19 @@ import * as LocationActions from '../actions/location.actions';
 import * as UIMapActions from '../actions/ui-map.actions';
 import { Position, PositionError } from '../models/Location';
 
+const DEFAULT_POSITION_ZOOM = 4;
+const DEFAULT_POSITION = {
+  latitude: 64.871,
+  longitude: 16.949
+};
+const USER_POSITION_ZOOM = 6;
+
 interface MapState {
-  zoom: number,
   center: Position,
-  fullscreen: boolean
+  zoom: number,
+  fullscreen: boolean,
+  centered: boolean
+  recenter: Date
 }
 
 export interface State {
@@ -13,12 +22,11 @@ export interface State {
 }
 
 const initialMapState: MapState = {
-  zoom: 4,
-  center: {
-    latitude: 64.871,
-    longitude: 16.949
-  },
-  fullscreen: false
+  center: DEFAULT_POSITION,
+  zoom: DEFAULT_POSITION_ZOOM,
+  fullscreen: false,
+  centered: true,
+  recenter: null
 }
 
 const initialState: State = {
@@ -33,8 +41,28 @@ export function reducer(state = initialState, action: LocationActions.All | UIMa
         prev[key] = Object.assign(
           { ...state[key] },
           {
-            zoom: 6,
-            center: action.payload
+            center: action.payload,
+            zoom: USER_POSITION_ZOOM
+          }
+        )
+        return prev;
+      }, {})
+    case UIMapActions.REQUEST_RECENTER:
+      return Object.keys(state).reduce((prev, key) => {
+        prev[key] = Object.assign(
+          { ...state[key] },
+          {
+            recenter: key === action.payload.mapKey ? new Date() : state[key].recenter
+          }
+        )
+        return prev;
+      }, {})
+    case UIMapActions.IS_CENTERED_UPDATE:
+      return Object.keys(state).reduce((prev, key) => {
+        prev[key] = Object.assign(
+          { ...state[key] },
+          {
+            centered: key === action.payload.mapKey ? action.payload.isCentered : state[key].centered
           }
         )
         return prev;
@@ -44,7 +72,7 @@ export function reducer(state = initialState, action: LocationActions.All | UIMa
         prev[key] = Object.assign(
           { ...state[key] },
           {
-            fullscreen: key === action.payload ? !state[key].fullscreen : state[key].fullscreen
+            fullscreen: key === action.payload.mapKey ? !state[key].fullscreen : state[key].fullscreen
           }
         )
         return prev;
