@@ -38,8 +38,8 @@ export class FloodLandslideListPage {
 
   showMap: boolean = false;
   mapGeoJsonData: any;
-  mapInitialCenter: Observable<Position>;
   mapCenter: Observable<Position>;
+  mapZoomLevel: Observable<number>;
   mapMarker: Observable<Position>;
   mapIsCentered: Observable<boolean>;
   mapFullscreen: Observable<boolean>;
@@ -74,8 +74,8 @@ export class FloodLandslideListPage {
     }
 
     this.mapMarker = this._store.select(fromRoot.getPosition);
-    this.mapInitialCenter = this._store.select(fromRoot.getMapInitalCenter('AVALANCHE'));
     this.mapCenter = this._store.select(fromRoot.getMapCenter('FLOOD_LANDSLIDE'));
+    this.mapZoomLevel = this._store.select(fromRoot.getMapZoom('FLOOD_LANDSLIDE'));
     this.mapIsCentered = this._store.select(fromRoot.getMapIsCentered('FLOOD_LANDSLIDE'));
     this.mapFullscreen = this._store.select(fromRoot.getMapFullscreen('FLOOD_LANDSLIDE'));
     this.recenterMap = this._store.select(fromRoot.getRecenterMap('FLOOD_LANDSLIDE'));

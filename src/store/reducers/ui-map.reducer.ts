@@ -2,10 +2,14 @@ import * as LocationActions from '../actions/location.actions';
 import * as UIMapActions from '../actions/ui-map.actions';
 import { Position, PositionError } from '../models/Location';
 
-const ZOOM_DEFAULT = 6;
+const DEFAULT_POSITION_ZOOM = 4;
+const DEFAULT_POSITION = {
+  latitude: 64.871,
+  longitude: 16.949
+};
+const USER_POSITION_ZOOM = 6;
 
 interface MapState {
-  init: Position,
   center: Position,
   zoom: number,
   fullscreen: boolean,
@@ -18,12 +22,8 @@ export interface State {
 }
 
 const initialMapState: MapState = {
-  init: {
-    latitude: 64.871,
-    longitude: 16.949
-  },
-  center: null,
-  zoom: 4,
+  center: DEFAULT_POSITION,
+  zoom: DEFAULT_POSITION_ZOOM,
   fullscreen: false,
   centered: true,
   recenter: null
@@ -42,7 +42,7 @@ export function reducer(state = initialState, action: LocationActions.All | UIMa
           { ...state[key] },
           {
             center: action.payload,
-            zoom: state[key].center === initialMapState.center ? state[key].zoom : ZOOM_DEFAULT
+            zoom: USER_POSITION_ZOOM
           }
         )
         return prev;

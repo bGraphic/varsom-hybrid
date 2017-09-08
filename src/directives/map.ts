@@ -32,7 +32,6 @@ export class MapDirective {
 
   @Input() forecasts: Forecast[];
   @Input() geoJsonData: any;
-  @Input() init: { latitude: number, longitude: number };
   @Input() center: { latitude: number, longitude: number };
   @Input() marker: { latitude: number, longitude: number };
   @Input() zoomLevel: number;
@@ -53,7 +52,6 @@ export class MapDirective {
 
   ngAfterViewInit(): void {
     this.createMap();
-    this.updateMapCenter();
     this.updateMapMarker();
     this.updateGeoJsonData();
   }
@@ -85,7 +83,7 @@ export class MapDirective {
 
     this._map = L.map(this._el.nativeElement, {
       zoomControl: false,
-      center: [this.init.latitude, this.init.longitude],
+      center: [this.center.latitude, this.center.longitude],
       zoom: this.zoomLevel,
       minZoom: MIN_ZOOM,
       maxZoom: MAX_ZOOM

@@ -13,7 +13,7 @@ import { Store } from "@ngrx/store";
 
 import * as fromRoot from './../../store/reducers';
 import * as UIMapActions from './../../store/actions/ui-map.actions';
-import { getMapIsCentered, getRecenterMap, getMapInitalCenter } from './../../store/reducers/index';
+import { getMapIsCentered, getRecenterMap, getMapZoom } from './../../store/reducers/index';
 import { Position } from './../../store/models/Location';
 
 @Component({
@@ -35,8 +35,8 @@ export class AvalancheListPage {
 
   showMap: boolean = true;
   mapGeoJsonData: any;
-  mapInitialCenter: Observable<Position>;
   mapCenter: Observable<Position>;
+  mapZoomLevel: Observable<number>;
   mapMarker: Observable<Position>;
   mapIsCentered: Observable<boolean>;
   mapFullscreen: Observable<boolean>;
@@ -56,8 +56,8 @@ export class AvalancheListPage {
     this.emptyListTitleKey = "A_REGIONS_LIST_TITLE";
 
     this.mapMarker = this._store.select(fromRoot.getPosition);
-    this.mapInitialCenter = this._store.select(fromRoot.getMapInitalCenter('AVALANCHE'));
     this.mapCenter = this._store.select(fromRoot.getMapCenter('AVALANCHE'));
+    this.mapZoomLevel = this._store.select(fromRoot.getMapZoom('AVALANCHE'));
     this.mapIsCentered = this._store.select(fromRoot.getMapIsCentered('AVALANCHE'));
     this.mapFullscreen = this._store.select(fromRoot.getMapFullscreen('AVALANCHE'));
     this.recenterMap = this._store.select(fromRoot.getRecenterMap('AVALANCHE'));
