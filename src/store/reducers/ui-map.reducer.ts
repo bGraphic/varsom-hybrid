@@ -5,11 +5,12 @@ import { Position, PositionError } from '../models/Location';
 const ZOOM_DEFAULT = 6;
 
 interface MapState {
-  marker: Position,
+  init: Position,
   center: Position,
   zoom: number,
   fullscreen: boolean,
-  status: string
+  centered: boolean
+  recenter: Date
 }
 
 export interface State {
@@ -17,14 +18,15 @@ export interface State {
 }
 
 const initialMapState: MapState = {
-  marker: null,
-  center: {
+  init: {
     latitude: 64.871,
     longitude: 16.949
   },
+  center: null,
   zoom: 4,
   fullscreen: false,
-  status: 'INIT'
+  centered: true,
+  recenter: null
 }
 
 const initialState: State = {
@@ -39,47 +41,32 @@ export function reducer(state = initialState, action: LocationActions.All | UIMa
         prev[key] = Object.assign(
           { ...state[key] },
           {
-            marker: action.payload,
-            // If map is moved let zoom/center/moved be whatever it is
             center: action.payload,
-            zoom: state[key].status === 'INIT' ? state[key].zoom : ZOOM_DEFAULT,
-            status: state[key].status === 'CENTERED' ? 'RECENTER' : state[key].status
+            zoom: state[key].center === initialMapState.center ? state[key].zoom : ZOOM_DEFAULT
           }
         )
         return prev;
       }, {})
-    case UIMapActions.RECENTER:
+    case UIMapActions.REQUEST_RECENTER:
       return Object.keys(state).reduce((prev, key) => {
         prev[key] = Object.assign(
           { ...state[key] },
           {
-            status: key === action.payload.mapKey && state[key].status !== 'CENTERED' ? 'RECENTER' : state[key].status
+            recenter: key === action.payload.mapKey ? new Date() : state[key].recenter
           }
         )
         return prev;
       }, {})
-    case UIMapActions.MOVED:
+    case UIMapActions.IS_CENTERED_UPDATE:
       return Object.keys(state).reduce((prev, key) => {
         prev[key] = Object.assign(
           { ...state[key] },
           {
-            status: key === action.payload.mapKey && state[key].status === 'RECENTER' ? 'CENTERED' : 'OFF_CENTER',
+            centered: key === action.payload.mapKey ? action.payload.isCentered : state[key].centered
           }
         )
         return prev;
       }, {})
-    case UIMapActions.ZOOM_UPDATED:
-      return Object.keys(state).reduce((prev, key) => {
-        prev[key] = Object.assign(
-          { ...state[key] },
-          {
-            zoom: key === action.payload.mapKey ? action.payload.zoom : state[key].zoom,
-          }
-        )
-        return prev;
-      }, {})
-    default:
-      return state
     case UIMapActions.TOOGLE_FULLSCREEN:
       return Object.keys(state).reduce((prev, key) => {
         prev[key] = Object.assign(
@@ -90,5 +77,7 @@ export function reducer(state = initialState, action: LocationActions.All | UIMa
         )
         return prev;
       }, {})
+    default:
+      return state
   };
 }

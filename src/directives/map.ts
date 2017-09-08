@@ -32,18 +32,20 @@ export class MapDirective {
 
   @Input() forecasts: Forecast[];
   @Input() geoJsonData: any;
+  @Input() init: { latitude: number, longitude: number };
   @Input() center: { latitude: number, longitude: number };
   @Input() marker: { latitude: number, longitude: number };
   @Input() zoomLevel: number;
   @Input() recenter: boolean;
+  @Output() isCenteredUpdated: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() areaSelected: EventEmitter<string> = new EventEmitter<string>();
-  @Output() zoomUpdated: EventEmitter<number> = new EventEmitter<number>();
-  @Output() mapMoved: EventEmitter<null> = new EventEmitter<null>();
   @ViewChild('map') mapEl: any;
 
   private _map: L.Map;
   private _geojsonLayer: L.GeoJSON;
   private _marker: L.CircleMarker;
+  private _centering: boolean = false;
+  private _centered: boolean = true;
 
   constructor(private _el: ElementRef) {
 
@@ -51,6 +53,7 @@ export class MapDirective {
 
   ngAfterViewInit(): void {
     this.createMap();
+    this.updateMapCenter();
     this.updateMapMarker();
     this.updateGeoJsonData();
   }
@@ -69,12 +72,11 @@ export class MapDirective {
       this.updateMapMarker();
     }
 
-    if (changes.center) {
-      console.log('center update', changes.center);
+    if (changes.center && this._centered) {
+      this.updateMapCenter();
     }
 
     if (changes.recenter && changes.recenter.currentValue) {
-      console.log('recenter update', changes.recenter);
       this.updateMapCenter();
     }
   }
@@ -83,18 +85,23 @@ export class MapDirective {
 
     this._map = L.map(this._el.nativeElement, {
       zoomControl: false,
-      center: [this.center.latitude, this.center.longitude],
+      center: [this.init.latitude, this.init.longitude],
       zoom: this.zoomLevel,
       minZoom: MIN_ZOOM,
       maxZoom: MAX_ZOOM
     });
 
-    this._map.on('zoomend', (event) => {
-      this.zoomUpdated.emit(this._map.getZoom());
-    });
+    this.isCenteredUpdated.emit(this._centered);
 
     this._map.on('movestart', (event) => {
-      this.mapMoved.emit();
+      this._centered = this._centering;
+      this.isCenteredUpdated.emit(this._centered);
+    });
+
+    this._map.on('moveend', (event) => {
+      this._centered = this._centering;
+      this.isCenteredUpdated.emit(this._centered);
+      this._centering = false;
     });
 
     L.tileLayer(TILE, {}).addTo(this._map);
@@ -104,7 +111,7 @@ export class MapDirective {
     if (!this._map || !this.center) {
       return;
     }
-
+    this._centering = true;
     this._map.setView(new L.LatLng(this.center.latitude, this.center.longitude), this.zoomLevel);
   }
 

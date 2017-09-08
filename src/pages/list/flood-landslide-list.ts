@@ -1,4 +1,3 @@
-import { getMapMoved } from './../../store/reducers/index';
 import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, Content } from 'ionic-angular';
 import { AreaDetailsPage } from '../area-details/area-details';
@@ -15,6 +14,7 @@ import { Store } from "@ngrx/store";
 
 import * as fromRoot from './../../store/reducers';
 import * as UIMapActions from './../../store/actions/ui-map.actions';
+import { getMapIsCentered, getRecenterMap } from './../../store/reducers/index';
 import { Position } from './../../store/models/Location';
 
 @Component({
@@ -38,12 +38,12 @@ export class FloodLandslideListPage {
 
   showMap: boolean = false;
   mapGeoJsonData: any;
+  mapInitialCenter: Observable<Position>;
   mapCenter: Observable<Position>;
   mapMarker: Observable<Position>;
-  mapZoomLevel: Observable<number>;
-  mapMoved: Observable<boolean>;
+  mapIsCentered: Observable<boolean>;
   mapFullscreen: Observable<boolean>;
-  recenterMap: Observable<boolean>;
+  recenterMap: Observable<any>;
 
   private _floodForecast: Forecast[] = [];
   private _landslideForecast: Forecast[] = [];
@@ -74,9 +74,9 @@ export class FloodLandslideListPage {
     }
 
     this.mapMarker = this._store.select(fromRoot.getPosition);
+    this.mapInitialCenter = this._store.select(fromRoot.getMapInitalCenter('AVALANCHE'));
     this.mapCenter = this._store.select(fromRoot.getMapCenter('FLOOD_LANDSLIDE'));
-    this.mapZoomLevel = this._store.select(fromRoot.getMapZoom('FLOOD_LANDSLIDE'));
-    this.mapMoved = this._store.select(fromRoot.getMapMoved('FLOOD_LANDSLIDE'));
+    this.mapIsCentered = this._store.select(fromRoot.getMapIsCentered('FLOOD_LANDSLIDE'));
     this.mapFullscreen = this._store.select(fromRoot.getMapFullscreen('FLOOD_LANDSLIDE'));
     this.recenterMap = this._store.select(fromRoot.getRecenterMap('FLOOD_LANDSLIDE'));
   }
@@ -204,15 +204,11 @@ export class FloodLandslideListPage {
   }
 
   onMapCenterOnMarker() {
-    this._store.dispatch(new UIMapActions.Recenter({ mapKey: 'FLOOD_LANDSLIDE' }));
+    this._store.dispatch(new UIMapActions.RequestRecenter({ mapKey: 'FLOOD_LANDSLIDE' }));
   }
 
-  onMapMoved(position: Position) {
-    this._store.dispatch(new UIMapActions.Moved({ mapKey: 'FLOOD_LANDSLIDE' }));
-  }
-
-  onMapZoomUpdated(zoom: number) {
-    this._store.dispatch(new UIMapActions.ZoomUpdated({ mapKey: 'FLOOD_LANDSLIDE', zoom }));
+  onMapIsCenterUpdated(isCentered: boolean) {
+    this._store.dispatch(new UIMapActions.IsCenteredUpdate({ mapKey: 'FLOOD_LANDSLIDE', isCentered }));
   }
 
   onMapAreaSelected(areaId: string) {
