@@ -30,6 +30,6 @@ export const ionicCloud = {
   }
 }
 
-export const state = {
+export const store = {
   storeFreeze: true
 }

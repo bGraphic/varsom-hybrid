@@ -14,6 +14,7 @@ import { Store } from "@ngrx/store";
 
 import * as fromRoot from './../../store/reducers';
 import * as UIMapActions from './../../store/actions/ui-map.actions';
+import { getMapIsCentered, getRecenterMap } from './../../store/reducers/index';
 import { Position } from './../../store/models/Location';
 
 @Component({
@@ -38,9 +39,11 @@ export class FloodLandslideListPage {
   showMap: boolean = false;
   mapGeoJsonData: any;
   mapCenter: Observable<Position>;
-  mapMarker: Observable<Position>;
   mapZoomLevel: Observable<number>;
+  mapMarker: Observable<Position>;
+  mapIsCentered: Observable<boolean>;
   mapFullscreen: Observable<boolean>;
+  recenterMap: Observable<any>;
 
   private _floodForecast: Forecast[] = [];
   private _landslideForecast: Forecast[] = [];
@@ -73,7 +76,9 @@ export class FloodLandslideListPage {
     this.mapMarker = this._store.select(fromRoot.getPosition);
     this.mapCenter = this._store.select(fromRoot.getMapCenter('FLOOD_LANDSLIDE'));
     this.mapZoomLevel = this._store.select(fromRoot.getMapZoom('FLOOD_LANDSLIDE'));
+    this.mapIsCentered = this._store.select(fromRoot.getMapIsCentered('FLOOD_LANDSLIDE'));
     this.mapFullscreen = this._store.select(fromRoot.getMapFullscreen('FLOOD_LANDSLIDE'));
+    this.recenterMap = this._store.select(fromRoot.getRecenterMap('FLOOD_LANDSLIDE'));
   }
 
   ionViewDidEnter() {
@@ -194,8 +199,16 @@ export class FloodLandslideListPage {
     this.pushPage(forecast);
   }
 
-  onMapFullscreenToggle(event) {
-    this._store.dispatch(new UIMapActions.ToogleFullscreen('FLOOD_LANDSLIDE'));
+  onMapFullscreenToggle() {
+    this._store.dispatch(new UIMapActions.ToogleFullscreen({ mapKey: 'FLOOD_LANDSLIDE' }));
+  }
+
+  onMapCenterOnMarker() {
+    this._store.dispatch(new UIMapActions.RequestRecenter({ mapKey: 'FLOOD_LANDSLIDE' }));
+  }
+
+  onMapIsCenterUpdated(isCentered: boolean) {
+    this._store.dispatch(new UIMapActions.IsCenteredUpdate({ mapKey: 'FLOOD_LANDSLIDE', isCentered }));
   }
 
   onMapAreaSelected(areaId: string) {

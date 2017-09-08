@@ -13,6 +13,7 @@ import { Store } from "@ngrx/store";
 
 import * as fromRoot from './../../store/reducers';
 import * as UIMapActions from './../../store/actions/ui-map.actions';
+import { getMapIsCentered, getRecenterMap, getMapZoom } from './../../store/reducers/index';
 import { Position } from './../../store/models/Location';
 
 @Component({
@@ -35,9 +36,11 @@ export class AvalancheListPage {
   showMap: boolean = true;
   mapGeoJsonData: any;
   mapCenter: Observable<Position>;
-  mapMarker: Observable<Position>;
   mapZoomLevel: Observable<number>;
+  mapMarker: Observable<Position>;
+  mapIsCentered: Observable<boolean>;
   mapFullscreen: Observable<boolean>;
+  recenterMap: Observable<any>;
 
   private _subscriptions: Subscription[] = [];
 
@@ -55,15 +58,9 @@ export class AvalancheListPage {
     this.mapMarker = this._store.select(fromRoot.getPosition);
     this.mapCenter = this._store.select(fromRoot.getMapCenter('AVALANCHE'));
     this.mapZoomLevel = this._store.select(fromRoot.getMapZoom('AVALANCHE'));
+    this.mapIsCentered = this._store.select(fromRoot.getMapIsCentered('AVALANCHE'));
     this.mapFullscreen = this._store.select(fromRoot.getMapFullscreen('AVALANCHE'));
-
-    this.mapFullscreen.subscribe((test) => {
-      console.log('Fullscreen', test);
-    })
-
-    this.mapZoomLevel.subscribe((test) => {
-      console.log('Zoom', test);
-    })
+    this.recenterMap = this._store.select(fromRoot.getRecenterMap('AVALANCHE'));
   }
 
   ionViewDidEnter() {
@@ -121,8 +118,16 @@ export class AvalancheListPage {
     return - (height * 0.15 + height * 0.35 / 2 - this.content.contentTop);
   }
 
-  onMapFullscreenToggle(event) {
-    this._store.dispatch(new UIMapActions.ToogleFullscreen('AVALANCHE'));
+  onMapFullscreenToggle() {
+    this._store.dispatch(new UIMapActions.ToogleFullscreen({ mapKey: 'AVALANCHE' }));
+  }
+
+  onMapCenterOnMarker() {
+    this._store.dispatch(new UIMapActions.RequestRecenter({ mapKey: 'AVALANCHE' }));
+  }
+
+  onMapIsCenterUpdated(isCentered: boolean) {
+    this._store.dispatch(new UIMapActions.IsCenteredUpdate({ mapKey: 'AVALANCHE', isCentered }));
   }
 
   onListForecastSelected(event, forecast: Forecast) {

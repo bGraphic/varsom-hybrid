@@ -30,21 +30,33 @@
     }
 
     .controls {
-      pointer-events: all;
+      pointer-events: none;
       position: fixed;
       z-index: -1;
       right: 0;
+      padding: 6px;
 
       button {
         background: color($colors, light);
+        display: block;
+        transition: opacity 250ms ease-in-out;
+        opacity: 0;
+        pointer-events: none;
+
+        &.show {
+          opacity: 1;
+          pointer-events: all;
+        }
 
         &.button-ios {
-          margin: 12px;
+          margin: 6px;
+          width: 34px;
         }
   
         &.button-md {
-          margin: 12px 6px;
+          margin: 6px;
           box-shadow: none;
+          width: 34px;
         }
       }
     }
