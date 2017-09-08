@@ -26,11 +26,11 @@
 
   <div class="map-overlay" *ngIf="showMap" [ngClass]="{ 'fullscreen': (mapFullscreen | async) }">
     <div class="controls" [style.top.px]="content.contentTop">
-      <button ion-button icon-only small outline color="dark" (click)="onMapFullscreenToggle($event)">
+      <button class="show" ion-button icon-only small outline color="dark" (click)="onMapFullscreenToggle($event)">
         <ion-icon *ngIf="!(mapFullscreen | async)" name="expand"></ion-icon>
         <ion-icon *ngIf="(mapFullscreen | async)" name="contract"></ion-icon>
       </button>
-      <button [ngClass]="{ 'disabled': (mapIsCentered | async) }" ion-button icon-only small outline color="dark" (click)="onMapCenterOnMarker($event)">
+      <button [ngClass]="{ 'show': !(mapIsCentered | async) }" ion-button icon-only small outline color="dark" (click)="onMapCenterOnMarker($event)">
         <ion-icon name="locate"></ion-icon>
       </button>
     </div>
