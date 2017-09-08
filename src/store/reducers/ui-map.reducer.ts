@@ -1,6 +1,6 @@
 import * as LocationActions from '../actions/location.actions';
 import * as UIMapActions from '../actions/ui-map.actions';
-import { Position, PositionError } from '../models/Location';
+import { Position } from '../models/Location';
 
 const DEFAULT_POSITION_ZOOM = 4;
 const DEFAULT_POSITION = {
