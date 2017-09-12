@@ -18,7 +18,7 @@ export class LocationEffects {
   }
 
   @Effect()
-  loadAppVersion$: Observable<Action> = this._actions$
+  watchPosition$: Observable<Action> = this._actions$
     .ofType(locationActions.WATCH_POSITION)
     .startWith(new locationActions.WatchPosition())
     .switchMapTo(this._geolocation.watchPosition())
