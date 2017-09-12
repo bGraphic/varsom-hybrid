@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 import { Position, PositionError } from '../models/Location'
 
 export const WATCH_POSITION = '[Location] Watch Position';
-export const POSITION_SUCCESS = '[Location] Position Sucess';
+export const POSITION_UPDATED = '[Location] Position Updated';
 export const POSITION_ERROR = '[Location] Position Error';
 
 export class WatchPosition implements Action {
@@ -10,8 +10,8 @@ export class WatchPosition implements Action {
   constructor() { }
 }
 
-export class PositionSucceeded implements Action {
-  readonly type = POSITION_SUCCESS;
+export class PositionUpdated implements Action {
+  readonly type = POSITION_UPDATED;
   constructor(public payload: Position) { }
 }
 
@@ -22,5 +22,5 @@ export class PositionFailed implements Action {
 
 export type All
   = WatchPosition
-  | PositionSucceeded
+  | PositionUpdated
   | PositionFailed;

@@ -12,7 +12,7 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: LocationActions.All) {
   switch (action.type) {
-    case LocationActions.POSITION_SUCCESS:
+    case LocationActions.POSITION_UPDATED:
       return Object.assign(
         { ...state },
         {

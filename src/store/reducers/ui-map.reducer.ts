@@ -36,7 +36,7 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: LocationActions.All | UIMapActions.All) {
   switch (action.type) {
-    case LocationActions.POSITION_SUCCESS:
+    case LocationActions.POSITION_UPDATED:
       return Object.keys(state).reduce((prev, key) => {
         prev[key] = Object.assign(
           { ...state[key] },

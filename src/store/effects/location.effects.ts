@@ -28,7 +28,7 @@ export class LocationEffects {
         longitude: res.coords.longitude
       }
     })
-    .map((res) => new locationActions.PositionSucceeded(res))
+    .map((res) => new locationActions.PositionUpdated(res))
     .catch((error) => {
       return of(new locationActions.PositionFailed({
         code: error.code,
