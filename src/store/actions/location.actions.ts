@@ -1,12 +1,12 @@
 import { Action } from '@ngrx/store';
 import { Position, PositionError } from '../models/Location'
 
-export const FETCH_POSITION = '[Location] Fetch Position';
+export const WATCH_POSITION = '[Location] Watch Position';
 export const POSITION_SUCCESS = '[Location] Position Sucess';
 export const POSITION_ERROR = '[Location] Position Error';
 
-export class FetchPosition implements Action {
-  readonly type = FETCH_POSITION;
+export class WatchPosition implements Action {
+  readonly type = WATCH_POSITION;
   constructor() { }
 }
 
@@ -21,6 +21,6 @@ export class PositionFailed implements Action {
 }
 
 export type All
-  = FetchPosition
+  = WatchPosition
   | PositionSucceeded
   | PositionFailed;

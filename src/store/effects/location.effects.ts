@@ -19,9 +19,9 @@ export class LocationEffects {
 
   @Effect()
   loadAppVersion$: Observable<Action> = this._actions$
-    .ofType(locationActions.FETCH_POSITION)
-    .startWith(new locationActions.FetchPosition())
-    .switchMapTo(this._geolocation.getCurrentPosition())
+    .ofType(locationActions.WATCH_POSITION)
+    .startWith(new locationActions.WatchPosition())
+    .switchMapTo(this._geolocation.watchPosition())
     .map((res) => {
       return {
         latitude: res.coords.latitude,
