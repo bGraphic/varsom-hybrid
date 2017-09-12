@@ -1,6 +1,6 @@
 import * as LocationActions from '../actions/location.actions';
 import * as UIMapActions from '../actions/ui-map.actions';
-import { Position, PositionError } from '../models/Location';
+import { Position } from '../models/Location';
 
 const DEFAULT_POSITION_ZOOM = 4;
 const DEFAULT_POSITION = {
@@ -36,7 +36,7 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: LocationActions.All | UIMapActions.All) {
   switch (action.type) {
-    case LocationActions.POSITION_SUCCESS:
+    case LocationActions.POSITION_UPDATED:
       return Object.keys(state).reduce((prev, key) => {
         prev[key] = Object.assign(
           { ...state[key] },
