@@ -18,17 +18,17 @@ export class LocationEffects {
   }
 
   @Effect()
-  loadAppVersion$: Observable<Action> = this._actions$
-    .ofType(locationActions.FETCH_POSITION)
-    .startWith(new locationActions.FetchPosition())
-    .switchMapTo(this._geolocation.getCurrentPosition())
+  watchPosition$: Observable<Action> = this._actions$
+    .ofType(locationActions.WATCH_POSITION)
+    .startWith(new locationActions.WatchPosition())
+    .switchMapTo(this._geolocation.watchPosition())
     .map((res) => {
       return {
         latitude: res.coords.latitude,
         longitude: res.coords.longitude
       }
     })
-    .map((res) => new locationActions.PositionSucceeded(res))
+    .map((res) => new locationActions.PositionUpdated(res))
     .catch((error) => {
       return of(new locationActions.PositionFailed({
         code: error.code,
