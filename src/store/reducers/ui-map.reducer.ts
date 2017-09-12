@@ -9,13 +9,6 @@ const DEFAULT_POSITION = {
 };
 const USER_POSITION_ZOOM = 6;
 
-const DEFAULT_POSITION_ZOOM = 4;
-const DEFAULT_POSITION = {
-  latitude: 64.871,
-  longitude: 16.949
-};
-const USER_POSITION_ZOOM = 6;
-
 interface MapState {
   center: Position,
   zoom: number,
