@@ -10,8 +10,6 @@ import 'moment/min/locales';
 import { Store } from "@ngrx/store";
 import { Observable } from 'rxjs';
 import * as fromRoot from './../store/reducers';
-import * as fromLocation from './location.reducer';
-import * as LocationActions from "../store/actions/location.actions";
 
 import { PushService } from "../providers/push";
 import { SettingService } from "../providers/settings";
