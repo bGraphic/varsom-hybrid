@@ -1,6 +1,6 @@
-import { createSelector } from 'reselect';
-import { ActionReducer } from '@ngrx/store';
-import { store as config } from './../../config/config'
+import { createSelector } from "reselect";
+import { ActionReducer } from "@ngrx/store";
+import { store as config } from "./../../config/config";
 
 /**
  * The compose function is one of our most handy tools. In basic terms, you give
@@ -10,14 +10,14 @@ import { store as config } from './../../config/config'
  *
  * More: https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch5.html
  */
-import { compose } from '@ngrx/core/compose';
+import { compose } from "@ngrx/core/compose";
 
 /**
  * storeFreeze prevents state from being mutated. When mutation occurs, an
  * exception will be thrown. This is useful during development mode to
  * ensure that none of the reducers accidentally mutates the state.
  */
-import { storeFreeze } from 'ngrx-store-freeze';
+import { storeFreeze } from "ngrx-store-freeze";
 
 /**
  * combineReducers is another useful metareducer that takes a map of reducer
@@ -27,8 +27,7 @@ import { storeFreeze } from 'ngrx-store-freeze';
  *
  * More: https://egghead.io/lessons/javascript-redux-implementing-combinereducers-from-scratch
  */
-import { combineReducers } from '@ngrx/store';
-
+import { combineReducers } from "@ngrx/store";
 
 /**
  * Every reducer module's default export is the reducer function itself. In
@@ -36,9 +35,8 @@ import { combineReducers } from '@ngrx/store';
  * the state of the reducer plus any selector functions. The `* as`
  * notation packages up all of the exports into a single object.
  */
-import * as fromLocation from './location.reducer';
-import * as fromMapUIState from './ui-map.reducer';
-
+import * as fromLocation from "./location.reducer";
+import * as fromMapUIState from "./ui-map.reducer";
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
@@ -48,7 +46,6 @@ export interface State {
   location: fromLocation.State;
   mapUI: fromMapUIState.State;
 }
-
 
 /**
  * Because metareducers take a reducer function and return a new reducer,
@@ -62,7 +59,10 @@ const reducers = {
   mapUI: fromMapUIState.reducer
 };
 
-const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
+const developmentReducer: ActionReducer<State> = compose(
+  storeFreeze,
+  combineReducers
+)(reducers);
 const productionReducer: ActionReducer<State> = combineReducers(reducers);
 
 export function reducer(state: any, action: any) {
@@ -76,11 +76,28 @@ export function reducer(state: any, action: any) {
 // Selectors
 
 export const getLocation = (state: State) => state.location;
-export const getPosition = createSelector(getLocation, (state: fromLocation.State) => state.position);
+export const getPosition = createSelector(
+  getLocation,
+  (state: fromLocation.State) => state.position
+);
 
 export const getMapUI = (state: State) => state.mapUI;
-export const getMapCenter = (key: string) => createSelector(getMapUI, (state: fromMapUIState.State) => state[key].center);
-export const getMapZoom = (key: string) => createSelector(getMapUI, (state: fromMapUIState.State) => state[key].zoom);
-export const getMapIsCentered = (key: string) => createSelector(getMapUI, (state: fromMapUIState.State) => state[key].centered);
-export const getRecenterMap = (key: string) => createSelector(getMapUI, (state: fromMapUIState.State) => state[key].recenter);
-export const getMapFullscreen = (key: string) => createSelector(getMapUI, (state: fromMapUIState.State) => state[key].fullscreen);
+export const getMapCenter = (key: string) =>
+  createSelector(getMapUI, (state: fromMapUIState.State) => state[key].center);
+export const getMapZoom = (key: string) =>
+  createSelector(getMapUI, (state: fromMapUIState.State) => state[key].zoom);
+export const getMapIsCentered = (key: string) =>
+  createSelector(
+    getMapUI,
+    (state: fromMapUIState.State) => state[key].centered
+  );
+export const getRecenterMap = (key: string) =>
+  createSelector(
+    getMapUI,
+    (state: fromMapUIState.State) => state[key].recenter
+  );
+export const getMapFullscreen = (key: string) =>
+  createSelector(
+    getMapUI,
+    (state: fromMapUIState.State) => state[key].fullscreen
+  );

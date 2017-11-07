@@ -71,6 +71,7 @@
         "fs": "0.0.1-security",
         "ionic": "3.9.2",
         "path": "^0.12.7",
+        "prettier": "1.8.1",
         "typescript": "2.3.4"
     },
     "description": "App version of varsom.no.",

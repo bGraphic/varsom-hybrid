@@ -1,6 +1,6 @@
-import * as LocationActions from '../actions/location.actions';
-import * as UIMapActions from '../actions/ui-map.actions';
-import { Position } from '../models/Location';
+import * as LocationActions from "../actions/location.actions";
+import * as UIMapActions from "../actions/ui-map.actions";
+import { Position } from "../models/Location";
 
 const DEFAULT_POSITION_ZOOM = 4;
 const DEFAULT_POSITION = {
@@ -10,15 +10,15 @@ const DEFAULT_POSITION = {
 const USER_POSITION_ZOOM = 6;
 
 interface MapState {
-  center: Position,
-  zoom: number,
-  fullscreen: boolean,
-  centered: boolean
-  recenter: Date
+  center: Position;
+  zoom: number;
+  fullscreen: boolean;
+  centered: boolean;
+  recenter: Date;
 }
 
 export interface State {
-  [key: string]: MapState
+  [key: string]: MapState;
 }
 
 const initialMapState: MapState = {
@@ -27,14 +27,17 @@ const initialMapState: MapState = {
   fullscreen: false,
   centered: true,
   recenter: null
-}
+};
 
 const initialState: State = {
   FLOOD_LANDSLIDE: initialMapState,
   AVALANCHE: initialMapState
-}
+};
 
-export function reducer(state = initialState, action: LocationActions.All | UIMapActions.All) {
+export function reducer(
+  state = initialState,
+  action: LocationActions.All | UIMapActions.All
+) {
   switch (action.type) {
     case LocationActions.POSITION_UPDATED:
       return Object.keys(state).reduce((prev, key) => {
@@ -44,40 +47,47 @@ export function reducer(state = initialState, action: LocationActions.All | UIMa
             center: action.payload,
             zoom: USER_POSITION_ZOOM
           }
-        )
+        );
         return prev;
-      }, {})
+      }, {});
     case UIMapActions.REQUEST_RECENTER:
       return Object.keys(state).reduce((prev, key) => {
         prev[key] = Object.assign(
           { ...state[key] },
           {
-            recenter: key === action.payload.mapKey ? new Date() : state[key].recenter
+            recenter:
+              key === action.payload.mapKey ? new Date() : state[key].recenter
           }
-        )
+        );
         return prev;
-      }, {})
+      }, {});
     case UIMapActions.IS_CENTERED_UPDATE:
       return Object.keys(state).reduce((prev, key) => {
         prev[key] = Object.assign(
           { ...state[key] },
           {
-            centered: key === action.payload.mapKey ? action.payload.isCentered : state[key].centered
+            centered:
+              key === action.payload.mapKey
+                ? action.payload.isCentered
+                : state[key].centered
           }
-        )
+        );
         return prev;
-      }, {})
+      }, {});
     case UIMapActions.TOOGLE_FULLSCREEN:
       return Object.keys(state).reduce((prev, key) => {
         prev[key] = Object.assign(
           { ...state[key] },
           {
-            fullscreen: key === action.payload.mapKey ? !state[key].fullscreen : state[key].fullscreen
+            fullscreen:
+              key === action.payload.mapKey
+                ? !state[key].fullscreen
+                : state[key].fullscreen
           }
-        )
+        );
         return prev;
-      }, {})
+      }, {});
     default:
-      return state
-  };
+      return state;
+  }
 }

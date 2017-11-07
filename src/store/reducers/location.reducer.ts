@@ -1,14 +1,14 @@
-import * as LocationActions from '../actions/location.actions';
-import { Position, PositionError } from '../models/Location';
+import * as LocationActions from "../actions/location.actions";
+import { Position, PositionError } from "../models/Location";
 
 export interface State {
-  position: Position,
-  error?: PositionError
+  position: Position;
+  error?: PositionError;
 }
 
 const initialState: State = {
   position: null
-}
+};
 
 export function reducer(state = initialState, action: LocationActions.All) {
   switch (action.type) {
@@ -17,7 +17,8 @@ export function reducer(state = initialState, action: LocationActions.All) {
         { ...state },
         {
           position: action.payload
-        });
+        }
+      );
     case LocationActions.POSITION_ERROR:
       return Object.assign(
         { ...state },
@@ -26,6 +27,6 @@ export function reducer(state = initialState, action: LocationActions.All) {
         }
       );
     default:
-      return state
-  };
+      return state;
+  }
 }

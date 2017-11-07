@@ -1,9 +1,8 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from "@angular/core";
 import { Forecast } from "../models/Forecast";
 import { AreaUtils } from "../utils/area-utils";
 
-
-@Pipe({ name: 'filterForecasts' })
+@Pipe({ name: "filterForecasts" })
 export class FilterForecastsPipe implements PipeTransform {
   transform(forecasts: Forecast[], regionType?: string) {
     if ("B_REGIONS_ACTIVE" === regionType) {
@@ -17,7 +16,7 @@ export class FilterForecastsPipe implements PipeTransform {
 }
 
 @Pipe({
-  name: 'favoriteForecasts',
+  name: "favoriteForecasts",
   pure: false
 })
 export class FavoriteForecastsPipe implements PipeTransform {
@@ -30,7 +29,10 @@ export class FavoriteForecastsPipe implements PipeTransform {
         favorite = Forecast.findForecastWithAreaId(forecasts, areaId);
       }
 
-      if (favorite && !Forecast.findForecastWithAreaId(favoriteForecasts, areaId)) {
+      if (
+        favorite &&
+        !Forecast.findForecastWithAreaId(favoriteForecasts, areaId)
+      ) {
         favoriteForecasts.push(favorite);
       }
     }
@@ -38,7 +40,7 @@ export class FavoriteForecastsPipe implements PipeTransform {
   }
 }
 
-@Pipe({ name: 'forecastsTimeframe' })
+@Pipe({ name: "forecastsTimeframe" })
 export class ForecastsTimeframePipe implements PipeTransform {
   transform(forecasts: Forecast[]) {
     return Forecast.getTimeframeFromForecasts(forecasts);

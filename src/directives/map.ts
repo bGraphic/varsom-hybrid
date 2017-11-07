@@ -1,20 +1,26 @@
-import { Directive, Input, Output, ViewChild, EventEmitter, ElementRef } from '@angular/core';
-import 'leaflet';
-import { Forecast } from '../models/Forecast';
+import {
+  Directive,
+  Input,
+  Output,
+  ViewChild,
+  EventEmitter,
+  ElementRef
+} from "@angular/core";
+import "leaflet";
+import { Forecast } from "../models/Forecast";
 import { ThemeUtils } from "../utils/theme-utils";
 
-const TILE = 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png';
+const TILE = "http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png";
 const MIN_ZOOM = 4;
 const MAX_ZOOM = 7;
 
 function transformGeoJsonToAreaId(geoJsonFeature): string {
-
   let id: number;
 
-  if (geoJsonFeature.hasOwnProperty('properties')) {
-    if (geoJsonFeature.properties.hasOwnProperty('fylkesnr')) {
+  if (geoJsonFeature.hasOwnProperty("properties")) {
+    if (geoJsonFeature.properties.hasOwnProperty("fylkesnr")) {
       id = Number(geoJsonFeature.properties.fylkesnr);
-    } else if (geoJsonFeature.properties.hasOwnProperty('omraadeid')) {
+    } else if (geoJsonFeature.properties.hasOwnProperty("omraadeid")) {
       id = Number(geoJsonFeature.properties.omraadeid);
     }
   }
@@ -26,19 +32,18 @@ function transformGeoJsonToAreaId(geoJsonFeature): string {
   }
 }
 
-
-@Directive({ selector: '[nveMap]' })
+@Directive({ selector: "[nveMap]" })
 export class MapDirective {
-
   @Input() forecasts: Forecast[];
   @Input() geoJsonData: any;
-  @Input() center: { latitude: number, longitude: number };
-  @Input() marker: { latitude: number, longitude: number };
+  @Input() center: { latitude: number; longitude: number };
+  @Input() marker: { latitude: number; longitude: number };
   @Input() zoomLevel: number;
   @Input() recenter: boolean;
-  @Output() isCenteredUpdated: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output()
+  isCenteredUpdated: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() areaSelected: EventEmitter<string> = new EventEmitter<string>();
-  @ViewChild('map') mapEl: any;
+  @ViewChild("map") mapEl: any;
 
   private _map: L.Map;
   private _geojsonLayer: L.GeoJSON;
@@ -46,9 +51,7 @@ export class MapDirective {
   private _centering: boolean = false;
   private _centered: boolean = true;
 
-  constructor(private _el: ElementRef) {
-
-  }
+  constructor(private _el: ElementRef) {}
 
   ngAfterViewInit(): void {
     this.createMap();
@@ -57,7 +60,6 @@ export class MapDirective {
   }
 
   ngOnChanges(changes) {
-
     if (changes.forecasts) {
       this.updateGeoJsonData();
     }
@@ -80,7 +82,6 @@ export class MapDirective {
   }
 
   private createMap() {
-
     this._map = L.map(this._el.nativeElement, {
       zoomControl: false,
       center: [this.center.latitude, this.center.longitude],
@@ -91,12 +92,12 @@ export class MapDirective {
 
     this.isCenteredUpdated.emit(this._centered);
 
-    this._map.on('movestart', (event) => {
+    this._map.on("movestart", event => {
       this._centered = this._centering;
       this.isCenteredUpdated.emit(this._centered);
     });
 
-    this._map.on('moveend', (event) => {
+    this._map.on("moveend", event => {
       this._centered = this._centering;
       this.isCenteredUpdated.emit(this._centered);
       this._centering = false;
@@ -111,7 +112,10 @@ export class MapDirective {
     }
     this._map.stop();
     this._centering = true;
-    this._map.setView(new L.LatLng(this.center.latitude, this.center.longitude), this.zoomLevel);
+    this._map.setView(
+      new L.LatLng(this.center.latitude, this.center.longitude),
+      this.zoomLevel
+    );
   }
 
   private updateMapMarker() {
@@ -120,22 +124,26 @@ export class MapDirective {
     }
 
     if (!this._marker) {
-      this._marker = new L.CircleMarker(new L.LatLng(this.marker.latitude, this.marker.longitude), {
-        radius: 5,
-        weight: 0,
-        fill: true,
-        fillOpacity: 1,
-        interactive: false,
-        pane: 'markerPane'
-      });
+      this._marker = new L.CircleMarker(
+        new L.LatLng(this.marker.latitude, this.marker.longitude),
+        {
+          radius: 5,
+          weight: 0,
+          fill: true,
+          fillOpacity: 1,
+          interactive: false,
+          pane: "markerPane"
+        }
+      );
       this._marker.addTo(this._map);
     } else {
-      this._marker.setLatLng(new L.LatLng(this.marker.latitude, this.marker.longitude));
+      this._marker.setLatLng(
+        new L.LatLng(this.marker.latitude, this.marker.longitude)
+      );
     }
   }
 
   private updateGeoJsonData() {
-
     if (!this._map || !this.geoJsonData) {
       return;
     }
@@ -145,11 +153,10 @@ export class MapDirective {
     }
 
     this._geojsonLayer = L.geoJSON(this.geoJsonData, {
-      style: (feature) => this.featureStyle(feature),
+      style: feature => this.featureStyle(feature),
       onEachFeature: (feature, layer) => this.onEachFeature(feature, layer),
-      filter: (feature) => this.featureFilter(feature),
-    }).addTo(this._map)
-
+      filter: feature => this.featureFilter(feature)
+    }).addTo(this._map);
   }
 
   private updateGeoJsonStyle() {
@@ -157,16 +164,18 @@ export class MapDirective {
       return;
     }
 
-    this._geojsonLayer.setStyle((feature) => this.featureStyle(feature));
+    this._geojsonLayer.setStyle(feature => this.featureStyle(feature));
   }
 
   private featureStyle(feature: any) {
-
     let color = ThemeUtils.colorForRating(0);
     let fillOpacity = 0.2;
 
     if (this.forecasts) {
-      let forecast = Forecast.findForecastWithAreaId(this.forecasts, transformGeoJsonToAreaId(feature));
+      let forecast = Forecast.findForecastWithAreaId(
+        this.forecasts,
+        transformGeoJsonToAreaId(feature)
+      );
       if (forecast) {
         color = ThemeUtils.colorForRating(forecast.mapWarning.rating);
       }
@@ -179,16 +188,18 @@ export class MapDirective {
     let style = {
       color: color,
       fillOpacity: fillOpacity
-    }
+    };
 
     return style;
   }
 
   private featureFilter(feature: any) {
+    let forecast = Forecast.findForecastWithAreaId(
+      this.forecasts,
+      feature.properties.omraadeid
+    );
 
-    let forecast = Forecast.findForecastWithAreaId(this.forecasts, feature.properties.omraadeid);
-
-    if (!forecast && 'B' === feature.properties.regiontype) {
+    if (!forecast && "B" === feature.properties.regiontype) {
       return false;
     }
 
@@ -202,16 +213,16 @@ export class MapDirective {
   private onEachFeature(feature: any, layer: any) {
     let self = this;
 
-    layer.on("mousedown", function (event) {
+    layer.on("mousedown", function(event) {
       feature.mousedown = true;
       self.updateGeoJsonStyle();
     });
 
-    layer.on("click", function (event) {
+    layer.on("click", function(event) {
       self.areaSelected.emit(transformGeoJsonToAreaId(feature));
     });
 
-    layer.on("mouseup", function (event) {
+    layer.on("mouseup", function(event) {
       feature.mousedown = false;
       self.updateGeoJsonStyle();
     });

@@ -1,26 +1,25 @@
-import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, Content } from 'ionic-angular';
-import { AreaDetailsPage } from '../area-details/area-details';
+import { Component, ViewChild } from "@angular/core";
+import { NavController, NavParams, Content } from "ionic-angular";
+import { AreaDetailsPage } from "../area-details/area-details";
 import { AreaUtils } from "../../utils/area-utils";
 import { Forecast } from "../../models/Forecast";
 import { ForecastService } from "../../providers/forecasts";
 import { FavoriteService } from "../../providers/favorites";
-import { GeoJsonService } from '../../providers/geojson';
+import { GeoJsonService } from "../../providers/geojson";
 import { SettingService } from "../../providers/settings";
 
-import { Observable } from 'rxjs/rx';
+import { Observable } from "rxjs/rx";
 import { Subscription } from "rxjs";
 import { Store } from "@ngrx/store";
 
-import * as fromRoot from './../../store/reducers';
-import * as UIMapActions from './../../store/actions/ui-map.actions';
-import { getMapIsCentered, getRecenterMap } from './../../store/reducers/index';
-import { Position } from './../../store/models/Location';
+import * as fromRoot from "./../../store/reducers";
+import * as UIMapActions from "./../../store/actions/ui-map.actions";
+import { getMapIsCentered, getRecenterMap } from "./../../store/reducers/index";
+import { Position } from "./../../store/models/Location";
 
 @Component({
-  templateUrl: 'list.html'
+  templateUrl: "list.html"
 })
-
 export class FloodLandslideListPage {
   @ViewChild(Content) content: Content;
 
@@ -33,7 +32,7 @@ export class FloodLandslideListPage {
   favorites: string[] = [];
   sections: string[] = [];
 
-  segments = ['highest', 'flood', 'landslide'];
+  segments = ["highest", "flood", "landslide"];
   selectedSegment: string;
 
   showMap: boolean = false;
@@ -56,74 +55,88 @@ export class FloodLandslideListPage {
     private _favoriteService: FavoriteService,
     private _geoJsonService: GeoJsonService,
     private _settingService: SettingService,
-    private _store: Store<fromRoot.State>,
-
+    private _store: Store<fromRoot.State>
   ) {
-    let area = _navParams.get('area');
+    let area = _navParams.get("area");
 
     if (area) {
       this.pageTitleKey = area.name;
-      this.emptyListTitleKey = 'MUNICIPALITIES_LIST_TITLE';
+      this.emptyListTitleKey = "MUNICIPALITIES_LIST_TITLE";
       this.parentId = area.id;
-      this.sections = ['MUNICIPALITIES'];
+      this.sections = ["MUNICIPALITIES"];
     } else {
-      this.pageTitleKey = 'FLOOD_LANDSLIDE';
-      this.emptyListTitleKey = 'COUNTIES_LIST_TITLE';
+      this.pageTitleKey = "FLOOD_LANDSLIDE";
+      this.emptyListTitleKey = "COUNTIES_LIST_TITLE";
       this.showMap = true;
-      this.sections = ['COUNTIES'];
+      this.sections = ["COUNTIES"];
     }
 
     this.mapMarker = this._store.select(fromRoot.getPosition);
-    this.mapCenter = this._store.select(fromRoot.getMapCenter('FLOOD_LANDSLIDE'));
-    this.mapZoomLevel = this._store.select(fromRoot.getMapZoom('FLOOD_LANDSLIDE'));
-    this.mapIsCentered = this._store.select(fromRoot.getMapIsCentered('FLOOD_LANDSLIDE'));
-    this.mapFullscreen = this._store.select(fromRoot.getMapFullscreen('FLOOD_LANDSLIDE'));
-    this.recenterMap = this._store.select(fromRoot.getRecenterMap('FLOOD_LANDSLIDE'));
+    this.mapCenter = this._store.select(
+      fromRoot.getMapCenter("FLOOD_LANDSLIDE")
+    );
+    this.mapZoomLevel = this._store.select(
+      fromRoot.getMapZoom("FLOOD_LANDSLIDE")
+    );
+    this.mapIsCentered = this._store.select(
+      fromRoot.getMapIsCentered("FLOOD_LANDSLIDE")
+    );
+    this.mapFullscreen = this._store.select(
+      fromRoot.getMapFullscreen("FLOOD_LANDSLIDE")
+    );
+    this.recenterMap = this._store.select(
+      fromRoot.getRecenterMap("FLOOD_LANDSLIDE")
+    );
   }
 
   ionViewDidEnter() {
-
-    this._settingService.activeSection = 'FLOOD_LANDSLIDE';
+    this._settingService.activeSection = "FLOOD_LANDSLIDE";
   }
 
   ngOnInit() {
-
     if (this.showMap) {
-      let geojsonSubscription = this._geoJsonService.counties$.subscribe(geojsonData => {
-        this.mapGeoJsonData = geojsonData;
-      });
+      let geojsonSubscription = this._geoJsonService.counties$.subscribe(
+        geojsonData => {
+          this.mapGeoJsonData = geojsonData;
+        }
+      );
       this._subscriptions.push(geojsonSubscription);
     }
 
-    let forecastTypeSubscription = this._settingService.activeFloodLandslideSegment$
-      .subscribe(forecastType => {
+    let forecastTypeSubscription = this._settingService.activeFloodLandslideSegment$.subscribe(
+      forecastType => {
         this.selectedSegment = forecastType;
         this._updateForecast();
-      });
+      }
+    );
     this._subscriptions.push(forecastTypeSubscription);
 
-    let floodForecastSubscription = this._forecastService.getForecasts('flood', this.parentId)
+    let floodForecastSubscription = this._forecastService
+      .getForecasts("flood", this.parentId)
       .subscribe(forecasts => {
         this._floodForecast = forecasts;
         this._updateForecast();
       });
     this._subscriptions.push(floodForecastSubscription);
 
-    let landslideSubscription = this._forecastService.getForecasts('landslide', this.parentId)
+    let landslideSubscription = this._forecastService
+      .getForecasts("landslide", this.parentId)
       .subscribe(forecasts => {
         this._landslideForecast = forecasts;
         this._updateForecast();
       });
     this._subscriptions.push(landslideSubscription);
 
-    let favoriteSubscription = this._favoriteService.favoriteAreaIds$
-      .subscribe(favorites => {
+    let favoriteSubscription = this._favoriteService.favoriteAreaIds$.subscribe(
+      favorites => {
         this.favorites = favorites;
-      });
+      }
+    );
     this._subscriptions.push(favoriteSubscription);
 
     if (this.parentId) {
-      let areaSubscription = this._forecastService.getForecastForArea('flood', this.parentId)
+      let areaSubscription = this._forecastService
+        .getForecastForArea("flood", this.parentId)
         .subscribe(forecast => {
           this.pageTitleKey = forecast.areaName;
         });
@@ -140,12 +153,15 @@ export class FloodLandslideListPage {
   private _updateForecast() {
     let forecasts = [];
 
-    if ('flood' === this.selectedSegment) {
+    if ("flood" === this.selectedSegment) {
       forecasts = this._floodForecast;
-    } else if ('landslide' === this.selectedSegment) {
+    } else if ("landslide" === this.selectedSegment) {
       forecasts = this._landslideForecast;
     } else {
-      forecasts = Forecast.createHighestForecasts(this._floodForecast, this._landslideForecast);
+      forecasts = Forecast.createHighestForecasts(
+        this._floodForecast,
+        this._landslideForecast
+      );
     }
 
     if (this.parentId) {
@@ -155,7 +171,7 @@ export class FloodLandslideListPage {
     }
   }
 
-  private pushListPage(area: { id: string, name: string }) {
+  private pushListPage(area: { id: string; name: string }) {
     if (AreaUtils.isOslo(area.id)) {
       this.pushDetailsPage(area);
     } else {
@@ -165,7 +181,7 @@ export class FloodLandslideListPage {
     }
   }
 
-  private pushDetailsPage(area: { id: string, name: string }) {
+  private pushDetailsPage(area: { id: string; name: string }) {
     if (AreaUtils.isOslo(area.id)) {
       area.id = AreaUtils.OSLO_MUNICIPALITY_ID;
     }
@@ -192,7 +208,7 @@ export class FloodLandslideListPage {
     }
 
     const height = this.content.contentTop + this.content.contentHeight;
-    return - (height * 0.15 + height * 0.35 / 2 - this.content.contentTop);
+    return -(height * 0.15 + height * 0.35 / 2 - this.content.contentTop);
   }
 
   onListForecastSelected(event, forecast: Forecast) {
@@ -200,15 +216,24 @@ export class FloodLandslideListPage {
   }
 
   onMapFullscreenToggle() {
-    this._store.dispatch(new UIMapActions.ToogleFullscreen({ mapKey: 'FLOOD_LANDSLIDE' }));
+    this._store.dispatch(
+      new UIMapActions.ToogleFullscreen({ mapKey: "FLOOD_LANDSLIDE" })
+    );
   }
 
   onMapCenterOnMarker() {
-    this._store.dispatch(new UIMapActions.RequestRecenter({ mapKey: 'FLOOD_LANDSLIDE' }));
+    this._store.dispatch(
+      new UIMapActions.RequestRecenter({ mapKey: "FLOOD_LANDSLIDE" })
+    );
   }
 
   onMapIsCenterUpdated(isCentered: boolean) {
-    this._store.dispatch(new UIMapActions.IsCenteredUpdate({ mapKey: 'FLOOD_LANDSLIDE', isCentered }));
+    this._store.dispatch(
+      new UIMapActions.IsCenteredUpdate({
+        mapKey: "FLOOD_LANDSLIDE",
+        isCentered
+      })
+    );
   }
 
   onMapAreaSelected(areaId: string) {
@@ -216,7 +241,7 @@ export class FloodLandslideListPage {
     if (forecast) {
       this.pushPage(forecast);
     } else {
-      console.log('FloodLandslideListPage: No matching area', areaId);
+      console.log("FloodLandslideListPage: No matching area", areaId);
     }
   }
 

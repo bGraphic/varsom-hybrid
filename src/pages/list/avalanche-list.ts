@@ -1,25 +1,28 @@
-import { Component, ViewChild } from '@angular/core';
-import { NavController, Content } from 'ionic-angular';
-import { AreaDetailsPage } from '../area-details/area-details';
+import { Component, ViewChild } from "@angular/core";
+import { NavController, Content } from "ionic-angular";
+import { AreaDetailsPage } from "../area-details/area-details";
 import { Forecast } from "../../models/Forecast";
 import { ForecastService } from "../../providers/forecasts";
 import { FavoriteService } from "../../providers/favorites";
-import { GeoJsonService } from '../../providers/geojson';
+import { GeoJsonService } from "../../providers/geojson";
 import { SettingService } from "../../providers/settings";
 
-import { Observable } from 'rxjs/rx';
+import { Observable } from "rxjs/rx";
 import { Subscription } from "rxjs";
 import { Store } from "@ngrx/store";
 
-import * as fromRoot from './../../store/reducers';
-import * as UIMapActions from './../../store/actions/ui-map.actions';
-import { getMapIsCentered, getRecenterMap, getMapZoom } from './../../store/reducers/index';
-import { Position } from './../../store/models/Location';
+import * as fromRoot from "./../../store/reducers";
+import * as UIMapActions from "./../../store/actions/ui-map.actions";
+import {
+  getMapIsCentered,
+  getRecenterMap,
+  getMapZoom
+} from "./../../store/reducers/index";
+import { Position } from "./../../store/models/Location";
 
 @Component({
-  templateUrl: 'list.html'
+  templateUrl: "list.html"
 })
-
 export class AvalancheListPage {
   @ViewChild(Content) content: Content;
 
@@ -29,7 +32,7 @@ export class AvalancheListPage {
   forecasts: Forecast[] = [];
 
   favorites: string[] = [];
-  sections = ['B_REGIONS_ACTIVE', 'A_REGIONS', 'B_REGIONS'];
+  sections = ["B_REGIONS_ACTIVE", "A_REGIONS", "B_REGIONS"];
 
   segments = [];
 
@@ -50,43 +53,49 @@ export class AvalancheListPage {
     private _favoriteService: FavoriteService,
     private _geoJsonService: GeoJsonService,
     private _settingService: SettingService,
-    private _store: Store<fromRoot.State>,
+    private _store: Store<fromRoot.State>
   ) {
     this.pageTitleKey = "AVALANCHE";
     this.emptyListTitleKey = "A_REGIONS_LIST_TITLE";
 
     this.mapMarker = this._store.select(fromRoot.getPosition);
-    this.mapCenter = this._store.select(fromRoot.getMapCenter('AVALANCHE'));
-    this.mapZoomLevel = this._store.select(fromRoot.getMapZoom('AVALANCHE'));
-    this.mapIsCentered = this._store.select(fromRoot.getMapIsCentered('AVALANCHE'));
-    this.mapFullscreen = this._store.select(fromRoot.getMapFullscreen('AVALANCHE'));
-    this.recenterMap = this._store.select(fromRoot.getRecenterMap('AVALANCHE'));
+    this.mapCenter = this._store.select(fromRoot.getMapCenter("AVALANCHE"));
+    this.mapZoomLevel = this._store.select(fromRoot.getMapZoom("AVALANCHE"));
+    this.mapIsCentered = this._store.select(
+      fromRoot.getMapIsCentered("AVALANCHE")
+    );
+    this.mapFullscreen = this._store.select(
+      fromRoot.getMapFullscreen("AVALANCHE")
+    );
+    this.recenterMap = this._store.select(fromRoot.getRecenterMap("AVALANCHE"));
   }
 
   ionViewDidEnter() {
-    this._settingService.activeSection = 'AVALANCHE';
+    this._settingService.activeSection = "AVALANCHE";
   }
 
   ngOnInit() {
-
     if (this.showMap) {
-      let geojsonSubscription = this._geoJsonService.regions$
-        .subscribe(geoJsonData => {
+      let geojsonSubscription = this._geoJsonService.regions$.subscribe(
+        geoJsonData => {
           this.mapGeoJsonData = geoJsonData;
-        });
+        }
+      );
       this._subscriptions.push(geojsonSubscription);
     }
 
-    let avalancheSubscription = this._forecastService.getForecasts('avalanche')
+    let avalancheSubscription = this._forecastService
+      .getForecasts("avalanche")
       .subscribe(forecasts => {
         this.forecasts = Forecast.sortByAreaId(forecasts);
       });
     this._subscriptions.push(avalancheSubscription);
 
-    let favoriteSubscription = this._favoriteService.favoriteAreaIds$
-      .subscribe(favorites => {
+    let favoriteSubscription = this._favoriteService.favoriteAreaIds$.subscribe(
+      favorites => {
         this.favorites = favorites;
-      });
+      }
+    );
     this._subscriptions.push(favoriteSubscription);
   }
 
@@ -96,7 +105,7 @@ export class AvalancheListPage {
     }
   }
 
-  private pushDetailsPage(area: { id: string, name: string }) {
+  private pushDetailsPage(area: { id: string; name: string }) {
     this._navCtrl.push(AreaDetailsPage, {
       area: area
     });
@@ -115,19 +124,25 @@ export class AvalancheListPage {
     }
 
     const height = this.content.contentTop + this.content.contentHeight;
-    return - (height * 0.15 + height * 0.35 / 2 - this.content.contentTop);
+    return -(height * 0.15 + height * 0.35 / 2 - this.content.contentTop);
   }
 
   onMapFullscreenToggle() {
-    this._store.dispatch(new UIMapActions.ToogleFullscreen({ mapKey: 'AVALANCHE' }));
+    this._store.dispatch(
+      new UIMapActions.ToogleFullscreen({ mapKey: "AVALANCHE" })
+    );
   }
 
   onMapCenterOnMarker() {
-    this._store.dispatch(new UIMapActions.RequestRecenter({ mapKey: 'AVALANCHE' }));
+    this._store.dispatch(
+      new UIMapActions.RequestRecenter({ mapKey: "AVALANCHE" })
+    );
   }
 
   onMapIsCenterUpdated(isCentered: boolean) {
-    this._store.dispatch(new UIMapActions.IsCenteredUpdate({ mapKey: 'AVALANCHE', isCentered }));
+    this._store.dispatch(
+      new UIMapActions.IsCenteredUpdate({ mapKey: "AVALANCHE", isCentered })
+    );
   }
 
   onListForecastSelected(event, forecast: Forecast) {
@@ -140,7 +155,7 @@ export class AvalancheListPage {
     if (forecast) {
       this.pushPage(forecast);
     } else {
-      console.log('AvalancheListPage: No matching area', areaId);
+      console.log("AvalancheListPage: No matching area", areaId);
     }
   }
 }
