@@ -1,51 +1,62 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { Forecast } from "../models/Forecast";
 import { DataService } from "../providers/data";
 import { AreaUtils } from "../utils/area-utils";
-import { Observable } from 'rxjs';
+import { Observable } from "rxjs";
 
 @Injectable()
 export class ForecastService {
+  constructor(private _data: DataService) {}
 
-  constructor(private _data: DataService) {
-
-  }
-
-  getForecasts(forecastType: string, parentId?: string): Observable<Forecast[]> {
+  getForecasts(
+    forecastType: string,
+    parentId?: string
+  ): Observable<Forecast[]> {
     return this._getForecasts(forecastType, parentId);
   }
 
-  getForecastForArea(forecastType: string, areaId: string): Observable<Forecast> {
+  getForecastForArea(
+    forecastType: string,
+    areaId: string
+  ): Observable<Forecast> {
     return this._getForecastForArea(forecastType, areaId);
   }
 
-  private _getForecastForArea(forecastType: string, areaId: string): Observable<Forecast> {
+  private _getForecastForArea(
+    forecastType: string,
+    areaId: string
+  ): Observable<Forecast> {
     return this._getForecasts(forecastType, AreaUtils.getParentId(areaId))
       .filter(forecasts => {
-        return Forecast.findForecastWithAreaId(forecasts, areaId) ? true : false;
+        return Forecast.findForecastWithAreaId(forecasts, areaId)
+          ? true
+          : false;
       })
       .map(forecasts => {
         return Forecast.findForecastWithAreaId(forecasts, areaId);
       });
-
   }
 
-  private _getForecasts(forecastType: string, parentId?: string): Observable<Forecast[]> {
+  private _getForecasts(
+    forecastType: string,
+    parentId?: string
+  ): Observable<Forecast[]> {
     let forecasts$: Observable<any>;
-    if ('avalanche' === forecastType) {
+    if ("avalanche" === forecastType) {
       forecasts$ = this._data.getForecastForRegions(forecastType);
     } else if (parentId) {
-      forecasts$ = this._data.getForecastForMunicipalities(forecastType, parentId);
+      forecasts$ = this._data.getForecastForMunicipalities(
+        forecastType,
+        parentId
+      );
     } else {
       forecasts$ = this._data.getForecastForCounties(forecastType);
     }
 
-    return forecasts$
-      .map((items) => {
-        return items.map(item => {
-          return Forecast.createFromFirebaseJSON(item, forecastType);
-        })
+    return forecasts$.map(items => {
+      return items.map(item => {
+        return Forecast.createFromFirebaseJSON(item, forecastType);
       });
+    });
   }
-
 }

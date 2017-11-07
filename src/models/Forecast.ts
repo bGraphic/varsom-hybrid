@@ -1,14 +1,13 @@
 import { Warning } from "./Warning";
 
 export class Forecast {
-
   private _forecastType: string;
   private _areaId: string;
   private _areaName: string;
   private _areaTypeId: number;
   private _warnings: Warning[];
 
-  private constructor() { }
+  private constructor() {}
 
   get forecastType(): string {
     return this._forecastType;
@@ -55,13 +54,17 @@ export class Forecast {
   }
 
   static createFromFirebaseJSON(item: any, forecastType: string): Forecast {
-
-    if (!item.hasOwnProperty('Forecast') || !item.Forecast.hasOwnProperty('day0') || !item.Forecast.hasOwnProperty('day1') || !item.Forecast.hasOwnProperty('day2')) {
+    if (
+      !item.hasOwnProperty("Forecast") ||
+      !item.Forecast.hasOwnProperty("day0") ||
+      !item.Forecast.hasOwnProperty("day1") ||
+      !item.Forecast.hasOwnProperty("day2")
+    ) {
       console.log("Forecast: Item does not have warnings", item);
       return Forecast.createEmptyForecast();
     }
 
-    if (!item.hasOwnProperty('Name') || !item.hasOwnProperty('Id')) {
+    if (!item.hasOwnProperty("Name") || !item.hasOwnProperty("Id")) {
       console.log("Forecast: Item does not have name and/or id", item);
       return Forecast.createEmptyForecast();
     }
@@ -100,8 +103,10 @@ export class Forecast {
     return forecast;
   }
 
-  static createHighestForecast(forecastA: Forecast, forecastB: Forecast): Forecast {
-
+  static createHighestForecast(
+    forecastA: Forecast,
+    forecastB: Forecast
+  ): Forecast {
     if (!forecastA && !forecastB) {
       return Forecast.createEmptyForecast();
     }
@@ -117,11 +122,14 @@ export class Forecast {
     let warnings: Warning[] = [];
 
     for (let i of [0, 1, 2]) {
-      warnings[i] = Warning.getHighest(forecastA.getDay(i), forecastB.getDay(i));
+      warnings[i] = Warning.getHighest(
+        forecastA.getDay(i),
+        forecastB.getDay(i)
+      );
     }
 
     let forecast = new Forecast();
-    forecast._forecastType = 'highest';
+    forecast._forecastType = "highest";
     forecast._areaId = forecastA.areaId;
     forecast._areaName = forecastA.areaName;
     forecast._warnings = warnings;
@@ -140,7 +148,10 @@ export class Forecast {
 
     let forecasts: Forecast[] = [];
     for (let forecastA of forecastsA) {
-      let forecastB = Forecast.findForecastWithAreaId(forecastsB, forecastA.areaId);
+      let forecastB = Forecast.findForecastWithAreaId(
+        forecastsB,
+        forecastA.areaId
+      );
       forecasts.push(Forecast.createHighestForecast(forecastA, forecastB));
     }
     return forecasts;
@@ -163,7 +174,9 @@ export class Forecast {
   }
 
   static filterBRegionsActive(forecasts: Forecast[]) {
-    return forecasts.filter(forecast => forecast.isTypeB()).filter(forecast => forecast.isActive());
+    return forecasts
+      .filter(forecast => forecast.isTypeB())
+      .filter(forecast => forecast.isActive());
   }
 
   static getTimeframeFromForecasts(forecasts: Forecast[]): Date[] {
@@ -172,7 +185,11 @@ export class Forecast {
       return [];
     } else {
       let forecast = forecasts[0];
-      return [forecast.getDay(0).date, forecast.getDay(1).date, forecast.getDay(2).date];
+      return [
+        forecast.getDay(0).date,
+        forecast.getDay(1).date,
+        forecast.getDay(2).date
+      ];
     }
   }
 

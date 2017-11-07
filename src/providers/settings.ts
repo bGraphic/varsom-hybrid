@@ -1,15 +1,18 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { StorageService } from "./storage";
 
 @Injectable()
 export class SettingService {
-
   private _activeSection$ = new Subject<string>();
-  private _activeFloodLandslideSegment$ = new BehaviorSubject<string>('highest');
+  private _activeFloodLandslideSegment$ = new BehaviorSubject<string>(
+    "highest"
+  );
 
   get activeFloodLandslideSegment$(): Observable<string> {
-    return this._activeFloodLandslideSegment$.asObservable().distinctUntilChanged();
+    return this._activeFloodLandslideSegment$
+      .asObservable()
+      .distinctUntilChanged();
   }
 
   set activeFloodLandslideSegment(forecastType: string) {
@@ -24,20 +27,13 @@ export class SettingService {
     this._activeSection$.next(forecastType);
   }
 
-  constructor(
-    private storageService: StorageService
-  ) {
+  constructor(private storageService: StorageService) {
+    storageService.rootSection$.subscribe(section => {
+      this._activeSection$.next(section);
+    });
 
-    storageService.rootSection$
-      .subscribe(section => {
-        this._activeSection$.next(section);
-      });
-
-    this.activeSection$
-      .subscribe(activeSection => {
-        storageService.rootSection = activeSection;
-      });
-
+    this.activeSection$.subscribe(activeSection => {
+      storageService.rootSection = activeSection;
+    });
   }
-
 }

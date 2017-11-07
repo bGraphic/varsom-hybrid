@@ -1,10 +1,9 @@
 export class Warning {
-
   private _rating: number;
   private _meta: any;
   private _date: Date;
 
-  private constructor() { }
+  private constructor() {}
 
   get rating(): number {
     return this._rating;
