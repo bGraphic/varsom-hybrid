@@ -34,6 +34,7 @@ import { StorageService } from "../providers/storage";
 
 import { reducer } from "./../store/reducers";
 import { LocationEffects } from "./../store/effects/location.effects";
+import { WarningsEffects } from "./../store/effects/warnings.effects";
 
 import {
   FilterForecastsPipe,
@@ -51,6 +52,7 @@ import { Geolocation } from "@ionic-native/geolocation";
 import { InAppBrowser } from "@ionic-native/in-app-browser";
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { StatusBar } from "@ionic-native/status-bar";
+import { WarningsService } from "../store/services/warnings";
 
 export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -78,6 +80,7 @@ export function createTranslateLoader(http: Http) {
     IonicStorageModule.forRoot(),
     StoreModule.provideStore(reducer),
     EffectsModule.run(LocationEffects),
+    EffectsModule.run(WarningsEffects),
     HttpModule,
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     AngularFireModule.initializeApp(firebase),
@@ -115,6 +118,7 @@ export function createTranslateLoader(http: Http) {
     AppVersionService,
     GeoJsonService,
     StorageService,
+    WarningsService,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
