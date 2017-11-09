@@ -1,13 +1,13 @@
 import * as WarningsActions from "../actions/warnings.actions";
-import { Forecast, ForecastType } from "../models/Forecast";
+import { WarningType, Warning } from "../models/Warning";
 
 export interface State {
-  forecasts: { [k in ForecastType]?: Forecast[] };
-  error: { [k in ForecastType]?: any | null };
+  warnings: { [k in WarningType]?: Warning[] };
+  error: { [k in WarningType]?: any | null };
 }
 
 const initialState: State = {
-  forecasts: {
+  warnings: {
     Avalanche: [],
     Flood: [],
     Landslide: []
@@ -27,13 +27,13 @@ export function reducer(
     case WarningsActions.FETCH_COMPLETE:
       return {
         ...state,
-        forecasts: {
-          ...state.forecasts,
-          [action.payload.forecastType]: action.payload.forecasts
+        warnings: {
+          ...state.warnings,
+          [action.payload.warningType]: action.payload.warnings
         },
         error: {
           ...state.error,
-          [action.payload.forecastType]: null
+          [action.payload.warningType]: null
         }
       };
     case WarningsActions.FETCH_ERROR:
@@ -41,7 +41,7 @@ export function reducer(
         ...state,
         error: {
           ...state.error,
-          [action.payload.forecastType]: action.payload.error
+          [action.payload.warningType]: action.payload.error
         }
       };
     default:

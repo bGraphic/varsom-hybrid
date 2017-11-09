@@ -35,18 +35,21 @@ import { combineReducers } from "@ngrx/store";
  * the state of the reducer plus any selector functions. The `* as`
  * notation packages up all of the exports into a single object.
  */
-import * as fromWarnings from "./warnings.reducer";
+
 import * as fromLocation from "./location.reducer";
+import * as fromRegions from "./regions.reducer";
 import * as fromMapUIState from "./ui-map.reducer";
+import * as fromWarnings from "./warnings.reducer";
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
  * our top level state interface is just a map of keys to inner state types.
  */
 export interface State {
-  warnings: fromWarnings.State;
+  regions: fromRegions.State;
   location: fromLocation.State;
   mapUI: fromMapUIState.State;
+  warnings: fromWarnings.State;
 }
 
 /**
@@ -57,9 +60,10 @@ export interface State {
  * the result from right to left.
  */
 const reducers = {
-  warnings: fromWarnings.reducer,
+  regions: fromRegions.reducer,
   location: fromLocation.reducer,
-  mapUI: fromMapUIState.reducer
+  mapUI: fromMapUIState.reducer,
+  warnings: fromWarnings.reducer
 };
 
 const developmentReducer: ActionReducer<State> = compose(

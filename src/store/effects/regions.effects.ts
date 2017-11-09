@@ -4,38 +4,35 @@ import { of } from "rxjs/observable/of";
 import { Effect, Actions, toPayload } from "@ngrx/effects";
 import { Action } from "@ngrx/store";
 
-import * as warningsActions from "./../actions/warnings.actions";
+import * as regionsActions from "./../actions/regions.actions";
 import { DataService } from "../services/data.service";
 
 @Injectable()
-export class WarningsEffects {
+export class RegionsEffects {
   constructor(private _actions$: Actions, private _dataService: DataService) {}
 
   @Effect()
   fetchForecasts$: Observable<Action> = this._actions$
-    .ofType(warningsActions.FETCH)
+    .ofType(regionsActions.FETCH)
     .map(toPayload)
-    .startWith(
-      { warningType: "Avalanche" },
-      { warningType: "Flood" },
-      { warningType: "Landslide" }
-    )
+    .startWith({ regionType: "AvalancheRegion" }, { regionType: "County" })
     // Group by so that switch map only happens on the same warningType
-    .groupBy(payload => payload.warningType)
+    .groupBy(payload => payload.regionType)
     .map(group$ => {
       return group$
-        .switchMapTo(this._dataService.fetchWarnings(group$.key))
-        .map(warnings => {
-          return new warningsActions.FetchCompleteAction({
-            warningType: group$.key,
-            warnings
+        .switchMap(payload =>
+          this._dataService.fetchRegions(payload.regionType)
+        )
+        .map(regions => {
+          return new regionsActions.FetchCompleteAction({
+            regionType: group$.key,
+            regions
           });
         })
         .catch(error => {
-          console.log("ERROR", error);
           return of(
-            new warningsActions.FetchErrorAction({
-              warningType: group$.key,
+            new regionsActions.FetchErrorAction({
+              regionType: group$.key,
               error: error
             })
           );
