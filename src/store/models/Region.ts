@@ -10,6 +10,7 @@ export interface Region {
   id: string;
   type: RegionType;
   subType: RegionSubType | null;
+  children?: Region[];
 }
 
 export interface Warning {

@@ -9,8 +9,7 @@ export interface State {
 const initialState: State = {
   regions: {
     AvalancheRegion: [],
-    County: [],
-    Municipality: []
+    County: []
   },
   error: {
     AvalancheRegion: null,
