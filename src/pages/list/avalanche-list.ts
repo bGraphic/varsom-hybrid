@@ -58,7 +58,7 @@ export class AvalancheListPage {
     this.pageTitleKey = "AVALANCHE";
     this.emptyListTitleKey = "A_REGIONS_LIST_TITLE";
 
-    this.mapMarker = this._store.select(fromRoot.getPosition);
+    this.mapMarker = this._store.select(fromRoot.getPosition());
     this.mapCenter = this._store.select(fromRoot.getMapCenter("AVALANCHE"));
     this.mapZoomLevel = this._store.select(fromRoot.getMapZoom("AVALANCHE"));
     this.mapIsCentered = this._store.select(
@@ -68,6 +68,13 @@ export class AvalancheListPage {
       fromRoot.getMapFullscreen("AVALANCHE")
     );
     this.recenterMap = this._store.select(fromRoot.getRecenterMap("AVALANCHE"));
+
+    this._store.select(fromRoot.getPosition()).subscribe(loc => {
+      console.log("Position", loc);
+    });
+    this._store.select(fromRoot.getSelectedRegions()).subscribe(regions => {
+      console.log("Regions", regions);
+    });
   }
 
   ionViewDidEnter() {

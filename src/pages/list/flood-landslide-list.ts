@@ -71,7 +71,7 @@ export class FloodLandslideListPage {
       this.sections = ["COUNTIES"];
     }
 
-    this.mapMarker = this._store.select(fromRoot.getPosition);
+    this.mapMarker = this._store.select(fromRoot.getPosition());
     this.mapCenter = this._store.select(
       fromRoot.getMapCenter("FLOOD_LANDSLIDE")
     );

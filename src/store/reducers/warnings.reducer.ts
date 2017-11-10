@@ -1,5 +1,6 @@
 import * as WarningsActions from "../actions/warnings.actions";
 import { WarningType, Warning } from "../models/Warning";
+import { createSelector } from "reselect";
 
 export interface State {
   warnings: { [k in WarningType]?: Warning[] };
@@ -48,3 +49,49 @@ export function reducer(
       return state;
   }
 }
+
+export const getAll = (state: State) => {
+  const sortedWarnings: { [k in WarningType]?: Warning[] } = Object.keys(
+    state.warnings
+  ).reduce((acc, warningType) => {
+    acc[warningType] = acc[warningType].sort(
+      (a: Warning, b: Warning) => a.date > b.date
+    );
+    return acc;
+  }, {});
+  return sortedWarnings;
+};
+
+// export const getRegionWarnings = (regionId: string) =>
+//   createSelector(getAll, warnings => {
+//     const regionWarnings: { [k in WarningType]?: Warning[] } = Object.keys(
+//       warnings
+//     ).reduce((acc, warningType) => {
+//       acc[warningType] = warnings[warningType].filter((warning: Warning) => {
+//         return warning.regionId === regionId;
+//       });
+//       return acc;
+//     }, {});
+
+//     return regionWarnings;
+//   });
+
+// export const getForecast = (state: State, regionId: string): number[] => {
+//   const forecast = Object.keys(regionWarnings)
+//     .filter(warningType => {
+//       return !!regionWarnings[warningType];
+//     })
+//     .reduce(
+//       (acc, warningType) => {
+//         const warningTypeForecast = regionWarnings[warningType].map(
+//           (warning: Warning) => warning.rating
+//         );
+//         return warningTypeForecast.map(
+//           (rating, index) => (rating > acc[index] ? rating : acc[index])
+//         );
+//       },
+//       [-1, -1, -1]
+//     );
+
+//   return forecast;
+// };

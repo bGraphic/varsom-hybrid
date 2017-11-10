@@ -4,6 +4,7 @@ import { RegionType, Region } from "../models/Region";
 export const FETCH = "[Regions] Fetch";
 export const FETCH_COMPLETE = "[Regions] Fetch Complete";
 export const FETCH_ERROR = "[Regions] Fetch Error";
+export const SELECT = "[Regions] Selected";
 
 export class FetchAction implements Action {
   readonly type = FETCH;
@@ -34,4 +35,17 @@ export class FetchErrorAction implements Action {
   ) {}
 }
 
-export type All = FetchAction | FetchCompleteAction | FetchErrorAction;
+export class SelectAction implements Action {
+  readonly type = SELECT;
+  constructor(
+    public payload: {
+      key: string;
+    }
+  ) {}
+}
+
+export type All =
+  | FetchAction
+  | FetchCompleteAction
+  | FetchErrorAction
+  | SelectAction;

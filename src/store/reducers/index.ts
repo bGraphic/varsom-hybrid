@@ -40,6 +40,7 @@ import * as fromLocation from "./location.reducer";
 import * as fromRegions from "./regions.reducer";
 import * as fromMapUIState from "./ui-map.reducer";
 import * as fromWarnings from "./warnings.reducer";
+import { RegionType } from "../models/Region";
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
@@ -82,35 +83,46 @@ export function reducer(state: any, action: any) {
 
 // Selectors
 
-// Forecasts
+// Regions
+
+export const getRegionsState = (state: State) => state.regions;
+export const getSelectedRegions = () =>
+  createSelector(getRegionsState, fromRegions.getSelected);
 
 // Location
 
-export const getLocation = (state: State) => state.location;
-export const getPosition = createSelector(
-  getLocation,
-  (state: fromLocation.State) => state.position
-);
+export const getLocationState = (state: State) => state.location;
+export const getPosition = () =>
+  createSelector(
+    getLocationState,
+    (state: fromLocation.State) => state.position
+  );
 
 // UI MAP
 
-export const getMapUI = (state: State) => state.mapUI;
+export const getMapUIState = (state: State) => state.mapUI;
 export const getMapCenter = (key: string) =>
-  createSelector(getMapUI, (state: fromMapUIState.State) => state[key].center);
+  createSelector(
+    getMapUIState,
+    (state: fromMapUIState.State) => state[key].center
+  );
 export const getMapZoom = (key: string) =>
-  createSelector(getMapUI, (state: fromMapUIState.State) => state[key].zoom);
+  createSelector(
+    getMapUIState,
+    (state: fromMapUIState.State) => state[key].zoom
+  );
 export const getMapIsCentered = (key: string) =>
   createSelector(
-    getMapUI,
+    getMapUIState,
     (state: fromMapUIState.State) => state[key].centered
   );
 export const getRecenterMap = (key: string) =>
   createSelector(
-    getMapUI,
+    getMapUIState,
     (state: fromMapUIState.State) => state[key].recenter
   );
 export const getMapFullscreen = (key: string) =>
   createSelector(
-    getMapUI,
+    getMapUIState,
     (state: fromMapUIState.State) => state[key].fullscreen
   );
