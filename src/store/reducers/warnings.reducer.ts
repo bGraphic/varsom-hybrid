@@ -1,10 +1,18 @@
 import * as WarningsActions from "../actions/warnings.actions";
-import { WarningType, Warning } from "../models/Warning";
+import { WarningType, Warning, Warnings, Forecasts } from "../models/Warning";
 import { createSelector } from "reselect";
 
 export interface State {
-  warnings: { [k in WarningType]?: Warning[] };
-  error: { [k in WarningType]?: any | null };
+  warnings: {
+    Avalanche: Warning[];
+    Flood: Warning[];
+    Landslide: Warning[];
+  };
+  error: {
+    Avalanche: null;
+    Flood: null;
+    Landslide: null;
+  };
 }
 
 const initialState: State = {
@@ -50,48 +58,82 @@ export function reducer(
   }
 }
 
-export const getAll = (state: State) => {
-  const sortedWarnings: { [k in WarningType]?: Warning[] } = Object.keys(
-    state.warnings
-  ).reduce((acc, warningType) => {
-    acc[warningType] = acc[warningType].sort(
-      (a: Warning, b: Warning) => a.date > b.date
-    );
-    return acc;
-  }, {});
-  return sortedWarnings;
+export const getAll = (state: State): Warnings => {
+  return Object.keys(state.warnings).reduce(
+    (acc, warningType) => {
+      const warningsByRegion = mapWarningsToRegion(state.warnings[warningType]);
+      Object.keys(warningsByRegion).forEach(regionId => {
+        acc[regionId] = acc[regionId] || {};
+        acc[regionId][warningType] = warningsByRegion[regionId];
+      });
+      return acc;
+    },
+    <Warnings>{}
+  );
 };
 
-// export const getRegionWarnings = (regionId: string) =>
-//   createSelector(getAll, warnings => {
-//     const regionWarnings: { [k in WarningType]?: Warning[] } = Object.keys(
-//       warnings
-//     ).reduce((acc, warningType) => {
-//       acc[warningType] = warnings[warningType].filter((warning: Warning) => {
-//         return warning.regionId === regionId;
-//       });
-//       return acc;
-//     }, {});
+export const getForecasts = createSelector(
+  getAll,
+  (warnings: Warnings): Forecasts => {
+    let forecasts = transformWarningsToForecasts(warnings);
+    return Object.keys(forecasts).reduce(
+      (acc, regionId) => {
+        acc[regionId] = forecasts[regionId];
+        acc[regionId].Combined = combineForecasts(forecasts[regionId]);
+        return acc;
+      },
+      <Forecasts>{}
+    );
+  }
+);
 
-//     return regionWarnings;
-//   });
+const mapWarningsToRegion = (warnings: Warning[]) => {
+  return warnings.reduce(
+    (acc, warning) => {
+      acc[warning.regionId] = [
+        ...(acc[warning.regionId] || <Warning[]>[]),
+        warning
+      ];
+      return acc;
+    },
+    <{ [regionId: string]: Warning[] }>{}
+  );
+};
 
-// export const getForecast = (state: State, regionId: string): number[] => {
-//   const forecast = Object.keys(regionWarnings)
-//     .filter(warningType => {
-//       return !!regionWarnings[warningType];
-//     })
-//     .reduce(
-//       (acc, warningType) => {
-//         const warningTypeForecast = regionWarnings[warningType].map(
-//           (warning: Warning) => warning.rating
-//         );
-//         return warningTypeForecast.map(
-//           (rating, index) => (rating > acc[index] ? rating : acc[index])
-//         );
-//       },
-//       [-1, -1, -1]
-//     );
+const transformWarningsToForecasts = (warnings: Warnings) => {
+  return Object.keys(warnings).reduce(
+    (acc, regionId) => {
+      acc[regionId] = acc[regionId] || {};
+      acc[regionId] = Object.keys(warnings[regionId]).reduce(
+        (acc, warningType: WarningType) => {
+          acc[warningType] = transformRegionWarningsToForecast(
+            warnings[regionId][warningType]
+          );
+          return acc;
+        },
+        <{ [k in WarningType]?: number[] }>{}
+      );
+      return acc;
+    },
+    <Forecasts>{}
+  );
+};
 
-//   return forecast;
-// };
+const transformRegionWarningsToForecast = (warnings: Warning[]): number[] => {
+  return warnings.map(warning => warning.rating);
+};
+
+const combineForecasts = (forecasts: { [k in WarningType]?: number[] }) => {
+  return Object.keys(forecasts)
+    .filter((warningType: WarningType) => {
+      return forecasts[warningType].length === 3;
+    })
+    .reduce(
+      (acc, warningType: WarningType) => {
+        return forecasts[warningType].map(
+          (rating, index) => (rating > acc[index] ? rating : acc[index])
+        );
+      },
+      [-1, -1, -1]
+    );
+};

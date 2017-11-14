@@ -12,9 +12,3 @@ export interface Region {
   subType: RegionSubType | null;
   children?: Region[];
 }
-
-export interface Warning {
-  rating: number;
-  date: Date;
-  meta: any;
-}

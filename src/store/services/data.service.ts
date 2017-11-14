@@ -80,9 +80,11 @@ function extractRegionName(json): string {
 }
 
 function extractRegionId(json): string {
-  if (parseInt(json.Id, 10) < 10) {
-    return "0" + parseInt(json.Id, 10);
-  } else {
+  if (json.hasOwnProperty("RegionId")) {
+    return json.RegionId;
+  } else if (json.hasOwnProperty("MunicipalityList")) {
+    return json.MunicipalityList[0].Id;
+  } else if (json.hasOwnProperty("Id")) {
     return json.Id;
   }
 }
@@ -114,6 +116,6 @@ function extractWarningRating(json): number {
 
 function extractDate(json): Date {
   if (json.hasOwnProperty("ValidFrom")) {
-    return new Date(json.hasOwnProperty("ValidFrom"));
+    return new Date(json.ValidFrom);
   }
 }

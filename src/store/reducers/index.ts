@@ -40,7 +40,9 @@ import * as fromLocation from "./location.reducer";
 import * as fromRegions from "./regions.reducer";
 import * as fromMapUIState from "./ui-map.reducer";
 import * as fromWarnings from "./warnings.reducer";
-import { RegionType } from "../models/Region";
+import { RegionType, Region } from "../models/Region";
+import { Forecasts } from "../models/Warning";
+import { Forecast } from "../../models/Forecast";
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
@@ -86,8 +88,18 @@ export function reducer(state: any, action: any) {
 // Regions
 
 export const getRegionsState = (state: State) => state.regions;
-export const getSelectedRegions = () =>
-  createSelector(getRegionsState, fromRegions.getSelected);
+export const getRegions = createSelector(getRegionsState, fromRegions.getAll);
+
+// Warnings
+
+export const getWarningState = (state: State) => state.warnings;
+export const getWarnings = createSelector(getWarningState, fromWarnings.getAll);
+export const getForecasts = createSelector(
+  getWarningState,
+  fromWarnings.getForecasts
+);
+
+// Forecasts
 
 // Location
 

@@ -72,8 +72,12 @@ export class AvalancheListPage {
     this._store.select(fromRoot.getPosition()).subscribe(loc => {
       console.log("Position", loc);
     });
-    this._store.select(fromRoot.getSelectedRegions()).subscribe(regions => {
-      console.log("Regions", regions);
+    this._store.select(fromRoot.getWarnings).subscribe(res => {
+      console.log("Result", res);
+    });
+
+    this._store.select(fromRoot.getForecasts).subscribe(res => {
+      console.log("Result", res);
     });
   }
 
