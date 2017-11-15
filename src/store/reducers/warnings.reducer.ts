@@ -75,11 +75,13 @@ export const getAll = (state: State): Warnings => {
 export const getForecasts = createSelector(
   getAll,
   (warnings: Warnings): Forecasts => {
-    let forecasts = transformWarningsToForecasts(warnings);
-    return Object.keys(forecasts).reduce(
+    let originalForecasts = transformWarningsToForecasts(warnings);
+    let countyForecasts = createCountyForecasts(originalForecasts);
+    let allForecasts = { ...originalForecasts, ...countyForecasts };
+    return Object.keys(allForecasts).reduce(
       (acc, regionId) => {
-        acc[regionId] = forecasts[regionId];
-        acc[regionId].Combined = combineForecasts(forecasts[regionId]);
+        acc[regionId] = allForecasts[regionId];
+        acc[regionId].Combined = combineForecasts(allForecasts[regionId]);
         return acc;
       },
       <Forecasts>{}
@@ -123,6 +125,30 @@ const transformRegionWarningsToForecast = (warnings: Warning[]): number[] => {
   return warnings.map(warning => warning.rating);
 };
 
+const createCountyForecasts = (forecasts: Forecasts): Forecasts => {
+  const parentMap = Object.keys(forecasts).reduce(
+    (acc, regionId) => {
+      const parentId = regionId.substring(0, 2);
+      acc[parentId] = [
+        ...(acc[parentId] || <{ [k in WarningType]?: number[] }[]>[]),
+        forecasts[regionId]
+      ];
+      return acc;
+    },
+    <{ [regionId: string]: { [k in WarningType]?: number[] }[] }>{}
+  );
+
+  return Object.keys(parentMap)
+    .filter(parentId => parseInt(parentId) < 30)
+    .reduce(
+      (acc, parentId) => {
+        acc[parentId] = flattenForecasts(parentMap[parentId]);
+        return acc;
+      },
+      <Forecasts>{}
+    );
+};
+
 const combineForecasts = (forecasts: { [k in WarningType]?: number[] }) => {
   return Object.keys(forecasts)
     .filter((warningType: WarningType) => {
@@ -136,4 +162,20 @@ const combineForecasts = (forecasts: { [k in WarningType]?: number[] }) => {
       },
       [-1, -1, -1]
     );
+};
+
+const flattenForecasts = (forecasts: { [k in WarningType]?: number[] }[]) => {
+  return forecasts.reduce(
+    (acc, forecasts) => {
+      Object.keys(forecasts).forEach((warningType: WarningType) => {
+        const currentHighest = acc[warningType] || forecasts[warningType];
+        acc[warningType] = forecasts[warningType].map(
+          (rating, index) =>
+            rating > currentHighest[index] ? rating : currentHighest[index]
+        );
+      });
+      return acc;
+    },
+    <{ [k in WarningType]?: number[] }>{}
+  );
 };

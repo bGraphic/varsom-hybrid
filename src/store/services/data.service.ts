@@ -17,7 +17,7 @@ export class DataService {
     Avalanche:
       "http://api01.nve.no/hydrology/forecast/avalanche/test/api/Warning/All/1/",
     Flood:
-      "http://api01.nve.no/hydrology/forecast/flood/v1.0.4/api/Warning/All/1/",
+      "http://api01.nve.no/hydrology/forecast/flood/v1.0.4/api/Warning/All/1/2016-12-29",
     Landslide:
       "http://api01.nve.no/hydrology/forecast/landslide/v1.0.4/api/Warning/All/1/"
   };
