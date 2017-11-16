@@ -10,13 +10,11 @@ export interface State {
 const initialState: State = {
   regions: {
     AvalancheRegion: [],
-    County: [],
-    Municipality: []
+    County: []
   },
   error: {
     AvalancheRegion: null,
-    County: null,
-    Municipality: null
+    County: null
   }
 };
 
@@ -44,11 +42,6 @@ export function reducer(
           ...state.error,
           [action.payload.regionType]: action.payload.error
         }
-      };
-    case RegionsActions.SELECT:
-      return {
-        ...state,
-        selected: action.payload.key
       };
     default:
       return state;

@@ -57,9 +57,18 @@ function transformToRegion(json: any): Region {
   const name = extractRegionName(json);
   const type = extractRegionType(id);
   const subType = extractRegionSubType(json);
-  const children = extractChildren(json);
+  const municipalies = extractMunicipalities(json);
 
-  return { id, name, type, subType, children };
+  const region: Region = { id, name, type };
+  if (subType) {
+    region.subType = subType;
+  }
+
+  if (municipalies) {
+    region.children = municipalies;
+  }
+
+  return region;
 }
 
 function transformToWarning(json: any): Warning {
@@ -69,7 +78,7 @@ function transformToWarning(json: any): Warning {
   return { regionId, rating, date, meta: json };
 }
 
-function extractChildren(json: any): Region[] {
+function extractMunicipalities(json: any): Region[] {
   if (json.hasOwnProperty("MunicipalityList")) {
     return json.MunicipalityList.map(json => transformToRegion(json));
   }

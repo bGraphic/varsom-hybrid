@@ -9,6 +9,6 @@ export interface Region {
   name: string;
   id: string;
   type: RegionType;
-  subType: RegionSubType | null;
+  subType?: RegionSubType;
   children?: Region[];
 }
