@@ -1,21 +1,21 @@
 import { Action } from "@ngrx/store";
-import { WarningType, Warning } from "../models/Warning";
+import { ForecastType, Warning } from "../models/Warning";
 
 export const FETCH = "[Warnings] Fetch";
 export const FETCH_COMPLETE = "[Warnings] Fetch Complete";
 export const FETCH_ERROR = "[Warnings] Fetch Error";
 
 export interface FetchPayload {
-  warningType: WarningType;
+  warningType: ForecastType;
 }
 
 export interface FetchCompletePayload {
-  warningType: WarningType;
+  warningType: ForecastType;
   warnings: Warning[];
 }
 
 export interface FetchErrorPayload {
-  warningType: WarningType;
+  warningType: ForecastType;
   error: any;
 }
 

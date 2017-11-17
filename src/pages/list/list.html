@@ -5,7 +5,9 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-buttons end *ngIf="parentId">
-      <button ion-button icon-only [nveFavorite]="parentId"><ion-icon name="star"></ion-icon></button>
+      <button ion-button icon-only [nveFavorite]="parentId">
+        <ion-icon name="star"></ion-icon>
+      </button>
     </ion-buttons>
   </ion-navbar>
   <ion-toolbar *ngIf="segments.length > 0">
@@ -52,9 +54,9 @@
       </ion-list-header>
 
       <button detail-none ion-item *ngFor="let forecast of (forecasts | favoriteForecasts: favorites)" (click)="onListForecastSelected($event, forecast)">
-      <nve-warning-badge item-right *ngFor="let d of [0,1,2]" [level]="forecast.warnings[d].rating"></nve-warning-badge>
-      {{ forecast.areaName }}
-    </button>
+        <nve-warning-badge item-right *ngFor="let d of [0,1,2]" [level]="forecast.warnings[d].rating"></nve-warning-badge>
+        {{ forecast.areaName }}
+      </button>
     </ion-list>
 
     <ion-list *ngFor="let section of sections">
@@ -67,9 +69,9 @@
       </ion-item>
 
       <button detail-none ion-item *ngFor="let forecast of (forecasts | filterForecasts: section)" (click)="onListForecastSelected($event, forecast)">
-      <nve-warning-badge item-right *ngFor="let d of [0,1,2]" [level]="forecast.warnings[d].rating"></nve-warning-badge>
-      {{ forecast.areaName }}
-    </button>
+        <nve-warning-badge item-right *ngFor="let d of [0,1,2]" [level]="forecast.warnings[d].rating"></nve-warning-badge>
+        {{ forecast.areaName }}
+      </button>
 
     </ion-list>
   </div>

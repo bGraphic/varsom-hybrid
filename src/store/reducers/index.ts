@@ -41,8 +41,7 @@ import * as fromRegions from "./regions.reducer";
 import * as fromMapUIState from "./ui-map.reducer";
 import * as fromWarnings from "./warnings.reducer";
 import { RegionType, Region } from "../models/Region";
-import { Forecasts } from "../models/Warning";
-import { Forecast } from "../../models/Forecast";
+import { Forecast } from "../models/Warning";
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
@@ -89,17 +88,39 @@ export function reducer(state: any, action: any) {
 
 export const getRegionsState = (state: State) => state.regions;
 export const getRegions = createSelector(getRegionsState, fromRegions.getAll);
+export const getSelectedRegions = createSelector(
+  getRegionsState,
+  fromRegions.getSelected
+);
 
 // Warnings
 
 export const getWarningState = (state: State) => state.warnings;
-export const getWarnings = createSelector(getWarningState, fromWarnings.getAll);
-export const getForecasts = createSelector(
+export const getSelectedForecasts = createSelector(
   getWarningState,
-  fromWarnings.getForecasts
+  fromWarnings.getSelected
 );
 
 // Forecasts
+
+export const getForecasts = createSelector(
+  getSelectedRegions,
+  getSelectedForecasts,
+  (regions: Region[], forecasts: Forecast[]) => {
+    return regions.map(region => {
+      const regionForecasts = forecasts.filter(forecast => {
+        return forecast.regionId.startsWith(region.id);
+      });
+      const highestWarnings = fromWarnings.highestWarnings(regionForecasts);
+      return {
+        regionId: region.id,
+        regionName: region.name,
+        regionImportance: region.importance,
+        warnings: highestWarnings
+      };
+    });
+  }
+);
 
 // Location
 

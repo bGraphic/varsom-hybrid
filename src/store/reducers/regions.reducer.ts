@@ -3,7 +3,11 @@ import { RegionType, Region } from "../models/Region";
 import { createSelector } from "reselect";
 
 export interface State {
-  regions: { [k in RegionType]?: Region[] };
+  regions: {
+    AvalancheRegion: Region[];
+    County: Region[];
+  };
+  selectedKey: RegionType | string; // string = regionId
   error: { [k in RegionType]?: any | null };
 }
 
@@ -12,6 +16,7 @@ const initialState: State = {
     AvalancheRegion: [],
     County: []
   },
+  selectedKey: "County",
   error: {
     AvalancheRegion: null,
     County: null
@@ -49,3 +54,13 @@ export function reducer(
 }
 
 export const getAll = (state: State) => state.regions;
+export const getSelected = (state: State) => {
+  if (state.regions.hasOwnProperty(state.selectedKey)) {
+    return state.regions[state.selectedKey];
+  } else {
+    const region = state.regions.County.find(
+      region => region.id === state.selectedKey
+    );
+    return region ? region.children : [];
+  }
+};

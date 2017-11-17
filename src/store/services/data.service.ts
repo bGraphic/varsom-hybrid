@@ -2,8 +2,8 @@ import "rxjs/add/operator/map";
 import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
 import { Observable } from "rxjs/Observable";
-import { WarningType, Warning } from "../models/Warning";
-import { RegionType, Region, RegionSubType } from "../models/Region";
+import { ForecastType, Warning } from "../models/Warning";
+import { RegionType, Region, RegionImportance } from "../models/Region";
 
 @Injectable()
 export class DataService {
@@ -13,7 +13,7 @@ export class DataService {
     County: "http://api01.nve.no/hydrology/forecast/flood/v1.0.4/api/Region/" // Lang key for Region endpoint is not needed
   };
 
-  private API_WARNING_PATHS: { [k in WarningType]?: string } = {
+  private API_WARNING_PATHS: { [k in ForecastType]?: string } = {
     Avalanche:
       "http://api01.nve.no/hydrology/forecast/avalanche/test/api/Warning/All/1/",
     Flood:
@@ -47,7 +47,7 @@ export class DataService {
     return this._fetch(this.API_REGION_PATHS[regionType], transformToRegion);
   }
 
-  fetchWarnings(warningType: WarningType): Observable<Warning[]> {
+  fetchWarnings(warningType: ForecastType): Observable<Warning[]> {
     return this._fetch(this.API_WARNING_PATHS[warningType], transformToWarning);
   }
 }
@@ -56,13 +56,10 @@ function transformToRegion(json: any): Region {
   const id = extractRegionId(json);
   const name = extractRegionName(json);
   const type = extractRegionType(id);
-  const subType = extractRegionSubType(json);
+  const importance = extractImportance(json);
   const municipalies = extractMunicipalities(json);
 
-  const region: Region = { id, name, type };
-  if (subType) {
-    region.subType = subType;
-  }
+  const region: Region = { id, name, type, importance };
 
   if (municipalies) {
     region.children = municipalies;
@@ -72,7 +69,7 @@ function transformToRegion(json: any): Region {
 }
 
 function transformToWarning(json: any): Warning {
-  const regionId = extractRegionId(json);
+  const regionId = extractWarningRegionId(json);
   const rating = extractWarningRating(json);
   const date = extractDate(json);
   return { regionId, rating, date, meta: json };
@@ -89,12 +86,16 @@ function extractRegionName(json): string {
 }
 
 function extractRegionId(json): string {
+  if (json.hasOwnProperty("Id")) {
+    return String(json.Id);
+  }
+}
+
+function extractWarningRegionId(json): string {
   if (json.hasOwnProperty("RegionId")) {
-    return json.RegionId;
+    return String(json.RegionId);
   } else if (json.hasOwnProperty("MunicipalityList")) {
-    return json.MunicipalityList[0].Id;
-  } else if (json.hasOwnProperty("Id")) {
-    return json.Id;
+    return String(json.MunicipalityList[0].Id);
   }
 }
 
@@ -109,9 +110,11 @@ function extractRegionType(regionId: string): RegionType {
   }
 }
 
-function extractRegionSubType(json): RegionSubType {
+function extractImportance(json): RegionImportance {
   if (json.hasOwnProperty("TypeId")) {
     return json.TypeId;
+  } else {
+    return RegionImportance.A;
   }
 }
 
