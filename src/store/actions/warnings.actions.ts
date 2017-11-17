@@ -21,7 +21,7 @@ export interface FetchErrorPayload {
 
 export class FetchAction implements Action {
   readonly type = FETCH;
-  constructor(payload: FetchPayload) {}
+  constructor(public payload: FetchPayload) {}
 }
 
 export class FetchCompleteAction implements Action {

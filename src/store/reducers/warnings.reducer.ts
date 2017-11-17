@@ -5,11 +5,9 @@ import { createSelector } from "reselect";
 export interface State {
   forecasts: { [k in ForecastType]?: Forecast[] };
   selectedType: ForecastType;
-  error: {
-    Avalanche: null;
-    Flood: null;
-    Landslide: null;
-  };
+  fetching: { [k in ForecastType]?: Boolean };
+  timestamp: { [k in ForecastType]?: Date | null };
+  error: { [k in ForecastType]?: any | null };
 }
 
 const initialState: State = {
@@ -20,6 +18,16 @@ const initialState: State = {
     Combined: []
   },
   selectedType: "Combined",
+  fetching: {
+    Avalanche: false,
+    Flood: false,
+    Landslide: false
+  },
+  timestamp: {
+    Avalanche: null,
+    Flood: null,
+    Landslide: null
+  },
   error: {
     Avalanche: null,
     Flood: null,
@@ -32,6 +40,15 @@ export function reducer(
   action: WarningsActions.All
 ): State {
   switch (action.type) {
+    case WarningsActions.FETCH:
+      return {
+        ...state,
+        fetching: {
+          ...state.fetching,
+          [action.payload.warningType]: true
+        }
+      };
+
     case WarningsActions.FETCH_COMPLETE:
       const warningType = action.payload.warningType;
       let forecasts = { ...state.forecasts };
@@ -44,11 +61,20 @@ export function reducer(
       return {
         ...state,
         forecasts: forecasts,
+        fetching: {
+          ...state.fetching,
+          [action.payload.warningType]: false
+        },
+        timestamp: {
+          ...state.timestamp,
+          [action.payload.warningType]: new Date()
+        },
         error: {
           ...state.error,
           [action.payload.warningType]: null
         }
       };
+
     case WarningsActions.FETCH_ERROR:
       return {
         ...state,
@@ -57,6 +83,7 @@ export function reducer(
           [action.payload.warningType]: action.payload.error
         }
       };
+
     default:
       return state;
   }

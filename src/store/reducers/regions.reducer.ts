@@ -3,11 +3,10 @@ import { RegionType, Region } from "../models/Region";
 import { createSelector } from "reselect";
 
 export interface State {
-  regions: {
-    AvalancheRegion: Region[];
-    County: Region[];
-  };
+  regions: { [k in RegionType]?: Region[] };
   selectedKey: RegionType | string; // string = regionId
+  fetching: { [k in RegionType]?: Boolean };
+  timestamp: { [k in RegionType]?: Date | null };
   error: { [k in RegionType]?: any | null };
 }
 
@@ -17,6 +16,14 @@ const initialState: State = {
     County: []
   },
   selectedKey: "County",
+  fetching: {
+    AvalancheRegion: false,
+    County: false
+  },
+  timestamp: {
+    AvalancheRegion: null,
+    County: null
+  },
   error: {
     AvalancheRegion: null,
     County: null
@@ -28,6 +35,18 @@ export function reducer(
   action: RegionsActions.All
 ): State {
   switch (action.type) {
+    case RegionsActions.FETCH:
+      return {
+        ...state,
+        regions: {
+          ...state.regions
+        },
+        fetching: {
+          ...state.fetching,
+          [action.payload.regionType]: true
+        }
+      };
+
     case RegionsActions.FETCH_COMPLETE:
       return {
         ...state,
@@ -35,19 +54,33 @@ export function reducer(
           ...state.regions,
           [action.payload.regionType]: action.payload.regions
         },
+        fetching: {
+          ...state.fetching,
+          [action.payload.regionType]: false
+        },
+        timestamp: {
+          ...state.timestamp,
+          [action.payload.regionType]: new Date()
+        },
         error: {
           ...state.error,
           [action.payload.regionType]: null
         }
       };
+
     case RegionsActions.FETCH_ERROR:
       return {
         ...state,
+        fetching: {
+          ...state.fetching,
+          [action.payload.regionType]: false
+        },
         error: {
           ...state.error,
           [action.payload.regionType]: action.payload.error
         }
       };
+
     default:
       return state;
   }
