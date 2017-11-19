@@ -86,37 +86,48 @@ export function reducer(state: any, action: any) {
 
 // Regions
 
-export const getRegionsState = (state: State) => state.regions;
-export const getSelectedRegions = createSelector(
+const getRegionsState = (state: State) => state.regions;
+
+const getSelectedRegions = createSelector(
   getRegionsState,
-  fromRegions.getSelected
+  fromRegions.getSelectedRegions
 );
-export const getSelectedRegionsTimestamp = createSelector(
+
+const getSelectedRegionsTimestamp = createSelector(
   getRegionsState,
   fromRegions.getSelectedTimestamp
 );
-export const isFetchingSelectedRegions = createSelector(
+
+const isFetchingSelectedRegions = createSelector(
   getRegionsState,
   fromRegions.isFetchingSelected
 );
 
 // Warnings
 
-export const getWarningState = (state: State) => state.warnings;
-export const getSelectedForecasts = createSelector(
+const getWarningState = (state: State) => state.warnings;
+
+const getSelectedForecasts = createSelector(
   getWarningState,
   fromWarnings.getSelected
 );
-export const getSelectedForecastsTimestamp = createSelector(
+
+const getSelectedForecastsTimestamp = createSelector(
   getWarningState,
   fromWarnings.getSelectedTimestamp
 );
-export const isFetchingSelectedForecasts = createSelector(
+
+const isFetchingSelectedForecasts = createSelector(
   getWarningState,
   fromWarnings.isFetchingSelected
 );
 
 // Forecasts
+
+export const getRegionType = createSelector(
+  getRegionsState,
+  fromRegions.getSelectedRegionType
+);
 
 export const getForecasts = createSelector(
   getSelectedRegions,
@@ -136,6 +147,7 @@ export const getForecasts = createSelector(
     });
   }
 );
+
 export const getForecastTimestamp = getSelectedForecastsTimestamp;
 
 export const isFetchingForecasts = createSelector(

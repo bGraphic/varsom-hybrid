@@ -1,13 +1,9 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>TEST</ion-title>
+    <ion-title> {{ title( regionType$ | async ) | translate }} </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content class="list-page">
-
-  <forecast-list [forecasts]="activeB(forecasts$ | async)" [header]="'Active B'"></forecast-list>
-  <forecast-list [forecasts]="allA(forecasts$ | async)" [header]="'A Regions'"></forecast-list>
-  <forecast-list [forecasts]="allB(forecasts$ | async)" [header]="'B Regions'"></forecast-list>
-
+  <overview-list [forecasts]="forecasts$ | async" [regionType]="regionType | async"></overview-list>
 </ion-content>

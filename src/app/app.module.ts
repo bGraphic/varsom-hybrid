@@ -18,7 +18,6 @@ import { MyApp } from "./app.component";
 import { firebase, ionicCloud } from "./../config/config";
 
 import { OverviewPage } from "../pages/overview/overview";
-import { ForecastList } from "../pages/overview/forecast-list/forecast-list";
 import { FloodLandslideListPage } from "../pages/list/flood-landslide-list";
 import { AvalancheListPage } from "../pages/list/avalanche-list";
 import { AreaDetailsPage } from "../pages/area-details/area-details";
@@ -56,6 +55,8 @@ import { SplashScreen } from "@ionic-native/splash-screen";
 import { StatusBar } from "@ionic-native/status-bar";
 import { DataService as NewDataService } from "../store/services/data.service";
 import { RegionsEffects } from "../store/effects/regions.effects";
+import { OverviewList } from "../pages/overview/overview-list";
+import { OverviewListSection } from "../pages/overview/overview-list-section";
 
 export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -65,7 +66,8 @@ export function createTranslateLoader(http: Http) {
   declarations: [
     MyApp,
     OverviewPage,
-    ForecastList,
+    OverviewList,
+    OverviewListSection,
     FloodLandslideListPage,
     AvalancheListPage,
     AreaDetailsPage,

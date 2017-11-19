@@ -1,13 +1,13 @@
 import { Component, Input, Output } from "@angular/core";
-import { Forecast } from "../../../store/models/Warning";
+import { Forecast } from "../../store/models/Warning";
 import { EventEmitter } from "events";
-import { Warning } from "../../../models/Warning";
+import { Warning } from "../../models/Warning";
 
 @Component({
-  selector: "forecast-list",
-  templateUrl: "forecast-list.html"
+  selector: "overview-list-section",
+  templateUrl: "overview-list-section.html"
 })
-export class ForecastList {
+export class OverviewListSection {
   @Input() forecasts: Forecast[];
   @Input() header: string;
   @Output() onSelect = new EventEmitter();

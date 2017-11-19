@@ -17,7 +17,8 @@
   "A_REGIONS_LIST_TITLE": "Nord til sør",
   "B_REGIONS_LIST_TITLE": "Fylkesregioner",
   "B_REGIONS_ACTIVE_LIST_TITLE": "Aktive fylkesregioner",
-  "B_REGIONS_NOTE": "Varsler for fylkesregionene utarbeides kun når skrefaren vurderes til 4 eller 5.",
+  "B_REGIONS_NOTE":
+    "Varsler for fylkesregionene utarbeides kun når skrefaren vurderes til 4 eller 5.",
   "CAUSE": "Årsak",
   "LANDSLIDE_TYPE": "Type",
   "UPDATES": "Oppdateringer",
@@ -40,24 +41,29 @@
         "description": "Beskrivelse av isforholdene i hele landet."
       },
       {
-        "url": "http://www.varsom.no/flom-og-jordskredvarsling/aktsomhetsnivaer-for-flom-og-jordskredvarsling/",
+        "url":
+          "http://www.varsom.no/flom-og-jordskredvarsling/aktsomhetsnivaer-for-flom-og-jordskredvarsling/",
         "label": "Aktsomhetsnivåer - Flom / Jordskred",
-        "description": "Beskrivelse av aktsomhetsnivåer for flom- og jordskredvarsling."
+        "description":
+          "Beskrivelse av aktsomhetsnivåer for flom- og jordskredvarsling."
       },
       {
-        "url": "http://www.varsom.no/snoskredvarsling/faregradsskala-for-snoskredvarsling/",
+        "url":
+          "http://www.varsom.no/snoskredvarsling/faregradsskala-for-snoskredvarsling/",
         "label": "Faregradsskala - Snøskred",
         "description": "Beskrivelse av faregradsskala for snøskredvarsling."
       },
       {
         "url": "http://www.varsom.no/snoskredskolen/",
         "label": "Snøskredskolen",
-        "description": "Vi kaller det skredskole, men du kan godt kalle det skredvett."
+        "description":
+          "Vi kaller det skredskole, men du kan godt kalle det skredvett."
       },
       {
         "url": "http://www.varsom.no/en/",
         "label": "English",
-        "description": "Norwegian avalanche, flood and landslide hazard warnings in english."
+        "description":
+          "Norwegian avalanche, flood and landslide hazard warnings in english."
       }
     ]
   },
@@ -84,17 +90,11 @@
   "LOGOS": {
     "NVE": {
       "HEADER": "En app fra",
-      "LIST": [
-        "nve"
-      ]
+      "LIST": ["nve"]
     },
     "PARTNERS": {
       "HEADER": "i samarbeid med",
-      "LIST": [
-        "banenor",
-        "vegvesen",
-        "met"
-      ]
+      "LIST": ["banenor", "vegvesen", "met"]
     }
   },
   "UPDATE": {
@@ -106,6 +106,24 @@
     "BUTTON": {
       "UPDATE": "Oppdater",
       "SKIP": "Ikke nå"
+    }
+  },
+  "OVERVIEW": {
+    "PAGE_TITLE": {
+      "COUNTY": "Flom / Jordskred",
+      "AVALANCHE_REGION": "Snøskred"
+    },
+    "LIST_HEADER": {
+      "A_REGIONS": {
+        "AVALANCHE_REGION": "Nord til sør",
+        "COUNTY": "Nord til sør"
+      },
+      "B_REGIONS": {
+        "AVALANCHE_REGION": "Fylkesregioner"
+      },
+      "B_REGIONS_ACTIVE": {
+        "AVALANCHE_REGION": "Aktive fylkesregioner"
+      }
     }
   }
 }

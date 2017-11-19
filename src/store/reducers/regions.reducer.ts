@@ -97,7 +97,11 @@ export function reducer(
   }
 }
 
-export const getSelected = (state: State) => {
+export const getSelectedRegionType = (state: State) => {
+  return state.selected.regionType;
+};
+
+export const getSelectedRegions = (state: State) => {
   if (state.selected.regionId) {
     const region = state.regions.County.find(
       region => region.id === state.selected.regionId
