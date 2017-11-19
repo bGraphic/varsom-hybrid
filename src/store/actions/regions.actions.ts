@@ -39,7 +39,7 @@ export class SelectAction implements Action {
   readonly type = SELECT;
   constructor(
     public payload: {
-      regionType: RegionType;
+      regionType?: RegionType;
       regionId?: string;
     }
   ) {}

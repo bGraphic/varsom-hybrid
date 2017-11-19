@@ -89,7 +89,10 @@ export function reducer(
     case RegionsActions.SELECT:
       return {
         ...state,
-        selected: action.payload
+        selected: {
+          regionType: action.payload.regionType || state.selected.regionType,
+          regionId: action.payload.regionId
+        }
       };
 
     default:

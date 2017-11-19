@@ -1,5 +1,5 @@
 import { Component, ViewChild, ChangeDetectionStrategy } from "@angular/core";
-import { NavController, Content } from "ionic-angular";
+import { NavController, Content, NavParams } from "ionic-angular";
 
 import { Observable } from "rxjs/rx";
 import { Subscription } from "rxjs";
@@ -21,24 +21,11 @@ export class OverviewPage {
 
   constructor(
     private _navCtrl: NavController,
+    private _navParams: NavParams,
     private _store: Store<fromRoot.State>
   ) {
     this.forecasts$ = this._store.select(fromRoot.getForecasts);
     this.regionType$ = this._store.select(fromRoot.getRegionType);
-  }
-
-  ionViewDidEnter() {
-    this._store.dispatch(
-      new RegionsActions.SelectAction({
-        regionType: "County"
-      })
-    );
-
-    this._store.dispatch(
-      new WarningsActions.SelectAction({
-        warningType: "FloodLandslide"
-      })
-    );
   }
 
   title(regionType: RegionType) {
@@ -46,6 +33,6 @@ export class OverviewPage {
   }
 
   onSelect($event) {
-    console.log("ON SELECT", $event);
+    this._navCtrl.push(OverviewPage);
   }
 }

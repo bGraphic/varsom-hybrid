@@ -18,7 +18,7 @@ export class OverviewList {
   }
 
   headerActiveB(regionType: RegionType) {
-    this.translationKey("LIST_HEADER.B_REGIONS_ACTIVE", regionType);
+    return this.translationKey("LIST_HEADER.B_REGIONS_ACTIVE", regionType);
   }
 
   allA(forecasts: Forecast[]) {
@@ -28,7 +28,7 @@ export class OverviewList {
   }
 
   headerAllA(regionType: RegionType) {
-    this.translationKey("LIST_HEADER.A_REGIONS", regionType);
+    return this.translationKey("LIST_HEADER.A_REGIONS", regionType);
   }
 
   allB(forecasts: Forecast[]) {
@@ -38,7 +38,7 @@ export class OverviewList {
   }
 
   headerAllB(regionType: RegionType) {
-    this.translationKey("LIST_HEADER.B_REGIONS", regionType);
+    return this.translationKey("LIST_HEADER.B_REGIONS", regionType);
   }
 
   private active(forecasts: Forecast[]) {
