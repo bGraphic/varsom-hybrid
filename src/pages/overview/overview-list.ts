@@ -1,4 +1,4 @@
-import { Component, ViewChild, Input } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { Forecast } from "../../store/models/Warning";
 import { RegionType, RegionImportance } from "../../store/models/Region";
 
@@ -9,6 +9,7 @@ import { RegionType, RegionImportance } from "../../store/models/Region";
 export class OverviewList {
   @Input() forecasts: Forecast[];
   @Input() regionType: RegionType;
+  @Output() onSelect = new EventEmitter();
 
   constructor() {}
 

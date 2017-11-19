@@ -44,4 +44,8 @@ export class OverviewPage {
   title(regionType: RegionType) {
     return `OVERVIEW.PAGE_TITLE.${regionType.toUpperCase()}`;
   }
+
+  onSelect($event) {
+    console.log("ON SELECT", $event);
+  }
 }

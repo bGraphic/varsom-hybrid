@@ -1,6 +1,5 @@
-import { Component, Input, Output } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { Forecast } from "../../store/models/Warning";
-import { EventEmitter } from "events";
 import { Warning } from "../../models/Warning";
 
 @Component({
