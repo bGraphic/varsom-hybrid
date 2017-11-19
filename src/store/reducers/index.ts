@@ -87,10 +87,17 @@ export function reducer(state: any, action: any) {
 // Regions
 
 export const getRegionsState = (state: State) => state.regions;
-export const getRegions = createSelector(getRegionsState, fromRegions.getAll);
 export const getSelectedRegions = createSelector(
   getRegionsState,
   fromRegions.getSelected
+);
+export const getSelectedRegionsTimestamp = createSelector(
+  getRegionsState,
+  fromRegions.getSelectedTimestamp
+);
+export const isFetchingSelectedRegions = createSelector(
+  getRegionsState,
+  fromRegions.isFetchingSelected
 );
 
 // Warnings
@@ -99,6 +106,14 @@ export const getWarningState = (state: State) => state.warnings;
 export const getSelectedForecasts = createSelector(
   getWarningState,
   fromWarnings.getSelected
+);
+export const getSelectedForecastsTimestamp = createSelector(
+  getWarningState,
+  fromWarnings.getSelectedTimestamp
+);
+export const isFetchingSelectedForecasts = createSelector(
+  getWarningState,
+  fromWarnings.isFetchingSelected
 );
 
 // Forecasts
@@ -119,6 +134,15 @@ export const getForecasts = createSelector(
         warnings: highestWarnings
       };
     });
+  }
+);
+export const getForecastTimestamp = getSelectedForecastsTimestamp;
+
+export const isFetchingForecasts = createSelector(
+  isFetchingSelectedRegions,
+  isFetchingSelectedForecasts,
+  (isFetchingRegions, isFetchingForecasts) => {
+    return isFetchingRegions && isFetchingForecasts;
   }
 );
 

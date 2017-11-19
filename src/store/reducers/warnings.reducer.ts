@@ -15,23 +15,26 @@ const initialState: State = {
     Avalanche: [],
     Flood: [],
     Landslide: [],
-    Combined: []
+    FloodLandslide: []
   },
-  selectedType: "Combined",
+  selectedType: "FloodLandslide",
   fetching: {
     Avalanche: false,
     Flood: false,
-    Landslide: false
+    Landslide: false,
+    FloodLandslide: false
   },
   timestamp: {
     Avalanche: null,
     Flood: null,
-    Landslide: null
+    Landslide: null,
+    FloodLandslide: null
   },
   error: {
     Avalanche: null,
     Flood: null,
-    Landslide: null
+    Landslide: null,
+    FloodLandslide: null
   }
 };
 
@@ -39,58 +42,80 @@ export function reducer(
   state = initialState,
   action: WarningsActions.All
 ): State {
+  if (!action.payload || !action.payload.warningType) {
+    return state;
+  }
+
+  const warningType = action.payload.warningType;
+  const isAvalanche = warningType === "Avalanche";
+
+  let fetching = { ...state.fetching };
+  let timestamp = { ...state.timestamp };
+  let error = { ...state.error };
+
   switch (action.type) {
     case WarningsActions.FETCH:
+      fetching[warningType] = true;
+
+      if (!isAvalanche) {
+        fetching.FloodLandslide = true;
+      }
+
       return {
         ...state,
-        fetching: {
-          ...state.fetching,
-          [action.payload.warningType]: true
-        }
+        fetching: fetching
       };
 
     case WarningsActions.FETCH_COMPLETE:
-      const warningType = action.payload.warningType;
       let forecasts = { ...state.forecasts };
       forecasts[warningType] = transformToForecasts(action.payload.warnings);
-      forecasts.Combined = [
-        ...forecasts.Avalanche,
+      forecasts.FloodLandslide = [
         ...combineForecasts(forecasts.Flood, forecasts.Landslide)
       ];
+
+      fetching[warningType] = false;
+      timestamp[warningType] = new Date();
+      error[warningType] = null;
+
+      if (!isAvalanche) {
+        fetching.FloodLandslide = fetching.Flood || fetching.Landslide;
+        timestamp.FloodLandslide = fetching.FloodLandslide
+          ? timestamp.FloodLandslide
+          : timestamp[warningType];
+        error.FloodLandslide = fetching.FloodLandslide
+          ? error.FloodLandslide
+          : error[warningType];
+      }
 
       return {
         ...state,
         forecasts: forecasts,
-        fetching: {
-          ...state.fetching,
-          [action.payload.warningType]: false
-        },
-        timestamp: {
-          ...state.timestamp,
-          [action.payload.warningType]: new Date()
-        },
-        error: {
-          ...state.error,
-          [action.payload.warningType]: null
-        }
+        fetching: fetching,
+        timestamp: timestamp,
+        error: error
       };
 
     case WarningsActions.FETCH_ERROR:
+      error[warningType] = action.payload.error;
+      if (!isAvalanche) {
+        error.FloodLandslide = error[warningType];
+      }
       return {
         ...state,
-        error: {
-          ...state.error,
-          [action.payload.warningType]: action.payload.error
-        }
+        error: error
       };
 
     default:
       return state;
   }
 }
-export const getAll = (state: State) => state.forecasts;
+
 export const getSelected = (state: State) =>
   state.forecasts[state.selectedType];
+export const getSelectedTimestamp = (state: State) =>
+  state.timestamp[state.selectedType];
+export const isFetchingSelected = (state: State) =>
+  state.fetching[state.selectedType];
 
 const transformToForecasts = (warnings: Warning[]): Forecast[] => {
   const warningPerRegion = warnings.reduce(

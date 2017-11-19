@@ -15,14 +15,11 @@ export class WarningsEffects {
   fetchForecasts$: Observable<Action> = this._actions$
     .ofType(warningsActions.FETCH)
     .map(toPayload)
-    .startWith(
-      { warningType: "Avalanche" },
-      { warningType: "Flood" },
-      { warningType: "Landslide" }
-    )
+    .do(payload => console.log("payload", payload.warningType))
     // Group by so that switch map only happens on the same warningType
     .groupBy(payload => payload.warningType)
     .map(group$ => {
+      console.log("group", group$.key);
       return group$
         .switchMapTo(this._dataService.fetchWarnings(group$.key))
         .map(warnings => {

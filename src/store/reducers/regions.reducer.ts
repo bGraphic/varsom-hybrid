@@ -86,7 +86,6 @@ export function reducer(
   }
 }
 
-export const getAll = (state: State) => state.regions;
 export const getSelected = (state: State) => {
   if (state.regions.hasOwnProperty(state.selectedKey)) {
     return state.regions[state.selectedKey];
@@ -95,5 +94,22 @@ export const getSelected = (state: State) => {
       region => region.id === state.selectedKey
     );
     return region ? region.children : [];
+  }
+};
+export const getSelectedTimestamp = (state: State) => {
+  if (state.regions.hasOwnProperty(state.selectedKey)) {
+    return state.timestamp[state.selectedKey];
+  } else {
+    // Is a specific County
+    return state.timestamp.County;
+  }
+};
+
+export const isFetchingSelected = (state: State) => {
+  if (state.regions.hasOwnProperty(state.selectedKey)) {
+    return state.fetching[state.selectedKey];
+  } else {
+    // Is a specific County
+    return state.fetching.County;
   }
 };

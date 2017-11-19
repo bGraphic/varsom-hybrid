@@ -15,7 +15,6 @@ export class RegionsEffects {
   fetchForecasts$: Observable<Action> = this._actions$
     .ofType(regionsActions.FETCH)
     .map(toPayload)
-    .startWith({ regionType: "AvalancheRegion" }, { regionType: "County" })
     // Group by so that switch map only happens on the same warningType
     .groupBy(payload => payload.regionType)
     .map(group$ => {

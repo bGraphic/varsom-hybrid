@@ -10,6 +10,8 @@ import "moment/min/locales";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import * as fromRoot from "./../store/reducers";
+import * as warningsActions from "./../store/actions/warnings.actions";
+import * as regionsActions from "./../store/actions/regions.actions";
 
 import { PushService } from "../providers/push";
 import { SettingService } from "../providers/settings";
@@ -53,6 +55,7 @@ export class MyApp {
   ) {
     this.initializeTranslation();
     this.initializeApp();
+    this.initializeData();
     this._appVersionService.checkAppVersion();
 
     this.sections = [
@@ -109,6 +112,24 @@ export class MyApp {
         this._setInitalRootPage(activeSection);
       });
     });
+  }
+
+  private initializeData() {
+    this._store.dispatch(
+      new regionsActions.FetchAction({ regionType: "AvalancheRegion" })
+    );
+    this._store.dispatch(
+      new regionsActions.FetchAction({ regionType: "County" })
+    );
+    this._store.dispatch(
+      new warningsActions.FetchAction({ warningType: "Avalanche" })
+    );
+    this._store.dispatch(
+      new warningsActions.FetchAction({ warningType: "Flood" })
+    );
+    this._store.dispatch(
+      new warningsActions.FetchAction({ warningType: "Landslide" })
+    );
   }
 
   private initializeTranslation() {

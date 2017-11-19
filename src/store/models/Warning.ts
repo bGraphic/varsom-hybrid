@@ -1,6 +1,10 @@
 import { RegionImportance } from "./Region";
 
-export type ForecastType = "Avalanche" | "Flood" | "Landslide" | "Combined";
+export type ForecastType =
+  | "Avalanche"
+  | "Flood"
+  | "Landslide"
+  | "FloodLandslide";
 
 export interface Warning {
   regionId: string;
