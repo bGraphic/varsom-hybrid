@@ -6,7 +6,7 @@ export interface State {
   regions: { [k in RegionType]?: Region[] };
   selected: {
     regionType: RegionType;
-    regionId: string;
+    regionId?: string;
   };
   fetching: { [k in RegionType]?: Boolean };
   timestamp: { [k in RegionType]?: Date | null };
@@ -19,8 +19,7 @@ const initialState: State = {
     County: []
   },
   selected: {
-    regionType: "County",
-    regionId: null
+    regionType: "County"
   },
   fetching: {
     AvalancheRegion: false,

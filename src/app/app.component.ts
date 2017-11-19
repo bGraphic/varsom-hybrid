@@ -18,6 +18,7 @@ import { SettingService } from "../providers/settings";
 import { AppVersionService } from "../providers/app-version";
 import { FloodLandslideListPage } from "../pages/list/flood-landslide-list";
 import { AvalancheListPage } from "../pages/list/avalanche-list";
+import { OverviewPage } from "../pages/overview/overview";
 
 @Component({
   templateUrl: "app.html"
@@ -25,7 +26,7 @@ import { AvalancheListPage } from "../pages/list/avalanche-list";
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any;
+  rootPage: any = OverviewPage;
   sections: {
     titleKey: string;
     icon: string;
@@ -107,10 +108,10 @@ export class MyApp {
         this._config.set("ios", "backButtonText", res);
       });
 
-      this._settingService.activeSection$.subscribe(activeSection => {
-        this._activateSection(activeSection);
-        this._setInitalRootPage(activeSection);
-      });
+      // this._settingService.activeSection$.subscribe(activeSection => {
+      //   this._activateSection(activeSection);
+      //   this._setInitalRootPage(activeSection);
+      // });
     });
   }
 

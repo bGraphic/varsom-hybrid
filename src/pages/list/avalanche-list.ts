@@ -68,14 +68,6 @@ export class AvalancheListPage {
       fromRoot.getMapFullscreen("AVALANCHE")
     );
     this.recenterMap = this._store.select(fromRoot.getRecenterMap("AVALANCHE"));
-
-    this._store.select(fromRoot.getPosition()).subscribe(loc => {
-      console.log("Position", loc);
-    });
-
-    this._store.select(fromRoot.getForecasts).subscribe(res => {
-      console.log("Forecasts", res);
-    });
   }
 
   ionViewDidEnter() {

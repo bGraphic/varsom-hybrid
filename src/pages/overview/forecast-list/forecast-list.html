@@ -1,0 +1,10 @@
+<ion-list *ngIf="forecasts && forecasts.length > 0">
+  <ion-list-header>
+    <ion-note item-right *ngFor="let d of (forecasts | forecastsTimeframe)">{{ d | amDateFormat:'ddd' }}</ion-note>
+    {{ header }}
+  </ion-list-header>
+  <button detail-none ion-item *ngFor="let forecast of forecasts" (click)="onSelect.emit({ regionId: forecast.regionId })">
+    <nve-warning-badge item-right *ngFor="let rating of ratings(forecast.warnings)" [level]="rating"></nve-warning-badge>
+    {{ forecast.regionName }}
+  </button>
+</ion-list>

@@ -43,6 +43,8 @@ export class FavoriteForecastsPipe implements PipeTransform {
 @Pipe({ name: "forecastsTimeframe" })
 export class ForecastsTimeframePipe implements PipeTransform {
   transform(forecasts: Forecast[]) {
-    return Forecast.getTimeframeFromForecasts(forecasts);
+    if (forecasts.length > 0) {
+      return forecasts[0].warnings.map(warning => warning.date);
+    }
   }
 }

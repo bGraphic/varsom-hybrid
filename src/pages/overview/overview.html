@@ -1,0 +1,13 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>TEST</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="list-page">
+
+  <forecast-list [forecasts]="activeB(forecasts$ | async)" [header]="'Active B'"></forecast-list>
+  <forecast-list [forecasts]="allA(forecasts$ | async)" [header]="'A Regions'"></forecast-list>
+  <forecast-list [forecasts]="allB(forecasts$ | async)" [header]="'B Regions'"></forecast-list>
+
+</ion-content>

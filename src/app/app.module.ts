@@ -17,6 +17,8 @@ import { EffectsModule } from "@ngrx/effects";
 import { MyApp } from "./app.component";
 import { firebase, ionicCloud } from "./../config/config";
 
+import { OverviewPage } from "../pages/overview/overview";
+import { ForecastList } from "../pages/overview/forecast-list/forecast-list";
 import { FloodLandslideListPage } from "../pages/list/flood-landslide-list";
 import { AvalancheListPage } from "../pages/list/avalanche-list";
 import { AreaDetailsPage } from "../pages/area-details/area-details";
@@ -62,6 +64,8 @@ export function createTranslateLoader(http: Http) {
 @NgModule({
   declarations: [
     MyApp,
+    OverviewPage,
+    ForecastList,
     FloodLandslideListPage,
     AvalancheListPage,
     AreaDetailsPage,
@@ -102,7 +106,8 @@ export function createTranslateLoader(http: Http) {
     FloodLandslideListPage,
     AvalancheListPage,
     AreaDetailsPage,
-    WarningDetailsPage
+    WarningDetailsPage,
+    OverviewPage
   ],
   providers: [
     AppVersion,

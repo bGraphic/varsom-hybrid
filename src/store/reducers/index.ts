@@ -127,7 +127,7 @@ export const getForecasts = createSelector(
         return forecast.regionId.startsWith(region.id);
       });
       const highestWarnings = fromWarnings.highestWarnings(regionForecasts);
-      return {
+      return <Forecast>{
         regionId: region.id,
         regionName: region.name,
         regionImportance: region.importance,

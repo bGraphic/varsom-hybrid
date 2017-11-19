@@ -40,7 +40,7 @@ export class SelectAction implements Action {
   constructor(
     public payload: {
       regionType: RegionType;
-      regionId: string;
+      regionId?: string;
     }
   ) {}
 }
