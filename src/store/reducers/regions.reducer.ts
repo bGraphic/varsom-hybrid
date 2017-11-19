@@ -4,7 +4,10 @@ import { createSelector } from "reselect";
 
 export interface State {
   regions: { [k in RegionType]?: Region[] };
-  selectedKey: RegionType | string; // string = regionId
+  selected: {
+    regionType: RegionType;
+    regionId: string;
+  };
   fetching: { [k in RegionType]?: Boolean };
   timestamp: { [k in RegionType]?: Date | null };
   error: { [k in RegionType]?: any | null };
@@ -15,7 +18,10 @@ const initialState: State = {
     AvalancheRegion: [],
     County: []
   },
-  selectedKey: "County",
+  selected: {
+    regionType: "County",
+    regionId: null
+  },
   fetching: {
     AvalancheRegion: false,
     County: false
@@ -81,35 +87,42 @@ export function reducer(
         }
       };
 
+    case RegionsActions.SELECT:
+      return {
+        ...state,
+        selected: action.payload
+      };
+
     default:
       return state;
   }
 }
 
 export const getSelected = (state: State) => {
-  if (state.regions.hasOwnProperty(state.selectedKey)) {
-    return state.regions[state.selectedKey];
-  } else {
+  if (state.selected.regionId) {
     const region = state.regions.County.find(
-      region => region.id === state.selectedKey
+      region => region.id === state.selected.regionId
     );
     return region ? region.children : [];
+  } else {
+    return state.regions[state.selected.regionType];
   }
 };
+
 export const getSelectedTimestamp = (state: State) => {
-  if (state.regions.hasOwnProperty(state.selectedKey)) {
-    return state.timestamp[state.selectedKey];
-  } else {
+  if (state.selected.regionId) {
     // Is a specific County
     return state.timestamp.County;
+  } else {
+    return state.timestamp[state.selected.regionType];
   }
 };
 
 export const isFetchingSelected = (state: State) => {
-  if (state.regions.hasOwnProperty(state.selectedKey)) {
-    return state.fetching[state.selectedKey];
-  } else {
+  if (state.selected.regionId) {
     // Is a specific County
     return state.fetching.County;
+  } else {
+    return state.fetching[state.selected.regionType];
   }
 };

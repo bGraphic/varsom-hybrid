@@ -105,6 +105,12 @@ export function reducer(
         error: error
       };
 
+    case WarningsActions.SELECT:
+      return {
+        ...state,
+        selectedType: action.payload.warningType
+      };
+
     default:
       return state;
   }

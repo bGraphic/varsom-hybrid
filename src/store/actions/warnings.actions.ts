@@ -4,6 +4,7 @@ import { ForecastType, Warning } from "../models/Warning";
 export const FETCH = "[Warnings] Fetch";
 export const FETCH_COMPLETE = "[Warnings] Fetch Complete";
 export const FETCH_ERROR = "[Warnings] Fetch Error";
+export const SELECT = "[Warnings] Select warning type";
 
 export interface FetchPayload {
   warningType: ForecastType;
@@ -34,4 +35,17 @@ export class FetchErrorAction implements Action {
   constructor(public payload: FetchErrorPayload) {}
 }
 
-export type All = FetchAction | FetchCompleteAction | FetchErrorAction;
+export class SelectAction implements Action {
+  readonly type = SELECT;
+  constructor(
+    public payload: {
+      warningType: ForecastType;
+    }
+  ) {}
+}
+
+export type All =
+  | FetchAction
+  | FetchCompleteAction
+  | FetchErrorAction
+  | SelectAction;
