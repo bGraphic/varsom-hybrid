@@ -13,8 +13,7 @@ import { WarningType } from "../../store/models/Warning";
 import { Forecast } from "../../store/models/Forecast";
 
 @Component({
-  templateUrl: "overview.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: "overview.html"
 })
 export class OverviewPage {
   sectionType: SectionType;
