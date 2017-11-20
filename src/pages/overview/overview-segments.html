@@ -1,4 +1,4 @@
-<ion-toolbar *ngIf="segments.length > 0">
+<ion-toolbar *ngIf="segments.length > 1">
   <ion-segment [ngModel]="selectedSegment" (ionChange)="onSelect.emit($event.value)">
     <ion-segment-button *ngFor="let segment of segments" value="{{ segment }}">
       {{ "OVERVIEW.SEGMENT." + segment | uppercase | translate }}
