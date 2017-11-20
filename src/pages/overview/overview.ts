@@ -6,11 +6,11 @@ import { Subscription } from "rxjs";
 import { Store } from "@ngrx/store";
 
 import * as fromRoot from "./../../store/reducers";
+import * as SectionActions from "./../../store/actions/ui-sections.actions";
 import { Forecast } from "./../../store/models/Forecast";
-import * as RegionsActions from "./../../store/actions/regions.actions";
-import * as WarningsActions from "./../../store/actions/warnings.actions";
 import { RegionImportance, RegionType } from "../../store/models/Region";
 import { SectionType } from "../../store/models/Section";
+import { WarningType } from "../../store/models/Warning";
 
 @Component({
   templateUrl: "overview.html",
@@ -20,6 +20,8 @@ export class OverviewPage {
   sectionType: SectionType;
   regionId: string;
   forecasts$: Observable<Forecast[]>;
+  segments$: Observable<WarningType[]>;
+  selectedSegment$: Observable<WarningType>;
 
   constructor(
     private _navCtrl: NavController,
@@ -28,6 +30,13 @@ export class OverviewPage {
   ) {
     this.sectionType = this._navParams.get("sectionType") || "FloodLandslide";
     this.regionId = this._navParams.get("regionId");
+
+    this.segments$ = this._store.select(
+      fromRoot.getSegmentsForSection(this.sectionType)
+    );
+    this.selectedSegment$ = this._store.select(
+      fromRoot.getSelectedSegmentForSection(this.sectionType)
+    );
 
     this.forecasts$ = this._store
       .select(fromRoot.getForecastsForSection(this.sectionType))
@@ -54,7 +63,14 @@ export class OverviewPage {
     return `OVERVIEW.PAGE_TITLE.${regionType.toUpperCase()}`;
   }
 
-  onSelect({ regionId }) {
+  onSegmentSelect(segment: WarningType) {
+    console.log("Select segment", segment);
+    this._store.dispatch(
+      new SectionActions.SelectSegment({ segment: segment })
+    );
+  }
+
+  onForecastSelect(regionId: string) {
     if (this.sectionType === "FloodLandslide" && !this.regionId) {
       this._pushOverviewPage(regionId);
     }

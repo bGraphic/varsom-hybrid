@@ -4,18 +4,18 @@ import { SectionType } from "../models/Section";
 import { WarningType } from "../models/Warning";
 
 export interface State {
-  warningTypes: { [k in SectionType]?: WarningType[] };
   selectedSection: SectionType;
-  selectedWarningType: { [k in SectionType]?: WarningType };
+  segments: { [k in SectionType]?: WarningType[] };
+  selectedSegments: { [k in SectionType]?: WarningType };
 }
 
 const initialState: State = {
-  warningTypes: {
+  segments: {
     Avalanche: ["Avalanche"],
     FloodLandslide: ["FloodLandslide", "Flood", "Landslide"]
   },
   selectedSection: "FloodLandslide",
-  selectedWarningType: {
+  selectedSegments: {
     Avalanche: "Avalanche",
     FloodLandslide: "FloodLandslide"
   }
@@ -24,22 +24,22 @@ const initialState: State = {
 export function reducer(state = initialState, action: SectionsActions.All) {
   switch (action.type) {
     case SectionsActions.SELECTED_SECTION:
-      return {
+      return <State>{
         ...state,
         selectedSection: action.payload.section,
-        selectedWarningType: initialState.selectedWarningType
+        selectedSegments: initialState.selectedSegments
       };
-    case SectionsActions.SELECT_WARNING_TYPE:
-      const warningType = action.payload.warningType;
+    case SectionsActions.SELECT_SEGMENT:
+      const segment = action.payload.segment;
       const section: SectionType =
-        state.warningTypes.Avalanche.indexOf(warningType) > -1
+        state.segments.Avalanche.indexOf(segment) > -1
           ? "Avalanche"
           : "FloodLandslide";
       return {
         ...state,
-        selectedWarningType: {
-          ...state.selectedWarningType,
-          [section]: warningType
+        selectedSegments: {
+          ...state.selectedSegments,
+          [section]: segment
         }
       };
     default:
@@ -47,7 +47,5 @@ export function reducer(state = initialState, action: SectionsActions.All) {
   }
 }
 
-export const getSelectedWarningType = (state: State) =>
-  state.selectedWarningType;
-
-export const getWarningTypes = (state: State) => state.warningTypes;
+export const getSelectedSegments = (state: State) => state.selectedSegments;
+export const getSegments = (state: State) => state.segments;

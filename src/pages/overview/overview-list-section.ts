@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { Forecast } from "../../store/models/Forecast";
-import { Warning } from "../../models/Warning";
+import { Warning } from "../../store/models/Warning";
 
 @Component({
   selector: "overview-list-section",

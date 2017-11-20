@@ -124,6 +124,11 @@
       "B_REGIONS_ACTIVE": {
         "AVALANCHE": "Aktive fylkesregioner"
       }
+    },
+    "SEGMENT": {
+      "FLOODLANDSLIDE": "Flom/Jordskred",
+      "FLOOD": "Flom",
+      "LANDSLIDE": "Jordskred"
     }
   }
 }

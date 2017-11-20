@@ -101,21 +101,35 @@ const getAllWarnings = createSelector(getWarningState, fromWarnings.getAll);
 // UI Sections
 
 const getSectionsUIState = (state: State) => state.sectionsUI;
-const getSectionsSelectedWarningType = createSelector(
+const getSegments = createSelector(
   getSectionsUIState,
-  fromSectionsUIState.getSelectedWarningType
+  fromSectionsUIState.getSegments
+);
+const getSelectedSegments = createSelector(
+  getSectionsUIState,
+  fromSectionsUIState.getSelectedSegments
 );
 
-// Forecasts
+// For use by overview
+
+export const getSegmentsForSection = (section: SectionType) =>
+  createSelector(getSegments, segments => {
+    return segments[section];
+  });
+
+export const getSelectedSegmentForSection = (section: SectionType) =>
+  createSelector(getSelectedSegments, selectedSegments => {
+    return selectedSegments[section];
+  });
 
 export const getForecastsForSection = (sectionType: SectionType) =>
   createSelector(
     getAllRegions,
     getAllWarnings,
-    getSectionsSelectedWarningType,
-    (allRegions, allWarnings, warningType) => {
+    getSelectedSegments,
+    (allRegions, allWarnings, selectedSegments) => {
       return allRegions[sectionType].map(region => {
-        const warnings = allWarnings[warningType[sectionType]];
+        const warnings = allWarnings[selectedSegments[sectionType]];
         const allRegionWarnings = warnings.filter(regionWarnings => {
           return regionWarnings.regionId.startsWith(region.id);
         });
