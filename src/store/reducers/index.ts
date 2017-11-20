@@ -42,8 +42,9 @@ import * as fromMapUIState from "./ui-map.reducer";
 import * as fromSectionsUIState from "./ui-sections.reducer";
 import * as fromWarnings from "./warnings.reducer";
 import { RegionType, Region } from "../models/Region";
-import { Forecast } from "../models/Forecast";
 import { SectionType } from "../models/Section";
+import { WarningType, Warning } from "../models/Warning";
+import { Forecast } from "../models/Forecast";
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
@@ -122,32 +123,43 @@ export const getSelectedSegmentForSection = (section: SectionType) =>
     return selectedSegments[section];
   });
 
-export const getForecastsForSection = (sectionType: SectionType) =>
-  createSelector(
-    getAllRegions,
-    getAllWarnings,
-    getSelectedSegments,
-    (allRegions, allWarnings, selectedSegments) => {
-      return allRegions[sectionType].map(region => {
-        const warnings = allWarnings[selectedSegments[sectionType]];
-        const allRegionWarnings = warnings.filter(regionWarnings => {
-          return regionWarnings.regionId.startsWith(region.id);
+export const getForecastsForSection = (
+  sectionType: SectionType,
+  regionId?: string
+) =>
+  createSelector(getAllRegions, getAllWarnings, (allRegions, allWarnings) => {
+    console.log("getForecastsForSection");
+
+    const warningTypes = <WarningType[]>Object.keys(allWarnings);
+    const sectionRegions = allRegions[sectionType].filter(region => {
+      if (regionId) {
+        return region.type === "Municipality" && region.id.startsWith(regionId);
+      } else {
+        return region.type !== "Municipality";
+      }
+    });
+
+    return warningTypes.reduce(
+      (acc, warningType) => {
+        acc[warningType] = sectionRegions.map(region => {
+          const warnings = allWarnings[warningType].filter(regionWarnings => {
+            return regionWarnings.regionId.startsWith(region.id);
+          });
+
+          const highestWarnings = fromWarnings.highestWarnings(warnings);
+          return <Forecast>{
+            regionId: region.id,
+            regionName: region.name,
+            regionType: region.type,
+            regionImportance: region.importance,
+            warnings: highestWarnings
+          };
         });
-
-        const highestRegionWarnings = fromWarnings.highestWarnings(
-          allRegionWarnings
-        );
-
-        return <Forecast>{
-          regionId: region.id,
-          regionName: region.name,
-          regionType: region.type,
-          regionImportance: region.importance,
-          warnings: highestRegionWarnings
-        };
-      });
-    }
-  );
+        return acc;
+      },
+      <{ [k in WarningType]?: Forecast[] }>{}
+    );
+  });
 
 // Location
 

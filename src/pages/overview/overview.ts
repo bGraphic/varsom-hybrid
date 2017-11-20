@@ -7,10 +7,10 @@ import { Store } from "@ngrx/store";
 
 import * as fromRoot from "./../../store/reducers";
 import * as SectionActions from "./../../store/actions/ui-sections.actions";
-import { Forecast } from "./../../store/models/Forecast";
 import { RegionImportance, RegionType } from "../../store/models/Region";
 import { SectionType } from "../../store/models/Section";
 import { WarningType } from "../../store/models/Warning";
+import { Forecast } from "../../store/models/Forecast";
 
 @Component({
   templateUrl: "overview.html",
@@ -34,29 +34,19 @@ export class OverviewPage {
     this.segments$ = this._store.select(
       fromRoot.getSegmentsForSection(this.sectionType)
     );
+
     this.selectedSegment$ = this._store.select(
       fromRoot.getSelectedSegmentForSection(this.sectionType)
     );
 
-    this.forecasts$ = this._store
-      .select(fromRoot.getForecastsForSection(this.sectionType))
-      .map(forecasts => {
-        if (this.sectionType === "FloodLandslide") {
-          if (!this.regionId) {
-            return forecasts.filter(
-              forecast => forecast.regionType === "County"
-            );
-          } else {
-            return forecasts.filter(
-              forecast =>
-                forecast.regionType === "Municipality" &&
-                forecast.regionId.startsWith(this.regionId)
-            );
-          }
-        }
-        return forecasts;
-      })
-      .do(forecasts => console.log("Forecasts", forecasts));
+    const forecasts$ = this._store.select(
+      fromRoot.getForecastsForSection(this.sectionType, this.regionId)
+    );
+
+    this.forecasts$ = Observable.combineLatest(
+      forecasts$,
+      this.selectedSegment$
+    ).map(([forecasts, selectedSegment]) => forecasts[selectedSegment]);
   }
 
   title(regionType: RegionType) {
@@ -64,7 +54,6 @@ export class OverviewPage {
   }
 
   onSegmentSelect(segment: WarningType) {
-    console.log("Select segment", segment);
     this._store.dispatch(
       new SectionActions.SelectSegment({ segment: segment })
     );
