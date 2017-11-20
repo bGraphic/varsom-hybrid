@@ -117,10 +117,10 @@ export class MyApp {
 
   private initializeData() {
     this._store.dispatch(
-      new regionsActions.FetchAction({ regionType: "AvalancheRegion" })
+      new regionsActions.FetchAction({ sectionType: "Avalanche" })
     );
     this._store.dispatch(
-      new regionsActions.FetchAction({ regionType: "County" })
+      new regionsActions.FetchAction({ sectionType: "FloodLandslide" })
     );
     this._store.dispatch(
       new warningsActions.FetchAction({ warningType: "Avalanche" })

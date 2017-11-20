@@ -39,9 +39,11 @@ import { combineReducers } from "@ngrx/store";
 import * as fromLocation from "./location.reducer";
 import * as fromRegions from "./regions.reducer";
 import * as fromMapUIState from "./ui-map.reducer";
+import * as fromSectionsUIState from "./ui-sections.reducer";
 import * as fromWarnings from "./warnings.reducer";
 import { RegionType, Region } from "../models/Region";
-import { Forecast } from "../models/Warning";
+import { Forecast } from "../models/Forecast";
+import { SectionType } from "../models/Section";
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
@@ -51,6 +53,7 @@ export interface State {
   regions: fromRegions.State;
   location: fromLocation.State;
   mapUI: fromMapUIState.State;
+  sectionsUI: fromSectionsUIState.State;
   warnings: fromWarnings.State;
 }
 
@@ -65,6 +68,7 @@ const reducers = {
   regions: fromRegions.reducer,
   location: fromLocation.reducer,
   mapUI: fromMapUIState.reducer,
+  sectionsUI: fromSectionsUIState.reducer,
   warnings: fromWarnings.reducer
 };
 
@@ -87,76 +91,49 @@ export function reducer(state: any, action: any) {
 // Regions
 
 const getRegionsState = (state: State) => state.regions;
-
-const getSelectedRegions = createSelector(
-  getRegionsState,
-  fromRegions.getSelectedRegions
-);
-
-const getSelectedRegionsTimestamp = createSelector(
-  getRegionsState,
-  fromRegions.getSelectedTimestamp
-);
-
-const isFetchingSelectedRegions = createSelector(
-  getRegionsState,
-  fromRegions.isFetchingSelected
-);
+const getAllRegions = createSelector(getRegionsState, fromRegions.getAll);
 
 // Warnings
 
 const getWarningState = (state: State) => state.warnings;
+const getAllWarnings = createSelector(getWarningState, fromWarnings.getAll);
 
-const getSelectedForecasts = createSelector(
-  getWarningState,
-  fromWarnings.getSelected
-);
+// UI Sections
 
-const getSelectedForecastsTimestamp = createSelector(
-  getWarningState,
-  fromWarnings.getSelectedTimestamp
-);
-
-const isFetchingSelectedForecasts = createSelector(
-  getWarningState,
-  fromWarnings.isFetchingSelected
+const getSectionsUIState = (state: State) => state.sectionsUI;
+const getSectionsSelectedWarningType = createSelector(
+  getSectionsUIState,
+  fromSectionsUIState.getSelectedWarningType
 );
 
 // Forecasts
 
-export const getRegionType = createSelector(
-  getRegionsState,
-  fromRegions.getSelectedRegionType
-);
+export const getForecastsForSection = (sectionType: SectionType) =>
+  createSelector(
+    getAllRegions,
+    getAllWarnings,
+    getSectionsSelectedWarningType,
+    (allRegions, allWarnings, warningType) => {
+      return allRegions[sectionType].map(region => {
+        const warnings = allWarnings[warningType[sectionType]];
+        const allRegionWarnings = warnings.filter(regionWarnings => {
+          return regionWarnings.regionId.startsWith(region.id);
+        });
 
-export const getForecasts = createSelector(
-  getSelectedRegions,
-  getSelectedForecasts,
-  (regions: Region[], forecasts: Forecast[]) => {
-    return regions.map(region => {
-      const regionForecasts = forecasts.filter(forecast => {
-        return forecast.regionId.startsWith(region.id);
+        const highestRegionWarnings = fromWarnings.highestWarnings(
+          allRegionWarnings
+        );
+
+        return <Forecast>{
+          regionId: region.id,
+          regionName: region.name,
+          regionType: region.type,
+          regionImportance: region.importance,
+          warnings: highestRegionWarnings
+        };
       });
-      const highestWarnings = fromWarnings.highestWarnings(regionForecasts);
-      return <Forecast>{
-        regionId: region.id,
-        regionName: region.name,
-        regionImportance: region.importance,
-        warnings: highestWarnings
-      };
-    });
-  }
-);
-
-export const getForecastTimestamp = getSelectedForecastsTimestamp;
-
-export const isFetchingForecasts = createSelector(
-  isFetchingSelectedRegions,
-  isFetchingSelectedForecasts,
-  (isFetchingRegions, isFetchingForecasts) => {
-    return isFetchingRegions && isFetchingForecasts;
-  }
-);
+    }
+  );
 
 // Location
 

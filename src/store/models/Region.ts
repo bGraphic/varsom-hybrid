@@ -10,5 +10,4 @@ export interface Region {
   id: string;
   type: RegionType;
   importance?: RegionImportance;
-  children?: Region[];
 }

@@ -1,23 +1,21 @@
 import * as WarningsActions from "../actions/warnings.actions";
-import { Warning, Forecast, ForecastType } from "../models/Warning";
+import { Warning, WarningType, RegionWarnings } from "../models/Warning";
 import { createSelector } from "reselect";
 
 export interface State {
-  forecasts: { [k in ForecastType]?: Forecast[] };
-  selectedType: ForecastType;
-  fetching: { [k in ForecastType]?: Boolean };
-  timestamp: { [k in ForecastType]?: Date | null };
-  error: { [k in ForecastType]?: any | null };
+  warnings: { [k in WarningType]?: RegionWarnings[] };
+  fetching: { [k in WarningType]?: Boolean };
+  timestamp: { [k in WarningType]?: Date | null };
+  error: { [k in WarningType]?: any | null };
 }
 
 const initialState: State = {
-  forecasts: {
+  warnings: {
     Avalanche: [],
     Flood: [],
     Landslide: [],
     FloodLandslide: []
   },
-  selectedType: "FloodLandslide",
   fetching: {
     Avalanche: false,
     Flood: false,
@@ -67,17 +65,18 @@ export function reducer(
       };
 
     case WarningsActions.FETCH_COMPLETE:
-      let forecasts = { ...state.forecasts };
-      forecasts[warningType] = transformToForecasts(action.payload.warnings);
-      forecasts.FloodLandslide = [
-        ...combineForecasts(forecasts.Flood, forecasts.Landslide)
-      ];
-
+      let warnings = { ...state.warnings };
+      warnings[warningType] = transformToRegionWarnings(
+        action.payload.warnings
+      );
       fetching[warningType] = false;
       timestamp[warningType] = new Date();
       error[warningType] = null;
 
       if (!isAvalanche) {
+        warnings.FloodLandslide = [
+          ...combineWarnings(warnings.Flood, warnings.Landslide)
+        ];
         fetching.FloodLandslide = fetching.Flood || fetching.Landslide;
         timestamp.FloodLandslide = fetching.FloodLandslide
           ? timestamp.FloodLandslide
@@ -89,7 +88,7 @@ export function reducer(
 
       return {
         ...state,
-        forecasts: forecasts,
+        warnings: warnings,
         fetching: fetching,
         timestamp: timestamp,
         error: error
@@ -105,25 +104,14 @@ export function reducer(
         error: error
       };
 
-    case WarningsActions.SELECT:
-      return {
-        ...state,
-        selectedType: action.payload.warningType
-      };
-
     default:
       return state;
   }
 }
 
-export const getSelected = (state: State) =>
-  state.forecasts[state.selectedType];
-export const getSelectedTimestamp = (state: State) =>
-  state.timestamp[state.selectedType];
-export const isFetchingSelected = (state: State) =>
-  state.fetching[state.selectedType];
+export const getAll = (state: State) => state.warnings;
 
-const transformToForecasts = (warnings: Warning[]): Forecast[] => {
+const transformToRegionWarnings = (warnings: Warning[]): RegionWarnings[] => {
   const warningPerRegion = warnings.reduce(
     (acc, warning) => {
       acc[warning.regionId] = [...(acc[warning.regionId] || []), warning];
@@ -133,30 +121,32 @@ const transformToForecasts = (warnings: Warning[]): Forecast[] => {
   );
 
   return Object.keys(warningPerRegion).map(regionId => {
-    return <Forecast>{
+    return <RegionWarnings>{
       regionId: regionId,
       warnings: warningPerRegion[regionId]
     };
   });
 };
 
-const combineForecasts = (
-  forecastsA: Forecast[],
-  forecastsB: Forecast[]
-): Forecast[] => {
-  if (forecastsA.length === 0) {
-    return forecastsB;
-  } else if (forecastsB.length === 0) {
-    return forecastsA;
+const combineWarnings = (
+  warningsA: RegionWarnings[],
+  warningsB: RegionWarnings[]
+): RegionWarnings[] => {
+  if (warningsA.length === 0) {
+    return warningsB;
+  } else if (warningsB.length === 0) {
+    return warningsA;
   } else {
-    return forecastsA.map(forecastA => {
-      const forecastB =
-        forecastsB.find(forecast => forecast.regionId === forecastA.regionId) ||
-        forecastA;
-      return <Forecast>{
-        regionId: forecastA.regionId,
-        warnings: forecastA.warnings.map((warningA, index) => {
-          const warningB = forecastB.warnings[index];
+    return warningsA.map(regionsWarningsA => {
+      const regionWarningsB =
+        warningsB.find(
+          regionWarnings =>
+            regionWarnings.regionId === regionsWarningsA.regionId
+        ) || regionsWarningsA;
+      return <RegionWarnings>{
+        regionId: regionsWarningsA.regionId,
+        warnings: regionsWarningsA.warnings.map((warningA, index) => {
+          const warningB = regionWarningsB.warnings[index];
           return warningA.rating > warningB.rating ? warningA : warningB;
         })
       };
@@ -164,13 +154,13 @@ const combineForecasts = (
   }
 };
 
-export const highestWarnings = (forecasts: Forecast[]): Warning[] => {
-  return forecasts.reduce((acc, forecast) => {
-    acc = acc.length === 0 ? forecast.warnings : acc;
+export const highestWarnings = (warnings: RegionWarnings[]): Warning[] => {
+  return warnings.reduce((acc, regionWarnings) => {
+    acc = acc.length === 0 ? regionWarnings.warnings : acc;
     return acc.map((warning, index) => {
-      return warning.rating > forecast.warnings[index].rating
+      return warning.rating > regionWarnings.warnings[index].rating
         ? warning
-        : forecast.warnings[index];
+        : regionWarnings.warnings[index];
     });
   }, []);
 };

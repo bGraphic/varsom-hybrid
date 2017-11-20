@@ -1,5 +1,6 @@
 import { Action } from "@ngrx/store";
-import { RegionType, Region } from "../models/Region";
+import { Region } from "../models/Region";
+import { SectionType } from "../models/Section";
 
 export const FETCH = "[Regions] Fetch";
 export const FETCH_COMPLETE = "[Regions] Fetch Complete";
@@ -10,7 +11,7 @@ export class FetchAction implements Action {
   readonly type = FETCH;
   constructor(
     public payload: {
-      regionType: RegionType;
+      sectionType: SectionType;
     }
   ) {}
 }
@@ -19,7 +20,7 @@ export class FetchCompleteAction implements Action {
   readonly type = FETCH_COMPLETE;
   constructor(
     public payload: {
-      regionType: RegionType;
+      sectionType: SectionType;
       regions: Region[];
     }
   ) {}
@@ -29,24 +30,10 @@ export class FetchErrorAction implements Action {
   readonly type = FETCH_ERROR;
   constructor(
     public payload: {
-      regionType: RegionType;
+      sectionType: SectionType;
       error: any;
     }
   ) {}
 }
 
-export class SelectAction implements Action {
-  readonly type = SELECT;
-  constructor(
-    public payload: {
-      regionType?: RegionType;
-      regionId?: string;
-    }
-  ) {}
-}
-
-export type All =
-  | FetchAction
-  | FetchCompleteAction
-  | FetchErrorAction
-  | SelectAction;
+export type All = FetchAction | FetchCompleteAction | FetchErrorAction;

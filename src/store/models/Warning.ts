@@ -1,6 +1,4 @@
-import { RegionImportance } from "./Region";
-
-export type ForecastType =
+export type WarningType =
   | "Avalanche"
   | "Flood"
   | "Landslide"
@@ -13,9 +11,7 @@ export interface Warning {
   meta: any;
 }
 
-export interface Forecast {
+export interface RegionWarnings {
   regionId: string;
-  regionName?: string;
-  regionImportance?: RegionImportance;
-  warnings?: [Warning, Warning, Warning];
+  warnings: Warning[];
 }

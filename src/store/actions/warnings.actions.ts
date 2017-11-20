@@ -1,22 +1,21 @@
 import { Action } from "@ngrx/store";
-import { ForecastType, Warning } from "../models/Warning";
+import { WarningType, Warning } from "../models/Warning";
 
 export const FETCH = "[Warnings] Fetch";
 export const FETCH_COMPLETE = "[Warnings] Fetch Complete";
 export const FETCH_ERROR = "[Warnings] Fetch Error";
-export const SELECT = "[Warnings] Select warning type";
 
 export interface FetchPayload {
-  warningType: ForecastType;
+  warningType: WarningType;
 }
 
 export interface FetchCompletePayload {
-  warningType: ForecastType;
+  warningType: WarningType;
   warnings: Warning[];
 }
 
 export interface FetchErrorPayload {
-  warningType: ForecastType;
+  warningType: WarningType;
   error: any;
 }
 
@@ -35,17 +34,4 @@ export class FetchErrorAction implements Action {
   constructor(public payload: FetchErrorPayload) {}
 }
 
-export class SelectAction implements Action {
-  readonly type = SELECT;
-  constructor(
-    public payload: {
-      warningType: ForecastType;
-    }
-  ) {}
-}
-
-export type All =
-  | FetchAction
-  | FetchCompleteAction
-  | FetchErrorAction
-  | SelectAction;
+export type All = FetchAction | FetchCompleteAction | FetchErrorAction;

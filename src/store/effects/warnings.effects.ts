@@ -12,14 +12,12 @@ export class WarningsEffects {
   constructor(private _actions$: Actions, private _dataService: DataService) {}
 
   @Effect()
-  fetchForecasts$: Observable<Action> = this._actions$
+  fetchWarnings$: Observable<Action> = this._actions$
     .ofType(warningsActions.FETCH)
     .map(toPayload)
-    .do(payload => console.log("payload", payload.warningType))
     // Group by so that switch map only happens on the same warningType
     .groupBy(payload => payload.warningType)
     .map(group$ => {
-      console.log("group", group$.key);
       return group$
         .switchMapTo(this._dataService.fetchWarnings(group$.key))
         .map(warnings => {
@@ -29,7 +27,6 @@ export class WarningsEffects {
           });
         })
         .catch(error => {
-          console.log("ERROR", error);
           return of(
             new warningsActions.FetchErrorAction({
               warningType: group$.key,

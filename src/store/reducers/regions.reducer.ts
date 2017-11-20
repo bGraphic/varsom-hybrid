@@ -1,37 +1,31 @@
 import * as RegionsActions from "../actions/regions.actions";
 import { RegionType, Region } from "../models/Region";
 import { createSelector } from "reselect";
+import { SectionType } from "../models/Section";
 
 export interface State {
-  regions: { [k in RegionType]?: Region[] };
-  selected: {
-    regionType: RegionType;
-    regionId?: string;
-  };
-  fetching: { [k in RegionType]?: Boolean };
-  timestamp: { [k in RegionType]?: Date | null };
-  error: { [k in RegionType]?: any | null };
+  regions: { [k in SectionType]?: Region[] };
+  fetching: { [k in SectionType]?: Boolean };
+  timestamp: { [k in SectionType]?: Date | null };
+  error: { [k in SectionType]?: any | null };
 }
 
 const initialState: State = {
   regions: {
-    AvalancheRegion: [],
-    County: []
-  },
-  selected: {
-    regionType: "County"
+    Avalanche: [],
+    FloodLandslide: []
   },
   fetching: {
-    AvalancheRegion: false,
-    County: false
+    Avalanche: false,
+    FloodLandslide: false
   },
   timestamp: {
-    AvalancheRegion: null,
-    County: null
+    Avalanche: null,
+    FloodLandslide: null
   },
   error: {
-    AvalancheRegion: null,
-    County: null
+    Avalanche: null,
+    FloodLandslide: null
   }
 };
 
@@ -43,12 +37,9 @@ export function reducer(
     case RegionsActions.FETCH:
       return {
         ...state,
-        regions: {
-          ...state.regions
-        },
         fetching: {
           ...state.fetching,
-          [action.payload.regionType]: true
+          [action.payload.sectionType]: true
         }
       };
 
@@ -57,19 +48,19 @@ export function reducer(
         ...state,
         regions: {
           ...state.regions,
-          [action.payload.regionType]: action.payload.regions
+          [action.payload.sectionType]: action.payload.regions
         },
         fetching: {
           ...state.fetching,
-          [action.payload.regionType]: false
+          [action.payload.sectionType]: false
         },
         timestamp: {
           ...state.timestamp,
-          [action.payload.regionType]: new Date()
+          [action.payload.sectionType]: new Date()
         },
         error: {
           ...state.error,
-          [action.payload.regionType]: null
+          [action.payload.sectionType]: null
         }
       };
 
@@ -78,20 +69,11 @@ export function reducer(
         ...state,
         fetching: {
           ...state.fetching,
-          [action.payload.regionType]: false
+          [action.payload.sectionType]: false
         },
         error: {
           ...state.error,
-          [action.payload.regionType]: action.payload.error
-        }
-      };
-
-    case RegionsActions.SELECT:
-      return {
-        ...state,
-        selected: {
-          regionType: action.payload.regionType || state.selected.regionType,
-          regionId: action.payload.regionId
+          [action.payload.sectionType]: action.payload.error
         }
       };
 
@@ -100,35 +82,6 @@ export function reducer(
   }
 }
 
-export const getSelectedRegionType = (state: State) => {
-  return state.selected.regionType;
-};
-
-export const getSelectedRegions = (state: State) => {
-  if (state.selected.regionId) {
-    const region = state.regions.County.find(
-      region => region.id === state.selected.regionId
-    );
-    return region ? region.children : [];
-  } else {
-    return state.regions[state.selected.regionType];
-  }
-};
-
-export const getSelectedTimestamp = (state: State) => {
-  if (state.selected.regionId) {
-    // Is a specific County
-    return state.timestamp.County;
-  } else {
-    return state.timestamp[state.selected.regionType];
-  }
-};
-
-export const isFetchingSelected = (state: State) => {
-  if (state.selected.regionId) {
-    // Is a specific County
-    return state.fetching.County;
-  } else {
-    return state.fetching[state.selected.regionType];
-  }
-};
+export const getAll = (state: State) => state.regions;
+export const getFetching = (state: State) => state.fetching;
+export const getTimestamp = (state: State) => state.timestamp;

@@ -6,32 +6,33 @@ import { Action } from "@ngrx/store";
 
 import * as regionsActions from "./../actions/regions.actions";
 import { DataService } from "../services/data.service";
+import { SectionType } from "../models/Section";
 
 @Injectable()
 export class RegionsEffects {
   constructor(private _actions$: Actions, private _dataService: DataService) {}
 
   @Effect()
-  fetchForecasts$: Observable<Action> = this._actions$
+  fetchRegions$: Observable<Action> = this._actions$
     .ofType(regionsActions.FETCH)
     .map(toPayload)
     // Group by so that switch map only happens on the same warningType
-    .groupBy(payload => payload.regionType)
+    .groupBy(payload => payload.sectionType)
     .map(group$ => {
       return group$
         .switchMap(payload =>
-          this._dataService.fetchRegions(payload.regionType)
+          this._dataService.fetchRegions(<SectionType>group$.key)
         )
         .map(regions => {
           return new regionsActions.FetchCompleteAction({
-            regionType: group$.key,
+            sectionType: group$.key,
             regions
           });
         })
         .catch(error => {
           return of(
             new regionsActions.FetchErrorAction({
-              regionType: group$.key,
+              sectionType: group$.key,
               error: error
             })
           );

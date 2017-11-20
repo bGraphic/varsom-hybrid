@@ -1,9 +1,9 @@
 <ion-header>
   <ion-navbar>
-    <ion-title> {{ title( regionType$ | async ) | translate }} </ion-title>
+    <ion-title> {{ title( sectionType) | translate }} </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content class="list-page">
-  <overview-list [forecasts]="forecasts$ | async" [regionType]="regionType$ | async" (onSelect)="onSelect($event)"></overview-list>
+  <overview-list [forecasts]="(forecasts$ | async) || []" [sectionType]="sectionType" (onSelect)="onSelect($event)"></overview-list>
 </ion-content>

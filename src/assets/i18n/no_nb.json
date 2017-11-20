@@ -110,19 +110,19 @@
   },
   "OVERVIEW": {
     "PAGE_TITLE": {
-      "COUNTY": "Flom / Jordskred",
-      "AVALANCHE_REGION": "Snøskred"
+      "FLOODLANDSLIDE": "Flom / Jordskred",
+      "AVALANCHE": "Snøskred"
     },
     "LIST_HEADER": {
       "A_REGIONS": {
-        "AVALANCHE_REGION": "Nord til sør",
-        "COUNTY": "Nord til sør"
+        "FLOODLANDSLIDE": "Nord til sør",
+        "AVALANCHE": "Nord til sør"
       },
       "B_REGIONS": {
-        "AVALANCHE_REGION": "Fylkesregioner"
+        "AVALANCHE": "Fylkesregioner"
       },
       "B_REGIONS_ACTIVE": {
-        "AVALANCHE_REGION": "Aktive fylkesregioner"
+        "AVALANCHE": "Aktive fylkesregioner"
       }
     }
   }
