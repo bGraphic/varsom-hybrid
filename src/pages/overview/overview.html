@@ -2,9 +2,9 @@
   <ion-navbar>
     <ion-title> {{ title( sectionType) | translate }} </ion-title>
   </ion-navbar>
-  <overview-segments [segments]="(segments$ | async) || []" [selectedSegment]="selectedSegment$ | async" (onSelect)="onSegmentSelect($event)"></overview-segments>
+  <overview-segments [segments]="segments$ | async" [selectedSegment]="selectedSegment$ | async" (onSelect)="onSegmentSelect($event)"></overview-segments>
 </ion-header>
 
 <ion-content class="list-page">
-  <overview-list [forecasts]="(forecasts$ | async) || []" [sectionType]="sectionType" (onSelect)="onForecastSelect($event)"></overview-list>
+  <overview-list [forecasts]="forecasts$ | async" [sectionType]="sectionType" (onSelect)="onForecastSelect($event)"></overview-list>
 </ion-content>
