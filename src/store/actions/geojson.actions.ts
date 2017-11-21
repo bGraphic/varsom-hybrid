@@ -20,7 +20,7 @@ export class FetchCompleteAction implements Action {
   constructor(
     public payload: {
       sectionType: SectionType;
-      geojsonObjects: GeoJSON.GeoJsonObject;
+      features: any[];
     }
   ) {}
 }

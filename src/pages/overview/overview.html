@@ -5,8 +5,9 @@
   <overview-segments [segments]="segments$ | async" [selectedSegment]="selectedSegment$ | async" (onSelect)="onSegmentSelect($event)"></overview-segments>
 </ion-header>
 
-<ion-content class="list-page">
-  <overview-map tappable *ngIf="!regionId" [forecasts]="forecasts$ | async" [geojson]="geojson$ | async" [marker]="position | async"
-    [settings]="mapSettings$ | async"></overview-map>
+<ion-content class="list-page" [ngClass]="{ 'has-map': hasMap, 'map-fullscreen': (mapSettings$ | async).isFullscreen }">
+  <overview-map-controls *ngIf="hasMap" [settings]="mapSettings$ | async" (onToggleFullscreen)="onToggleMapFullscreen($event)"></overview-map-controls>
+  <overview-map *ngIf="hasMap" [geojson]="geojsonForecasts$ | async" [marker]="position | async" [settings]="mapSettings$ | async"
+    (onRegionSelect)="onForecastSelect($event)"></overview-map>
   <overview-list [forecasts]="forecasts$ | async" [sectionType]="sectionType" (onSelect)="onForecastSelect($event)"></overview-list>
 </ion-content>

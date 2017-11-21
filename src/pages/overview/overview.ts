@@ -12,6 +12,7 @@ import { SectionType } from "../../store/models/Section";
 import { WarningType } from "../../store/models/Warning";
 import { Forecast } from "../../store/models/Forecast";
 import { Position } from "./../../store/models/Location";
+import { ThemeUtils } from "../../utils/theme-utils";
 
 @Component({
   templateUrl: "overview.html"
@@ -21,11 +22,12 @@ export class OverviewPage {
 
   sectionType: SectionType;
   regionId: string;
+  hasMap: boolean;
   position$: Observable<Position>;
   segments$: Observable<WarningType[]>;
   selectedSegment$: Observable<WarningType>;
   mapSettings$: Observable<any>;
-  geojson$: Observable<GeoJSON.GeoJsonObject>;
+  geojsonForecasts$: Observable<any[]>;
   forecasts$: Observable<Forecast[]>;
   region$: Observable<Region>;
 
@@ -36,6 +38,7 @@ export class OverviewPage {
   ) {
     this.sectionType = this._navParams.get("sectionType") || "FloodLandslide";
     this.regionId = this._navParams.get("regionId");
+    this.hasMap = !this.regionId;
 
     this.position$ = this._store
       .select(fromRoot.getPosition())
@@ -57,7 +60,7 @@ export class OverviewPage {
       fromRoot.getRegionForSection(this.sectionType, this.regionId)
     );
 
-    this.geojson$ = this._store.select(
+    const geojson$ = this._store.select(
       fromRoot.getGeojsonForSection(this.sectionType)
     );
 
@@ -69,6 +72,28 @@ export class OverviewPage {
       forecasts$,
       this.selectedSegment$
     ).map(([forecasts, selectedSegment]) => forecasts[selectedSegment]);
+
+    this.geojsonForecasts$ = Observable.combineLatest(
+      geojson$,
+      this.forecasts$
+    ).map(([geojson, forecasts]) => {
+      return geojson.map(feature => {
+        const forecast = forecasts.find(
+          forecast => forecast.regionId === feature.properties.regionId
+        );
+        const properties = {
+          ...feature.properties,
+          color: forecast
+            ? ThemeUtils.colorForRating(forecast.highestRating)
+            : ThemeUtils.colorForRating(0)
+        };
+        return {
+          type: feature.type,
+          properties: properties,
+          geometry: feature.geometry
+        };
+      });
+    });
   }
 
   title(region: Region) {
@@ -77,15 +102,6 @@ export class OverviewPage {
     } else {
       return `OVERVIEW.PAGE_TITLE.${this.sectionType.toUpperCase()}`;
     }
-  }
-
-  mapOffset(isFullscreen) {
-    if (isFullscreen) {
-      return 0;
-    }
-
-    const height = this.content.contentTop + this.content.contentHeight;
-    return -(height * 0.15 + height * 0.35 / 2 - this.content.contentTop);
   }
 
   onSegmentSelect(segment: WarningType) {
@@ -102,21 +118,24 @@ export class OverviewPage {
     this._pushForecastPage(regionId);
   }
 
-  onMapFullscreenToggle() {
+  onToggleMapFullscreen() {
     this._store.dispatch(
-      new UIMapActions.ToogleFullscreen({ mapKey: "AVALANCHE" })
+      new UIMapActions.ToogleFullscreen({ mapKey: this.sectionType })
     );
   }
 
   onMapCenterOnMarker() {
     this._store.dispatch(
-      new UIMapActions.RequestRecenter({ mapKey: "AVALANCHE" })
+      new UIMapActions.RequestRecenter({ mapKey: this.sectionType })
     );
   }
 
   onMapIsCenterUpdated(isCentered: boolean) {
     this._store.dispatch(
-      new UIMapActions.IsCenteredUpdate({ mapKey: "AVALANCHE", isCentered })
+      new UIMapActions.IsCenteredUpdate({
+        mapKey: this.sectionType,
+        isCentered
+      })
     );
   }
 

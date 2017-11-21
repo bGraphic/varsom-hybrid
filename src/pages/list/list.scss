@@ -1,4 +1,46 @@
 .list-page {
+  &.has-map {
+    .scroll-content {
+      padding-top: 35vh;
+    }
+  }
+
+  &.has-map.map-fullscreen {
+    .scroll-content {
+      padding-top: 100%;
+    }
+  }
+
+  .map-controls {
+    top: 0;
+    right: 0;
+    position: absolute;
+    padding: 6px;
+
+    button {
+      background: color($colors, light);
+      display: block;
+      transition: opacity 250ms ease-in-out;
+      opacity: 0;
+      pointer-events: none;
+
+      &.show {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      &.button-ios {
+        margin: 6px;
+        width: 34px;
+      }
+
+      &.button-md {
+        margin: 6px;
+        box-shadow: none;
+        width: 34px;
+      }
+    }
+  }
 
   .map {
     transition: top 250ms ease-in-out !important;
@@ -52,7 +94,7 @@
           margin: 6px;
           width: 34px;
         }
-  
+
         &.button-md {
           margin: 6px;
           box-shadow: none;
@@ -68,7 +110,6 @@
   }
 
   ion-list {
-
     &.list-ios {
       .list-header {
         background: $list-background-color;

@@ -59,6 +59,7 @@ import { Geolocation } from "@ionic-native/geolocation";
 import { InAppBrowser } from "@ionic-native/in-app-browser";
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { StatusBar } from "@ionic-native/status-bar";
+import { OverviewMapControls } from "../pages/overview/overview-map-controls";
 
 export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -69,6 +70,7 @@ export function createTranslateLoader(http: Http) {
     MyApp,
     OverviewPage,
     OverviewMap,
+    OverviewMapControls,
     OverviewSegments,
     OverviewList,
     OverviewListSection,

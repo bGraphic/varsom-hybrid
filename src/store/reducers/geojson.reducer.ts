@@ -2,14 +2,14 @@ import * as GeojsonActions from "../actions/geojson.actions";
 import { SectionType } from "../models/Section";
 
 export interface State {
-  geojsonObjects: { [k in SectionType]?: GeoJSON.GeoJsonObject };
+  features: { [k in SectionType]?: any[] };
   error: { [k in SectionType]?: any | null };
 }
 
 const initialState: State = {
-  geojsonObjects: {
-    Avalanche: null,
-    FloodLandslide: null
+  features: {
+    Avalanche: [],
+    FloodLandslide: []
   },
   error: {
     Avalanche: null,
@@ -25,9 +25,9 @@ export function reducer(
     case GeojsonActions.FETCH_COMPLETE:
       return {
         ...state,
-        geojsonObjects: {
-          ...state.geojsonObjects,
-          [action.payload.sectionType]: action.payload.geojsonObjects
+        features: {
+          ...state.features,
+          [action.payload.sectionType]: action.payload.features
         },
         error: {
           ...state.error,
@@ -49,4 +49,4 @@ export function reducer(
   }
 }
 
-export const getAll = (state: State) => state.geojsonObjects;
+export const getAll = (state: State) => state.features;

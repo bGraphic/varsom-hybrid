@@ -1,16 +1,3 @@
-<div class="map" nveMap [forecasts]="forecasts" [geoJsonData]="geojson" [marker]="marker" [center]="settings.center" [zoomLevel]="settings.zoomLevel"
-  (isCenteredUpdated)="onIsCenterUpdated.emit($event)" (areaSelected)="onRegionSelect($event)">
-</div>
-
-<div class="map-overlay" [ngClass]="{ 'fullscreen': settings.isFillscreen }">
-  <!-- <div class="controls" [style.top.px]="content.contentTop"> -->
-  <div class="controls">
-    <button class="show" ion-button icon-only small outline color="dark" (click)="onMapFullscreenToggle($event)">
-      <ion-icon *ngIf="!(mapFullscreen | async)" name="expand"></ion-icon>
-      <ion-icon *ngIf="(mapFullscreen | async)" name="contract"></ion-icon>
-    </button>
-    <button [ngClass]="{ 'show': !(mapIsCentered | async) }" ion-button icon-only small outline color="dark" (click)="onMapCenterOnMarker($event)">
-      <ion-icon name="locate"></ion-icon>
-    </button>
-  </div>
+<div tappable class="map" nveMap [geoJsonData]="geojson" [marker]="marker" [center]="settings.center" [zoomLevel]="settings.zoomLevel"
+  (isCenteredUpdated)="onIsCenterUpdated.emit($event)" (onRegionSelect)="onRegionSelect.emit($event)">
 </div>

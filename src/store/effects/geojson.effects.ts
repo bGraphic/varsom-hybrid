@@ -34,10 +34,10 @@ export class GeojsonEffects {
     .map(group$ => {
       return group$
         .switchMap(payload => this._geojsonService.fetchGeojson(group$.key))
-        .map(geojsonObjects => {
+        .map(features => {
           return new geojsonActions.FetchCompleteAction({
             sectionType: group$.key,
-            geojsonObjects
+            features
           });
         })
         .catch(error => {
