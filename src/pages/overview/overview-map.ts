@@ -18,6 +18,7 @@ export class OverviewMap {
     isFullscreen: boolean;
     isCentered: boolean;
   };
+  @Input() offset: number;
   @Input() recenter: any;
   @Output() onRegionSelect = new EventEmitter();
   @Output() onToggleFullscreen = new EventEmitter();

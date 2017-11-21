@@ -36,13 +36,11 @@ export class OverviewPage {
     private _navParams: NavParams,
     private _store: Store<fromRoot.State>
   ) {
-    this.sectionType = this._navParams.get("sectionType") || "FloodLandslide";
+    this.sectionType = this._navParams.get("sectionType") || "Avalanche";
     this.regionId = this._navParams.get("regionId");
     this.hasMap = !this.regionId;
 
-    this.position$ = this._store
-      .select(fromRoot.getPosition())
-      .do(position => console.log("New position", position));
+    this.position$ = this._store.select(fromRoot.getPosition());
 
     this.mapSettings$ = this._store.select(
       fromRoot.getMapSettingsForSection(this.sectionType)
@@ -102,6 +100,15 @@ export class OverviewPage {
     } else {
       return `OVERVIEW.PAGE_TITLE.${this.sectionType.toUpperCase()}`;
     }
+  }
+
+  mapOffset(mapFullscreen) {
+    if (mapFullscreen) {
+      return 0;
+    }
+
+    const height = this.content.contentTop + this.content.contentHeight;
+    return -(height * 0.15 + height * 0.35 / 2 - this.content.contentTop);
   }
 
   onSegmentSelect(segment: WarningType) {
