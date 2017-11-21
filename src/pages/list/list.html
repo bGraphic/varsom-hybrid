@@ -21,23 +21,6 @@
 
 <ion-content class="list-page">
 
-  <div class="map" tappable nveMap *ngIf="showMap" [style.top.px]="mapOffset((mapFullscreen | async))" [forecasts]="forecasts"
-    [geoJsonData]="mapGeoJsonData" [marker]="mapMarker | async" [center]="mapCenter | async" [recenter]="recenterMap | async"
-    [zoomLevel]="mapZoomLevel | async" (isCenteredUpdated)="onMapIsCenterUpdated($event)" (areaSelected)="onMapAreaSelected($event)">
-  </div>
-
-  <div class="map-overlay" *ngIf="showMap" [ngClass]="{ 'fullscreen': (mapFullscreen | async) }">
-    <div class="controls" [style.top.px]="content.contentTop">
-      <button class="show" ion-button icon-only small outline color="dark" (click)="onMapFullscreenToggle($event)">
-        <ion-icon *ngIf="!(mapFullscreen | async)" name="expand"></ion-icon>
-        <ion-icon *ngIf="(mapFullscreen | async)" name="contract"></ion-icon>
-      </button>
-      <button [ngClass]="{ 'show': !(mapIsCentered | async) }" ion-button icon-only small outline color="dark" (click)="onMapCenterOnMarker($event)">
-        <ion-icon name="locate"></ion-icon>
-      </button>
-    </div>
-  </div>
-
   <div class="list-wrapper">
     <ion-list *ngIf="0 === forecasts.length">
       <ion-list-header>

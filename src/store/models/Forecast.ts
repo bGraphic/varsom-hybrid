@@ -6,5 +6,6 @@ export interface Forecast {
   regionName: string;
   regionType: RegionType;
   regionImportance: RegionImportance;
+  highestRating: number;
   warnings: Warning[];
 }

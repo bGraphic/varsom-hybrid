@@ -18,11 +18,10 @@ import { MyApp } from "./app.component";
 import { firebase, ionicCloud } from "./../config/config";
 
 import { OverviewPage } from "../pages/overview/overview";
+import { OverviewMap } from "../pages/overview/overview-map";
 import { OverviewList } from "../pages/overview/overview-list";
 import { OverviewListSection } from "../pages/overview/overview-list-section";
 import { OverviewSegments } from "../pages/overview/overview-segments";
-import { FloodLandslideListPage } from "../pages/list/flood-landslide-list";
-import { AvalancheListPage } from "../pages/list/avalanche-list";
 import { AreaDetailsPage } from "../pages/area-details/area-details";
 import { WarningDetailsPage } from "../pages/warning-details/warning-details";
 import { WarningBadge } from "../partials/warning-badge";
@@ -35,10 +34,14 @@ import { SettingService } from "../providers/settings";
 import { AppVersionService } from "../providers/app-version";
 import { GeoJsonService } from "../providers/geojson";
 import { StorageService } from "../providers/storage";
+import { DataService as NewDataService } from "../store/services/data.service";
+import { GeojsonService as NewGeojsonService } from "../store/services/geojson.service";
 
 import { reducer } from "./../store/reducers";
 import { LocationEffects } from "./../store/effects/location.effects";
 import { WarningsEffects } from "./../store/effects/warnings.effects";
+import { RegionsEffects } from "../store/effects/regions.effects";
+import { GeojsonEffects } from "../store/effects/geojson.effects";
 
 import {
   FilterForecastsPipe,
@@ -56,8 +59,6 @@ import { Geolocation } from "@ionic-native/geolocation";
 import { InAppBrowser } from "@ionic-native/in-app-browser";
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { StatusBar } from "@ionic-native/status-bar";
-import { DataService as NewDataService } from "../store/services/data.service";
-import { RegionsEffects } from "../store/effects/regions.effects";
 
 export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -67,11 +68,10 @@ export function createTranslateLoader(http: Http) {
   declarations: [
     MyApp,
     OverviewPage,
+    OverviewMap,
     OverviewSegments,
     OverviewList,
     OverviewListSection,
-    FloodLandslideListPage,
-    AvalancheListPage,
     AreaDetailsPage,
     WarningDetailsPage,
     WarningBadge,
@@ -88,9 +88,10 @@ export function createTranslateLoader(http: Http) {
     CloudModule.forRoot(ionicCloud),
     IonicStorageModule.forRoot(),
     StoreModule.provideStore(reducer),
-    EffectsModule.run(LocationEffects),
+    EffectsModule.run(GeojsonEffects),
     EffectsModule.run(RegionsEffects),
     EffectsModule.run(WarningsEffects),
+    EffectsModule.run(LocationEffects),
     HttpModule,
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     AngularFireModule.initializeApp(firebase),
@@ -105,14 +106,7 @@ export function createTranslateLoader(http: Http) {
     MomentModule
   ],
   bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
-    FloodLandslideListPage,
-    AvalancheListPage,
-    AreaDetailsPage,
-    WarningDetailsPage,
-    OverviewPage
-  ],
+  entryComponents: [MyApp, OverviewPage, AreaDetailsPage, WarningDetailsPage],
   providers: [
     AppVersion,
     Diagnostic,
@@ -130,6 +124,7 @@ export function createTranslateLoader(http: Http) {
     GeoJsonService,
     StorageService,
     NewDataService,
+    NewGeojsonService,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })

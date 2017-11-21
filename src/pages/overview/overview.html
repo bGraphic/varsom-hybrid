@@ -6,5 +6,7 @@
 </ion-header>
 
 <ion-content class="list-page">
+  <overview-map tappable *ngIf="!regionId" [forecasts]="forecasts$ | async" [geojson]="geojson$ | async" [marker]="position | async"
+    [settings]="mapSettings$ | async"></overview-map>
   <overview-list [forecasts]="forecasts$ | async" [sectionType]="sectionType" (onSelect)="onForecastSelect($event)"></overview-list>
 </ion-content>

@@ -14,7 +14,6 @@ import { Store } from "@ngrx/store";
 
 import * as fromRoot from "./../../store/reducers";
 import * as UIMapActions from "./../../store/actions/ui-map.actions";
-import { getMapIsCentered, getRecenterMap } from "./../../store/reducers/index";
 import { Position } from "./../../store/models/Location";
 
 @Component({
@@ -71,22 +70,22 @@ export class FloodLandslideListPage {
       this.sections = ["COUNTIES"];
     }
 
-    this.mapMarker = this._store.select(fromRoot.getPosition());
-    this.mapCenter = this._store.select(
-      fromRoot.getMapCenter("FLOOD_LANDSLIDE")
-    );
-    this.mapZoomLevel = this._store.select(
-      fromRoot.getMapZoom("FLOOD_LANDSLIDE")
-    );
-    this.mapIsCentered = this._store.select(
-      fromRoot.getMapIsCentered("FLOOD_LANDSLIDE")
-    );
-    this.mapFullscreen = this._store.select(
-      fromRoot.getMapFullscreen("FLOOD_LANDSLIDE")
-    );
-    this.recenterMap = this._store.select(
-      fromRoot.getRecenterMap("FLOOD_LANDSLIDE")
-    );
+    // this.mapMarker = this._store.select(fromRoot.getPosition());
+    // this.mapCenter = this._store.select(
+    //   fromRoot.getMapCenter("FLOOD_LANDSLIDE")
+    // );
+    // this.mapZoomLevel = this._store.select(
+    //   fromRoot.getMapZoom("FLOOD_LANDSLIDE")
+    // );
+    // this.mapIsCentered = this._store.select(
+    //   fromRoot.getMapIsCentered("FLOOD_LANDSLIDE")
+    // );
+    // this.mapFullscreen = this._store.select(
+    //   fromRoot.getMapFullscreen("FLOOD_LANDSLIDE")
+    // );
+    // this.recenterMap = this._store.select(
+    //   fromRoot.getRecenterMap("FLOOD_LANDSLIDE")
+    // );
   }
 
   ionViewDidEnter() {

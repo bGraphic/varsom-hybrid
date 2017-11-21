@@ -7,30 +7,13 @@ import {
   ElementRef
 } from "@angular/core";
 import "leaflet";
-import { Forecast } from "../models/Forecast";
+import { Forecast } from "../store/models/Forecast";
 import { ThemeUtils } from "../utils/theme-utils";
+import { RegionImportance } from "../store/models/Region";
 
 const TILE = "http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png";
 const MIN_ZOOM = 4;
 const MAX_ZOOM = 7;
-
-function transformGeoJsonToAreaId(geoJsonFeature): string {
-  let id: number;
-
-  if (geoJsonFeature.hasOwnProperty("properties")) {
-    if (geoJsonFeature.properties.hasOwnProperty("fylkesnr")) {
-      id = Number(geoJsonFeature.properties.fylkesnr);
-    } else if (geoJsonFeature.properties.hasOwnProperty("omraadeid")) {
-      id = Number(geoJsonFeature.properties.omraadeid);
-    }
-  }
-
-  if (id < 10) {
-    return "0" + id;
-  } else {
-    return "" + id;
-  }
-}
 
 @Directive({ selector: "[nveMap]" })
 export class MapDirective {
@@ -144,6 +127,7 @@ export class MapDirective {
   }
 
   private updateGeoJsonData() {
+    console.log(this.geoJsonData);
     if (!this._map || !this.geoJsonData) {
       return;
     }
@@ -168,18 +152,12 @@ export class MapDirective {
   }
 
   private featureStyle(feature: any) {
-    let color = ThemeUtils.colorForRating(0);
-    let fillOpacity = 0.2;
+    const forecast = findFeatureForecast(this.forecasts, feature);
 
-    if (this.forecasts) {
-      let forecast = Forecast.findForecastWithAreaId(
-        this.forecasts,
-        transformGeoJsonToAreaId(feature)
-      );
-      if (forecast) {
-        color = ThemeUtils.colorForRating(forecast.mapWarning.rating);
-      }
-    }
+    let color = forecast
+      ? ThemeUtils.colorForRating(forecast.highestRating)
+      : ThemeUtils.colorForRating(0);
+    let fillOpacity = feature.mousedown ? 0.5 : 0.2;
 
     if (feature.mousedown) {
       fillOpacity = 0.5;
@@ -194,20 +172,18 @@ export class MapDirective {
   }
 
   private featureFilter(feature: any) {
-    let forecast = Forecast.findForecastWithAreaId(
-      this.forecasts,
-      feature.properties.omraadeid
-    );
+    const forecast = findFeatureForecast(this.forecasts, feature);
+    const isBRegion = forecast
+      ? forecast.regionImportance === RegionImportance.B
+      : featureToRegionImportance(feature) === RegionImportance.B;
 
-    if (!forecast && "B" === feature.properties.regiontype) {
+    const isActive = forecast ? forecast.highestRating > 1 : false;
+
+    if (isBRegion && !isActive) {
       return false;
+    } else {
+      return true;
     }
-
-    if (forecast && forecast.isTypeB() && 0 === forecast.getDay(0).rating) {
-      return false;
-    }
-
-    return true;
   }
 
   private onEachFeature(feature: any, layer: any) {
@@ -219,7 +195,7 @@ export class MapDirective {
     });
 
     layer.on("click", function(event) {
-      self.areaSelected.emit(transformGeoJsonToAreaId(feature));
+      self.areaSelected.emit(featureToRegionId(feature));
     });
 
     layer.on("mouseup", function(event) {
@@ -228,3 +204,36 @@ export class MapDirective {
     });
   }
 }
+
+const featureToRegionImportance = (feature): RegionImportance => {
+  if (feature.hasOwnProperty("properties")) {
+    if (feature.properties.hasOwnProperty("regiontype")) {
+      return feature.properties.regiontype === "B"
+        ? RegionImportance.B
+        : RegionImportance.A;
+    }
+  }
+};
+
+const featureToRegionId = (feature): string => {
+  let id: number;
+
+  if (feature.hasOwnProperty("properties")) {
+    if (feature.properties.hasOwnProperty("fylkesnr")) {
+      id = Number(feature.properties.fylkesnr);
+    } else if (feature.properties.hasOwnProperty("omraadeid")) {
+      id = Number(feature.properties.omraadeid);
+    }
+  }
+
+  if (id < 10) {
+    return "0" + id;
+  } else {
+    return "" + id;
+  }
+};
+
+const findFeatureForecast = (forecasts: Forecast[], feature: any): Forecast => {
+  const featureRegionId = featureToRegionId(feature);
+  return forecasts.find(forecast => forecast.regionId === featureRegionId);
+};

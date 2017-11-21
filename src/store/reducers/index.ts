@@ -36,6 +36,7 @@ import { combineReducers } from "@ngrx/store";
  * notation packages up all of the exports into a single object.
  */
 
+import * as fromGeojson from "./geojson.reducer";
 import * as fromLocation from "./location.reducer";
 import * as fromRegions from "./regions.reducer";
 import * as fromMapUIState from "./ui-map.reducer";
@@ -50,6 +51,7 @@ import { Forecast } from "../models/Forecast";
  * our top level state interface is just a map of keys to inner state types.
  */
 export interface State {
+  geojson: fromGeojson.State;
   regions: fromRegions.State;
   location: fromLocation.State;
   mapUI: fromMapUIState.State;
@@ -65,6 +67,7 @@ export interface State {
  * the result from right to left.
  */
 const reducers = {
+  geojson: fromGeojson.reducer,
   regions: fromRegions.reducer,
   location: fromLocation.reducer,
   mapUI: fromMapUIState.reducer,
@@ -87,6 +90,18 @@ export function reducer(state: any, action: any) {
 }
 
 // Selectors
+
+// UI Map
+
+export const getMapUIState = (state: State) => state.mapUI;
+
+// Geojson
+
+const getGeojsonState = (state: State) => state.geojson;
+const getAllGeojsonObjects = createSelector(
+  getGeojsonState,
+  fromGeojson.getAll
+);
 
 // Regions
 
@@ -120,6 +135,28 @@ export const getSegmentsForSection = (section: SectionType) =>
 export const getSelectedSegmentForSection = (section: SectionType) =>
   createSelector(getSelectedSegments, selectedSegments => {
     return selectedSegments[section];
+  });
+
+export const getGeojsonForSection = (section: SectionType) =>
+  createSelector(getAllGeojsonObjects, allGeojsonObjects => {
+    return allGeojsonObjects[section];
+  });
+
+export const getMapSettingsForSection = (section: SectionType) =>
+  createSelector(getMapUIState, allSettings => {
+    const settings = allSettings[section];
+    return {
+      zoomLevel: settings.zoom,
+      center: settings.center,
+      isFullscreen: settings.fullscreen,
+      isCentered: settings.centered
+    };
+  });
+
+export const getMapRecenterRequestsForSection = (section: SectionType) =>
+  createSelector(getMapUIState, allSettings => {
+    const settings = allSettings[section];
+    return settings.recenter;
   });
 
 export const getRegionForSection = (
@@ -157,6 +194,9 @@ export const getForecastsForSection = (
             regionName: region.name,
             regionType: region.type,
             regionImportance: region.importance,
+            highestRating: highestWarnings.reduce((acc, warning) => {
+              return acc > warning.rating ? acc : warning.rating;
+            }, -1),
             warnings: highestWarnings
           };
         });
@@ -173,33 +213,4 @@ export const getPosition = () =>
   createSelector(
     getLocationState,
     (state: fromLocation.State) => state.position
-  );
-
-// UI MAP
-
-export const getMapUIState = (state: State) => state.mapUI;
-export const getMapCenter = (key: string) =>
-  createSelector(
-    getMapUIState,
-    (state: fromMapUIState.State) => state[key].center
-  );
-export const getMapZoom = (key: string) =>
-  createSelector(
-    getMapUIState,
-    (state: fromMapUIState.State) => state[key].zoom
-  );
-export const getMapIsCentered = (key: string) =>
-  createSelector(
-    getMapUIState,
-    (state: fromMapUIState.State) => state[key].centered
-  );
-export const getRecenterMap = (key: string) =>
-  createSelector(
-    getMapUIState,
-    (state: fromMapUIState.State) => state[key].recenter
-  );
-export const getMapFullscreen = (key: string) =>
-  createSelector(
-    getMapUIState,
-    (state: fromMapUIState.State) => state[key].fullscreen
   );

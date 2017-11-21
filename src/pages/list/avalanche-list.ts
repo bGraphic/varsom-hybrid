@@ -13,11 +13,6 @@ import { Store } from "@ngrx/store";
 
 import * as fromRoot from "./../../store/reducers";
 import * as UIMapActions from "./../../store/actions/ui-map.actions";
-import {
-  getMapIsCentered,
-  getRecenterMap,
-  getMapZoom
-} from "./../../store/reducers/index";
 import { Position } from "./../../store/models/Location";
 
 @Component({
@@ -58,16 +53,16 @@ export class AvalancheListPage {
     this.pageTitleKey = "AVALANCHE";
     this.emptyListTitleKey = "A_REGIONS_LIST_TITLE";
 
-    this.mapMarker = this._store.select(fromRoot.getPosition());
-    this.mapCenter = this._store.select(fromRoot.getMapCenter("AVALANCHE"));
-    this.mapZoomLevel = this._store.select(fromRoot.getMapZoom("AVALANCHE"));
-    this.mapIsCentered = this._store.select(
-      fromRoot.getMapIsCentered("AVALANCHE")
-    );
-    this.mapFullscreen = this._store.select(
-      fromRoot.getMapFullscreen("AVALANCHE")
-    );
-    this.recenterMap = this._store.select(fromRoot.getRecenterMap("AVALANCHE"));
+    // this.mapMarker = this._store.select(fromRoot.getPosition());
+    // this.mapCenter = this._store.select(fromRoot.getMapCenter("AVALANCHE"));
+    // this.mapZoomLevel = this._store.select(fromRoot.getMapZoom("AVALANCHE"));
+    // this.mapIsCentered = this._store.select(
+    //   fromRoot.getMapIsCentered("AVALANCHE")
+    // );
+    // this.mapFullscreen = this._store.select(
+    //   fromRoot.getMapFullscreen("AVALANCHE")
+    // );
+    // this.recenterMap = this._store.select(fromRoot.getRecenterMap("AVALANCHE"));
   }
 
   ionViewDidEnter() {

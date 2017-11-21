@@ -30,8 +30,8 @@ const initialMapState: MapState = {
 };
 
 const initialState: State = {
-  FLOOD_LANDSLIDE: initialMapState,
-  AVALANCHE: initialMapState
+  FloodLandslide: initialMapState,
+  Avalanche: initialMapState
 };
 
 export function reducer(
