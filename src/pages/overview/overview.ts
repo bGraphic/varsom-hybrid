@@ -1,13 +1,12 @@
-import { Component, ViewChild, ChangeDetectionStrategy } from "@angular/core";
-import { NavController, Content, NavParams } from "ionic-angular";
+import { Component } from "@angular/core";
+import { NavController, NavParams } from "ionic-angular";
 
 import { Observable } from "rxjs/rx";
-import { Subscription } from "rxjs";
 import { Store } from "@ngrx/store";
 
 import * as fromRoot from "./../../store/reducers";
 import * as SectionActions from "./../../store/actions/ui-sections.actions";
-import { RegionImportance, RegionType } from "../../store/models/Region";
+import { RegionType } from "../../store/models/Region";
 import { SectionType } from "../../store/models/Section";
 import { WarningType } from "../../store/models/Warning";
 import { Forecast } from "../../store/models/Forecast";

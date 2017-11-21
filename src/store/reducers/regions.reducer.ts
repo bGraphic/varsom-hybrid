@@ -1,6 +1,5 @@
 import * as RegionsActions from "../actions/regions.actions";
-import { RegionType, Region } from "../models/Region";
-import { createSelector } from "reselect";
+import { Region } from "../models/Region";
 import { SectionType } from "../models/Section";
 
 export interface State {

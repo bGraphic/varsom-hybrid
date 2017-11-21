@@ -41,9 +41,8 @@ import * as fromRegions from "./regions.reducer";
 import * as fromMapUIState from "./ui-map.reducer";
 import * as fromSectionsUIState from "./ui-sections.reducer";
 import * as fromWarnings from "./warnings.reducer";
-import { RegionType, Region } from "../models/Region";
 import { SectionType } from "../models/Section";
-import { WarningType, Warning } from "../models/Warning";
+import { WarningType } from "../models/Warning";
 import { Forecast } from "../models/Forecast";
 
 /**

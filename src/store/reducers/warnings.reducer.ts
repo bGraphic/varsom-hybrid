@@ -1,6 +1,5 @@
 import * as WarningsActions from "../actions/warnings.actions";
 import { Warning, WarningType, RegionWarnings } from "../models/Warning";
-import { createSelector } from "reselect";
 
 export interface State {
   warnings: { [k in WarningType]?: RegionWarnings[] };
