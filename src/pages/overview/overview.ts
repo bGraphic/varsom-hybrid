@@ -6,7 +6,7 @@ import { Store } from "@ngrx/store";
 
 import * as fromRoot from "./../../store/reducers";
 import * as SectionActions from "./../../store/actions/ui-sections.actions";
-import { RegionType } from "../../store/models/Region";
+import { RegionType, Region } from "../../store/models/Region";
 import { SectionType } from "../../store/models/Section";
 import { WarningType } from "../../store/models/Warning";
 import { Forecast } from "../../store/models/Forecast";
@@ -18,6 +18,7 @@ export class OverviewPage {
   sectionType: SectionType;
   regionId: string;
   forecasts$: Observable<Forecast[]>;
+  region$: Observable<Region>;
   segments$: Observable<WarningType[]>;
   selectedSegment$: Observable<WarningType>;
 
@@ -37,6 +38,10 @@ export class OverviewPage {
       fromRoot.getSelectedSegmentForSection(this.sectionType)
     );
 
+    this.region$ = this._store.select(
+      fromRoot.getRegionForSection(this.sectionType, this.regionId)
+    );
+
     const forecasts$ = this._store.select(
       fromRoot.getForecastsForSection(this.sectionType, this.regionId)
     );
@@ -47,8 +52,12 @@ export class OverviewPage {
     ).map(([forecasts, selectedSegment]) => forecasts[selectedSegment]);
   }
 
-  title(regionType: RegionType) {
-    return `OVERVIEW.PAGE_TITLE.${regionType.toUpperCase()}`;
+  title(region: Region) {
+    if (region) {
+      return region.name;
+    } else {
+      return `OVERVIEW.PAGE_TITLE.${this.sectionType.toUpperCase()}`;
+    }
   }
 
   onSegmentSelect(segment: WarningType) {

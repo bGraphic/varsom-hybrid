@@ -122,13 +122,19 @@ export const getSelectedSegmentForSection = (section: SectionType) =>
     return selectedSegments[section];
   });
 
+export const getRegionForSection = (
+  sectionType: SectionType,
+  regionId: string
+) =>
+  createSelector(getAllRegions, allRegions => {
+    return allRegions[sectionType].find(region => region.id === regionId);
+  });
+
 export const getForecastsForSection = (
   sectionType: SectionType,
   regionId?: string
 ) =>
   createSelector(getAllRegions, getAllWarnings, (allRegions, allWarnings) => {
-    console.log("getForecastsForSection");
-
     const warningTypes = <WarningType[]>Object.keys(allWarnings);
     const sectionRegions = allRegions[sectionType].filter(region => {
       if (regionId) {
