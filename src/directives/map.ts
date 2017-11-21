@@ -19,7 +19,7 @@ export class MapDirective {
   @Input() marker: { latitude: number; longitude: number };
   @Input() zoomLevel: number;
   @Input() recenter: boolean;
-  @Output() isCenteredUpdated = new EventEmitter<boolean>();
+  @Output() onIsCenteredUpdate = new EventEmitter<boolean>();
   @Output() onRegionSelect = new EventEmitter<string>();
   @ViewChild("map") mapEl: any;
 
@@ -38,10 +38,6 @@ export class MapDirective {
   }
 
   ngOnChanges(changes) {
-    if (changes.forecasts) {
-      this.updateGeoJsonData();
-    }
-
     if (changes.geoJsonData) {
       this.updateGeoJsonData();
     }
@@ -68,16 +64,16 @@ export class MapDirective {
       maxZoom: MAX_ZOOM
     });
 
-    this.isCenteredUpdated.emit(this._centered);
+    this.onIsCenteredUpdate.emit(this._centered);
 
     this._map.on("movestart", event => {
       this._centered = this._centering;
-      this.isCenteredUpdated.emit(this._centered);
+      this.onIsCenteredUpdate.emit(this._centered);
     });
 
     this._map.on("moveend", event => {
       this._centered = this._centering;
-      this.isCenteredUpdated.emit(this._centered);
+      this.onIsCenteredUpdate.emit(this._centered);
       this._centering = false;
     });
 
@@ -122,7 +118,6 @@ export class MapDirective {
   }
 
   private updateGeoJsonData() {
-    console.log(this.geoJsonData);
     if (!this._map || !this.geoJsonData) {
       return;
     }

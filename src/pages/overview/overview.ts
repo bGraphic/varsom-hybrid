@@ -36,7 +36,7 @@ export class OverviewPage {
     private _navParams: NavParams,
     private _store: Store<fromRoot.State>
   ) {
-    this.sectionType = this._navParams.get("sectionType") || "Avalanche";
+    this.sectionType = this._navParams.get("sectionType") || "FloodLandslide";
     this.regionId = this._navParams.get("regionId");
     this.hasMap = !this.regionId;
 
