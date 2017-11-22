@@ -1,3 +1,4 @@
-<div [style.top.px]="offset" tappable class="map" nveMap [geoJsonData]="geojson" [marker]="marker" [center]="settings.center"
-  [zoomLevel]="settings.zoomLevel" (isCenteredUpdated)="onIsCenterUpdated.emit($event)" (onRegionSelect)="onRegionSelect.emit($event)">
+<div [style.top.px]="offset" tappable class="map" nveMap [geoJsonData]="geojson$ | async" [marker]="marker$ | async" [center]="(settings$ | async).center"
+  [zoomLevel]="6" [recenterRequest]="recenterRequests$ | async" (onIsCenteredUpdate)="onIsCenteredUpdate($event)" (onRegionSelect)="onRegionSelect.emit($event)">
 </div>
+<overview-map-controls [settings]="settings$ | async" (onToggleFullscreen)="onToggleFullscreen($event)" (onReCenter)="onReCenter($event)"></overview-map-controls>

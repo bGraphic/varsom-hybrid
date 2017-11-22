@@ -10,7 +10,7 @@ export class OverviewMapControls {
     isFullscreen: boolean;
     isCentered: boolean;
   };
-  @Output() onCenter = new EventEmitter();
+  @Output() onReCenter = new EventEmitter();
   @Output() onToggleFullscreen = new EventEmitter();
 
   constructor() {}

@@ -18,7 +18,7 @@ export class MapDirective {
   @Input() center: { latitude: number; longitude: number };
   @Input() marker: { latitude: number; longitude: number };
   @Input() zoomLevel: number;
-  @Input() recenter: boolean;
+  @Input() recenterRequest: Date;
   @Output() onIsCenteredUpdate = new EventEmitter<boolean>();
   @Output() onRegionSelect = new EventEmitter<string>();
   @ViewChild("map") mapEl: any;
@@ -26,7 +26,7 @@ export class MapDirective {
   private _map: L.Map;
   private _geojsonLayer: L.GeoJSON;
   private _marker: L.CircleMarker;
-  private _centering: boolean = false;
+  private _centering: boolean = true;
   private _centered: boolean = true;
 
   constructor(private _el: ElementRef) {}
@@ -47,10 +47,13 @@ export class MapDirective {
     }
 
     if (changes.center && this._centered) {
-      this.updateMapCenter();
+      if (changes.center.currentValue !== changes.center.previousValue) {
+        console.log("update map center", this.center);
+        this.updateMapCenter();
+      }
     }
 
-    if (changes.recenter && changes.recenter.currentValue) {
+    if (changes.recenterRequest && changes.recenterRequest.currentValue) {
       this.updateMapCenter();
     }
   }
@@ -64,14 +67,15 @@ export class MapDirective {
       maxZoom: MAX_ZOOM
     });
 
-    this.onIsCenteredUpdate.emit(this._centered);
-
     this._map.on("movestart", event => {
+      console.log(event);
+      console.log("Movestart", this._centering);
       this._centered = this._centering;
       this.onIsCenteredUpdate.emit(this._centered);
     });
 
     this._map.on("moveend", event => {
+      console.log("Moveend", this._centering);
       this._centered = this._centering;
       this.onIsCenteredUpdate.emit(this._centered);
       this._centering = false;

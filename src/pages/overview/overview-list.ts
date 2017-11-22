@@ -1,18 +1,38 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs/Observable";
 import { Forecast } from "../../store/models/Forecast";
 import { RegionType, RegionImportance } from "../../store/models/Region";
 import { SectionType } from "../../store/models/Section";
+
+import * as fromRoot from "./../../store/reducers";
 
 @Component({
   selector: "overview-list",
   templateUrl: "overview-list.html"
 })
 export class OverviewList {
-  @Input() forecasts: Forecast[];
   @Input() sectionType: SectionType;
+  @Input() regionId: string;
   @Output() onSelect = new EventEmitter();
+  forecasts$: Observable<Forecast[]>;
 
-  constructor() {}
+  constructor(private _store: Store<fromRoot.State>) {}
+
+  ngOnInit() {
+    const selectedSegment$ = this._store.select(
+      fromRoot.getSelectedSegmentForSection(this.sectionType)
+    );
+
+    const forecasts$ = this._store.select(
+      fromRoot.getForecastsForSection(this.sectionType, this.regionId)
+    );
+
+    this.forecasts$ = Observable.combineLatest(
+      forecasts$,
+      selectedSegment$
+    ).map(([forecasts, selectedSegment]) => forecasts[selectedSegment]);
+  }
 
   activeB(forecasts: Forecast[]) {
     return this.active(this.allB(forecasts));

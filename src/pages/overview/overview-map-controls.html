@@ -3,7 +3,7 @@
     <ion-icon *ngIf="!settings.isFullscreen" name="expand"></ion-icon>
     <ion-icon *ngIf="settings.isFullscreen" name="contract"></ion-icon>
   </button>
-  <button *ngIf="!settings.isCentered" ion-button icon-only small outline color="dark" (click)="onCenter.emit($event)">
+  <button [ngClass]="{'show': !settings.isCentered }" ion-button icon-only small outline color="dark" (click)="onReCenter.emit($event)">
     <ion-icon name="locate"></ion-icon>
   </button>
 </div>
