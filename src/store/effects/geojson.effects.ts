@@ -5,7 +5,6 @@ import { Observable } from "rxjs/Observable";
 import * as regionsActions from "./../actions/regions.actions";
 import * as geojsonActions from "./../actions/geojson.actions";
 import { GeojsonService } from "../services/geojson.service";
-import { SectionType } from "../models/Section";
 import { of } from "rxjs/observable/of";
 
 @Injectable()

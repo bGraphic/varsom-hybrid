@@ -1,7 +1,5 @@
 import { Action } from "@ngrx/store";
 
-import { Position } from "./../models/Location";
-
 export const TOOGLE_FULLSCREEN = "[UI Map] Toogle Fullscreen";
 export const REQUEST_RECENTER = "[UI Map] Request Recenter";
 export const IS_CENTERED_UPDATE = "[UI Map] Is Centered Update";

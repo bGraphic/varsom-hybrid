@@ -48,7 +48,6 @@ export class MapDirective {
 
     if (changes.center && this._centered) {
       if (changes.center.currentValue !== changes.center.previousValue) {
-        console.log("update map center", this.center);
         this.updateMapCenter();
       }
     }
@@ -68,14 +67,11 @@ export class MapDirective {
     });
 
     this._map.on("movestart", event => {
-      console.log(event);
-      console.log("Movestart", this._centering);
       this._centered = this._centering;
       this.onIsCenteredUpdate.emit(this._centered);
     });
 
     this._map.on("moveend", event => {
-      console.log("Moveend", this._centering);
       this._centered = this._centering;
       this.onIsCenteredUpdate.emit(this._centered);
       this._centering = false;

@@ -1,5 +1,4 @@
 import { Action } from "@ngrx/store";
-import { Region } from "../models/Region";
 import { SectionType } from "../models/Section";
 
 export const FETCH = "[Geojson] Fetch";
