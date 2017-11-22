@@ -17,8 +17,6 @@ import * as RegionsActions from "./../store/actions/regions.actions";
 // import { PushService } from "../providers/push";
 import { SettingService } from "../providers/settings";
 import { AppVersionService } from "../providers/app-version";
-import { FloodLandslideListPage } from "../pages/list/flood-landslide-list";
-import { AvalancheListPage } from "../pages/list/avalanche-list";
 import { OverviewPage } from "../pages/overview/overview";
 import { SectionType } from "../store/models/Section";
 

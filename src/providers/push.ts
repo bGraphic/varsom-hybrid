@@ -6,8 +6,6 @@ import { TranslateService } from "@ngx-translate/core";
 
 import { FavoriteService } from "./favorites";
 import { AreaUtils } from "../utils/area-utils";
-import { AvalancheListPage } from "../pages/list/avalanche-list";
-import { FloodLandslideListPage } from "../pages/list/flood-landslide-list";
 import { AreaDetailsPage } from "../pages/area-details/area-details";
 
 @Injectable()
@@ -88,18 +86,18 @@ export class PushService {
   private _navigateToArea(areaId: string) {
     let rootNav = this._appCtrl.getRootNav();
 
-    if (AreaUtils.isRegion(areaId)) {
-      rootNav.setRoot(AvalancheListPage);
-      rootNav.push(AreaDetailsPage, { area: { id: areaId } });
-    } else if (AreaUtils.isCounty(areaId)) {
-      rootNav.setRoot(FloodLandslideListPage);
-      rootNav.push(FloodLandslideListPage, { area: { id: areaId } });
-    } else if (AreaUtils.isMunicipality(areaId)) {
-      rootNav.setRoot(FloodLandslideListPage);
-      rootNav.push(FloodLandslideListPage, {
-        area: { id: AreaUtils.getParentId(areaId) }
-      });
-      rootNav.push(AreaDetailsPage, { area: { id: areaId } });
-    }
+    // if (AreaUtils.isRegion(areaId)) {
+    //   rootNav.setRoot(AvalancheListPage);
+    //   rootNav.push(AreaDetailsPage, { area: { id: areaId } });
+    // } else if (AreaUtils.isCounty(areaId)) {
+    //   rootNav.setRoot(FloodLandslideListPage);
+    //   rootNav.push(FloodLandslideListPage, { area: { id: areaId } });
+    // } else if (AreaUtils.isMunicipality(areaId)) {
+    //   rootNav.setRoot(FloodLandslideListPage);
+    //   rootNav.push(FloodLandslideListPage, {
+    //     area: { id: AreaUtils.getParentId(areaId) }
+    //   });
+    //   rootNav.push(AreaDetailsPage, { area: { id: areaId } });
+    // }
   }
 }
