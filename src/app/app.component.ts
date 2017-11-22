@@ -113,7 +113,6 @@ export class MyApp {
     this._store.dispatch(
       new UISectionActions.SelectSection({ section: section })
     );
-    this.nav.setRoot(OverviewPage);
   }
 
   launch(url: string) {

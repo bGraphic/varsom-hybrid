@@ -121,6 +121,16 @@ export const getSelectedSegment = createSelector(
 
 export const getMapUIState = (state: State) => state.mapUI;
 
+export const getMapSettings = createSelector(
+  getMapUIState,
+  fromMapUIState.getSettings
+);
+
+export const getMapRecenterRequests = createSelector(
+  getMapUIState,
+  fromMapUIState.getRecenterRequests
+);
+
 // Geojson
 
 const getGeojsonState = (state: State) => state.geojson;
@@ -166,23 +176,6 @@ const getSelectedWarnings = createSelector(
 );
 
 // Forecasts
-
-export const getMapSettingsForSection = (section: SectionType) =>
-  createSelector(getMapUIState, allSettings => {
-    const settings = allSettings[section];
-    return {
-      zoomLevel: settings.zoom,
-      center: settings.center,
-      isFullscreen: settings.fullscreen,
-      isCentered: settings.centered
-    };
-  });
-
-export const getMapRecenterRequestsForSection = (section: SectionType) =>
-  createSelector(getMapUIState, allSettings => {
-    const settings = allSettings[section];
-    return settings.recenter;
-  });
 
 export const getOverviewMapForecasts = () =>
   createSelector(

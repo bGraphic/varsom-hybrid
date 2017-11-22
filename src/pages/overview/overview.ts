@@ -36,7 +36,7 @@ export class OverviewPage {
     this.hasMenuButton = !this.regionId;
 
     this.isMapFullscreen$ = this._store
-      .select(fromRoot.getMapSettingsForSection(this.sectionType))
+      .select(fromRoot.getMapSettings)
       .map(mapSetting => mapSetting.isFullscreen);
 
     this.segments$ = this._store.select(fromRoot.getSegments);
@@ -44,6 +44,12 @@ export class OverviewPage {
     this.selectedSegment$ = this._store.select(fromRoot.getSelectedSegment);
 
     this.region$ = this._store.select(fromRoot.getRegion(this.regionId));
+  }
+
+  ionViewDidEnter() {
+    this._store.select(fromRoot.getSelectedSection).subscribe(section => {
+      this.content.resize();
+    });
   }
 
   title(region: Region) {

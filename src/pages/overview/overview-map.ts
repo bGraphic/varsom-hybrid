@@ -29,33 +29,28 @@ export class OverviewMap {
 
     this.marker$ = this._store.select(fromRoot.getPosition());
 
-    this.settings$ = this._store.select(
-      fromRoot.getMapSettingsForSection(this.sectionType)
-    );
+    this.settings$ = this._store
+      .select(fromRoot.getMapSettings)
+      .do(settings => console.log(settings));
 
     this.recenterRequests$ = this._store.select(
-      fromRoot.getMapRecenterRequestsForSection(this.sectionType)
+      fromRoot.getMapRecenterRequests
     );
   }
 
   onToggleFullscreen($event) {
-    this._store.dispatch(
-      new UIMapActions.ToogleFullscreen({ mapKey: this.sectionType })
-    );
+    this._store.dispatch(new UIMapActions.ToogleFullscreen());
   }
 
   onIsCenteredUpdate($event) {
     this._store.dispatch(
       new UIMapActions.IsCenteredUpdate({
-        mapKey: this.sectionType,
         isCentered: $event
       })
     );
   }
 
   onReCenter($event) {
-    this._store.dispatch(
-      new UIMapActions.RequestRecenter({ mapKey: this.sectionType })
-    );
+    this._store.dispatch(new UIMapActions.RequestRecenter());
   }
 }
