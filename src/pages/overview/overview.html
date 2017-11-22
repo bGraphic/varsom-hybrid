@@ -8,8 +8,9 @@
   <overview-segments [segments]="segments$ | async" [selectedSegment]="selectedSegment$ | async" (onSelect)="onSegmentSelect($event)"></overview-segments>
 </ion-header>
 
-<ion-content class="overview-page" [ngClass]="{ 'has-map': hasMap, 'map-fullscreen': (isMapFullscreen$ | async) }">
+<ion-content class="overview-page">
   <overview-map *ngIf="hasMap" [sectionType]="sectionType" [regionId]="regionId" [offset]="mapOffset((isMapFullscreen$ | async))"
     (onRegionSelect)="onForecastSelect($event)"></overview-map>
+  <div *ngIf="hasMap" class="overview-list-offset" [ngClass]="{ 'fullscreen': (isMapFullscreen$ | async) }"></div>
   <overview-list [sectionType]="sectionType" [regionId]="regionId" (onSelect)="onForecastSelect($event)"></overview-list>
 </ion-content>

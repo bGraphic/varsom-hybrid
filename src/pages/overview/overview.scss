@@ -1,20 +1,4 @@
 .overview-page {
-  .scroll-content {
-    transition: padding 250ms ease-in-out !important;
-  }
-
-  &.has-map {
-    .scroll-content {
-      padding-top: 35vh;
-    }
-  }
-
-  &.has-map.map-fullscreen {
-    .scroll-content {
-      padding-top: 100%;
-    }
-  }
-
   .map-controls {
     top: 0;
     right: 0;
@@ -47,7 +31,7 @@
   }
 
   .map {
-    transition: top 250ms ease-in-out !important;
+    transition: top 200ms ease-in-out !important;
     position: fixed;
     top: 0;
     left: -100px;
@@ -56,8 +40,19 @@
     z-index: -1;
   }
 
+  .overview-list-offset {
+    pointer-events: none;
+    transition: height 250ms ease-in-out !important;
+    height: 35vh;
+
+    &.fullscreen {
+      height: 100%;
+    }
+  }
+
   .overview-list {
     background: $list-background-color;
+    min-height: 100%;
   }
 
   ion-list {
