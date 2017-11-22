@@ -44,7 +44,9 @@ import * as fromSectionsUIState from "./ui-sections.reducer";
 import * as fromWarnings from "./warnings.reducer";
 import { SectionType } from "../models/Section";
 import { WarningType } from "../models/Warning";
+import { RegionImportance } from "../models/Region";
 import { Forecast } from "../models/Forecast";
+import { ThemeUtils } from "../../utils/theme-utils";
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
@@ -91,6 +93,30 @@ export function reducer(state: any, action: any) {
 
 // Selectors
 
+// UI Sections
+
+const getSectionsUIState = (state: State) => state.sectionsUI;
+
+export const getSections = createSelector(
+  getSectionsUIState,
+  fromSectionsUIState.getSections
+);
+
+export const getSelectedSection = createSelector(
+  getSectionsUIState,
+  fromSectionsUIState.getSelectedSection
+);
+
+export const getSegments = createSelector(
+  getSectionsUIState,
+  fromSectionsUIState.getSegments
+);
+
+export const getSelectedSegment = createSelector(
+  getSectionsUIState,
+  fromSectionsUIState.getSelectedSegment
+);
+
 // UI Map
 
 export const getMapUIState = (state: State) => state.mapUI;
@@ -102,45 +128,44 @@ const getAllGeojsonObjects = createSelector(
   getGeojsonState,
   fromGeojson.getAll
 );
+const getSelectedGeojson = createSelector(
+  getAllGeojsonObjects,
+  getSelectedSection,
+  (geojson, section) => {
+    return geojson[section];
+  }
+);
 
 // Regions
 
 const getRegionsState = (state: State) => state.regions;
 const getAllRegions = createSelector(getRegionsState, fromRegions.getAll);
+const getSelectedRegions = createSelector(
+  getAllRegions,
+  getSelectedSection,
+  (regions, section) => {
+    return regions[section];
+  }
+);
+
+export const getRegion = (regionId: string) =>
+  createSelector(getSelectedRegions, regions => {
+    return regions.find(region => region.id === regionId);
+  });
 
 // Warnings
 
 const getWarningState = (state: State) => state.warnings;
 const getAllWarnings = createSelector(getWarningState, fromWarnings.getAll);
-
-// UI Sections
-
-const getSectionsUIState = (state: State) => state.sectionsUI;
-const getSegments = createSelector(
-  getSectionsUIState,
-  fromSectionsUIState.getSegments
-);
-const getSelectedSegments = createSelector(
-  getSectionsUIState,
-  fromSectionsUIState.getSelectedSegments
+const getSelectedWarnings = createSelector(
+  getAllWarnings,
+  getSelectedSegment,
+  (warnings, segment) => {
+    return warnings[segment];
+  }
 );
 
-// For use by overview
-
-export const getSegmentsForSection = (section: SectionType) =>
-  createSelector(getSegments, segments => {
-    return segments[section];
-  });
-
-export const getSelectedSegmentForSection = (section: SectionType) =>
-  createSelector(getSelectedSegments, selectedSegments => {
-    return selectedSegments[section];
-  });
-
-export const getGeojsonForSection = (section: SectionType) =>
-  createSelector(getAllGeojsonObjects, allGeojsonObjects => {
-    return allGeojsonObjects[section];
-  });
+// Forecasts
 
 export const getMapSettingsForSection = (section: SectionType) =>
   createSelector(getMapUIState, allSettings => {
@@ -159,52 +184,73 @@ export const getMapRecenterRequestsForSection = (section: SectionType) =>
     return settings.recenter;
   });
 
-export const getRegionForSection = (
-  sectionType: SectionType,
-  regionId: string
-) =>
-  createSelector(getAllRegions, allRegions => {
-    return allRegions[sectionType].find(region => region.id === regionId);
-  });
+export const getOverviewMapForecasts = () =>
+  createSelector(
+    getSelectedForecasts,
+    getSelectedGeojson,
+    (forecasts, geojson) => {
+      return geojson.map(feature => {
+        const forecast = forecasts.find(
+          forecast => forecast.regionId === feature.properties.regionId
+        );
+        const isRegionB = forecast
+          ? forecast.regionImportance === RegionImportance.B
+          : feature.properties.type === "B";
+        const properties = {
+          ...feature.properties,
+          display: !isRegionB || forecast.highestRating > 1,
+          color: forecast
+            ? ThemeUtils.colorForRating(forecast.highestRating)
+            : ThemeUtils.colorForRating(0)
+        };
+        return {
+          type: feature.type,
+          properties: properties,
+          geometry: feature.geometry
+        };
+      });
+    }
+  );
 
-export const getForecastsForSection = (
-  sectionType: SectionType,
-  regionId?: string
-) =>
-  createSelector(getAllRegions, getAllWarnings, (allRegions, allWarnings) => {
-    const warningTypes = <WarningType[]>Object.keys(allWarnings);
-    const sectionRegions = allRegions[sectionType].filter(region => {
+export const getOverviewListForecasts = (regionId: string) =>
+  createSelector(getSelectedForecasts, forecasts => {
+    return forecasts.filter(forecast => {
       if (regionId) {
-        return region.type === "Municipality" && region.id.startsWith(regionId);
+        return (
+          forecast.regionType === "Municipality" &&
+          forecast.regionId.startsWith(regionId)
+        );
       } else {
-        return region.type !== "Municipality";
+        return forecast.regionType !== "Municipality";
       }
     });
-
-    return warningTypes.reduce(
-      (acc, warningType) => {
-        acc[warningType] = sectionRegions.map(region => {
-          const warnings = allWarnings[warningType].filter(regionWarnings => {
-            return regionWarnings.regionId.startsWith(region.id);
-          });
-
-          const highestWarnings = fromWarnings.highestWarnings(warnings);
-          return <Forecast>{
-            regionId: region.id,
-            regionName: region.name,
-            regionType: region.type,
-            regionImportance: region.importance,
-            highestRating: highestWarnings.reduce((acc, warning) => {
-              return acc > warning.rating ? acc : warning.rating;
-            }, -1),
-            warnings: highestWarnings
-          };
-        });
-        return acc;
-      },
-      <{ [k in WarningType]?: Forecast[] }>{}
-    );
   });
+
+const getSelectedForecasts = createSelector(
+  getSelectedRegions,
+  getSelectedWarnings,
+  (regions, warnings) => {
+    return regions.map(region => {
+      // Need to do this as counties has no entries in warnings
+      const highestWarnings = fromWarnings.highestWarnings(
+        warnings.filter(regionWarnings => {
+          return regionWarnings.regionId.startsWith(region.id);
+        })
+      );
+
+      return <Forecast>{
+        regionId: region.id,
+        regionName: region.name,
+        regionType: region.type,
+        regionImportance: region.importance,
+        highestRating: highestWarnings.reduce((acc, warning) => {
+          return acc > warning.rating ? acc : warning.rating;
+        }, -1),
+        warnings: highestWarnings
+      };
+    });
+  }
+);
 
 // Location
 

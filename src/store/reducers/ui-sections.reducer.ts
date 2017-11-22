@@ -4,17 +4,19 @@ import { SectionType } from "../models/Section";
 import { WarningType } from "../models/Warning";
 
 export interface State {
+  sections: SectionType[];
   selectedSection: SectionType;
   segments: { [k in SectionType]?: WarningType[] };
   selectedSegments: { [k in SectionType]?: WarningType };
 }
 
 const initialState: State = {
+  sections: ["FloodLandslide", "Avalanche"],
+  selectedSection: "FloodLandslide",
   segments: {
     Avalanche: ["Avalanche"],
     FloodLandslide: ["FloodLandslide", "Flood", "Landslide"]
   },
-  selectedSection: "FloodLandslide",
   selectedSegments: {
     Avalanche: "Avalanche",
     FloodLandslide: "FloodLandslide"
@@ -23,7 +25,7 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: SectionsActions.All) {
   switch (action.type) {
-    case SectionsActions.SELECTED_SECTION:
+    case SectionsActions.SELECT_SECTION:
       return <State>{
         ...state,
         selectedSection: action.payload.section,
@@ -46,6 +48,12 @@ export function reducer(state = initialState, action: SectionsActions.All) {
       return state;
   }
 }
+export const getSections = (state: State) => state.sections;
 
-export const getSelectedSegments = (state: State) => state.selectedSegments;
-export const getSegments = (state: State) => state.segments;
+export const getSelectedSection = (state: State) => state.selectedSection;
+
+export const getSelectedSegment = (state: State) =>
+  state.selectedSegments[state.selectedSection];
+
+export const getSegments = (state: State) =>
+  state.segments[state.selectedSection];

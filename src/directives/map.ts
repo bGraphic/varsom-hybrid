@@ -128,6 +128,7 @@ export class MapDirective {
 
     this._geojsonLayer = L.geoJSON(this.geoJsonData, {
       style: feature => this.featureStyle(feature),
+      filter: feature => this.featureFilter(feature),
       onEachFeature: (feature, layer) => this.onEachFeature(feature, layer)
     }).addTo(this._map);
   }
@@ -137,7 +138,11 @@ export class MapDirective {
       return;
     }
 
-    this._geojsonLayer.setStyle(feature => this.featureStyle(feature));
+    this._geojsonLayer.setStyle(this.featureStyle);
+  }
+
+  private featureFilter(feature: any) {
+    return feature.properties.display;
   }
 
   private featureStyle(feature: any) {

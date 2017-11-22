@@ -19,6 +19,7 @@ export class OverviewPage {
   sectionType: SectionType;
   regionId: string;
   hasMap: boolean;
+  hasMenuButton: boolean;
   segments$: Observable<WarningType[]>;
   selectedSegment$: Observable<WarningType>;
   isMapFullscreen$: Observable<boolean>;
@@ -32,22 +33,17 @@ export class OverviewPage {
     this.sectionType = this._navParams.get("sectionType") || "FloodLandslide";
     this.regionId = this._navParams.get("regionId");
     this.hasMap = !this.regionId;
+    this.hasMenuButton = !this.regionId;
 
     this.isMapFullscreen$ = this._store
       .select(fromRoot.getMapSettingsForSection(this.sectionType))
       .map(mapSetting => mapSetting.isFullscreen);
 
-    this.segments$ = this._store.select(
-      fromRoot.getSegmentsForSection(this.sectionType)
-    );
+    this.segments$ = this._store.select(fromRoot.getSegments);
 
-    this.selectedSegment$ = this._store.select(
-      fromRoot.getSelectedSegmentForSection(this.sectionType)
-    );
+    this.selectedSegment$ = this._store.select(fromRoot.getSelectedSegment);
 
-    this.region$ = this._store.select(
-      fromRoot.getRegionForSection(this.sectionType, this.regionId)
-    );
+    this.region$ = this._store.select(fromRoot.getRegion(this.regionId));
   }
 
   title(region: Region) {

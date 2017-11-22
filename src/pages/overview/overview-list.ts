@@ -20,18 +20,9 @@ export class OverviewList {
   constructor(private _store: Store<fromRoot.State>) {}
 
   ngOnInit() {
-    const selectedSegment$ = this._store.select(
-      fromRoot.getSelectedSegmentForSection(this.sectionType)
+    this.forecasts$ = this._store.select(
+      fromRoot.getOverviewListForecasts(this.regionId)
     );
-
-    const forecasts$ = this._store.select(
-      fromRoot.getForecastsForSection(this.sectionType, this.regionId)
-    );
-
-    this.forecasts$ = Observable.combineLatest(
-      forecasts$,
-      selectedSegment$
-    ).map(([forecasts, selectedSegment]) => forecasts[selectedSegment]);
   }
 
   activeB(forecasts: Forecast[]) {

@@ -19,23 +19,13 @@ export class OverviewMap {
   @Output() onRegionSelect = new EventEmitter();
   settings$: Observable<MapSettings>;
   recenterRequests$: Observable<Date>;
-  geojson$: Observable<any[]>;
+  forecasts$: Observable<any[]>;
   marker$: Observable<Position>;
 
   constructor(private _store: Store<fromRoot.State>) {}
 
   ngOnInit() {
-    const selectedSegment$ = this._store.select(
-      fromRoot.getSelectedSegmentForSection(this.sectionType)
-    );
-
-    const geojson$ = this._store.select(
-      fromRoot.getGeojsonForSection(this.sectionType)
-    );
-
-    const forecasts$ = this._store.select(
-      fromRoot.getForecastsForSection(this.sectionType, this.regionId)
-    );
+    this.forecasts$ = this._store.select(fromRoot.getOverviewMapForecasts());
 
     this.marker$ = this._store.select(fromRoot.getPosition());
 
@@ -46,29 +36,6 @@ export class OverviewMap {
     this.recenterRequests$ = this._store.select(
       fromRoot.getMapRecenterRequestsForSection(this.sectionType)
     );
-
-    this.geojson$ = Observable.combineLatest(
-      geojson$,
-      forecasts$,
-      selectedSegment$
-    ).map(([geojson, forecasts, selectedSegment]) => {
-      return geojson.map(feature => {
-        const forecast = forecasts[selectedSegment].find(
-          forecast => forecast.regionId === feature.properties.regionId
-        );
-        const properties = {
-          ...feature.properties,
-          color: forecast
-            ? ThemeUtils.colorForRating(forecast.highestRating)
-            : ThemeUtils.colorForRating(0)
-        };
-        return {
-          type: feature.type,
-          properties: properties,
-          geometry: feature.geometry
-        };
-      });
-    });
   }
 
   onToggleFullscreen($event) {
