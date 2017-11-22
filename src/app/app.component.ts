@@ -63,13 +63,11 @@ export class MyApp {
     this.initializeApp();
     this.initializeData();
 
-    this.sections$ = this._store
-      .select(fromRoot.getSections)
-      .do(sections => console.log(sections));
+    this.sections$ = this._store.select(fromRoot.getSections);
     this.selectedSection$ = this._store.select(fromRoot.getSelectedSection);
 
-    this.externalLinks$ = this._translateService.get("EXTERNAL_MENU.LINKS");
-    this.contactLinks$ = this._translateService.get("CONTACT_INFO.LINKS");
+    this.externalLinks$ = this._translateService.get("MENU.EXTERNAL.ITEMS");
+    this.contactLinks$ = this._translateService.get("MENU.CONTACT_INFO.ITEMS");
     this.logoLinks$ = this._translateService
       .get("LOGOS")
       .map((res: { [key: string]: { HEADER: string; LIST: string[] } }) => {

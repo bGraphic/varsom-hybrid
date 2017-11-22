@@ -12,13 +12,13 @@
       <button menuClose *ngFor="let section of sections$ | async " [ngClass]="{'active': section === (selectedSection$ | async) }"
         color="primary" ion-item no-lines detail-none (click)="selectSection(section)">
         <ion-icon item-left [name]="icon(section)" class="nve-menu-icon"></ion-icon>
-        {{ section | translate }}
+        {{ "MENU." + section | uppercase | translate }}
       </button>
     </ion-list>
 
     <ion-list class="nve-menu nve-menu-external">
       <ion-list-header color="light">
-        {{ "EXTERNAL_MENU.HEADER" | translate}}
+        {{ "MENU.EXTERNAL.HEADER" | translate}}
       </ion-list-header>
       <button (click)="launch(item.url)" *ngFor="let item of externalLinks$ | async" ion-item color="light">
         <h2 *ngIf="!item.description">{{ item.label}}</h2>
@@ -29,7 +29,7 @@
 
     <ion-list class="nve-menu">
       <ion-list-header color="primary">
-        {{ "CONTACT_INFO.HEADER" | translate}}
+        {{ "MENU.CONTACT_INFO.HEADER" | translate}}
       </ion-list-header>
       <button (click)="launch(item.url)" *ngFor="let item of contactLinks$ | async" ion-item detail-none color="primary">
         <ion-icon item-right name="call" class="nve-menu-icon"></ion-icon>
