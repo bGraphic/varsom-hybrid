@@ -19,7 +19,7 @@ export class RegionPage {
     private _navParams: NavParams,
     private _store: Store<fromRoot.State>
   ) {
-    this.regionId = this._navParams.get("regionId") || "1228";
+    this.regionId = this._navParams.get("regionId");
   }
 
   ngOnInit() {
@@ -35,7 +35,21 @@ export class RegionPage {
     }
   }
 
-  listHeader(warnings: RegionWarnings[], warningIndex: number) {}
+  listHeader(
+    warnings: { [k in WarningType]?: RegionWarnings },
+    warningIndex: number
+  ) {
+    if (warnings) {
+      const warningTypes = Object.keys(warnings);
+      if (
+        warningTypes.length > 0 &&
+        warnings[warningTypes[0]].warnings.length > warningIndex
+      ) {
+        const regionWarnings = <RegionWarnings>warnings[warningTypes[0]];
+        return regionWarnings.warnings[warningIndex].date;
+      }
+    }
+  }
 
   warningTypes(region: Region): WarningType[] {
     if (!region) {
