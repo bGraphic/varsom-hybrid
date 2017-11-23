@@ -1,0 +1,9 @@
+<div class="map-controls">
+  <button class="show" ion-button icon-only small outline color="dark" (click)="onToggleFullscreen.emit($event)">
+    <ion-icon *ngIf="!settings.isFullscreen" name="expand"></ion-icon>
+    <ion-icon *ngIf="settings.isFullscreen" name="contract"></ion-icon>
+  </button>
+  <button [ngClass]="{'show': !settings.isCentered }" ion-button icon-only small outline color="dark" (click)="onReCenter.emit($event)">
+    <ion-icon name="locate"></ion-icon>
+  </button>
+</div>

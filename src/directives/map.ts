@@ -7,48 +7,26 @@ import {
   ElementRef
 } from "@angular/core";
 import "leaflet";
-import { Forecast } from "../models/Forecast";
-import { ThemeUtils } from "../utils/theme-utils";
 
 const TILE = "http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png";
 const MIN_ZOOM = 4;
 const MAX_ZOOM = 7;
 
-function transformGeoJsonToAreaId(geoJsonFeature): string {
-  let id: number;
-
-  if (geoJsonFeature.hasOwnProperty("properties")) {
-    if (geoJsonFeature.properties.hasOwnProperty("fylkesnr")) {
-      id = Number(geoJsonFeature.properties.fylkesnr);
-    } else if (geoJsonFeature.properties.hasOwnProperty("omraadeid")) {
-      id = Number(geoJsonFeature.properties.omraadeid);
-    }
-  }
-
-  if (id < 10) {
-    return "0" + id;
-  } else {
-    return "" + id;
-  }
-}
-
 @Directive({ selector: "[nveMap]" })
 export class MapDirective {
-  @Input() forecasts: Forecast[];
   @Input() geoJsonData: any;
   @Input() center: { latitude: number; longitude: number };
   @Input() marker: { latitude: number; longitude: number };
   @Input() zoomLevel: number;
-  @Input() recenter: boolean;
-  @Output()
-  isCenteredUpdated: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() areaSelected: EventEmitter<string> = new EventEmitter<string>();
+  @Input() recenterRequest: Date;
+  @Output() onIsCenteredUpdate = new EventEmitter<boolean>();
+  @Output() onRegionSelect = new EventEmitter<string>();
   @ViewChild("map") mapEl: any;
 
   private _map: L.Map;
   private _geojsonLayer: L.GeoJSON;
   private _marker: L.CircleMarker;
-  private _centering: boolean = false;
+  private _centering: boolean = true;
   private _centered: boolean = true;
 
   constructor(private _el: ElementRef) {}
@@ -60,10 +38,6 @@ export class MapDirective {
   }
 
   ngOnChanges(changes) {
-    if (changes.forecasts) {
-      this.updateGeoJsonData();
-    }
-
     if (changes.geoJsonData) {
       this.updateGeoJsonData();
     }
@@ -73,10 +47,12 @@ export class MapDirective {
     }
 
     if (changes.center && this._centered) {
-      this.updateMapCenter();
+      if (changes.center.currentValue !== changes.center.previousValue) {
+        this.updateMapCenter();
+      }
     }
 
-    if (changes.recenter && changes.recenter.currentValue) {
+    if (changes.recenterRequest && changes.recenterRequest.currentValue) {
       this.updateMapCenter();
     }
   }
@@ -90,16 +66,14 @@ export class MapDirective {
       maxZoom: MAX_ZOOM
     });
 
-    this.isCenteredUpdated.emit(this._centered);
-
     this._map.on("movestart", event => {
       this._centered = this._centering;
-      this.isCenteredUpdated.emit(this._centered);
+      this.onIsCenteredUpdate.emit(this._centered);
     });
 
     this._map.on("moveend", event => {
       this._centered = this._centering;
-      this.isCenteredUpdated.emit(this._centered);
+      this.onIsCenteredUpdate.emit(this._centered);
       this._centering = false;
     });
 
@@ -154,8 +128,8 @@ export class MapDirective {
 
     this._geojsonLayer = L.geoJSON(this.geoJsonData, {
       style: feature => this.featureStyle(feature),
-      onEachFeature: (feature, layer) => this.onEachFeature(feature, layer),
-      filter: feature => this.featureFilter(feature)
+      filter: feature => this.featureFilter(feature),
+      onEachFeature: (feature, layer) => this.onEachFeature(feature, layer)
     }).addTo(this._map);
   }
 
@@ -164,50 +138,18 @@ export class MapDirective {
       return;
     }
 
-    this._geojsonLayer.setStyle(feature => this.featureStyle(feature));
-  }
-
-  private featureStyle(feature: any) {
-    let color = ThemeUtils.colorForRating(0);
-    let fillOpacity = 0.2;
-
-    if (this.forecasts) {
-      let forecast = Forecast.findForecastWithAreaId(
-        this.forecasts,
-        transformGeoJsonToAreaId(feature)
-      );
-      if (forecast) {
-        color = ThemeUtils.colorForRating(forecast.mapWarning.rating);
-      }
-    }
-
-    if (feature.mousedown) {
-      fillOpacity = 0.5;
-    }
-
-    let style = {
-      color: color,
-      fillOpacity: fillOpacity
-    };
-
-    return style;
+    this._geojsonLayer.setStyle(this.featureStyle);
   }
 
   private featureFilter(feature: any) {
-    let forecast = Forecast.findForecastWithAreaId(
-      this.forecasts,
-      feature.properties.omraadeid
-    );
+    return feature.properties.display;
+  }
 
-    if (!forecast && "B" === feature.properties.regiontype) {
-      return false;
-    }
-
-    if (forecast && forecast.isTypeB() && 0 === forecast.getDay(0).rating) {
-      return false;
-    }
-
-    return true;
+  private featureStyle(feature: any) {
+    return {
+      color: feature.properties.color,
+      fillOpacity: feature.mousedown ? 0.5 : 0.2
+    };
   }
 
   private onEachFeature(feature: any, layer: any) {
@@ -219,7 +161,7 @@ export class MapDirective {
     });
 
     layer.on("click", function(event) {
-      self.areaSelected.emit(transformGeoJsonToAreaId(feature));
+      self.onRegionSelect.emit(feature.properties.regionId);
     });
 
     layer.on("mouseup", function(event) {

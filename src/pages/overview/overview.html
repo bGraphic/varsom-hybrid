@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-navbar>
+    <button right *ngIf="hasMenuButton" ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title> {{ title((region$ | async), (section$ | async)) | translate }} </ion-title>
+  </ion-navbar>
+  <overview-segments [segments]="segments$ | async" [selectedSegment]="selectedSegment$ | async" (onSelect)="onSegmentSelect($event)"></overview-segments>
+</ion-header>
+
+<ion-content class="overview-page">
+  <overview-map *ngIf="hasMap" [regionId]="regionId" [offset]="mapOffset((isMapFullscreen$ | async))" (onRegionSelect)="onForecastSelect($event)"></overview-map>
+  <div *ngIf="hasMap" class="overview-list-offset" [ngClass]="{ 'fullscreen': (isMapFullscreen$ | async) }"></div>
+  <overview-list [regionId]="regionId" (onSelect)="onForecastSelect($event)"></overview-list>
+</ion-content>
