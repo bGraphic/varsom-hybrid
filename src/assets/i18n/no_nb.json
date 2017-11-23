@@ -134,5 +134,10 @@
       "FLOOD": "Flom",
       "LANDSLIDE": "Jordskred"
     }
+  },
+  "REGION_PAGE": {
+    "FLOOD": "Flom",
+    "LANDSLIDE": "Jordskred",
+    "AVALANCHE": "Snøskred"
   }
 }

@@ -4,6 +4,8 @@ import { NavController, NavParams, Content } from "ionic-angular";
 import { Observable } from "rxjs/rx";
 import { Store } from "@ngrx/store";
 
+import { RegionPage } from "../region/region";
+
 import * as fromRoot from "./../../store/reducers";
 import * as UISectionActions from "./../../store/actions/ui-sections.actions";
 import { Region } from "../../store/models/Region";
@@ -98,5 +100,9 @@ export class OverviewPage {
     });
   }
 
-  private _pushForecastPage(regionId) {}
+  private _pushForecastPage(regionId) {
+    this._navCtrl.push(RegionPage, {
+      regionId: regionId
+    });
+  }
 }
