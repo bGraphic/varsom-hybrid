@@ -46,12 +46,6 @@ import { WarningsEffects } from "./../store/effects/warnings.effects";
 import { RegionsEffects } from "../store/effects/regions.effects";
 import { GeojsonEffects } from "../store/effects/geojson.effects";
 
-import {
-  FilterForecastsPipe,
-  FavoriteForecastsPipe,
-  ForecastsTimeframePipe
-} from "../pipes/forecasts";
-
 import { MapDirective } from "../directives/map";
 import { FavoriteDirective } from "../directives/favorite";
 import { AvalancheRose } from "../partials/avalanche-rose";
@@ -83,10 +77,7 @@ export function createTranslateLoader(http: Http) {
     WarningBadge,
     MapDirective,
     AvalancheRose,
-    FavoriteDirective,
-    FilterForecastsPipe,
-    FavoriteForecastsPipe,
-    ForecastsTimeframePipe
+    FavoriteDirective
   ],
   imports: [
     BrowserModule,
