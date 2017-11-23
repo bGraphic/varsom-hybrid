@@ -42,12 +42,10 @@ import * as fromRegions from "./regions.reducer";
 import * as fromMapUIState from "./ui-map.reducer";
 import * as fromSectionsUIState from "./ui-sections.reducer";
 import * as fromWarnings from "./warnings.reducer";
-import { SectionType } from "../models/Section";
-import { WarningType, RegionWarnings } from "../models/Warning";
-import { RegionImportance } from "../models/Region";
-import { Forecast } from "../models/Forecast";
 import { ThemeUtils } from "../../utils/theme-utils";
-
+import { RegionImportance } from "../models/Region";
+import { WarningType, RegionWarnings } from "../models/Warning";
+import { Forecast } from "../models/Forecast";
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
  * our top level state interface is just a map of keys to inner state types.
