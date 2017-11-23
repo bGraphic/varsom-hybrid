@@ -1,0 +1,5 @@
+<div class="overview-list">
+  <overview-list-section [forecasts]="activeB(forecasts$ | async)" [header]="headerActiveB(section$ | async) | translate" (onSelect)="onSelect.emit($event)"></overview-list-section>
+  <overview-list-section [forecasts]="allA(forecasts$ | async)" [header]="headerAllA(section$ | async) | translate" (onSelect)="onSelect.emit($event)"></overview-list-section>
+  <overview-list-section [forecasts]="allB(forecasts$ | async)" [header]="headerAllB(section$ | async) | translate" (onSelect)="onSelect.emit($event)"></overview-list-section>
+</div>

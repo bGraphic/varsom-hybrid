@@ -9,19 +9,18 @@
   <ion-content padding-bottom nve-bg-color="primary">
 
     <ion-list padding-top class="nve-menu">
-      <button [ngClass]="{'active': section.active }" color="primary" ion-item no-lines detail-none *ngFor="let section of sections"
-        (click)="openSection(section)">
-        <ion-icon item-left name="{{section.icon}}" class="nve-menu-icon"></ion-icon>
-        {{ section.titleKey | translate }}
-        <ion-icon item-right *ngIf="section.url" name="open" ios="ios-open-outline"></ion-icon>
+      <button menuClose *ngFor="let section of sections$ | async " [ngClass]="{'active': section === (selectedSection$ | async) }"
+        color="primary" ion-item no-lines detail-none (click)="selectSection(section)">
+        <ion-icon item-left [name]="icon(section)" class="nve-menu-icon"></ion-icon>
+        {{ "MENU." + section | uppercase | translate }}
       </button>
     </ion-list>
 
     <ion-list class="nve-menu nve-menu-external">
       <ion-list-header color="light">
-        {{ "EXTERNAL_MENU.HEADER" | translate}}
+        {{ "MENU.EXTERNAL.HEADER" | translate}}
       </ion-list-header>
-      <button (click)="launch(item.url)" *ngFor="let item of external_links" ion-item color="light">
+      <button (click)="launch(item.url)" *ngFor="let item of externalLinks$ | async" ion-item color="light">
         <h2 *ngIf="!item.description">{{ item.label}}</h2>
         <h3 *ngIf="item.description">{{ item.label}}</h3>
         <p *ngIf="item.description" [innerHtml]="item.description"></p>
@@ -30,9 +29,9 @@
 
     <ion-list class="nve-menu">
       <ion-list-header color="primary">
-        {{ "CONTACT_INFO.HEADER" | translate}}
+        {{ "MENU.CONTACT_INFO.HEADER" | translate}}
       </ion-list-header>
-      <button (click)="launch(item.url)" *ngFor="let item of contact_links" ion-item detail-none color="primary">
+      <button (click)="launch(item.url)" *ngFor="let item of contactLinks$ | async" ion-item detail-none color="primary">
         <ion-icon item-right name="call" class="nve-menu-icon"></ion-icon>
         <h2>{{ item.label}}</h2>
         <p *ngIf="item.description" [innerHtml]="item.description"></p>
@@ -40,7 +39,7 @@
     </ion-list>
 
     <div class="logos">
-      <div *ngFor="let section of logos">
+      <div *ngFor="let section of logoLinks$ | async">
         <p>{{ section.header }}</p>
         <a *ngFor="let item of section.list" (click)="launch('http://' + item + '.no')">
           <img class="logo {{ item }}" src="{{ 'assets/icon/' + item + '.svg' }}" />

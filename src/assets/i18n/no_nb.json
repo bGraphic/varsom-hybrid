@@ -17,7 +17,8 @@
   "A_REGIONS_LIST_TITLE": "Nord til sør",
   "B_REGIONS_LIST_TITLE": "Fylkesregioner",
   "B_REGIONS_ACTIVE_LIST_TITLE": "Aktive fylkesregioner",
-  "B_REGIONS_NOTE": "Varsler for fylkesregionene utarbeides kun når skrefaren vurderes til 4 eller 5.",
+  "B_REGIONS_NOTE":
+    "Varsler for fylkesregionene utarbeides kun når skrefaren vurderes til 4 eller 5.",
   "CAUSE": "Årsak",
   "LANDSLIDE_TYPE": "Type",
   "UPDATES": "Oppdateringer",
@@ -31,72 +32,6 @@
   "AVAL_TRIGGER_SIMPLE": "Utløsningsårsak",
   "AVAL_PROPAGATION": "Utbredelse",
   "AVAL_PROBABILITY": "Sannsynlighet",
-  "EXTERNAL_MENU": {
-    "HEADER": "Lenker til varsom.no",
-    "LINKS": [
-      {
-        "url": "http://www.varsom.no/isvarsling/",
-        "label": "Isvarsling",
-        "description": "Beskrivelse av isforholdene i hele landet."
-      },
-      {
-        "url": "http://www.varsom.no/flom-og-jordskredvarsling/aktsomhetsnivaer-for-flom-og-jordskredvarsling/",
-        "label": "Aktsomhetsnivåer - Flom / Jordskred",
-        "description": "Beskrivelse av aktsomhetsnivåer for flom- og jordskredvarsling."
-      },
-      {
-        "url": "http://www.varsom.no/snoskredvarsling/faregradsskala-for-snoskredvarsling/",
-        "label": "Faregradsskala - Snøskred",
-        "description": "Beskrivelse av faregradsskala for snøskredvarsling."
-      },
-      {
-        "url": "http://www.varsom.no/snoskredskolen/",
-        "label": "Snøskredskolen",
-        "description": "Vi kaller det skredskole, men du kan godt kalle det skredvett."
-      },
-      {
-        "url": "http://www.varsom.no/en/",
-        "label": "English",
-        "description": "Norwegian avalanche, flood and landslide hazard warnings in english."
-      }
-    ]
-  },
-  "CONTACT_INFO": {
-    "HEADER": "Kontaktinformasjon",
-    "LINKS": [
-      {
-        "url": "tel:+4740436000",
-        "label": "Flomvarsling",
-        "description": "08.00-21.00 alle dager<br/>404 36 000 (ikke sms)"
-      },
-      {
-        "url": "tel:+4740028777",
-        "label": "Jordskredvarsling",
-        "description": "08.00-21.00 alle dager<br/>400 28 777 (ikke sms)"
-      },
-      {
-        "url": "tel:+4748880100",
-        "label": "Snøskredvarsling",
-        "description": "07.00-20.00 alle dager<br/>488 80 100 (ikke sms)"
-      }
-    ]
-  },
-  "LOGOS": {
-    "NVE": {
-      "HEADER": "En app fra",
-      "LIST": [
-        "nve"
-      ]
-    },
-    "PARTNERS": {
-      "HEADER": "i samarbeid med",
-      "LIST": [
-        "banenor",
-        "vegvesen",
-        "met"
-      ]
-    }
-  },
   "UPDATE": {
     "TITLE": "Ny versjon",
     "MESSAGE": {
@@ -106,6 +41,98 @@
     "BUTTON": {
       "UPDATE": "Oppdater",
       "SKIP": "Ikke nå"
+    }
+  },
+  "MENU": {
+    "FLOODLANDSLIDE": "Flom / Jordskred",
+    "AVALANCHE": "Snøskred",
+    "EXTERNAL": {
+      "HEADER": "Lenker til varsom.no",
+      "ITEMS": [
+        {
+          "url": "http://www.varsom.no/isvarsling/",
+          "label": "Isvarsling",
+          "description": "Beskrivelse av isforholdene i hele landet."
+        },
+        {
+          "url":
+            "http://www.varsom.no/flom-og-jordskredvarsling/aktsomhetsnivaer-for-flom-og-jordskredvarsling/",
+          "label": "Aktsomhetsnivåer - Flom / Jordskred",
+          "description":
+            "Beskrivelse av aktsomhetsnivåer for flom- og jordskredvarsling."
+        },
+        {
+          "url":
+            "http://www.varsom.no/snoskredvarsling/faregradsskala-for-snoskredvarsling/",
+          "label": "Faregradsskala - Snøskred",
+          "description": "Beskrivelse av faregradsskala for snøskredvarsling."
+        },
+        {
+          "url": "http://www.varsom.no/snoskredskolen/",
+          "label": "Snøskredskolen",
+          "description":
+            "Vi kaller det skredskole, men du kan godt kalle det skredvett."
+        },
+        {
+          "url": "http://www.varsom.no/en/",
+          "label": "English",
+          "description":
+            "Norwegian avalanche, flood and landslide hazard warnings in english."
+        }
+      ]
+    },
+    "CONTACT_INFO": {
+      "HEADER": "Kontaktinformasjon",
+      "ITEMS": [
+        {
+          "url": "tel:+4740436000",
+          "label": "Flomvarsling",
+          "description": "08.00-21.00 alle dager<br/>404 36 000 (ikke sms)"
+        },
+        {
+          "url": "tel:+4740028777",
+          "label": "Jordskredvarsling",
+          "description": "08.00-21.00 alle dager<br/>400 28 777 (ikke sms)"
+        },
+        {
+          "url": "tel:+4748880100",
+          "label": "Snøskredvarsling",
+          "description": "07.00-20.00 alle dager<br/>488 80 100 (ikke sms)"
+        }
+      ]
+    },
+    "LOGOS": {
+      "NVE": {
+        "HEADER": "En app fra",
+        "LIST": ["nve"]
+      },
+      "PARTNERS": {
+        "HEADER": "i samarbeid med",
+        "LIST": ["banenor", "vegvesen", "met"]
+      }
+    }
+  },
+  "OVERVIEW": {
+    "PAGE_TITLE": {
+      "FLOODLANDSLIDE": "Flom / Jordskred",
+      "AVALANCHE": "Snøskred"
+    },
+    "LIST_HEADER": {
+      "A_REGIONS": {
+        "FLOODLANDSLIDE": "Nord til sør",
+        "AVALANCHE": "Nord til sør"
+      },
+      "B_REGIONS": {
+        "AVALANCHE": "Fylkesregioner"
+      },
+      "B_REGIONS_ACTIVE": {
+        "AVALANCHE": "Aktive fylkesregioner"
+      }
+    },
+    "SEGMENT": {
+      "FLOODLANDSLIDE": "Flom/Jordskred",
+      "FLOOD": "Flom",
+      "LANDSLIDE": "Jordskred"
     }
   }
 }
