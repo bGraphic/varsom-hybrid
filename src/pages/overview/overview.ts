@@ -52,6 +52,7 @@ export class OverviewPage {
   ionViewDidEnter() {
     this.section$.subscribe(section => {
       this.content.resize();
+      this.content.scrollToTop();
     });
   }
 
