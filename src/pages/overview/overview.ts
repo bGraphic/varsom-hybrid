@@ -49,12 +49,12 @@ export class OverviewPage {
     this.region$ = this._store.select(fromRoot.getRegion(this.regionId));
 
     this.section$ = this._store.select(fromRoot.getSelectedSection);
-  }
 
-  ionViewDidEnter() {
     this.section$.subscribe(section => {
-      this.content.resize();
-      this.content.scrollToTop();
+      if (this.content) {
+        this.content.resize();
+        this.content.scrollToTop();
+      }
     });
   }
 
