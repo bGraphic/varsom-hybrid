@@ -33,7 +33,9 @@ export class OverviewPage {
     this.regionId = this._navParams.get("regionId");
     this.hasMap = !this.regionId;
     this.hasMenuButton = !this.regionId;
+  }
 
+  ngOnInit() {
     this.isMapFullscreen$ = this._store
       .select(fromRoot.getMapSettings)
       .map(mapSetting => mapSetting.isFullscreen);

@@ -17,7 +17,9 @@ export class OverviewList {
   forecasts$: Observable<Forecast[]>;
   section$: Observable<SectionType>;
 
-  constructor(private _store: Store<fromRoot.State>) {
+  constructor(private _store: Store<fromRoot.State>) {}
+
+  ngOnInit() {
     this.forecasts$ = this._store
       .select(fromRoot.getOverviewListForecasts(this.regionId))
       .do(forecasts => console.log("Forecasts", forecasts));
