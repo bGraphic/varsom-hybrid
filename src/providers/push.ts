@@ -6,7 +6,6 @@ import { TranslateService } from "@ngx-translate/core";
 
 import { FavoriteService } from "./favorites";
 import { AreaUtils } from "../utils/area-utils";
-import { AreaDetailsPage } from "../pages/area-details/area-details";
 
 @Injectable()
 export class PushService {

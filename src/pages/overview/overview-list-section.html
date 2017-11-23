@@ -1,6 +1,6 @@
 <ion-list *ngIf="forecasts && forecasts.length > 0">
   <ion-list-header>
-    <ion-note item-right *ngFor="let d of (forecasts | forecastsTimeframe)">{{ d | amDateFormat:'ddd' }}</ion-note>
+    <ion-note item-right *ngFor="let d of timeframe(forecasts)">{{ d | amDateFormat:'ddd' }}</ion-note>
     {{ header }}
   </ion-list-header>
   <button detail-none ion-item *ngFor="let forecast of forecasts" (click)="onSelect.emit(forecast.regionId)">

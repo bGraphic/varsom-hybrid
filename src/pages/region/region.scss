@@ -1,21 +1,9 @@
-.item-details-page {
-
+.region-page {
   .list-header {
     white-space: normal;
-
-    span {
-      display: block;
-      text-transform: none;
-      font-size: 0.8em;
-      letter-spacing: normal;
-      font-weight: normal;
-      margin-top: 0.3em;
-      opacity: 0.7;
-    }
   }
 
   .label {
-
     .nve-avalanche-rose {
       margin-top: 15px;
       margin-bottom: 1px;
@@ -34,6 +22,15 @@
     p + p {
       margin-top: 10px;
     }
+    p + p.published {
+      margin-top: 5px;
+    }
+    p.meta + p.meta {
+      margin-top: 0px;
+    }
+    p.meta + p.published {
+      margin-top: 10px;
+    }
 
     p {
       font-size: 1.6rem;
@@ -45,12 +42,16 @@
 
       span {
         &:after {
-          content: ", "
+          content: ", ";
         }
 
         &:last-child:after {
           content: "";
         }
+      }
+
+      &.published {
+        font-size: 0.8em;
       }
     }
   }
@@ -59,5 +60,16 @@
     margin-top: 20px;
     margin-bottom: 20px;
   }
-}
 
+  .label-md {
+    p.published {
+      color: $list-md-header-color !important;
+    }
+  }
+
+  .label-ios {
+    p.published {
+      color: $list-ios-header-color !important;
+    }
+  }
+}
