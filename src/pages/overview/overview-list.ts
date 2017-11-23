@@ -18,9 +18,9 @@ export class OverviewList {
   section$: Observable<SectionType>;
 
   constructor(private _store: Store<fromRoot.State>) {
-    this.forecasts$ = this._store.select(
-      fromRoot.getOverviewListForecasts(this.regionId)
-    );
+    this.forecasts$ = this._store
+      .select(fromRoot.getOverviewListForecasts(this.regionId))
+      .do(forecasts => console.log("Forecasts", forecasts));
     this.section$ = this._store.select(fromRoot.getSelectedSection);
   }
 
@@ -54,10 +54,7 @@ export class OverviewList {
 
   private active(forecasts: Forecast[]) {
     return forecasts.filter(forecast => {
-      return forecast.warnings.reduce(
-        (acc, warning) => warning.rating > 1,
-        false
-      );
+      return forecast.highestRating > 1;
     });
   }
 
