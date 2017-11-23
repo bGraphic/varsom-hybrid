@@ -206,18 +206,39 @@ export const getOverviewMapForecasts = () =>
   );
 
 export const getOverviewListForecasts = (regionId: string) =>
-  createSelector(getSelectedForecasts, forecasts => {
-    return forecasts.filter(forecast => {
-      if (regionId) {
-        return (
-          forecast.regionType === "Municipality" &&
-          forecast.regionId.startsWith(regionId)
-        );
-      } else {
-        return forecast.regionType !== "Municipality";
-      }
-    });
-  });
+  createSelector(
+    getSelectedForecasts,
+    getSelectedSection,
+    (forecasts, section) => {
+      return forecasts
+        .filter(forecast => {
+          if (regionId) {
+            return (
+              forecast.regionType === "Municipality" &&
+              forecast.regionId.startsWith(regionId)
+            );
+          } else {
+            return forecast.regionType !== "Municipality";
+          }
+        })
+        .sort((forecastA, forecastB) => {
+          if (section === "Avalanche") {
+            // North to south sorting for avalanche regions
+            // Region "3001": "Svalbard øst" north
+            // Region "3046": "Østfold" south
+            return forecastA.regionId > forecastB.regionId ? 1 : -1;
+          } else if (regionId) {
+            // Alphabetical sorting for municipalities
+            return forecastA.regionName > forecastB.regionName ? 1 : -1;
+          } else {
+            // North to south sorting for counties
+            // County "20": "Finnmark", north
+            // County "01": "Østfold", south
+            return forecastA.regionId > forecastB.regionId ? -1 : 1;
+          }
+        });
+    }
+  );
 
 const getSelectedForecasts = createSelector(
   getSelectedRegions,
