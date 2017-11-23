@@ -1,0 +1,75 @@
+.region-page {
+  .list-header {
+    white-space: normal;
+  }
+
+  .label {
+    .nve-avalanche-rose {
+      margin-top: 15px;
+      margin-bottom: 1px;
+    }
+
+    h2,
+    p {
+      white-space: normal;
+    }
+
+    h2 {
+      font-weight: 500;
+    }
+
+    h2 + p,
+    p + p {
+      margin-top: 10px;
+    }
+    p + p.published {
+      margin-top: 5px;
+    }
+    p.meta + p.meta {
+      margin-top: 0px;
+    }
+    p.meta + p.published {
+      margin-top: 10px;
+    }
+
+    p {
+      font-size: 1.6rem;
+      line-height: 1.4;
+
+      strong {
+        font-weight: 500;
+      }
+
+      span {
+        &:after {
+          content: ", ";
+        }
+
+        &:last-child:after {
+          content: "";
+        }
+      }
+
+      &.published {
+        font-size: 0.8em;
+      }
+    }
+  }
+
+  .item-block .label {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .label-md {
+    p.published {
+      color: $list-md-header-color !important;
+    }
+  }
+
+  .label-ios {
+    p.published {
+      color: $list-ios-header-color !important;
+    }
+  }
+}

@@ -13,6 +13,12 @@ export class OverviewListSection {
 
   constructor() {}
 
+  timeframe(forecasts: Forecast[]) {
+    if (forecasts.length > 0) {
+      return forecasts[0].warnings.map(warning => warning.date);
+    }
+  }
+
   ratings(warnings: Warning[]): number[] {
     return [0, 1, 2].map(day => {
       if (warnings[day]) {

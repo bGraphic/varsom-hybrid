@@ -22,6 +22,9 @@ import { OverviewMap } from "../pages/overview/overview-map";
 import { OverviewList } from "../pages/overview/overview-list";
 import { OverviewListSection } from "../pages/overview/overview-list-section";
 import { OverviewSegments } from "../pages/overview/overview-segments";
+import { OverviewMapControls } from "../pages/overview/overview-map-controls";
+import { RegionPage } from "../pages/region/region";
+import { RegionWarning } from "../pages/region/region-warning";
 import { AreaDetailsPage } from "../pages/area-details/area-details";
 import { WarningDetailsPage } from "../pages/warning-details/warning-details";
 import { WarningBadge } from "../partials/warning-badge";
@@ -43,12 +46,6 @@ import { WarningsEffects } from "./../store/effects/warnings.effects";
 import { RegionsEffects } from "../store/effects/regions.effects";
 import { GeojsonEffects } from "../store/effects/geojson.effects";
 
-import {
-  FilterForecastsPipe,
-  FavoriteForecastsPipe,
-  ForecastsTimeframePipe
-} from "../pipes/forecasts";
-
 import { MapDirective } from "../directives/map";
 import { FavoriteDirective } from "../directives/favorite";
 import { AvalancheRose } from "../partials/avalanche-rose";
@@ -59,7 +56,6 @@ import { Geolocation } from "@ionic-native/geolocation";
 import { InAppBrowser } from "@ionic-native/in-app-browser";
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { StatusBar } from "@ionic-native/status-bar";
-import { OverviewMapControls } from "../pages/overview/overview-map-controls";
 
 export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -74,15 +70,14 @@ export function createTranslateLoader(http: Http) {
     OverviewSegments,
     OverviewList,
     OverviewListSection,
+    RegionPage,
+    RegionWarning,
     AreaDetailsPage,
     WarningDetailsPage,
     WarningBadge,
     MapDirective,
     AvalancheRose,
-    FavoriteDirective,
-    FilterForecastsPipe,
-    FavoriteForecastsPipe,
-    ForecastsTimeframePipe
+    FavoriteDirective
   ],
   imports: [
     BrowserModule,
@@ -108,7 +103,7 @@ export function createTranslateLoader(http: Http) {
     MomentModule
   ],
   bootstrap: [IonicApp],
-  entryComponents: [MyApp, OverviewPage, AreaDetailsPage, WarningDetailsPage],
+  entryComponents: [MyApp, OverviewPage, RegionPage, WarningDetailsPage],
   providers: [
     AppVersion,
     Diagnostic,
