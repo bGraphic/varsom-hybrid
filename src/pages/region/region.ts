@@ -35,9 +35,7 @@ export class RegionPage {
     }
   }
 
-  listHeader(warnings: RegionWarnings[]) {
-    return "List header";
-  }
+  listHeader(warnings: RegionWarnings[], warningIndex: number) {}
 
   warningTypes(region: Region): WarningType[] {
     if (!region) {
@@ -49,49 +47,11 @@ export class RegionPage {
     }
   }
 
-  rating(
-    warnings: RegionWarnings[],
-    warningType: WarningType,
-    warningIndex: number
-  ) {
-    const warning = this._warning(warnings, warningType, warningIndex);
-    if (warning) {
-      return warning.rating;
-    }
-  }
-
-  mainText(
-    warnings: RegionWarnings[],
-    warningType: WarningType,
-    warningIndex: number
-  ) {
-    const warning = this._warning(warnings, warningType, warningIndex);
-    if (warning && warning.meta) {
-      return warning.meta.MainText;
-    }
-  }
-
-  onSelect(
-    warnings: { [k in WarningType]?: RegionWarnings },
-    warningType,
-    dayIndex
-  ) {
+  onWarningSelect($event) {
     console.log(
-      `Go to warning of type ${warningType} and day index ${dayIndex}`
+      `Go to warning of type ${$event.warningType} and day index ${
+        $event.dayIndex
+      }`
     );
-  }
-
-  _warning(
-    warnings: RegionWarnings[],
-    warningType: WarningType,
-    warningIndex: number
-  ): Warning {
-    if (
-      warnings &&
-      warnings[warningType] &&
-      warnings[warningType].warnings.length > warningIndex
-    ) {
-      return warnings[warningType].warnings[warningIndex];
-    }
   }
 }

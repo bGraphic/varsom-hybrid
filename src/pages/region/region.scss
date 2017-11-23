@@ -32,6 +32,9 @@
     p + p {
       margin-top: 10px;
     }
+    p.meta + p.meta {
+      margin-top: 0px;
+    }
 
     p {
       font-size: 1.6rem;

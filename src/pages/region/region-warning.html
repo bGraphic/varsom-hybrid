@@ -1,7 +1,15 @@
 <ion-item-group>
-  <button ion-item>
+  <button ion-item click="onSelect.emit({ warningType, warningIndex })">
     <nve-warning-badge item-right [level]="rating(warning)"></nve-warning-badge>
     <h2>{{ "REGION_PAGE." + warningType | uppercase | translate }}</h2>
     <p *ngIf="warning" [innerHTML]="warning.meta.MainText"></p>
+    <p class="meta" *ngIf="warning && warning.meta.CauseList && warning.meta.CauseList.length > 0">
+      <strong>{{ 'CAUSE' | translate }}:</strong>
+      <span *ngFor="let cause of warning.meta.CauseList">{{cause.Name}}</span>
+    </p>
+    <p class="meta" *ngIf="warning && warning.meta.LandSlideTypeList && warning.meta.LandSlideTypeList.length > 0">
+      <strong>{{ 'LANDSLIDE_TYPE' | translate }}:</strong>
+      <span *ngFor="let type of warning.meta.LandSlideTypeList">{{type.Name}}</span>
+    </p>
   </button>
 </ion-item-group>
