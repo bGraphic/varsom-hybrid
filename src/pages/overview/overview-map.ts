@@ -13,7 +13,6 @@ import { ThemeUtils } from "../../utils/theme-utils";
   templateUrl: "overview-map.html"
 })
 export class OverviewMap {
-  @Input() sectionType: SectionType;
   @Input() regionId: string;
   @Input() offset: number;
   @Output() onRegionSelect = new EventEmitter();
@@ -29,9 +28,7 @@ export class OverviewMap {
 
     this.marker$ = this._store.select(fromRoot.getPosition());
 
-    this.settings$ = this._store
-      .select(fromRoot.getMapSettings)
-      .do(settings => console.log(settings));
+    this.settings$ = this._store.select(fromRoot.getMapSettings);
 
     this.recenterRequests$ = this._store.select(
       fromRoot.getMapRecenterRequests

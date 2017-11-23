@@ -16,10 +16,10 @@ import { WarningType } from "../../store/models/Warning";
 export class OverviewPage {
   @ViewChild(Content) content: Content;
 
-  sectionType: SectionType;
   regionId: string;
   hasMap: boolean;
   hasMenuButton: boolean;
+  section$: Observable<SectionType>;
   segments$: Observable<WarningType[]>;
   selectedSegment$: Observable<WarningType>;
   isMapFullscreen$: Observable<boolean>;
@@ -30,7 +30,6 @@ export class OverviewPage {
     private _navParams: NavParams,
     private _store: Store<fromRoot.State>
   ) {
-    this.sectionType = this._navParams.get("sectionType") || "FloodLandslide";
     this.regionId = this._navParams.get("regionId");
     this.hasMap = !this.regionId;
     this.hasMenuButton = !this.regionId;
@@ -44,19 +43,21 @@ export class OverviewPage {
     this.selectedSegment$ = this._store.select(fromRoot.getSelectedSegment);
 
     this.region$ = this._store.select(fromRoot.getRegion(this.regionId));
+
+    this.section$ = this._store.select(fromRoot.getSelectedSection);
   }
 
   ionViewDidEnter() {
-    this._store.select(fromRoot.getSelectedSection).subscribe(section => {
+    this.section$.subscribe(section => {
       this.content.resize();
     });
   }
 
-  title(region: Region) {
+  title(region: Region, sectionType: SectionType) {
     if (region) {
       return region.name;
-    } else {
-      return `OVERVIEW.PAGE_TITLE.${this.sectionType.toUpperCase()}`;
+    } else if (sectionType) {
+      return `OVERVIEW.PAGE_TITLE.${sectionType.toUpperCase()}`;
     }
   }
 
@@ -76,16 +77,20 @@ export class OverviewPage {
   }
 
   onForecastSelect(regionId: string) {
-    if (this.sectionType === "FloodLandslide" && !this.regionId) {
-      this._pushOverviewPage(regionId);
-    }
-
-    this._pushForecastPage(regionId);
+    this._store
+      .select(fromRoot.getRegion(this.regionId))
+      .first()
+      .subscribe(region => {
+        if (region.type === "County") {
+          this._pushOverviewPage(regionId);
+        } else {
+          this._pushForecastPage(regionId);
+        }
+      });
   }
 
   private _pushOverviewPage(regionId) {
     this._navCtrl.push(OverviewPage, {
-      sectionType: this.sectionType,
       regionId: regionId
     });
   }

@@ -12,25 +12,24 @@ import * as fromRoot from "./../../store/reducers";
   templateUrl: "overview-list.html"
 })
 export class OverviewList {
-  @Input() sectionType: SectionType;
   @Input() regionId: string;
   @Output() onSelect = new EventEmitter();
   forecasts$: Observable<Forecast[]>;
+  section$: Observable<SectionType>;
 
-  constructor(private _store: Store<fromRoot.State>) {}
-
-  ngOnInit() {
+  constructor(private _store: Store<fromRoot.State>) {
     this.forecasts$ = this._store.select(
       fromRoot.getOverviewListForecasts(this.regionId)
     );
+    this.section$ = this._store.select(fromRoot.getSelectedSection);
   }
 
   activeB(forecasts: Forecast[]) {
     return this.active(this.allB(forecasts));
   }
 
-  headerActiveB(regionType: RegionType) {
-    return this.translationKey("LIST_HEADER.B_REGIONS_ACTIVE", regionType);
+  headerActiveB(sectionType: SectionType) {
+    return this.translationKey("LIST_HEADER.B_REGIONS_ACTIVE", sectionType);
   }
 
   allA(forecasts: Forecast[]) {
@@ -39,8 +38,8 @@ export class OverviewList {
     );
   }
 
-  headerAllA(regionType: RegionType) {
-    return this.translationKey("LIST_HEADER.A_REGIONS", regionType);
+  headerAllA(sectionType: SectionType) {
+    return this.translationKey("LIST_HEADER.A_REGIONS", sectionType);
   }
 
   allB(forecasts: Forecast[]) {
@@ -49,8 +48,8 @@ export class OverviewList {
     );
   }
 
-  headerAllB(regionType: RegionType) {
-    return this.translationKey("LIST_HEADER.B_REGIONS", regionType);
+  headerAllB(sectionType: SectionType) {
+    return this.translationKey("LIST_HEADER.B_REGIONS", sectionType);
   }
 
   private active(forecasts: Forecast[]) {
@@ -62,9 +61,9 @@ export class OverviewList {
     });
   }
 
-  private translationKey(key: string, regionType: RegionType) {
-    if (regionType) {
-      return `OVERVIEW.${key}.${regionType.toUpperCase()}`;
+  private translationKey(key: string, sectionType: SectionType) {
+    if (sectionType) {
+      return `OVERVIEW.${key}.${sectionType.toUpperCase()}`;
     }
     return "";
   }
