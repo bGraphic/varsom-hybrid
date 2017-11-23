@@ -1,6 +1,21 @@
 <ion-header>
   <ion-navbar color="light">
-    <ion-title>{{ (region$ | async).name }}</ion-title>
+    <ion-title>{{ title(region$ | async) }}</ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content class="region-page"></ion-content>
+<ion-content class="region-page">
+
+  <ion-list *ngFor="let warningIndex of [0,1,2]">
+
+    <ion-list-header text-capitalize>
+      <!-- {{ dateOfWarningIndex(warningIndex, (warning)) | amDateFormat:'dddd D. MMMM' }} -->
+      {{ listHeader(warnings$ | async) }}
+    </ion-list-header>
+
+    <region-warning *ngFor="let warningType of warningTypes(region$ | async)" [warningType]="warningType" [warningIndex]="warningIndex"
+      [warnings]="warnings$ | async">
+
+    </region-warning>
+
+  </ion-list>
+</ion-content>

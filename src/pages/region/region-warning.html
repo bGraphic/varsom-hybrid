@@ -1,0 +1,7 @@
+<ion-item-group>
+  <button ion-item>
+    <nve-warning-badge item-right [level]="rating(warning)"></nve-warning-badge>
+    <h2>{{ "REGION_PAGE." + warningType | uppercase | translate }}</h2>
+    <p *ngIf="warning" [innerHTML]="warning.meta.MainText"></p>
+  </button>
+</ion-item-group>

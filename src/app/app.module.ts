@@ -24,6 +24,7 @@ import { OverviewListSection } from "../pages/overview/overview-list-section";
 import { OverviewSegments } from "../pages/overview/overview-segments";
 import { OverviewMapControls } from "../pages/overview/overview-map-controls";
 import { RegionPage } from "../pages/region/region";
+import { RegionWarning } from "../pages/region/region-warning";
 import { AreaDetailsPage } from "../pages/area-details/area-details";
 import { WarningDetailsPage } from "../pages/warning-details/warning-details";
 import { WarningBadge } from "../partials/warning-badge";
@@ -76,6 +77,7 @@ export function createTranslateLoader(http: Http) {
     OverviewList,
     OverviewListSection,
     RegionPage,
+    RegionWarning,
     AreaDetailsPage,
     WarningDetailsPage,
     WarningBadge,
