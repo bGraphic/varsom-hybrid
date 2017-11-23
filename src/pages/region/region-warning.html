@@ -14,6 +14,8 @@
       <strong>{{ 'LANDSLIDE_TYPE' | translate }}:</strong>
       <span *ngFor="let type of warning.meta.LandSlideTypeList">{{type.Name}}</span>
     </p>
+    <p class="published" *ngIf="warning">
+      {{ 'PUBLISHED' | translate }}: {{ warning.meta.PublishTime | amDateFormat:'D. MMM [kl.] hh:mm' }}
   </button>
 </ion-item-group>
 

@@ -22,8 +22,14 @@
     p + p {
       margin-top: 10px;
     }
+    p + p.published {
+      margin-top: 5px;
+    }
     p.meta + p.meta {
       margin-top: 0px;
+    }
+    p.meta + p.published {
+      margin-top: 10px;
     }
 
     p {
@@ -43,11 +49,27 @@
           content: "";
         }
       }
+
+      &.published {
+        font-size: 0.8em;
+      }
     }
   }
 
   .item-block .label {
     margin-top: 20px;
     margin-bottom: 20px;
+  }
+
+  .label-md {
+    p.published {
+      color: $list-md-header-color !important;
+    }
+  }
+
+  .label-ios {
+    p.published {
+      color: $list-ios-header-color !important;
+    }
   }
 }
