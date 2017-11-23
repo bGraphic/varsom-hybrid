@@ -22,6 +22,8 @@ import { OverviewMap } from "../pages/overview/overview-map";
 import { OverviewList } from "../pages/overview/overview-list";
 import { OverviewListSection } from "../pages/overview/overview-list-section";
 import { OverviewSegments } from "../pages/overview/overview-segments";
+import { OverviewMapControls } from "../pages/overview/overview-map-controls";
+import { RegionPage } from "../pages/region/region";
 import { AreaDetailsPage } from "../pages/area-details/area-details";
 import { WarningDetailsPage } from "../pages/warning-details/warning-details";
 import { WarningBadge } from "../partials/warning-badge";
@@ -59,7 +61,6 @@ import { Geolocation } from "@ionic-native/geolocation";
 import { InAppBrowser } from "@ionic-native/in-app-browser";
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { StatusBar } from "@ionic-native/status-bar";
-import { OverviewMapControls } from "../pages/overview/overview-map-controls";
 
 export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -74,6 +75,7 @@ export function createTranslateLoader(http: Http) {
     OverviewSegments,
     OverviewList,
     OverviewListSection,
+    RegionPage,
     AreaDetailsPage,
     WarningDetailsPage,
     WarningBadge,
@@ -108,7 +110,7 @@ export function createTranslateLoader(http: Http) {
     MomentModule
   ],
   bootstrap: [IonicApp],
-  entryComponents: [MyApp, OverviewPage, AreaDetailsPage, WarningDetailsPage],
+  entryComponents: [MyApp, OverviewPage, RegionPage, WarningDetailsPage],
   providers: [
     AppVersion,
     Diagnostic,
