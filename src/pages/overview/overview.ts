@@ -78,7 +78,7 @@ export class OverviewPage {
 
   onForecastSelect(regionId: string) {
     this._store
-      .select(fromRoot.getRegion(this.regionId))
+      .select(fromRoot.getRegion(regionId))
       .first()
       .subscribe(region => {
         if (region.type === "County") {
