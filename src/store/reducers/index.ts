@@ -43,7 +43,7 @@ import * as fromMapUIState from "./ui-map.reducer";
 import * as fromSectionsUIState from "./ui-sections.reducer";
 import * as fromWarnings from "./warnings.reducer";
 import { SectionType } from "../models/Section";
-import { WarningType } from "../models/Warning";
+import { WarningType, RegionWarnings } from "../models/Warning";
 import { RegionImportance } from "../models/Region";
 import { Forecast } from "../models/Forecast";
 import { ThemeUtils } from "../../utils/theme-utils";
@@ -174,6 +174,25 @@ const getSegmentWarnings = createSelector(
     return warnings[segment];
   }
 );
+export const getRegionWarnings = (regionId: string) =>
+  createSelector(getAllWarnings, allWarnings => {
+    const warningTypes = Object.keys(allWarnings).filter(
+      (warningType: WarningType) => warningType !== "FloodLandslide"
+    );
+    return warningTypes.reduce(
+      (acc, warningType: WarningType) => {
+        const regionWarnings = allWarnings[warningType].find(
+          regionWarnings => regionWarnings.regionId === regionId
+        );
+        if (regionWarnings) {
+          acc[warningType] = regionWarnings;
+        }
+
+        return acc;
+      },
+      <{ [k in WarningType]?: RegionWarnings }>{}
+    );
+  });
 
 // Forecasts
 
