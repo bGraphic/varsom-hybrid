@@ -1,7 +1,10 @@
 <ion-item-group>
   <button ion-item click="onSelect.emit({ warningType, warningIndex })">
     <nve-warning-badge item-right [level]="rating(warning)"></nve-warning-badge>
-    <h2>{{ "REGION_PAGE." + warningType | uppercase | translate }}</h2>
+    <h2 *ngIf="warningType !== 'Avalanche'">{{ "REGION_PAGE." + warningType | uppercase | translate }}</h2>
+    <h2 *ngIf="warningType === 'Avalanche' && warning">
+      {{ 'DANGER_LEVEL' | translate }} {{ rating(warning) }}
+    </h2>
     <p *ngIf="warning" [innerHTML]="warning.meta.MainText"></p>
     <p class="meta" *ngIf="warning && warning.meta.CauseList && warning.meta.CauseList.length > 0">
       <strong>{{ 'CAUSE' | translate }}:</strong>
@@ -12,4 +15,32 @@
       <span *ngFor="let type of warning.meta.LandSlideTypeList">{{type.Name}}</span>
     </p>
   </button>
+</ion-item-group>
+
+<ion-item-group *ngIf="warning && warning.meta.AvalancheProblems && warning.meta.AvalancheProblems.length > 0 ">
+  <ion-item-divider *ngIf="warning.meta.AvalancheProblems">
+    {{ 'AVALANCHE_PROBLEMS' | translate }}
+  </ion-item-divider>
+
+  <ion-item *ngFor="let problem of warning.meta.AvalancheProblems">
+    <h2>{{ problem.AvalancheProblemTypeName }}</h2>
+    <p [innerHTML]="problem.AvalCauseName"></p>
+    <nve-avalanche-rose [validExpositions]="problem.ValidExpositions" [exposedHeight1]="problem.ExposedHeight1" [exposedHeight2]="problem.ExposedHeight2"
+      [exposedHeightFill]="problem.ExposedHeightFill">
+    </nve-avalanche-rose>
+    <p>
+      <strong>{{ 'AVALANCHE_TYPE' | translate }}:</strong> {{ problem.AvalancheTypeName}}
+      <br/>
+      <strong>{{ 'DESTRUCTIVE_SIZE_EXT' | translate }}:</strong> {{ problem.DestructiveSizeExtName}}
+      <br/>
+      <strong>{{ 'AVAL_TRIGGER_SIMPLE' | translate }}:</strong> {{ problem.AvalTriggerSimpleName}}
+      <br/>
+      <strong>{{ 'AVAL_PROPAGATION' | translate }}:</strong> {{ problem.AvalPropagationName}}
+      <br/>
+      <strong>{{ 'AVAL_PROBABILITY' | translate }}:</strong> {{ problem.AvalProbabilityName}}
+    </p>
+
+    <p [innerHTML]="problem.AvalancheAdvice"></p>
+
+  </ion-item>
 </ion-item-group>

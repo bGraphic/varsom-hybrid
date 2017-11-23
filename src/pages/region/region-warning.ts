@@ -28,15 +28,11 @@ export class RegionWarning {
         this.warningIndex
       ];
     }
-
-    console.log(this.warning);
   }
 
   rating(warning) {
     if (warning) {
       return warning.rating;
-    } else {
-      return -1;
     }
   }
 }
