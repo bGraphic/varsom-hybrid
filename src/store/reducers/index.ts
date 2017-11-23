@@ -138,7 +138,7 @@ const getAllGeojsonObjects = createSelector(
   getGeojsonState,
   fromGeojson.getAll
 );
-const getSelectedGeojson = createSelector(
+const getSectionGeojson = createSelector(
   getAllGeojsonObjects,
   getSelectedSection,
   (geojson, section) => {
@@ -150,7 +150,7 @@ const getSelectedGeojson = createSelector(
 
 const getRegionsState = (state: State) => state.regions;
 const getAllRegions = createSelector(getRegionsState, fromRegions.getAll);
-const getSelectedRegions = createSelector(
+const getSectionRegions = createSelector(
   getAllRegions,
   getSelectedSection,
   (regions, section) => {
@@ -159,7 +159,7 @@ const getSelectedRegions = createSelector(
 );
 
 export const getRegion = (regionId: string) =>
-  createSelector(getSelectedRegions, regions => {
+  createSelector(getSectionRegions, regions => {
     return regions.find(region => region.id === regionId);
   });
 
@@ -167,7 +167,7 @@ export const getRegion = (regionId: string) =>
 
 const getWarningState = (state: State) => state.warnings;
 const getAllWarnings = createSelector(getWarningState, fromWarnings.getAll);
-const getSelectedWarnings = createSelector(
+const getSegmentWarnings = createSelector(
   getAllWarnings,
   getSelectedSegment,
   (warnings, segment) => {
@@ -179,8 +179,8 @@ const getSelectedWarnings = createSelector(
 
 export const getOverviewMapForecasts = () =>
   createSelector(
-    getSelectedForecasts,
-    getSelectedGeojson,
+    getSectionForecasts,
+    getSectionGeojson,
     (forecasts, geojson) => {
       return geojson.map(feature => {
         const forecast = forecasts.find(
@@ -207,7 +207,7 @@ export const getOverviewMapForecasts = () =>
 
 export const getOverviewListForecasts = (regionId: string) =>
   createSelector(
-    getSelectedForecasts,
+    getSectionForecasts,
     getSelectedSection,
     (forecasts, section) => {
       return forecasts
@@ -240,9 +240,9 @@ export const getOverviewListForecasts = (regionId: string) =>
     }
   );
 
-const getSelectedForecasts = createSelector(
-  getSelectedRegions,
-  getSelectedWarnings,
+const getSectionForecasts = createSelector(
+  getSectionRegions,
+  getSegmentWarnings,
   (regions, warnings) => {
     return regions.map(region => {
       // Need to do this as counties has no entries in warnings
