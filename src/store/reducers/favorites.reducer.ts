@@ -6,7 +6,7 @@ export interface State {
 }
 
 const initialState: State = {
-  regionIds: ["19", "1244", "1929", "3009", "3003"]
+  regionIds: []
 };
 
 export function reducer(
