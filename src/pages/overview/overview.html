@@ -3,6 +3,11 @@
     <button right *ngIf="hasMenuButton" ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
+    <ion-buttons end *ngIf="hasFavoriteButton">
+      <button ion-button icon-only [nveFavorite]="regionId">
+        <ion-icon name="star"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title> {{ title((region$ | async), (section$ | async)) | translate }} </ion-title>
   </ion-navbar>
   <overview-segments [segments]="segments$ | async" [selectedSegment]="selectedSegment$ | async" (onSelect)="onSegmentSelect($event)"></overview-segments>

@@ -5,14 +5,17 @@ import {
   HostListener,
   Renderer
 } from "@angular/core";
-import { FavoriteService } from "../providers/favorites";
 import { Subscription } from "rxjs";
+import { Store } from "@ngrx/store";
+
+import * as fromRoot from "./../store/reducers";
+import * as FavoritesActions from "./../store/actions/favorites.actions";
 
 @Directive({ selector: "[nveFavorite]" })
 export class FavoriteDirective {
-  @Input("nveFavorite") areaId: string;
-  private isFavorite: boolean = false;
-  private _subscriptions: Subscription[] = [];
+  @Input("nveFavorite") regionId: string;
+  private _isFavorite: boolean;
+  private _isFavoriteSubscription: Subscription;
 
   @HostListener("click")
   onClick() {
@@ -22,27 +25,25 @@ export class FavoriteDirective {
   constructor(
     private _renderer: Renderer,
     private _el: ElementRef,
-    private _favorites: FavoriteService
+    private _store: Store<fromRoot.State>
   ) {}
 
   ngOnInit() {
-    let favoritesSubscription = this._favorites
-      .isFavoriteArea$(this.areaId)
+    this._isFavoriteSubscription = this._store
+      .select(fromRoot.isFavorite(this.regionId))
       .subscribe(isFavorite => {
-        this.isFavorite = isFavorite;
+        console.log("Favorite", isFavorite);
+        this._isFavorite = isFavorite;
         this._updateIcon();
       });
-    this._subscriptions.push(favoritesSubscription);
   }
 
   ngOnDestroy() {
-    for (let subscription of this._subscriptions) {
-      subscription.unsubscribe();
-    }
+    this._isFavoriteSubscription.unsubscribe();
   }
 
   private _updateIcon() {
-    if (this.isFavorite) {
+    if (this._isFavorite) {
       this._renderer.setElementClass(this._el.nativeElement, "active", true);
     } else {
       this._renderer.setElementClass(this._el.nativeElement, "active", false);
@@ -50,13 +51,10 @@ export class FavoriteDirective {
   }
 
   private toggleFavorite() {
-    this.isFavorite = !this.isFavorite;
-    this._updateIcon();
-
-    if (this.isFavorite) {
-      this._favorites.addFavoriteArea(this.areaId);
+    if (this._isFavorite) {
+      this._store.dispatch(new FavoritesActions.RemoveAction(this.regionId));
     } else {
-      this._favorites.removeFavoriteArea(this.areaId);
+      this._store.dispatch(new FavoritesActions.AddAction(this.regionId));
     }
   }
 }

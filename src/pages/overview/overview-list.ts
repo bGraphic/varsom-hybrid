@@ -15,15 +15,23 @@ export class OverviewList {
   @Input() regionId: string;
   @Output() onSelect = new EventEmitter();
   forecasts$: Observable<Forecast[]>;
+  favoriteForecasts$: Observable<Forecast[]>;
   section$: Observable<SectionType>;
 
   constructor(private _store: Store<fromRoot.State>) {}
 
   ngOnInit() {
-    this.forecasts$ = this._store
-      .select(fromRoot.getOverviewListForecasts(this.regionId))
-      .do(forecasts => console.log("Forecasts", forecasts));
+    this.forecasts$ = this._store.select(
+      fromRoot.getOverviewListForecasts(this.regionId)
+    );
+    this.favoriteForecasts$ = this._store.select(
+      fromRoot.getFavoritesListForecasts(this.regionId)
+    );
     this.section$ = this._store.select(fromRoot.getSelectedSection);
+  }
+
+  headerFavorites(sectionType: SectionType) {
+    return this.translationKey("LIST_HEADER.FAVORITES", sectionType);
   }
 
   activeB(forecasts: Forecast[]) {

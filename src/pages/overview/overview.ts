@@ -22,6 +22,7 @@ export class OverviewPage {
   regionId: string;
   hasMap: boolean;
   hasMenuButton: boolean;
+  hasFavoriteButton: boolean;
   section$: Observable<SectionType>;
   segments$: Observable<WarningType[]>;
   selectedSegment$: Observable<WarningType>;
@@ -37,6 +38,7 @@ export class OverviewPage {
     this.regionId = this._navParams.get("regionId");
     this.hasMap = !this.regionId;
     this.hasMenuButton = !this.regionId;
+    this.hasFavoriteButton = !!this.regionId;
   }
 
   ngOnInit() {
