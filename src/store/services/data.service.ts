@@ -10,14 +10,14 @@ import { SectionType } from "../models/Section";
 export class DataService {
   private API_REGION_PATHS: { [k in SectionType]?: string } = {
     Avalanche:
-      "http://api01.nve.no/hydrology/forecast/avalanche/test/api/Region/",
+      "http://api01.nve.no/hydrology/forecast/avalanche/v3.0.0/api/Region/",
     FloodLandslide:
       "http://api01.nve.no/hydrology/forecast/flood/v1.0.4/api/Region/" // Lang key for Region endpoint is not needed
   };
 
   private API_WARNING_PATHS: { [k in WarningType]?: string } = {
     Avalanche:
-      "http://api01.nve.no/hydrology/forecast/avalanche/test/api/Warning/All/1/2016-12-29",
+      "http://api01.nve.no/hydrology/forecast/avalanche/v3.0.0/api/Warning/All/1/2016-12-29",
     Flood:
       "http://api01.nve.no/hydrology/forecast/flood/v1.0.4/api/Warning/All/1/2016-12-29",
     Landslide:
