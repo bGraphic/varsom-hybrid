@@ -2,6 +2,7 @@ import { Component, ViewChild } from "@angular/core";
 import { NavController, NavParams, Content } from "ionic-angular";
 
 import { Observable } from "rxjs/rx";
+import { Subscription } from "rxjs/Subscription";
 import { Store } from "@ngrx/store";
 
 import { RegionPage } from "../region/region";
@@ -26,6 +27,7 @@ export class OverviewPage {
   selectedSegment$: Observable<WarningType>;
   isMapFullscreen$: Observable<boolean>;
   region$: Observable<Region>;
+  private _sectionSubscription: Subscription;
 
   constructor(
     private _navCtrl: NavController,
@@ -50,12 +52,16 @@ export class OverviewPage {
 
     this.section$ = this._store.select(fromRoot.getSelectedSection);
 
-    this.section$.subscribe(section => {
+    this._sectionSubscription = this.section$.subscribe(section => {
       if (this.content) {
         this.content.resize();
         this.content.scrollToTop();
       }
     });
+  }
+
+  ngOnDestroy() {
+    this._sectionSubscription.unsubscribe();
   }
 
   title(region: Region, sectionType: SectionType) {
