@@ -25,7 +25,8 @@ import { OverviewSegments } from "../pages/overview/overview-segments";
 import { OverviewMapControls } from "../pages/overview/overview-map-controls";
 import { RegionPage } from "../pages/region/region";
 import { RegionWarning } from "../pages/region/region-warning";
-import { WarningDetailsPage } from "../pages/warning-details/warning-details";
+import { WarningPage } from "../pages/warning/warning";
+import { WarningDetails } from "../pages/warning/warning-details";
 import { WarningBadge } from "../partials/warning-badge";
 
 import { DataService } from "../providers/data";
@@ -71,7 +72,8 @@ export function createTranslateLoader(http: Http) {
     OverviewListSection,
     RegionPage,
     RegionWarning,
-    WarningDetailsPage,
+    WarningPage,
+    WarningDetails,
     WarningBadge,
     MapDirective,
     AvalancheRose,
@@ -101,7 +103,7 @@ export function createTranslateLoader(http: Http) {
     MomentModule
   ],
   bootstrap: [IonicApp],
-  entryComponents: [MyApp, OverviewPage, RegionPage, WarningDetailsPage],
+  entryComponents: [MyApp, OverviewPage, RegionPage, WarningPage],
   providers: [
     AppVersion,
     Diagnostic,

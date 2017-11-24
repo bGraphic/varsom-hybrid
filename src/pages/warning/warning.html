@@ -1,0 +1,9 @@
+<ion-header>
+  <ion-navbar color="light">
+    <ion-title>{{ title(region$ | async) }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="warning-page">
+  <warning-details [warning]="(warning$ | async)" [warningType]="warningType"></warning-details>
+</ion-content>
