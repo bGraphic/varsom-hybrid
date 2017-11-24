@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { NavParams } from "ionic-angular";
+import { NavParams, NavController } from "ionic-angular";
 import { Observable } from "rxjs";
 import { Store } from "@ngrx/store";
 
@@ -7,6 +7,7 @@ import * as fromRoot from "./../../store/reducers";
 import { Region } from "../../store/models/Region";
 import { WarningType, RegionWarnings } from "../../store/models/Warning";
 import { Warning } from "../../store/models/Warning";
+import { WarningPage } from "../warning/warning";
 
 @Component({
   templateUrl: "region.html"
@@ -16,6 +17,7 @@ export class RegionPage {
   region$: Observable<Region>;
   warnings$: Observable<{ [k in WarningType]?: RegionWarnings }>;
   constructor(
+    private _navCtrl: NavController,
     private _navParams: NavParams,
     private _store: Store<fromRoot.State>
   ) {
@@ -61,11 +63,14 @@ export class RegionPage {
     }
   }
 
-  onWarningSelect($event) {
+  onWarningSelect({ warningType, warningIndex }) {
+    this._navCtrl.push(WarningPage, {
+      regionId: this.regionId,
+      warningType: warningType,
+      warningIndex: warningIndex
+    });
     console.log(
-      `Go to warning of type ${$event.warningType} and day index ${
-        $event.dayIndex
-      }`
+      `Go to warning of type ${warningType} and day index ${warningIndex}`
     );
   }
 }

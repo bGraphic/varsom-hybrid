@@ -12,7 +12,7 @@
     </ion-list-header>
 
     <region-warning *ngFor="let warningType of warningTypes(region$ | async)" [warningType]="warningType" [warningIndex]="warningIndex"
-      [warnings]="warnings$ | async">
+      [warnings]="warnings$ | async" (onSelect)="onWarningSelect($event)">
 
     </region-warning>
 

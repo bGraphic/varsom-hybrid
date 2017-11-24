@@ -22,7 +22,7 @@
     p + p {
       margin-top: 10px;
     }
-    p + p.published {
+    h2 + p.published {
       margin-top: 5px;
     }
     p.meta + p.meta {

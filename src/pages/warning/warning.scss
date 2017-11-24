@@ -1,5 +1,4 @@
-.warning-details-page {
-
+.warning-page {
   .nve-icon {
     width: 35px;
     height: 30px;
@@ -28,7 +27,6 @@
   }
 
   .label {
-
     h2,
     p {
       white-space: normal;
@@ -42,6 +40,9 @@
     p + p {
       margin-top: 10px;
     }
+    p + p.published {
+      margin-top: 5px;
+    }
 
     p {
       font-size: 1.6rem;
@@ -53,12 +54,16 @@
 
       span {
         &:after {
-          content: ", "
+          content: ", ";
         }
 
         &:last-child:after {
           content: "";
         }
+      }
+
+      &.published {
+        font-size: 0.8em;
       }
     }
   }
@@ -66,5 +71,17 @@
   .item-block .label {
     margin-top: 20px;
     margin-bottom: 20px;
+  }
+
+  .label-md {
+    p.published {
+      color: $list-md-header-color !important;
+    }
+  }
+
+  .label-ios {
+    p.published {
+      color: $list-ios-header-color !important;
+    }
   }
 }
