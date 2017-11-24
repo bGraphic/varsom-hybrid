@@ -1,6 +1,11 @@
 <ion-header>
   <ion-navbar color="light">
     <ion-title>{{ title(region$ | async) }}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only [nveFavorite]="regionId">
+        <ion-icon name="star"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 <ion-content class="region-page">
