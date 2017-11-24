@@ -1,5 +1,4 @@
 import * as FavoritesActions from "../actions/favorites.actions";
-import { SectionType } from "../models/Section";
 
 export interface State {
   regionIds: string[];
