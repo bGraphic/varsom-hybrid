@@ -141,6 +141,11 @@ export const getFavorites = createSelector(
   fromFavorites.getAll
 );
 
+export const isFavorite = (regionId: string) =>
+  createSelector(getFavorites, favorites => {
+    return favorites.indexOf(regionId) > -1;
+  });
+
 // Geojson
 
 const getGeojsonState = (state: State) => state.geojson;
