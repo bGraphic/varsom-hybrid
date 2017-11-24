@@ -17,11 +17,11 @@ export class DataService {
 
   private API_WARNING_PATHS: { [k in WarningType]?: string } = {
     Avalanche:
-      "http://api01.nve.no/hydrology/forecast/avalanche/v3.0.0/api/Warning/All/1/2016-12-29",
+      "http://api01.nve.no/hydrology/forecast/avalanche/v3.0.0/api/Warning/All/1/",
     Flood:
-      "http://api01.nve.no/hydrology/forecast/flood/v1.0.4/api/Warning/All/1/2016-12-29",
+      "http://api01.nve.no/hydrology/forecast/flood/v1.0.4/api/Warning/All/1/",
     Landslide:
-      "http://api01.nve.no/hydrology/forecast/landslide/v1.0.4/api/Warning/All/1/2016-12-29"
+      "http://api01.nve.no/hydrology/forecast/landslide/v1.0.4/api/Warning/All/1/"
   };
 
   constructor(private _http: Http) {}
