@@ -36,6 +36,7 @@ import { combineReducers } from "@ngrx/store";
  * notation packages up all of the exports into a single object.
  */
 
+import * as fromFavorites from "./favorites.reducer";
 import * as fromGeojson from "./geojson.reducer";
 import * as fromLocation from "./location.reducer";
 import * as fromRegions from "./regions.reducer";
@@ -51,6 +52,7 @@ import { Forecast } from "../models/Forecast";
  * our top level state interface is just a map of keys to inner state types.
  */
 export interface State {
+  favorites: fromFavorites.State;
   geojson: fromGeojson.State;
   regions: fromRegions.State;
   location: fromLocation.State;
@@ -67,6 +69,7 @@ export interface State {
  * the result from right to left.
  */
 const reducers = {
+  favorites: fromFavorites.reducer,
   geojson: fromGeojson.reducer,
   regions: fromRegions.reducer,
   location: fromLocation.reducer,
@@ -117,7 +120,7 @@ export const getSelectedSegment = createSelector(
 
 // UI Map
 
-export const getMapUIState = (state: State) => state.mapUI;
+const getMapUIState = (state: State) => state.mapUI;
 
 export const getMapSettings = createSelector(
   getMapUIState,
@@ -127,6 +130,15 @@ export const getMapSettings = createSelector(
 export const getMapRecenterRequests = createSelector(
   getMapUIState,
   fromMapUIState.getRecenterRequests
+);
+
+// Favorites
+
+const getFavoritesState = (state: State) => state.favorites;
+
+export const getFavorites = createSelector(
+  getFavoritesState,
+  fromFavorites.getAll
 );
 
 // Geojson
@@ -219,6 +231,30 @@ export const getOverviewMapForecasts = () =>
           geometry: feature.geometry
         };
       });
+    }
+  );
+
+export const getFavoritesListForecasts = (regionId: string) =>
+  createSelector(
+    getSectionForecasts,
+    getFavorites,
+    getSelectedSection,
+    (forecasts, favorites, section) => {
+      return forecasts
+        .filter(forecast => favorites.indexOf(forecast.regionId) > -1)
+        .filter(forecast => {
+          if (regionId) {
+            return (
+              forecast.regionType === "Municipality" &&
+              forecast.regionId.startsWith(regionId)
+            );
+          } else {
+            return forecast;
+          }
+        })
+        .sort((forecastA, forecastB) => {
+          return forecastA.regionName > forecastB.regionName ? 1 : -1;
+        });
     }
   );
 

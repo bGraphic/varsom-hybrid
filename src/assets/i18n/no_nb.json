@@ -118,6 +118,10 @@
       "AVALANCHE": "Snøskred"
     },
     "LIST_HEADER": {
+      "FAVORITES": {
+        "FLOODLANDSLIDE": "Dine områder",
+        "AVALANCHE": "Dine områder"
+      },
       "A_REGIONS": {
         "FLOODLANDSLIDE": "Nord til sør",
         "AVALANCHE": "Nord til sør"
