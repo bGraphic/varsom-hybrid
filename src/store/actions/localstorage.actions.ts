@@ -10,7 +10,7 @@ export class GetAction implements Action {
 
 export class SetAction implements Action {
   readonly type = SET;
-  constructor(public payload: {}) {}
+  constructor() {}
 }
 
 export type All = GetAction | SetAction;
