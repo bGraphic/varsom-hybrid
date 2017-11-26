@@ -1,6 +1,6 @@
 import { Storage } from "@ionic/storage";
 import { Action, Store } from "@ngrx/store";
-import { Actions, toPayload, Effect } from "@ngrx/effects";
+import { Actions, Effect } from "@ngrx/effects";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
 
@@ -8,8 +8,11 @@ import * as fromRoot from "./../../store/reducers";
 import * as LocalStorageActions from "./../actions/localstorage.actions";
 import * as FavoritesActions from "./../actions/favorites.actions";
 import * as UISectionsActions from "./../actions/ui-sections.actions";
-import { LocalStorage, defaultLocalStorage } from "../models/LocalStorage";
-import { SectionType } from "../models/Section";
+import {
+  LocalStorage,
+  defaultLocalStorage,
+  migrateSectionType
+} from "../models/LocalStorage";
 
 const STORE_KEY = "varsom-store";
 
@@ -63,16 +66,3 @@ export class LocalStorageEffects {
     )
     .mapTo(new LocalStorageActions.SetAction());
 }
-
-const migrateSectionType = (section: string): SectionType => {
-  switch (section) {
-    case "AVALANCHE":
-      return "Avalanche";
-    case "FLOOD_LANDSLIDE":
-      return "FloodLandslide";
-    case "Avalanche" || "FloodLandslide":
-      return <SectionType>section;
-    default:
-      return <SectionType>defaultLocalStorage.rootSection;
-  }
-};
