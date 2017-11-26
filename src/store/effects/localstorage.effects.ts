@@ -26,7 +26,6 @@ export class LocalStorageEffects {
     .ofType(LocalStorageActions.GET)
     .startWith(new LocalStorageActions.GetAction())
     .switchMapTo(this._storage.get(STORE_KEY))
-    .do(val => console.log("GET", val))
     .map(val => {
       return val ? val : defaultLocalStorage;
     })
@@ -62,7 +61,6 @@ export class LocalStorageEffects {
         FavoritesActions.REMOVE ||
         UISectionsActions.SELECT_SECTION
     )
-    .do(() => console.log("Dispatch set action"))
     .mapTo(new LocalStorageActions.SetAction());
 }
 

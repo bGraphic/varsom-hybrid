@@ -84,7 +84,6 @@ export class MyApp {
       .filter(section => !!section)
       .first()
       .subscribe(section => {
-        console.log(section);
         this.rootPage = OverviewPage;
       });
   }
