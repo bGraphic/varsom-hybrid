@@ -12,7 +12,7 @@ export interface State {
 
 const initialState: State = {
   sections: ["FloodLandslide", "Avalanche"],
-  selectedSection: "FloodLandslide",
+  selectedSection: null,
   segments: {
     Avalanche: ["Avalanche"],
     FloodLandslide: ["FloodLandslide", "Flood", "Landslide"]

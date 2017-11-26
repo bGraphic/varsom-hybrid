@@ -25,7 +25,7 @@ import { SectionType } from "../store/models/Section";
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
-  rootPage: any = OverviewPage;
+  rootPage: any;
   sections$: Observable<SectionType[]>;
   selectedSection$: Observable<SectionType>;
   externalLinks$: Observable<{
@@ -78,6 +78,13 @@ export class MyApp {
           });
           return logos;
         }, []);
+      });
+
+    this.selectedSection$
+      .filter(section => !!section)
+      .first()
+      .subscribe(section => {
+        this.rootPage = OverviewPage;
       });
   }
 
