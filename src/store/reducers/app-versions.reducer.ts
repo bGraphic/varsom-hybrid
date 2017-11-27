@@ -3,6 +3,7 @@ import { LatestAppVersion, AppVersionType } from "../models/AppVersion";
 
 export interface State {
   appVersions: { [k in AppVersionType]?: string | LatestAppVersion };
+  errors: any[];
 }
 
 const initialState: State = {
@@ -10,7 +11,8 @@ const initialState: State = {
     ThisAppVersion: null,
     NotifiedAppVersion: null,
     LatestAppVersion: null
-  }
+  },
+  errors: []
 };
 
 export function reducer(
@@ -27,12 +29,11 @@ export function reducer(
         }
       };
     case AppVersionsActions.FETCH_ERROR:
-      console.error(
-        "[App Versions] Fetch Error",
-        action.payload.appVersionType,
-        action.payload.error
-      );
-      return state;
+      console.error("[App Versions] Fetch Error", action.payload.error);
+      return {
+        ...state,
+        errors: [...state.errors, action.payload.error]
+      };
     default:
       return state;
   }
