@@ -46,7 +46,7 @@ export class LocalStorageEffects {
       ]);
     });
 
-  @Effect()
+  @Effect({ dispatch: false })
   setLocalStorage$: Observable<Action> = this._actions$
     .ofType(LocalStorageActions.SET)
     .withLatestFrom(
@@ -65,9 +65,9 @@ export class LocalStorageEffects {
   @Effect()
   changesToLocalStorage$: Observable<Action> = this._actions$
     .ofType(
-      FavoritesActions.ADD ||
-        FavoritesActions.REMOVE ||
-        UISectionsActions.SELECT_SECTION
+      FavoritesActions.ADD,
+      FavoritesActions.REMOVE,
+      UISectionsActions.SELECT_SECTION
     )
     .mapTo(new LocalStorageActions.SetAction());
 }
