@@ -5,6 +5,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
 
 import * as fromRoot from "./../../store/reducers";
+import * as AppVersionsActions from "./../actions/app-versions.actions";
 import * as LocalStorageActions from "./../actions/localstorage.actions";
 import * as FavoritesActions from "./../actions/favorites.actions";
 import * as UISectionsActions from "./../actions/ui-sections.actions";
@@ -36,6 +37,10 @@ export class LocalStorageEffects {
       return Observable.from([
         new UISectionsActions.SelectSection({
           section: migrateSectionType(val.rootSection)
+        }),
+        new AppVersionsActions.FetchCompleteAction({
+          appVersionType: "NotifiedAppVersion",
+          appVersion: val.lastNotifiedAppVersion
         }),
         new FavoritesActions.AddAction(val.favoritesAreaIds)
       ]);
