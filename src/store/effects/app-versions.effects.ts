@@ -19,52 +19,61 @@ export class AppVersionsEffects {
   ) {}
 
   @Effect()
-  init$: Observable<Action> = this._actions$
-    .ofType("@ngrx/store/init")
-    .mergeMapTo(
-      Observable.of(
-        new AppVersionsActions.FetchAction({
-          appVersionType: "ThisAppVersion"
-        }),
-        new AppVersionsActions.FetchAction({
-          appVersionType: "LatestAppVersion"
+  fetchThisAppVersion$: Observable<Action> = this._actions$
+    .ofType(AppVersionsActions.FETCH)
+    .startWith(
+      new AppVersionsActions.FetchAction({
+        appVersionType: "ThisAppVersion"
+      })
+    )
+    .map(toPayload)
+    .map(payload => <AppVersionType>payload.appVersionType)
+    .filter(appVersionType => appVersionType === "ThisAppVersion")
+    .switchMap(appVersionType =>
+      Observable.from(this._appVersion.getVersionNumber())
+        .map(appVersion => {
+          return new AppVersionsActions.FetchCompleteAction({
+            appVersionType: appVersionType,
+            appVersion: appVersion
+          });
         })
-      )
+        .catch(error => {
+          return Observable.of(
+            new AppVersionsActions.FetchErrorAction({
+              appVersionType: appVersionType,
+              error: error
+            })
+          );
+        })
     );
 
   @Effect()
-  fetchPlatformAppVersions$: Observable<Action> = this._actions$
+  fetchLatestAppVersion$: Observable<Action> = this._actions$
     .ofType(AppVersionsActions.FETCH)
+    .startWith(
+      new AppVersionsActions.FetchAction({
+        appVersionType: "LatestAppVersion"
+      })
+    )
     .map(toPayload)
     .map(payload => <AppVersionType>payload.appVersionType)
-    .filter(
-      appVersionType =>
-        appVersionType === "ThisAppVersion" ||
-        appVersionType == "LatestAppVersion"
-    )
-    .switchMap(appVersionType => {
-      let version$: Observable<string | LatestAppVersion>;
-
-      switch (appVersionType) {
-        case "ThisAppVersion":
-          version$ = Observable.from(this._appVersion.getVersionNumber());
-        case "LatestAppVersion":
-          version$ = this._dataService.fetchLatestAppVersion();
-      }
-
-      return Observable.combineLatest(Observable.of(appVersionType), version$);
-    })
-    .map(([appVersionType, appVersion]) => {
-      return new AppVersionsActions.FetchCompleteAction({
-        appVersionType: appVersionType,
-        appVersion: appVersion
-      });
-    })
-    .catch(error => {
-      return Observable.of(
-        new AppVersionsActions.FetchErrorAction({
-          error: error
+    .filter(appVersionType => appVersionType === "LatestAppVersion")
+    .switchMap(appVersionType =>
+      this._dataService
+        .fetchLatestAppVersion()
+        .map(appVersion => {
+          return new AppVersionsActions.FetchCompleteAction({
+            appVersionType: appVersionType,
+            appVersion: appVersion
+          });
         })
-      );
-    });
+        .catch(error => {
+          return Observable.of(
+            new AppVersionsActions.FetchErrorAction({
+              appVersionType: appVersionType,
+              error: error
+            })
+          );
+        })
+    );
 }

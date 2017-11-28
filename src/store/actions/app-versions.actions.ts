@@ -28,6 +28,7 @@ export class FetchErrorAction implements Action {
   readonly type = FETCH_ERROR;
   constructor(
     public payload: {
+      appVersionType: AppVersionType;
       error: any;
     }
   ) {}
