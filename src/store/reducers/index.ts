@@ -37,6 +37,7 @@ import { combineReducers } from "@ngrx/store";
  */
 
 import * as fromAppVersions from "./app-versions.reducer";
+import * as fromAlertsUIState from "./ui-alerts.reducer";
 import * as fromFavorites from "./favorites.reducer";
 import * as fromGeojson from "./geojson.reducer";
 import * as fromLocation from "./location.reducer";
@@ -54,6 +55,7 @@ import { Forecast } from "../models/Forecast";
  */
 export interface State {
   appVersions: fromAppVersions.State;
+  alertsUI: fromAlertsUIState.State;
   favorites: fromFavorites.State;
   geojson: fromGeojson.State;
   regions: fromRegions.State;
@@ -72,6 +74,7 @@ export interface State {
  */
 const reducers = {
   appVersions: fromAppVersions.reducer,
+  alertsUI: fromAlertsUIState.reducer,
   favorites: fromFavorites.reducer,
   geojson: fromGeojson.reducer,
   regions: fromRegions.reducer,
@@ -96,6 +99,15 @@ export function reducer(state: any, action: any) {
 }
 
 // Selectors
+
+// UI Alerts
+
+const getUIAlertsState = (state: State) => state.alertsUI;
+
+export const getAppUpdateAlertType = createSelector(
+  getUIAlertsState,
+  fromAlertsUIState.getAppUpdateAlertType
+);
 
 // UI Sections
 
@@ -133,6 +145,20 @@ export const getMapSettings = createSelector(
 export const getMapRecenterRequests = createSelector(
   getMapUIState,
   fromMapUIState.getRecenterRequests
+);
+
+// App Versions
+
+const getAppVersionsState = (state: State) => state.appVersions;
+
+export const getAllAppVersions = createSelector(
+  getAppVersionsState,
+  fromAppVersions.getAll
+);
+
+export const getLatestAppVersions = createSelector(
+  getAppVersionsState,
+  fromAppVersions.getLatest
 );
 
 // Favorites

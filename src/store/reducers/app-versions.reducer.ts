@@ -7,9 +7,12 @@ export interface State {
 
 const initialState: State = {
   appVersions: {
-    ThisAppVersion: null,
-    NotifiedAppVersion: null,
-    LatestAppVersion: null
+    ThisAppVersion: "0.0.0",
+    NotifiedAppVersion: "2.0.0",
+    LatestAppVersion: <LatestAppVersion>{
+      version: "2.0.0",
+      forced: true
+    }
   }
 };
 
@@ -26,6 +29,16 @@ export function reducer(
           [action.payload.appVersionType]: action.payload.appVersion
         }
       };
+    case AppVersionsActions.NOTIFIED_USER:
+      return {
+        ...state,
+        appVersions: {
+          ...state.appVersions,
+          NotifiedAppVersion:
+            (<LatestAppVersion>state.appVersions.LatestAppVersion).version ||
+            initialState.appVersions.NotifiedAppVersion
+        }
+      };
     case AppVersionsActions.FETCH_ERROR:
       console.warn("[App Versions] Fetch Error", action.payload.error);
     default:
@@ -34,3 +47,5 @@ export function reducer(
 }
 
 export const getAll = (state: State) => state.appVersions;
+export const getLatest = (state: State): LatestAppVersion =>
+  <LatestAppVersion>state.appVersions.LatestAppVersion;

@@ -4,6 +4,7 @@ import { AppVersionType, LatestAppVersion } from "../models/AppVersion";
 export const FETCH = "[App Versions] Fetch";
 export const FETCH_COMPLETE = "[App Versions] Fetch complete";
 export const FETCH_ERROR = "[App Versions] Fetch Error";
+export const NOTIFIED_USER = "[App Versions] Notifed user";
 
 export class FetchAction implements Action {
   readonly type = FETCH;
@@ -34,4 +35,13 @@ export class FetchErrorAction implements Action {
   ) {}
 }
 
-export type All = FetchAction | FetchCompleteAction | FetchErrorAction;
+export class NotfiedUserAction implements Action {
+  readonly type = NOTIFIED_USER;
+  constructor() {}
+}
+
+export type All =
+  | FetchAction
+  | FetchCompleteAction
+  | FetchErrorAction
+  | NotfiedUserAction;
