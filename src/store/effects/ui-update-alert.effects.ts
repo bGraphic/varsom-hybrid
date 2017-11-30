@@ -21,7 +21,7 @@ const GOOGLE_PLAY_URL =
   "https://play.google.com/store/apps/details?id=no.nve.varsom2";
 
 @Injectable()
-export class UIAlertsEffects {
+export class UIUpdateAlertEffects {
   private _alert: Alert;
 
   constructor(

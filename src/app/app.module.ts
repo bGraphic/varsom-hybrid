@@ -47,7 +47,7 @@ import { LocalStorageEffects } from "../store/effects/localstorage.effects";
 import { WarningsEffects } from "./../store/effects/warnings.effects";
 import { RegionsEffects } from "../store/effects/regions.effects";
 import { GeojsonEffects } from "../store/effects/geojson.effects";
-import { UIAlertsEffects } from "../store/effects/ui-alerts.effects";
+import { UIUpdateAlertEffects } from "../store/effects/ui-update-alert.effects";
 import { PushEffects } from "../store/effects/push.effects";
 
 import { MapDirective } from "../directives/map";
@@ -95,7 +95,7 @@ export function createTranslateLoader(http: Http) {
     EffectsModule.run(LocationEffects),
     EffectsModule.run(LocalStorageEffects),
     EffectsModule.run(AppVersionsEffects),
-    EffectsModule.run(UIAlertsEffects),
+    EffectsModule.run(UIUpdateAlertEffects),
     EffectsModule.run(PushEffects),
     HttpModule,
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
