@@ -5,26 +5,38 @@ import { Observable } from "rxjs/Observable";
 import { Warning, WarningType } from "../models/Warning";
 import { RegionType, Region, RegionImportance } from "../models/Region";
 import { SectionType } from "../models/Section";
+import { LatestAppVersion } from "../models/AppVersion";
+import { AngularFireDatabase } from "angularfire2/database";
+
+const FIREBASE_PATHS = {
+  AppVersion: "/api/app_release/"
+};
+
+const API_REGION_PATHS: { [k in SectionType]?: string } = {
+  Avalanche:
+    "http://api01.nve.no/hydrology/forecast/avalanche/v3.0.0/api/Region/",
+  FloodLandslide:
+    "http://api01.nve.no/hydrology/forecast/flood/v1.0.4/api/Region/" // Lang key for Region endpoint is not needed
+};
+
+const API_WARNING_PATHS: { [k in WarningType]?: string } = {
+  Avalanche:
+    "http://api01.nve.no/hydrology/forecast/avalanche/v3.0.0/api/Warning/All/1/",
+  Flood:
+    "http://api01.nve.no/hydrology/forecast/flood/v1.0.4/api/Warning/All/1/",
+  Landslide:
+    "http://api01.nve.no/hydrology/forecast/landslide/v1.0.4/api/Warning/All/1/"
+};
 
 @Injectable()
 export class DataService {
-  private API_REGION_PATHS: { [k in SectionType]?: string } = {
-    Avalanche:
-      "http://api01.nve.no/hydrology/forecast/avalanche/v3.0.0/api/Region/",
-    FloodLandslide:
-      "http://api01.nve.no/hydrology/forecast/flood/v1.0.4/api/Region/" // Lang key for Region endpoint is not needed
-  };
+  constructor(private _http: Http, private _db: AngularFireDatabase) {}
 
-  private API_WARNING_PATHS: { [k in WarningType]?: string } = {
-    Avalanche:
-      "http://api01.nve.no/hydrology/forecast/avalanche/v3.0.0/api/Warning/All/1/",
-    Flood:
-      "http://api01.nve.no/hydrology/forecast/flood/v1.0.4/api/Warning/All/1/",
-    Landslide:
-      "http://api01.nve.no/hydrology/forecast/landslide/v1.0.4/api/Warning/All/1/"
-  };
-
-  constructor(private _http: Http) {}
+  private _object(db_url) {
+    return this._db.object(db_url).catch(error => {
+      return Observable.throw(error || "Firebase error");
+    });
+  }
 
   private _fetch(
     path: string,
@@ -41,16 +53,25 @@ export class DataService {
         }, []);
       })
       .catch((res: any) => {
-        return Observable.throw(new Error(res.json().error || "Server error"));
+        return Observable.throw(res.json().error || "api.nve.no error");
       });
   }
 
   fetchRegions(sectionType: SectionType): Observable<Region[]> {
-    return this._fetch(this.API_REGION_PATHS[sectionType], transformToRegion);
+    return this._fetch(API_REGION_PATHS[sectionType], transformToRegion);
   }
 
   fetchWarnings(warningType: WarningType): Observable<Warning[]> {
-    return this._fetch(this.API_WARNING_PATHS[warningType], transformToWarning);
+    return this._fetch(API_WARNING_PATHS[warningType], transformToWarning);
+  }
+
+  fetchLatestAppVersion(): Observable<LatestAppVersion> {
+    return this._object(FIREBASE_PATHS.AppVersion).map(object => {
+      return {
+        version: object.version_number,
+        forced: object.hard
+      };
+    });
   }
 }
 
