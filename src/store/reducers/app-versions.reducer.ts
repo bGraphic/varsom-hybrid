@@ -7,10 +7,10 @@ export interface State {
 
 const initialState: State = {
   appVersions: {
-    ThisAppVersion: "0.0.0",
-    NotifiedAppVersion: "2.0.0",
+    ThisAppVersion: null,
+    NotifiedAppVersion: "0.0.0",
     LatestAppVersion: <LatestAppVersion>{
-      version: "2.0.0",
+      version: null,
       forced: true
     }
   }
