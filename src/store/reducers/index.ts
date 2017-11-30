@@ -161,6 +161,11 @@ export const getLatestAppVersions = createSelector(
   fromAppVersions.getLatest
 );
 
+export const getNotifiedAppVersion = createSelector(
+  getAppVersionsState,
+  fromAppVersions.getNotified
+);
+
 // Favorites
 
 const getFavoritesState = (state: State) => state.favorites;

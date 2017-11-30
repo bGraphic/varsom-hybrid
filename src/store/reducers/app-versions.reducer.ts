@@ -7,7 +7,7 @@ export interface State {
 
 const initialState: State = {
   appVersions: {
-    ThisAppVersion: null,
+    ThisAppVersion: "0.0.0",
     NotifiedAppVersion: "0.0.0",
     LatestAppVersion: <LatestAppVersion>{
       version: null,
@@ -47,5 +47,7 @@ export function reducer(
 }
 
 export const getAll = (state: State) => state.appVersions;
+export const getNotified = (state: State) =>
+  <string>state.appVersions.NotifiedAppVersion;
 export const getLatest = (state: State): LatestAppVersion =>
   <LatestAppVersion>state.appVersions.LatestAppVersion;
