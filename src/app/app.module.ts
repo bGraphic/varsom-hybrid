@@ -29,14 +29,14 @@ import { WarningPage } from "../pages/warning/warning";
 import { WarningDetails } from "../pages/warning/warning-details";
 import { WarningBadge } from "../partials/warning-badge";
 
-import { DataService } from "../providers/data";
-import { ForecastService } from "../providers/forecasts";
-import { FavoriteService } from "../providers/favorites";
-import { PushService } from "../providers/push";
-import { SettingService } from "../providers/settings";
-import { AppVersionService } from "../providers/app-version";
-import { GeoJsonService } from "../providers/geojson";
-import { StorageService } from "../providers/storage";
+// import { DataService } from "../providers/data";
+// import { ForecastService } from "../providers/forecasts";
+// import { FavoriteService } from "../providers/favorites";
+// import { PushService } from "../providers/push";
+// import { SettingService } from "../providers/settings";
+// import { AppVersionService } from "../providers/app-version";
+// import { GeoJsonService } from "../providers/geojson";
+// import { StorageService } from "../providers/storage";
 import { DataService as NewDataService } from "../store/services/data.service";
 import { GeojsonService as NewGeojsonService } from "../store/services/geojson.service";
 
@@ -48,6 +48,7 @@ import { WarningsEffects } from "./../store/effects/warnings.effects";
 import { RegionsEffects } from "../store/effects/regions.effects";
 import { GeojsonEffects } from "../store/effects/geojson.effects";
 import { UIAlertsEffects } from "../store/effects/ui-alerts.effects";
+import { PushEffects } from "../store/effects/push.effects";
 
 import { MapDirective } from "../directives/map";
 import { FavoriteDirective } from "../directives/favorite";
@@ -95,6 +96,7 @@ export function createTranslateLoader(http: Http) {
     EffectsModule.run(LocalStorageEffects),
     EffectsModule.run(AppVersionsEffects),
     EffectsModule.run(UIAlertsEffects),
+    EffectsModule.run(PushEffects),
     HttpModule,
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     AngularFireModule.initializeApp(firebase),
@@ -118,13 +120,13 @@ export function createTranslateLoader(http: Http) {
     SplashScreen,
     StatusBar,
     Geolocation,
-    ForecastService,
-    DataService,
-    SettingService,
-    FavoriteService,
-    PushService,
-    AppVersionService,
-    GeoJsonService,
+    // ForecastService,
+    // DataService,
+    // SettingService,
+    // FavoriteService,
+    // PushService,
+    // AppVersionService,
+    // GeoJsonService,
     NewDataService,
     NewGeojsonService,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
