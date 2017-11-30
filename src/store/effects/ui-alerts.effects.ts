@@ -32,27 +32,31 @@ export class UIAlertsEffects {
     private _iab: InAppBrowser,
     private _platform: Platform
   ) {
-    this._platform.ready().then(() => {
-      this._store.select(fromRoot.getAllAppVersions).subscribe(appVersions => {
-        this._store.dispatch(
-          new UIAlertsActions.AppUpdateAlertAction({
-            appUpdateAlertType: transfromAppVersionsToAlertType(appVersions)
-          })
-        );
-      });
+    const appVersions$ = this._store.select(fromRoot.getAllAppVersions);
+    const appUpdateAlertType$ = this._store.select(
+      fromRoot.getAppUpdateAlertType
+    );
 
-      this._store
-        .select(fromRoot.getAppUpdateAlertType)
-        .subscribe(appVersionType => {
-          if (this._alert) {
-            this._alert.dismiss();
-          }
-          this._alert = this._createAlert(appVersionType);
-          if (this._alert) {
-            this._alert.present();
-          }
-        });
+    appVersions$.subscribe(appVersions => {
+      this._store.dispatch(
+        new UIAlertsActions.AppUpdateAlertAction({
+          appUpdateAlertType: transfromAppVersionsToAlertType(appVersions)
+        })
+      );
     });
+
+    appUpdateAlertType$
+      // Make sure platform is ready before messing with alerts
+      .withLatestFrom(this._platform.ready())
+      .subscribe(([updateAlertType, ready]) => {
+        if (this._alert) {
+          this._alert.dismiss();
+        }
+        this._alert = this._createAlert(updateAlertType);
+        if (this._alert) {
+          this._alert.present();
+        }
+      });
   }
 
   _createAlert(appUpdateAlertType: AppUpdateAlertType) {
