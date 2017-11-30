@@ -47,8 +47,6 @@ export class PushEffects {
   error$: Observable<Action> = this._actions$
     .ofType(PushActions.ERROR)
     .map(toPayload)
-    .map(error => {
-      console.log("[Push] Error", error);
-      return null;
-    });
+    .do(error => console.log("[Push] Error", error))
+    .mapTo(null);
 }

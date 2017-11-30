@@ -47,8 +47,9 @@ import { LocalStorageEffects } from "../store/effects/localstorage.effects";
 import { WarningsEffects } from "./../store/effects/warnings.effects";
 import { RegionsEffects } from "../store/effects/regions.effects";
 import { GeojsonEffects } from "../store/effects/geojson.effects";
-import { UIUpdateAlertEffects } from "../store/effects/ui-update-alert.effects";
 import { PushEffects } from "../store/effects/push.effects";
+import { UIUpdateAlertEffects } from "../store/effects/ui-update-alert.effects";
+import { UIPushAlertsEffects } from "../store/effects/ui-push-alerts.effects";
 
 import { MapDirective } from "../directives/map";
 import { FavoriteDirective } from "../directives/favorite";
@@ -97,6 +98,7 @@ export function createTranslateLoader(http: Http) {
     EffectsModule.run(AppVersionsEffects),
     EffectsModule.run(UIUpdateAlertEffects),
     EffectsModule.run(PushEffects),
+    EffectsModule.run(UIPushAlertsEffects),
     HttpModule,
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     AngularFireModule.initializeApp(firebase),
