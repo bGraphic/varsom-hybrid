@@ -68,7 +68,6 @@ export class UIAlertsEffects {
       text: this._translateService.instant("UPDATE.BUTTON.UPDATE"),
       handler: () => {
         this._store.dispatch(new AppVersionsActions.NotfiedUserAction());
-        console.log("AppVersionService: Go to App Store");
         if (this._platform.is("ios")) {
           this._iab.create(APP_STORE_URL, "_system");
         } else if (this._platform.is("android")) {
