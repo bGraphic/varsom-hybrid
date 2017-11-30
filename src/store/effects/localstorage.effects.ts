@@ -56,7 +56,6 @@ export class LocalStorageEffects {
     .map(val => {
       return val ? val : defaultLocalStorage;
     })
-    .do(val => console.log("GET", val))
     .mergeMap((val: LocalStorage) => {
       return Observable.from([
         new UISectionsActions.SelectSection({
@@ -74,7 +73,6 @@ export class LocalStorageEffects {
   @Effect()
   startListningForRelevantChanges$: Observable<Action> = this._actions$
     .ofType(LocalStorageActions.LISTEN)
-    .do(val => console.log("Listen", val))
     .map(toPayload)
     .switchMap(() => {
       return this.relevantValues$.map(val => {
@@ -86,7 +84,5 @@ export class LocalStorageEffects {
   setLocalStorage$: Observable<Action> = this._actions$
     .ofType(LocalStorageActions.SET)
     .map(toPayload)
-    .do(val => console.log("Save", val))
-    .switchMap(val => this._storage.set(STORE_KEY, val))
-    .do(() => console.log("Saved"));
+    .switchMap(val => this._storage.set(STORE_KEY, val));
 }
