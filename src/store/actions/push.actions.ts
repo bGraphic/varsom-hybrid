@@ -6,6 +6,7 @@ export const REGISTER = "[Push] Register";
 export const REGISTER_SUCESS = "[Push] Registration Suceeded";
 export const SUBSCRIBE = "[Push] Subscribe";
 export const NEW_MESSAGE = "[Push] New message";
+export const UPDATE_SUBSCRIPTION = "[Push] Update subscription";
 export const ERROR = "[Push] Error";
 
 export class RegisterAction implements Action {
@@ -28,6 +29,11 @@ export class NewMessage implements Action {
   constructor(public payload: IPushMessage) {}
 }
 
+export class UpdateSubscriptions implements Action {
+  readonly type = UPDATE_SUBSCRIPTION;
+  constructor(public payload: { regionId: string; isAdd: boolean }) {}
+}
+
 export class ErrorAction implements Action {
   readonly type = ERROR;
   constructor(public payload: any) {}
@@ -38,4 +44,5 @@ export type All =
   | RegistrationSuceededAction
   | SubscribeAction
   | NewMessage
+  | UpdateSubscriptions
   | ErrorAction;
