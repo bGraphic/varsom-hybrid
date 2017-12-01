@@ -14,9 +14,6 @@ import * as UISectionActions from "./../store/actions/ui-sections.actions";
 import * as WarningsActions from "./../store/actions/warnings.actions";
 import * as RegionsActions from "./../store/actions/regions.actions";
 
-// import { PushService } from "../providers/push";
-import { SettingService } from "../providers/settings";
-import { AppVersionService } from "../providers/app-version";
 import { OverviewPage } from "../pages/overview/overview";
 import { SectionType } from "../store/models/Section";
 
@@ -91,7 +88,6 @@ export class MyApp {
   private initializeApp() {
     this.platform.ready().then(() => {
       this._statusBar.styleDefault();
-      // this._pushService.register();
       this._translateService.get("BACK").subscribe((res: string) => {
         this._config.set("ios", "backButtonText", res);
       });

@@ -6,10 +6,8 @@ import { AppVersionType, LatestAppVersion } from "../models/AppVersion";
 import { AlertController, Platform, Alert } from "ionic-angular";
 import { TranslateService } from "@ngx-translate/core";
 import { InAppBrowser } from "@ionic-native/in-app-browser";
-import { AppUpdateAlertAction } from "./../actions/ui-alerts.actions";
 
 import * as fromRoot from "./../../store/reducers";
-import * as UIAlertsActions from "./../actions/ui-alerts.actions";
 import * as AppVersionsActions from "./../actions/app-versions.actions";
 import {
   AppUpdateAlertType,
@@ -21,7 +19,7 @@ const GOOGLE_PLAY_URL =
   "https://play.google.com/store/apps/details?id=no.nve.varsom2";
 
 @Injectable()
-export class UIAlertsEffects {
+export class UIUpdateAlertEffects {
   private _alert: Alert;
 
   constructor(
@@ -32,23 +30,13 @@ export class UIAlertsEffects {
     private _iab: InAppBrowser,
     private _platform: Platform
   ) {
-    const appVersions$ = this._store.select(fromRoot.getAllAppVersions);
-    const appUpdateAlertType$ = this._store.select(
-      fromRoot.getAppUpdateAlertType
-    );
-
-    appVersions$.subscribe(appVersions => {
-      this._store.dispatch(
-        new UIAlertsActions.AppUpdateAlertAction({
-          appUpdateAlertType: transfromAppVersionsToAlertType(appVersions)
-        })
-      );
-    });
-
-    appUpdateAlertType$
+    this._store
+      .select(fromRoot.getAllAppVersions)
       // Make sure platform is ready before messing with alerts
       .withLatestFrom(this._platform.ready())
-      .subscribe(([updateAlertType, ready]) => {
+      .map(([appVersions, ready]) => appVersions)
+      .map(appVersions => transfromAppVersionsToAlertType(appVersions))
+      .subscribe(updateAlertType => {
         if (this._alert) {
           this._alert.dismiss();
         }

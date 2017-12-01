@@ -10,7 +10,7 @@ const initialState: State = {
     ThisAppVersion: "0.0.0",
     NotifiedAppVersion: "0.0.0",
     LatestAppVersion: <LatestAppVersion>{
-      version: null,
+      version: "0.0.0",
       forced: true
     }
   }

@@ -37,10 +37,10 @@ import { combineReducers } from "@ngrx/store";
  */
 
 import * as fromAppVersions from "./app-versions.reducer";
-import * as fromAlertsUIState from "./ui-alerts.reducer";
 import * as fromFavorites from "./favorites.reducer";
 import * as fromGeojson from "./geojson.reducer";
 import * as fromLocation from "./location.reducer";
+import * as fromPush from "./push.reducer";
 import * as fromRegions from "./regions.reducer";
 import * as fromMapUIState from "./ui-map.reducer";
 import * as fromSectionsUIState from "./ui-sections.reducer";
@@ -55,9 +55,9 @@ import { Forecast } from "../models/Forecast";
  */
 export interface State {
   appVersions: fromAppVersions.State;
-  alertsUI: fromAlertsUIState.State;
   favorites: fromFavorites.State;
   geojson: fromGeojson.State;
+  push: fromPush.State;
   regions: fromRegions.State;
   location: fromLocation.State;
   mapUI: fromMapUIState.State;
@@ -74,10 +74,10 @@ export interface State {
  */
 const reducers = {
   appVersions: fromAppVersions.reducer,
-  alertsUI: fromAlertsUIState.reducer,
   favorites: fromFavorites.reducer,
   geojson: fromGeojson.reducer,
   regions: fromRegions.reducer,
+  push: fromPush.reducer,
   location: fromLocation.reducer,
   mapUI: fromMapUIState.reducer,
   sectionsUI: fromSectionsUIState.reducer,
@@ -99,15 +99,6 @@ export function reducer(state: any, action: any) {
 }
 
 // Selectors
-
-// UI Alerts
-
-const getUIAlertsState = (state: State) => state.alertsUI;
-
-export const getAppUpdateAlertType = createSelector(
-  getUIAlertsState,
-  fromAlertsUIState.getAppUpdateAlertType
-);
 
 // UI Sections
 
@@ -194,6 +185,11 @@ const getSectionGeojson = createSelector(
     return geojson[section];
   }
 );
+
+// Push
+
+const getPushState = (state: State) => state.push;
+export const getPushToken = createSelector(getPushState, fromPush.getPushToken);
 
 // Regions
 
