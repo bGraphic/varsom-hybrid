@@ -1,12 +1,10 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { SectionType } from "../../store/models/Section";
 import { MapSettings } from "../../store/models/MapSettings";
 import * as fromRoot from "./../../store/reducers";
 import * as UIMapActions from "./../../store/actions/ui-map.actions";
 import { Observable } from "rxjs/Observable";
 import { Position } from "../../store/models/Location";
-import { ThemeUtils } from "../../utils/theme-utils";
 
 @Component({
   selector: "overview-map",

@@ -5,9 +5,8 @@ import { Observable } from "rxjs/Observable";
 
 import { AppVersion } from "@ionic-native/app-version";
 
-import * as fromRoot from "./../../store/reducers";
 import * as AppVersionsActions from "./../actions/app-versions.actions";
-import { AppVersionType, LatestAppVersion } from "../models/AppVersion";
+import { AppVersionType } from "../models/AppVersion";
 import { DataService } from "../services/data.service";
 
 @Injectable()

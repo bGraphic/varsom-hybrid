@@ -1,8 +1,5 @@
-import { Action, Store } from "@ngrx/store";
-import { Actions, Effect, toPayload } from "@ngrx/effects";
+import { Store } from "@ngrx/store";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs/Observable";
-import { AppVersionType, LatestAppVersion } from "../models/AppVersion";
 import { AlertController, Platform, Alert } from "ionic-angular";
 import { TranslateService } from "@ngx-translate/core";
 import { InAppBrowser } from "@ionic-native/in-app-browser";
@@ -23,7 +20,6 @@ export class UIUpdateAlertEffects {
   private _alert: Alert;
 
   constructor(
-    private _actions$: Actions,
     private _store: Store<fromRoot.State>,
     private _alertCtrl: AlertController,
     private _translateService: TranslateService,

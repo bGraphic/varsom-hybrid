@@ -6,7 +6,6 @@ import { Store } from "@ngrx/store";
 import * as fromRoot from "./../../store/reducers";
 import { Region } from "../../store/models/Region";
 import { WarningType, RegionWarnings } from "../../store/models/Warning";
-import { Warning } from "../../store/models/Warning";
 import { WarningPage } from "../warning/warning";
 
 @Component({

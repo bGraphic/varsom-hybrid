@@ -29,16 +29,8 @@ import { WarningPage } from "../pages/warning/warning";
 import { WarningDetails } from "../pages/warning/warning-details";
 import { WarningBadge } from "../partials/warning-badge";
 
-// import { DataService } from "../providers/data";
-// import { ForecastService } from "../providers/forecasts";
-// import { FavoriteService } from "../providers/favorites";
-// import { PushService } from "../providers/push";
-// import { SettingService } from "../providers/settings";
-// import { AppVersionService } from "../providers/app-version";
-// import { GeoJsonService } from "../providers/geojson";
-// import { StorageService } from "../providers/storage";
-import { DataService as NewDataService } from "../store/services/data.service";
-import { GeojsonService as NewGeojsonService } from "../store/services/geojson.service";
+import { DataService } from "../store/services/data.service";
+import { GeojsonService } from "../store/services/geojson.service";
 
 import { reducer } from "./../store/reducers";
 import { AppVersionsEffects } from "../store/effects/app-versions.effects";
@@ -121,16 +113,8 @@ export function createTranslateLoader(http: Http) {
     InAppBrowser,
     SplashScreen,
     StatusBar,
-    Geolocation,
-    // ForecastService,
-    // DataService,
-    // SettingService,
-    // FavoriteService,
-    // PushService,
-    // AppVersionService,
-    // GeoJsonService,
-    NewDataService,
-    NewGeojsonService,
+    DataService,
+    GeojsonService,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })

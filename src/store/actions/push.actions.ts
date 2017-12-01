@@ -1,6 +1,5 @@
 import { Action } from "@ngrx/store";
-import { Position, PositionError } from "../models/Location";
-import { Push, PushToken, IPushMessage } from "@ionic/cloud-angular";
+import { PushToken, IPushMessage } from "@ionic/cloud-angular";
 
 export const REGISTER = "[Push] Register";
 export const REGISTER_SUCESS = "[Push] Registration Suceeded";

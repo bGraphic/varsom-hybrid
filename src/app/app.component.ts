@@ -1,5 +1,5 @@
 import { Component, ViewChild } from "@angular/core";
-import { App, Platform, MenuController, Nav, Config } from "ionic-angular";
+import { Platform, Nav, Config } from "ionic-angular";
 import { InAppBrowser } from "@ionic-native/in-app-browser";
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { StatusBar } from "@ionic-native/status-bar";
@@ -44,8 +44,6 @@ export class MyApp {
 
   constructor(
     public platform: Platform,
-    private _appCtrl: App,
-    private _menu: MenuController,
     private _config: Config,
     private _translateService: TranslateService,
     private _splashScreen: SplashScreen,
@@ -82,6 +80,7 @@ export class MyApp {
       .first()
       .subscribe(section => {
         this.rootPage = OverviewPage;
+        this._splashScreen.hide();
       });
   }
 

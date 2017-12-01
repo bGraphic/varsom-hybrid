@@ -2,8 +2,7 @@ import { Injectable } from "@angular/core";
 import { Action, Store } from "@ngrx/store";
 import { Actions, toPayload, Effect } from "@ngrx/effects";
 import { Observable } from "rxjs/Observable";
-import { Push, PushToken, IPushMessage } from "@ionic/cloud-angular";
-import { Platform } from "ionic-angular";
+import { Push } from "@ionic/cloud-angular";
 import { DataService } from "../services/data.service";
 
 import * as fromRoot from "./../../store/reducers";
@@ -15,7 +14,6 @@ export class PushEffects {
   constructor(
     private _actions$: Actions,
     private _push: Push,
-    private _platform: Platform,
     private _store: Store<fromRoot.State>,
     private _dataService: DataService
   ) {}

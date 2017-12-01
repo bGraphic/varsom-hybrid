@@ -14,7 +14,6 @@ import {
   defaultLocalStorage,
   migrateSectionType
 } from "../models/LocalStorage";
-import { Platform } from "ionic-angular";
 
 const STORE_KEY = "varsom-store";
 
@@ -25,8 +24,7 @@ export class LocalStorageEffects {
   constructor(
     private _storage: Storage,
     private _actions$: Actions,
-    private _store: Store<fromRoot.State>,
-    private _platform: Platform
+    private _store: Store<fromRoot.State>
   ) {
     this.relevantValues$ = Observable.combineLatest(
       this._store.select(fromRoot.getSelectedSection),

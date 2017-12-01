@@ -1,5 +1,4 @@
 import { Action } from "@ngrx/store";
-import { SectionType } from "../models/Section";
 
 export const ADD = "[Favorites] Add";
 export const REMOVE = "[Favorites] Remove";
