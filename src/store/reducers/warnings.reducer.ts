@@ -117,6 +117,7 @@ export function reducer(
 
 export const getAll = (state: State) => state.warnings;
 export const getAllFetching = (state: State) => state.fetching;
+export const getAllTimestamp = (state: State) => state.timestamp;
 
 const transformToRegionWarnings = (warnings: Warning[]): RegionWarnings[] => {
   const warningPerRegion = warnings.reduce(

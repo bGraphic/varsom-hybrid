@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header class="overview-header">
   <ion-navbar>
     <button right *ngIf="hasMenuButton" ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
@@ -8,7 +8,9 @@
         <ion-icon name="star"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title> {{ title((region$ | async), (section$ | async)) | translate }} </ion-title>
+    <ion-title> {{ title((region$ | async), (section$ | async)) | translate }}
+      <ion-spinner *ngIf="fetching$ | async"></ion-spinner>
+    </ion-title>
   </ion-navbar>
   <overview-segments [segments]="segments$ | async" [selectedSegment]="selectedSegment$ | async" (onSelect)="onSegmentSelect($event)"></overview-segments>
 </ion-header>

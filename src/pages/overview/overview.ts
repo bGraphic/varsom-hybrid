@@ -28,6 +28,8 @@ export class OverviewPage {
   selectedSegment$: Observable<WarningType>;
   isMapFullscreen$: Observable<boolean>;
   region$: Observable<Region>;
+  fetching$: Observable<boolean>;
+
   private _sectionSubscription: Subscription;
 
   constructor(
@@ -53,6 +55,8 @@ export class OverviewPage {
     this.region$ = this._store.select(fromRoot.getRegion(this.regionId));
 
     this.section$ = this._store.select(fromRoot.getSelectedSection);
+
+    this.fetching$ = this._store.select(fromRoot.getSectionFetching);
 
     this._sectionSubscription = this.section$.subscribe(section => {
       if (this.content) {
