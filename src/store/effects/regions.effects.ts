@@ -1,16 +1,47 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
+import { Platform } from "ionic-angular";
 import { of } from "rxjs/observable/of";
 import { Effect, Actions, toPayload } from "@ngrx/effects";
-import { Action } from "@ngrx/store";
+import { Action, Store } from "@ngrx/store";
 
+import * as fromRoot from "./../../store/reducers";
 import * as regionsActions from "./../actions/regions.actions";
+
 import { DataService } from "../services/data.service";
 import { SectionType } from "../models/Section";
 
+const THROTTLE = 6000; // 1 minutes
+
 @Injectable()
 export class RegionsEffects {
-  constructor(private _actions$: Actions, private _dataService: DataService) {}
+  constructor(
+    private _actions$: Actions,
+    private _dataService: DataService,
+    private _platform: Platform,
+    private _store: Store<fromRoot.State>
+  ) {
+    const platformReady$ = Observable.from(this._platform.ready());
+    const platformResume$ = this._platform.resume;
+
+    platformReady$.merge(platformResume$).subscribe(() => {
+      this._store.dispatch(new regionsActions.FetchAllAction());
+    });
+  }
+
+  @Effect()
+  fetchAllRegions$: Observable<Action> = this._actions$
+    .ofType(regionsActions.FETCH_ALL)
+    .mergeMap(() => {
+      return Observable.from([
+        new regionsActions.FetchAction({
+          sectionType: "FloodLandslide"
+        }),
+        new regionsActions.FetchAction({
+          sectionType: "Avalanche"
+        })
+      ]);
+    });
 
   @Effect()
   fetchRegions$: Observable<Action> = this._actions$
@@ -20,6 +51,7 @@ export class RegionsEffects {
     .groupBy(payload => payload.sectionType)
     .map(group$ => {
       return group$
+        .throttleTime(THROTTLE)
         .switchMap(payload =>
           this._dataService.fetchRegions(<SectionType>group$.key)
         )
