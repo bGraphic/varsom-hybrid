@@ -3,7 +3,7 @@ import { Warning, WarningType, RegionWarnings } from "../models/Warning";
 
 export interface State {
   warnings: { [k in WarningType]?: RegionWarnings[] };
-  fetching: { [k in WarningType]?: Boolean };
+  fetching: { [k in WarningType]?: boolean };
   timestamp: { [k in WarningType]?: Date | null };
   error: { [k in WarningType]?: any | null };
 }
@@ -99,12 +99,15 @@ export function reducer(
 
     case WarningsActions.FETCH_ERROR:
       error[warningType] = action.payload.error;
+      fetching[warningType] = false;
       if (!isAvalanche) {
         error.FloodLandslide = error[warningType];
+        fetching.FloodLandslide = fetching.Flood || fetching.Landslide;
       }
       return {
         ...state,
-        error: error
+        error: error,
+        fetching: fetching
       };
 
     default:
@@ -113,6 +116,7 @@ export function reducer(
 }
 
 export const getAll = (state: State) => state.warnings;
+export const getAllFetching = (state: State) => state.fetching;
 
 const transformToRegionWarnings = (warnings: Warning[]): RegionWarnings[] => {
   const warningPerRegion = warnings.reduce(
