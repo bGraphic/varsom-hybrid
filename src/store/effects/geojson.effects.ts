@@ -25,7 +25,6 @@ export class GeojsonEffects {
   @Effect()
   fetchRegions$: Observable<Action> = this._actions$
     .ofType(geojsonActions.FETCH_ALL)
-    // .startWith(new geojsonActions.FetchAllAction())
     .mergeMap(() => {
       return Observable.from([
         new geojsonActions.FetchAction({
@@ -35,14 +34,15 @@ export class GeojsonEffects {
           sectionType: "Avalanche"
         })
       ]);
-    })
-    .do(test => console.log(test));
+    });
 
   @Effect()
   fetchGeojsonObjects$: Observable<Action> = this._actions$
     .ofType(geojsonActions.FETCH)
-    .do(test => console.log(test))
     .map(toPayload)
+    .do(payload =>
+      console.log("[Geosjon] Fetch \n", payload.sectionType, new Date())
+    )
     // Group by so that switch map only happens on the same sectionType
     .groupBy(payload => payload.sectionType)
     .map(group$ => {

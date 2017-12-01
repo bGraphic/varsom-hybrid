@@ -47,6 +47,9 @@ export class RegionsEffects {
   fetchRegions$: Observable<Action> = this._actions$
     .ofType(regionsActions.FETCH)
     .map(toPayload)
+    .do(payload =>
+      console.log("[Regions] Fetch \n", payload.sectionType, new Date())
+    )
     // Group by so that switch map only happens on the same warningType
     .groupBy(payload => payload.sectionType)
     .map(group$ => {

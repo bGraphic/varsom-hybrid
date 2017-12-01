@@ -39,7 +39,11 @@ export function reducer(
   state = initialState,
   action: WarningsActions.All
 ): State {
-  if (!action.payload || !action.payload.warningType) {
+  if (
+    action.type === WarningsActions.FETCH_ALL ||
+    !action.payload ||
+    !action.payload.warningType
+  ) {
     return state;
   }
 
