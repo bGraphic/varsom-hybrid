@@ -2,7 +2,6 @@
 // http://ionicframework.com/docs/v2/theming/
 @import "ionic.globals";
 
-
 // Shared Variables
 // --------------------------------------------------
 // To customize the look and feel of this app, you can override
@@ -10,9 +9,8 @@
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
 
-$text-color:        #000;
-$background-color:  #fff;
-
+$text-color: #000;
+$background-color: #fff;
 
 // Named Color Variables
 // --------------------------------------------------
@@ -23,19 +21,19 @@ $background-color:  #fff;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #788788,
-  secondary:  #e46900,
-  danger:     #f53d3d,
-  light:      #f4f4f4,
-  dark:       #222,
-
-  level:      #FFF,
-  level0:     #C8C8C8,
-  level1:     #75B100,
-  level2:     #FFCC33,
-  level3:     #E46900,
-  level4:     #D21523,
-  level5:     #3E060B,
+  primary: #788788,
+  secondary: #e46900,
+  danger: #f53d3d,
+  light: #f4f4f4,
+  dark: #222,
+  level: #fff,
+  level-1: #c8c8c8,
+  level0: #c8c8c8,
+  level1: #75b100,
+  level2: #ffcc33,
+  level3: #e46900,
+  level4: #d21523,
+  level5: #3e060b
 );
 
 // App iOS Variables
@@ -44,7 +42,6 @@ $colors: (
 
 $badge-ios-border-radius: 2px;
 
-
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
@@ -52,14 +49,9 @@ $badge-ios-border-radius: 2px;
 $badge-md-border-radius: 2px;
 $list-md-header-margin-bottom: 0;
 
-
-
 // App Windows Variables
 // --------------------------------------------------
 // Windows only Sass variables can go here
-
-
-
 
 // App Theme
 // --------------------------------------------------
@@ -69,7 +61,6 @@ $list-md-header-margin-bottom: 0;
 // default are overridden.
 
 @import "ionic.theme.default";
-
 
 // Ionicons
 // --------------------------------------------------

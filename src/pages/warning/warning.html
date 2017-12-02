@@ -10,5 +10,9 @@
 </ion-header>
 
 <ion-content class="warning-page">
+  <ion-refresher nveRefresher>
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <warning-details [warning]="(warning$ | async)" [warningType]="warningType"></warning-details>
 </ion-content>

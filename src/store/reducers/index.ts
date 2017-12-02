@@ -211,6 +211,7 @@ export const getRegion = (regionId: string) =>
 // Warnings
 
 const getWarningState = (state: State) => state.warnings;
+
 const getAllWarnings = createSelector(getWarningState, fromWarnings.getAll);
 const getSegmentWarnings = createSelector(
   getAllWarnings,
@@ -219,6 +220,32 @@ const getSegmentWarnings = createSelector(
     return warnings[segment];
   }
 );
+
+const getAllFetching = createSelector(
+  getWarningState,
+  fromWarnings.getAllFetching
+);
+const getSegmentFetching = createSelector(
+  getAllFetching,
+  getSelectedSegment,
+  (fetching, segment) => {
+    return fetching[segment];
+  }
+);
+
+const getAllTimestamp = createSelector(
+  getWarningState,
+  fromWarnings.getAllTimestamp
+);
+const getSegmentTimestamp = createSelector(
+  getAllTimestamp,
+  getSelectedSegment,
+  (timestamp, segment) => {
+    console.log(timestamp);
+    return timestamp[segment];
+  }
+);
+
 export const getRegionWarnings = (regionId: string) =>
   createSelector(getAllWarnings, allWarnings => {
     const warningTypes = Object.keys(allWarnings).filter(
@@ -240,6 +267,9 @@ export const getRegionWarnings = (regionId: string) =>
   });
 
 // Forecasts
+
+export const getSectionFetching = getSegmentFetching;
+export const getSectionTimestamp = getSegmentTimestamp;
 
 export const getOverviewMapForecasts = () =>
   createSelector(
@@ -270,28 +300,23 @@ export const getOverviewMapForecasts = () =>
   );
 
 export const getFavoritesListForecasts = (regionId: string) =>
-  createSelector(
-    getSectionForecasts,
-    getFavorites,
-    getSelectedSection,
-    (forecasts, favorites, section) => {
-      return forecasts
-        .filter(forecast => favorites.indexOf(forecast.regionId) > -1)
-        .filter(forecast => {
-          if (regionId) {
-            return (
-              forecast.regionType === "Municipality" &&
-              forecast.regionId.startsWith(regionId)
-            );
-          } else {
-            return forecast;
-          }
-        })
-        .sort((forecastA, forecastB) => {
-          return forecastA.regionName > forecastB.regionName ? 1 : -1;
-        });
-    }
-  );
+  createSelector(getSectionForecasts, getFavorites, (forecasts, favorites) => {
+    return forecasts
+      .filter(forecast => favorites.indexOf(forecast.regionId) > -1)
+      .filter(forecast => {
+        if (regionId) {
+          return (
+            forecast.regionType === "Municipality" &&
+            forecast.regionId.startsWith(regionId)
+          );
+        } else {
+          return forecast;
+        }
+      })
+      .sort((forecastA, forecastB) => {
+        return forecastA.regionName > forecastB.regionName ? 1 : -1;
+      });
+  });
 
 export const getOverviewListForecasts = (regionId: string) =>
   createSelector(

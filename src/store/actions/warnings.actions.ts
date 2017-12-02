@@ -1,6 +1,7 @@
 import { Action } from "@ngrx/store";
 import { WarningType, Warning } from "../models/Warning";
 
+export const FETCH_ALL = "[Warnings] Fetch All";
 export const FETCH = "[Warnings] Fetch";
 export const FETCH_COMPLETE = "[Warnings] Fetch Complete";
 export const FETCH_ERROR = "[Warnings] Fetch Error";
@@ -19,6 +20,11 @@ export interface FetchErrorPayload {
   error: any;
 }
 
+export class FetchAllAction implements Action {
+  readonly type = FETCH_ALL;
+  constructor() {}
+}
+
 export class FetchAction implements Action {
   readonly type = FETCH;
   constructor(public payload: FetchPayload) {}
@@ -34,4 +40,8 @@ export class FetchErrorAction implements Action {
   constructor(public payload: FetchErrorPayload) {}
 }
 
-export type All = FetchAction | FetchCompleteAction | FetchErrorAction;
+export type All =
+  | FetchAllAction
+  | FetchAction
+  | FetchCompleteAction
+  | FetchErrorAction;

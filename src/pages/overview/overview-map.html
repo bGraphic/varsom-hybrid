@@ -1,4 +1,5 @@
-<div [style.top.px]="offset" tappable class="map" nveMap [geoJsonData]="forecasts$ | async" [marker]="marker$ | async" [center]="(settings$ | async).center"
-  [zoomLevel]="6" [recenterRequest]="recenterRequests$ | async" (onIsCenteredUpdate)="onIsCenteredUpdate($event)" (onRegionSelect)="onRegionSelect.emit($event)">
+<div (mousedown)="stopPropagation($event)" (touchdown)="stopPropagation($event)" [style.top.px]="offset" tappable class="map"
+  nveMap [geoJsonData]="forecasts$ | async" [marker]="marker$ | async" [center]="(settings$ | async).center" [zoomLevel]="6"
+  [recenterRequest]="recenterRequests$ | async" (onIsCenteredUpdate)="onIsCenteredUpdate($event)" (onRegionSelect)="onRegionSelect.emit($event)">
 </div>
 <overview-map-controls [settings]="settings$ | async" (onToggleFullscreen)="onToggleFullscreen($event)" (onReCenter)="onReCenter($event)"></overview-map-controls>

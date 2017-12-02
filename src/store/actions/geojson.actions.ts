@@ -1,9 +1,15 @@
 import { Action } from "@ngrx/store";
 import { SectionType } from "../models/Section";
 
+export const FETCH_ALL = "[Geojson] Fetch All";
 export const FETCH = "[Geojson] Fetch";
 export const FETCH_COMPLETE = "[Geojson] Fetch Complete";
 export const FETCH_ERROR = "[Geojson] Fetch Error";
+
+export class FetchAllAction implements Action {
+  readonly type = FETCH_ALL;
+  constructor() {}
+}
 
 export class FetchAction implements Action {
   readonly type = FETCH;
@@ -34,4 +40,8 @@ export class FetchErrorAction implements Action {
   ) {}
 }
 
-export type All = FetchAction | FetchCompleteAction | FetchErrorAction;
+export type All =
+  | FetchAllAction
+  | FetchAction
+  | FetchCompleteAction
+  | FetchErrorAction;
