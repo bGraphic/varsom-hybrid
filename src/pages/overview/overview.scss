@@ -38,7 +38,7 @@
 
   .map {
     transition: top 200ms ease-in-out !important;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: -100px;
     right: -100px;

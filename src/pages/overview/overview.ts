@@ -80,11 +80,11 @@ export class OverviewPage {
 
   mapOffset(mapFullscreen) {
     if (mapFullscreen) {
-      return 0;
+      return -this.content.contentTop;
     }
 
     const height = this.content.contentTop + this.content.contentHeight;
-    return -(height * 0.15 + height * 0.35 / 2 - this.content.contentTop);
+    return -(height * 0.15 + height * 0.35 / 2); // - this.content.contentTop);
   }
 
   onSegmentSelect(segment: WarningType) {
