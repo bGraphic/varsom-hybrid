@@ -60,10 +60,6 @@ export class UIErrorAlertsEffects {
       closeButtonText: this._translateService.instant("OK")
     });
 
-    this._toasts[warningsOrRegions][type].onDidDismiss(() => {
-      console.log("Dismissed toast");
-    });
-
     this._toasts[warningsOrRegions][type].present();
   }
 }
