@@ -11,8 +11,6 @@ import * as regionsActions from "./../actions/regions.actions";
 import { DataService } from "../services/data.service";
 import { SectionType } from "../models/Section";
 
-const THROTTLE = 6000; // 1 minutes
-
 @Injectable()
 export class RegionsEffects {
   constructor(
@@ -32,6 +30,7 @@ export class RegionsEffects {
   @Effect()
   fetchAllRegions$: Observable<Action> = this._actions$
     .ofType(regionsActions.FETCH_ALL)
+    .do(payload => console.log("[Regions] Fetch All \n", new Date()))
     .mergeMap(() => {
       return Observable.from([
         new regionsActions.FetchAction({
@@ -54,10 +53,10 @@ export class RegionsEffects {
     .groupBy(payload => payload.sectionType)
     .map(group$ => {
       return group$
-        .throttleTime(THROTTLE)
         .switchMap(payload =>
           this._dataService.fetchRegions(<SectionType>group$.key)
         )
+        .do(() => console.log("[Regions] Fetched \n", group$.key, new Date()))
         .map(regions => {
           return new regionsActions.FetchCompleteAction({
             sectionType: group$.key,
@@ -74,4 +73,11 @@ export class RegionsEffects {
         });
     })
     .mergeAll();
+
+  @Effect({ dispatch: false })
+  error$: Observable<Action> = this._actions$
+    .ofType(regionsActions.FETCH_ERROR)
+    .map(toPayload)
+    .do(error => console.warn("[Regions] Fetch Error", error))
+    .mapTo(null);
 }

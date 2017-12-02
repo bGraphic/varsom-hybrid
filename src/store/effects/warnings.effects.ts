@@ -10,8 +10,7 @@ import * as warningsActions from "./../actions/warnings.actions";
 
 import { DataService } from "../services/data.service";
 
-const REFRESH = 300000; // 5 minutes
-const THROTTLE = 6000; // 1 second
+const REFRESH = 60000; // 1 minute
 
 @Injectable()
 export class WarningsEffects {
@@ -36,8 +35,9 @@ export class WarningsEffects {
   }
 
   @Effect()
-  fetchAllRegions$: Observable<Action> = this._actions$
+  fetchAllWarnings$: Observable<Action> = this._actions$
     .ofType(warningsActions.FETCH_ALL)
+    .do(payload => console.log("[Warnings] Fetch All \n", new Date()))
     .mergeMap(() => {
       return Observable.from([
         new warningsActions.FetchAction({
@@ -63,8 +63,8 @@ export class WarningsEffects {
     .groupBy(payload => payload.warningType)
     .map(group$ => {
       return group$
-        .throttleTime(THROTTLE)
         .switchMapTo(this._dataService.fetchWarnings(group$.key))
+        .do(() => console.log("[Warnings] Fetched \n", group$.key, new Date()))
         .map(warnings => {
           return new warningsActions.FetchCompleteAction({
             warningType: group$.key,
@@ -81,4 +81,11 @@ export class WarningsEffects {
         });
     })
     .mergeAll();
+
+  @Effect({ dispatch: false })
+  error$: Observable<Action> = this._actions$
+    .ofType(warningsActions.FETCH_ERROR)
+    .map(toPayload)
+    .do(error => console.warn("[Warnings] Fetch Error", error))
+    .mapTo(null);
 }
