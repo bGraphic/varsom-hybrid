@@ -78,7 +78,7 @@ export class RegionsEffects {
     .ofType(regionsActions.FETCH_COMPLETE)
     .map(toPayload)
     .do(payload =>
-      console.warn(
+      console.log(
         "[Regions] Fetch Succeeded",
         payload.sectionType,
         "\n",

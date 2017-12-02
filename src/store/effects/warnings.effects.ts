@@ -88,7 +88,7 @@ export class WarningsEffects {
     .ofType(warningsActions.FETCH_COMPLETE)
     .map(toPayload)
     .do(payload =>
-      console.warn(
+      console.log(
         "[Warnings] Fetch Succeeded",
         payload.warningType,
         "\n",
