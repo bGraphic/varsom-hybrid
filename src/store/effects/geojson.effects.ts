@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { Action, Store } from "@ngrx/store";
 import { Actions, toPayload, Effect } from "@ngrx/effects";
 import { Observable } from "rxjs/Observable";
-import * as regionsActions from "./../actions/regions.actions";
 import * as geojsonActions from "./../actions/geojson.actions";
 import { GeojsonService } from "../services/geojson.service";
 import { of } from "rxjs/observable/of";

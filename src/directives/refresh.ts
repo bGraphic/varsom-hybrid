@@ -1,5 +1,4 @@
-import { Directive, Output, HostListener } from "@angular/core";
-import { Subscription } from "rxjs";
+import { Directive, HostListener } from "@angular/core";
 import { Store } from "@ngrx/store";
 
 import * as fromRoot from "./../store/reducers";

@@ -9,7 +9,6 @@ import * as fromRoot from "./../../store/reducers";
 import * as regionsActions from "./../actions/regions.actions";
 
 import { DataService } from "../services/data.service";
-import { SectionType } from "../models/Section";
 
 @Injectable()
 export class RegionsEffects {

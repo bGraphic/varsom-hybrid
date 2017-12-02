@@ -2,7 +2,7 @@ import { Action, Store } from "@ngrx/store";
 import { Actions, Effect, toPayload } from "@ngrx/effects";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
-import { ToastController, Toast, Platform } from "ionic-angular";
+import { ToastController, Toast } from "ionic-angular";
 import { TranslateService } from "@ngx-translate/core";
 
 import * as moment from "moment";
@@ -27,7 +27,6 @@ export class UIErrorAlertsEffects {
     private _actions$: Actions,
     private _toastCtrl: ToastController,
     private _translateService: TranslateService,
-    private _platform: Platform,
     private _store: Store<fromRoot.State>
   ) {}
 

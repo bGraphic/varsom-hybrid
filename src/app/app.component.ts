@@ -11,8 +11,6 @@ import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import * as fromRoot from "./../store/reducers";
 import * as UISectionActions from "./../store/actions/ui-sections.actions";
-import * as WarningsActions from "./../store/actions/warnings.actions";
-import * as RegionsActions from "./../store/actions/regions.actions";
 
 import { OverviewPage } from "../pages/overview/overview";
 import { SectionType } from "../store/models/Section";
@@ -56,7 +54,6 @@ export class MyApp {
     moment.locale("nb");
 
     this.initializeApp();
-    // this.initializeData();
 
     this.sections$ = this._store.select(fromRoot.getSections);
     this.selectedSection$ = this._store.select(fromRoot.getSelectedSection);
@@ -91,24 +88,6 @@ export class MyApp {
         this._config.set("ios", "backButtonText", res);
       });
     });
-  }
-
-  private initializeData() {
-    this._store.dispatch(
-      new RegionsActions.FetchAction({ sectionType: "Avalanche" })
-    );
-    this._store.dispatch(
-      new RegionsActions.FetchAction({ sectionType: "FloodLandslide" })
-    );
-    this._store.dispatch(
-      new WarningsActions.FetchAction({ warningType: "Avalanche" })
-    );
-    this._store.dispatch(
-      new WarningsActions.FetchAction({ warningType: "Flood" })
-    );
-    this._store.dispatch(
-      new WarningsActions.FetchAction({ warningType: "Landslide" })
-    );
   }
 
   selectSection(section: SectionType) {

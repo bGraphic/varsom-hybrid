@@ -4,8 +4,7 @@ import {
   Output,
   ViewChild,
   EventEmitter,
-  ElementRef,
-  HostListener
+  ElementRef
 } from "@angular/core";
 import "leaflet";
 
