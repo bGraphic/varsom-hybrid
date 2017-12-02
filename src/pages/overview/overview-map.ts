@@ -48,4 +48,8 @@ export class OverviewMap {
   onReCenter($event) {
     this._store.dispatch(new UIMapActions.RequestRecenter());
   }
+
+  stopPropagation($event) {
+    $event.stopPropagation();
+  }
 }
