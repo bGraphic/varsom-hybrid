@@ -45,6 +45,7 @@ import { UIPushAlertsEffects } from "../store/effects/ui-push-alerts.effects";
 
 import { MapDirective } from "../directives/map";
 import { FavoriteDirective } from "../directives/favorite";
+import { RefreshDirective } from "../directives/refresh";
 import { AvalancheRose } from "../partials/avalanche-rose";
 
 import { AppVersion } from "@ionic-native/app-version";
@@ -74,7 +75,8 @@ export function createTranslateLoader(http: Http) {
     WarningBadge,
     MapDirective,
     AvalancheRose,
-    FavoriteDirective
+    FavoriteDirective,
+    RefreshDirective
   ],
   imports: [
     BrowserModule,

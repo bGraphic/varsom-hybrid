@@ -10,6 +10,10 @@
 </ion-header>
 <ion-content class="region-page">
 
+  <ion-refresher nveRefresher>
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-list *ngFor="let warningIndex of [0,1,2]">
 
     <ion-list-header>
