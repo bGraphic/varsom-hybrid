@@ -52,27 +52,40 @@ export class RegionsEffects {
     // Group by so that switch map only happens on the same warningType
     .groupBy(payload => payload.sectionType)
     .map(group$ => {
-      return group$
-        .switchMap(payload =>
-          this._dataService.fetchRegions(<SectionType>group$.key)
-        )
-        .do(() => console.log("[Regions] Fetched \n", group$.key, new Date()))
-        .map(regions => {
-          return new regionsActions.FetchCompleteAction({
-            sectionType: group$.key,
-            regions
-          });
-        })
-        .catch(error => {
-          return of(
-            new regionsActions.FetchErrorAction({
+      return group$.switchMap(payload =>
+        this._dataService
+          .fetchRegions(<SectionType>group$.key)
+          .map(regions => {
+            return new regionsActions.FetchCompleteAction({
               sectionType: group$.key,
-              error: error
-            })
-          );
-        });
+              regions
+            });
+          })
+          .catch(error => {
+            return of(
+              new regionsActions.FetchErrorAction({
+                sectionType: group$.key,
+                error: error
+              })
+            );
+          })
+      );
     })
     .mergeAll();
+
+  @Effect({ dispatch: false })
+  sucess$: Observable<Action> = this._actions$
+    .ofType(regionsActions.FETCH_COMPLETE)
+    .map(toPayload)
+    .do(payload =>
+      console.warn(
+        "[Regions] Fetch Succeeded",
+        payload.warningType,
+        "\n",
+        new Date()
+      )
+    )
+    .mapTo(null);
 
   @Effect({ dispatch: false })
   error$: Observable<Action> = this._actions$

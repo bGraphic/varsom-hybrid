@@ -57,30 +57,45 @@ export class WarningsEffects {
     .ofType(warningsActions.FETCH)
     .map(toPayload)
     .do(payload =>
-      console.log("[Warnings] Fetch \n", payload.warningType, new Date())
+      console.log("[Warnings] Fetch", payload.warningType, " \n", new Date())
     )
     // Group by so that switch map only happens on the same warningType
     .groupBy(payload => payload.warningType)
     .map(group$ => {
-      return group$
-        .switchMapTo(this._dataService.fetchWarnings(group$.key))
-        .do(() => console.log("[Warnings] Fetched \n", group$.key, new Date()))
-        .map(warnings => {
-          return new warningsActions.FetchCompleteAction({
-            warningType: group$.key,
-            warnings
-          });
-        })
-        .catch(error => {
-          return of(
-            new warningsActions.FetchErrorAction({
+      return group$.switchMapTo(
+        this._dataService
+          .fetchWarnings(group$.key)
+          .map(warnings => {
+            return new warningsActions.FetchCompleteAction({
               warningType: group$.key,
-              error: error
-            })
-          );
-        });
+              warnings
+            });
+          })
+          .catch(error => {
+            return of(
+              new warningsActions.FetchErrorAction({
+                warningType: group$.key,
+                error: error
+              })
+            );
+          })
+      );
     })
     .mergeAll();
+
+  @Effect({ dispatch: false })
+  sucess$: Observable<Action> = this._actions$
+    .ofType(warningsActions.FETCH_COMPLETE)
+    .map(toPayload)
+    .do(payload =>
+      console.warn(
+        "[Warnings] Fetch Succeeded",
+        payload.warningType,
+        "\n",
+        new Date()
+      )
+    )
+    .mapTo(null);
 
   @Effect({ dispatch: false })
   error$: Observable<Action> = this._actions$
