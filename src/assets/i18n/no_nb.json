@@ -154,6 +154,6 @@
       "FLOODLANDSLIDE": "Henting av fylker feilet.",
       "AVALANCHE": "Henting av snøskredsregioner feilet."
     },
-    "TIMEAGO": " Sist hentet for {{ timeago }}"
+    "TIMEAGO": " Sist hentet for {{ timeago }}."
   }
 }

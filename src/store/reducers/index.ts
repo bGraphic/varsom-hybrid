@@ -237,14 +237,17 @@ const getAllTimestamp = createSelector(
   getWarningState,
   fromWarnings.getAllTimestamp
 );
+
 const getSegmentTimestamp = createSelector(
   getAllTimestamp,
   getSelectedSegment,
   (timestamp, segment) => {
-    console.log(timestamp);
     return timestamp[segment];
   }
 );
+
+export const getWarningsTimeStamp = (warningType: WarningType) =>
+  createSelector(getAllTimestamp, timestamp => timestamp[warningType]);
 
 export const getRegionWarnings = (regionId: string) =>
   createSelector(getAllWarnings, allWarnings => {
