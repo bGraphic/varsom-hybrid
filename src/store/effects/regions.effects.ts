@@ -54,7 +54,7 @@ export class RegionsEffects {
     .map(group$ => {
       return group$.switchMap(payload =>
         this._dataService
-          .fetchRegions(<SectionType>group$.key)
+          .fetchRegions(group$.key)
           .map(regions => {
             return new regionsActions.FetchCompleteAction({
               sectionType: group$.key,
@@ -80,7 +80,7 @@ export class RegionsEffects {
     .do(payload =>
       console.warn(
         "[Regions] Fetch Succeeded",
-        payload.warningType,
+        payload.sectionType,
         "\n",
         new Date()
       )
