@@ -56,7 +56,7 @@ export class MyApp {
     moment.locale("nb");
 
     this.initializeApp();
-    this.initializeData();
+    // this.initializeData();
 
     this.sections$ = this._store.select(fromRoot.getSections);
     this.selectedSection$ = this._store.select(fromRoot.getSelectedSection);
