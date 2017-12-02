@@ -29,8 +29,9 @@ export class OverviewPage {
   isMapFullscreen$: Observable<boolean>;
   region$: Observable<Region>;
   fetching$: Observable<boolean>;
+  mapOffset: number;
 
-  private _sectionSubscription: Subscription;
+  private _resizeSubscription: Subscription;
 
   constructor(
     private _navCtrl: NavController,
@@ -58,16 +59,28 @@ export class OverviewPage {
 
     this.fetching$ = this._store.select(fromRoot.getSectionFetching);
 
-    this._sectionSubscription = this.section$.subscribe(section => {
+    this._resizeSubscription = Observable.combineLatest(
+      this.section$,
+      this.isMapFullscreen$
+    ).subscribe(([section, isFullscreen]) => {
       if (this.content) {
         this.content.resize();
         this.content.scrollToTop();
+      }
+
+      const contentTop = section === "Avalanche" ? 55 : 111; // this.content.contentTop;
+
+      if (isFullscreen) {
+        this.mapOffset = -contentTop;
+      } else {
+        const height = contentTop + this.content.contentHeight;
+        this.mapOffset = -(height * 0.15 + height * 0.35 / 2); // - this.content.contentTop);
       }
     });
   }
 
   ngOnDestroy() {
-    this._sectionSubscription.unsubscribe();
+    this._resizeSubscription.unsubscribe();
   }
 
   title(region: Region, sectionType: SectionType) {
@@ -76,15 +89,6 @@ export class OverviewPage {
     } else if (sectionType) {
       return `OVERVIEW.PAGE_TITLE.${sectionType.toUpperCase()}`;
     }
-  }
-
-  mapOffset(mapFullscreen) {
-    if (mapFullscreen) {
-      return -this.content.contentTop;
-    }
-
-    const height = this.content.contentTop + this.content.contentHeight;
-    return -(height * 0.15 + height * 0.35 / 2); // - this.content.contentTop);
   }
 
   onSegmentSelect(segment: WarningType) {
