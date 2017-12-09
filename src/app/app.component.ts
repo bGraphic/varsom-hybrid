@@ -53,10 +53,28 @@ export class MyApp {
     this._translateService.use("no_nb");
     moment.locale("nb");
 
-    this.initializeApp();
+    this.platform.ready().then(() => {
+      this._statusBar.styleDefault();
+      this._translateService.get("BACK").subscribe((res: string) => {
+        this._config.set("ios", "backButtonText", res);
+      });
+    });
 
     this.sections$ = this._store.select(fromRoot.getSections);
-    this.selectedSection$ = this._store.select(fromRoot.getSelectedSection);
+    this.selectedSection$ = this._store
+      .select(fromRoot.getSelectedSection)
+      .filter(section => !!section);
+
+    this.selectedSection$.first().subscribe(section => {
+      this.rootPage = OverviewPage;
+      this._splashScreen.hide();
+    });
+
+    // this.selectedSection$.subscribe(section => {
+    //   this._store.dispatch(
+    //     new UISectionActions.RefreshSection({ section: section })
+    //   );
+    // });
 
     this.externalLinks$ = this._translateService.get("MENU.EXTERNAL.ITEMS");
     this.contactLinks$ = this._translateService.get("MENU.CONTACT_INFO.ITEMS");
@@ -71,23 +89,6 @@ export class MyApp {
           return logos;
         }, []);
       });
-
-    this.selectedSection$
-      .filter(section => !!section)
-      .first()
-      .subscribe(section => {
-        this.rootPage = OverviewPage;
-        this._splashScreen.hide();
-      });
-  }
-
-  private initializeApp() {
-    this.platform.ready().then(() => {
-      this._statusBar.styleDefault();
-      this._translateService.get("BACK").subscribe((res: string) => {
-        this._config.set("ios", "backButtonText", res);
-      });
-    });
   }
 
   selectSection(section: SectionType) {

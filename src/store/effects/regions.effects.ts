@@ -19,18 +19,11 @@ export class RegionsEffects {
     private _dataService: DataService,
     private _platform: Platform,
     private _store: Store<fromRoot.State>
-  ) {
-    const platformReady$ = Observable.from(this._platform.ready());
-    const platformResume$ = this._platform.resume;
-
-    platformReady$.merge(platformResume$).subscribe(() => {
-      this._store.dispatch(new regionsActions.FetchAllAction());
-    });
-  }
+  ) {}
 
   @Effect()
   refreshSection$: Observable<Action> = this._actions$
-    .ofType(UISectionsActions.REFRESH_SECTION)
+    .ofType(UISectionsActions.REFRESH_SECTION, UISectionsActions.SELECT_SECTION)
     .map(toPayload)
     .do(payload =>
       console.log(

@@ -16,15 +16,11 @@ export class GeojsonEffects {
     private _geojsonService: GeojsonService,
     private _platform: Platform,
     private _store: Store<fromRoot.State>
-  ) {
-    this._platform.ready().then(() => {
-      this._store.dispatch(new geojsonActions.FetchAllAction());
-    });
-  }
+  ) {}
 
   @Effect()
   refreshSection$: Observable<Action> = this._actions$
-    .ofType(UISectionsActions.REFRESH_SECTION)
+    .ofType(UISectionsActions.REFRESH_SECTION, UISectionsActions.SELECT_SECTION)
     .map(toPayload)
     .do(payload =>
       console.log(

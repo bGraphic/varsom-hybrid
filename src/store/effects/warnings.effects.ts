@@ -21,24 +21,11 @@ export class WarningsEffects {
     private _dataService: DataService,
     private _platform: Platform,
     private _store: Store<fromRoot.State>
-  ) {
-    const platformReady$ = Observable.from(this._platform.ready());
-    const platformResume$ = Observable.from(this._platform.resume);
-    const platformPause$ = Observable.from(this._platform.pause);
-    const refreshTimer$ = Observable.timer(0, REFRESH);
-
-    platformReady$
-      .merge(platformResume$.do(() => console.log("Resume", new Date())))
-      .switchMapTo(refreshTimer$)
-      .takeUntil(platformPause$.do(() => console.log("Pause", new Date())))
-      .subscribe(() => {
-        this._store.dispatch(new WarningsActions.FetchAllAction());
-      });
-  }
+  ) {}
 
   @Effect()
   refreshSection$: Observable<Action> = this._actions$
-    .ofType(UISectionsActions.REFRESH_SECTION)
+    .ofType(UISectionsActions.REFRESH_SECTION, UISectionsActions.SELECT_SECTION)
     .map(toPayload)
     .do(payload =>
       console.log(
