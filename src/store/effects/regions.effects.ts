@@ -7,8 +7,10 @@ import { Action, Store } from "@ngrx/store";
 
 import * as fromRoot from "./../../store/reducers";
 import * as regionsActions from "./../actions/regions.actions";
+import * as UISectionsActions from "./../actions/ui-sections.actions";
 
 import { DataService } from "../services/data.service";
+import { SectionType } from "../models/Section";
 
 @Injectable()
 export class RegionsEffects {
@@ -25,6 +27,24 @@ export class RegionsEffects {
       this._store.dispatch(new regionsActions.FetchAllAction());
     });
   }
+
+  @Effect()
+  refreshSection$: Observable<Action> = this._actions$
+    .ofType(UISectionsActions.REFRESH_SECTION)
+    .map(toPayload)
+    .do(payload =>
+      console.log(
+        "[Regions] Refresh Section",
+        payload.section,
+        " \n",
+        new Date()
+      )
+    )
+    .map(payload => {
+      return new regionsActions.FetchAction({
+        sectionType: payload.section
+      });
+    });
 
   @Effect()
   fetchAllRegions$: Observable<Action> = this._actions$

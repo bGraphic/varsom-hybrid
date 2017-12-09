@@ -3,6 +3,7 @@ import { Action, Store } from "@ngrx/store";
 import { Actions, toPayload, Effect } from "@ngrx/effects";
 import { Observable } from "rxjs/Observable";
 import * as geojsonActions from "./../actions/geojson.actions";
+import * as UISectionsActions from "./../actions/ui-sections.actions";
 import { GeojsonService } from "../services/geojson.service";
 import { of } from "rxjs/observable/of";
 import { Platform } from "ionic-angular";
@@ -22,8 +23,27 @@ export class GeojsonEffects {
   }
 
   @Effect()
+  refreshSection$: Observable<Action> = this._actions$
+    .ofType(UISectionsActions.REFRESH_SECTION)
+    .map(toPayload)
+    .do(payload =>
+      console.log(
+        "[Geojson] Refresh Section",
+        payload.section,
+        " \n",
+        new Date()
+      )
+    )
+    .map(payload => {
+      return new geojsonActions.FetchAction({
+        sectionType: payload.section
+      });
+    });
+
+  @Effect()
   fetchRegions$: Observable<Action> = this._actions$
     .ofType(geojsonActions.FETCH_ALL)
+    .do(payload => console.log("[Geojson] Fetch All \n", new Date()))
     .mergeMap(() => {
       return Observable.from([
         new geojsonActions.FetchAction({

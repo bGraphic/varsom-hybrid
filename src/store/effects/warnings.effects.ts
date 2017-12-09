@@ -6,9 +6,11 @@ import { Action, Store } from "@ngrx/store";
 import { Platform } from "ionic-angular";
 
 import * as fromRoot from "./../../store/reducers";
-import * as warningsActions from "./../actions/warnings.actions";
+import * as WarningsActions from "./../actions/warnings.actions";
+import * as UISectionsActions from "./../actions/ui-sections.actions";
 
 import { DataService } from "../services/data.service";
+import { SectionType } from "../models/Section";
 
 const REFRESH = 60000; // 1 minute
 
@@ -30,23 +32,54 @@ export class WarningsEffects {
       .switchMapTo(refreshTimer$)
       .takeUntil(platformPause$.do(() => console.log("Pause", new Date())))
       .subscribe(() => {
-        this._store.dispatch(new warningsActions.FetchAllAction());
+        this._store.dispatch(new WarningsActions.FetchAllAction());
       });
   }
 
   @Effect()
+  refreshSection$: Observable<Action> = this._actions$
+    .ofType(UISectionsActions.REFRESH_SECTION)
+    .map(toPayload)
+    .do(payload =>
+      console.log(
+        "[Warnings] Refresh Section",
+        payload.section,
+        " \n",
+        new Date()
+      )
+    )
+    .mergeMap(payload => {
+      if (<SectionType>payload.section === "FloodLandslide") {
+        return Observable.from([
+          new WarningsActions.FetchAction({
+            warningType: "Flood"
+          }),
+          new WarningsActions.FetchAction({
+            warningType: "Landslide"
+          })
+        ]);
+      } else if (<SectionType>payload.section === "Avalanche") {
+        return Observable.from([
+          new WarningsActions.FetchAction({
+            warningType: "Avalanche"
+          })
+        ]);
+      }
+    });
+
+  @Effect()
   fetchAllWarnings$: Observable<Action> = this._actions$
-    .ofType(warningsActions.FETCH_ALL)
+    .ofType(WarningsActions.FETCH_ALL)
     .do(payload => console.log("[Warnings] Fetch All \n", new Date()))
     .mergeMap(() => {
       return Observable.from([
-        new warningsActions.FetchAction({
+        new WarningsActions.FetchAction({
           warningType: "Flood"
         }),
-        new warningsActions.FetchAction({
+        new WarningsActions.FetchAction({
           warningType: "Landslide"
         }),
-        new warningsActions.FetchAction({
+        new WarningsActions.FetchAction({
           warningType: "Avalanche"
         })
       ]);
@@ -54,7 +87,7 @@ export class WarningsEffects {
 
   @Effect()
   fetchWarnings$: Observable<Action> = this._actions$
-    .ofType(warningsActions.FETCH)
+    .ofType(WarningsActions.FETCH)
     .map(toPayload)
     .do(payload =>
       console.log("[Warnings] Fetch", payload.warningType, " \n", new Date())
@@ -66,14 +99,14 @@ export class WarningsEffects {
         this._dataService
           .fetchWarnings(group$.key)
           .map(warnings => {
-            return new warningsActions.FetchCompleteAction({
+            return new WarningsActions.FetchCompleteAction({
               warningType: group$.key,
               warnings
             });
           })
           .catch(error => {
             return of(
-              new warningsActions.FetchErrorAction({
+              new WarningsActions.FetchErrorAction({
                 warningType: group$.key,
                 error: error
               })
@@ -85,7 +118,7 @@ export class WarningsEffects {
 
   @Effect({ dispatch: false })
   sucess$: Observable<Action> = this._actions$
-    .ofType(warningsActions.FETCH_COMPLETE)
+    .ofType(WarningsActions.FETCH_COMPLETE)
     .map(toPayload)
     .do(payload =>
       console.log(
@@ -99,7 +132,7 @@ export class WarningsEffects {
 
   @Effect({ dispatch: false })
   error$: Observable<Action> = this._actions$
-    .ofType(warningsActions.FETCH_ERROR)
+    .ofType(WarningsActions.FETCH_ERROR)
     .map(toPayload)
     .do(error => console.warn("[Warnings] Fetch Error", error))
     .mapTo(null);
