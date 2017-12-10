@@ -43,6 +43,7 @@ import { PushEffects } from "../store/effects/push.effects";
 import { UIUpdateAlertEffects } from "../store/effects/ui-update-alert.effects";
 import { UIPushAlertsEffects } from "../store/effects/ui-push-alerts.effects";
 import { UIErrorAlertsEffects } from "../store/effects/ui-error-alerts.effects";
+import { UISubscriptionAlertsEffects } from "../store/effects/ui-subscription-alerts.effects";
 
 import { MapDirective } from "../directives/map";
 import { FavoriteDirective } from "../directives/favorite";
@@ -95,6 +96,7 @@ export function createTranslateLoader(http: Http) {
     EffectsModule.run(PushEffects),
     EffectsModule.run(UIPushAlertsEffects),
     EffectsModule.run(UIErrorAlertsEffects),
+    EffectsModule.run(UISubscriptionAlertsEffects),
     HttpModule,
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     AngularFireModule.initializeApp(firebase),

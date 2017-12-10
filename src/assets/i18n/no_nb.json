@@ -150,6 +150,13 @@
     "LANDSLIDE": "Jordskred",
     "AVALANCHE": "Snøskred"
   },
+  "SUBSCRIPTION_ALERT": {
+    "MESSAGE":
+      "Ønsker du å få beskjed på sms og/eller epost ved endringer i dette området?",
+    "CONFIRM": "Ja",
+    "CANCEL": "Nei",
+    "URL": "https://abonner.varsom.no/"
+  },
   "ERROR_ALERT": {
     "WARNINGS": {
       "FLOOD": "Henting av flomvarsler feilet.",
