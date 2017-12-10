@@ -33,7 +33,7 @@
   "AVAL_PROPAGATION": "Utbredelse",
   "AVAL_PROBABILITY": "Sannsynlighet",
   "UPDATE": {
-    "TITLE": "Ny versjon",
+    "TITLE": "Ny versjon tilgjengelig",
     "MESSAGE": {
       "FORCE": "Varsom-appen må oppdateres til denne versjonen.",
       "REGULAR": "Vennligst oppdater til den nyeste versjonen av Varsom-appen."

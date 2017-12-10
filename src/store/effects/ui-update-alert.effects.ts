@@ -28,24 +28,24 @@ export class UIUpdateAlertEffects {
   ) {
     this._store
       .select(fromRoot.getAllAppVersions)
-      // Make sure platform is ready before messing with alerts
-      .withLatestFrom(this._platform.ready())
-      .map(([appVersions, ready]) => appVersions)
       .map(appVersions => transfromAppVersionsToAlertType(appVersions))
       .subscribe(updateAlertType => {
-        if (this._alert) {
-          this._alert.dismiss();
-        }
-        this._alert = this._createAlert(updateAlertType);
-        if (this._alert) {
-          this._alert.present();
-        }
+        this._platform.ready().then(() => {
+          if (this._alert) {
+            this._alert.dismiss();
+          }
+          this._alert = this._createAlert(updateAlertType);
+          if (this._alert) {
+            this._alert.present();
+          }
+        });
       });
   }
 
   _createAlert(appUpdateAlertType: AppUpdateAlertType) {
     const skipButton = {
       text: this._translateService.instant("UPDATE.BUTTON.SKIP"),
+      role: "cancel",
       handler: () => {
         this._store.dispatch(new AppVersionsActions.NotfiedUserAction());
         return false;
