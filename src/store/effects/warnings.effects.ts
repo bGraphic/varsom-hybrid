@@ -2,26 +2,19 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
 import { of } from "rxjs/observable/of";
 import { Effect, Actions, toPayload } from "@ngrx/effects";
-import { Action, Store } from "@ngrx/store";
-import { Platform } from "ionic-angular";
+import { Action } from "@ngrx/store";
 
-import * as fromRoot from "./../../store/reducers";
 import * as WarningsActions from "./../actions/warnings.actions";
 import * as UISectionsActions from "./../actions/ui-sections.actions";
 
 import { DataService } from "../services/data.service";
 import { SectionType } from "../models/Section";
 
-const REFRESH = 60000; // 1 minute
+const REFRESH = 30000; // 30 seconds
 
 @Injectable()
 export class WarningsEffects {
-  constructor(
-    private _actions$: Actions,
-    private _dataService: DataService,
-    private _platform: Platform,
-    private _store: Store<fromRoot.State>
-  ) {}
+  constructor(private _actions$: Actions, private _dataService: DataService) {}
 
   @Effect()
   refreshSection$: Observable<Action> = this._actions$
@@ -35,19 +28,37 @@ export class WarningsEffects {
         new Date()
       )
     )
+    .switchMap(payload =>
+      Observable.timer(0, REFRESH).mapTo(
+        new WarningsActions.FetchSectionAction(payload)
+      )
+    );
+
+  @Effect()
+  fetchSectionWarnings$: Observable<Action> = this._actions$
+    .ofType(WarningsActions.FETCH_SECTION)
+    .map(toPayload)
+    .do(payload =>
+      console.log(
+        "[Warnings] Fetch Section",
+        payload.section,
+        " \n",
+        new Date()
+      )
+    )
     .mergeMap(payload => {
       if (<SectionType>payload.section === "FloodLandslide") {
         return Observable.from([
-          new WarningsActions.FetchAction({
+          new WarningsActions.FetchWarningTypeAction({
             warningType: "Flood"
           }),
-          new WarningsActions.FetchAction({
+          new WarningsActions.FetchWarningTypeAction({
             warningType: "Landslide"
           })
         ]);
       } else if (<SectionType>payload.section === "Avalanche") {
         return Observable.from([
-          new WarningsActions.FetchAction({
+          new WarningsActions.FetchWarningTypeAction({
             warningType: "Avalanche"
           })
         ]);
@@ -55,26 +66,8 @@ export class WarningsEffects {
     });
 
   @Effect()
-  fetchAllWarnings$: Observable<Action> = this._actions$
-    .ofType(WarningsActions.FETCH_ALL)
-    .do(payload => console.log("[Warnings] Fetch All \n", new Date()))
-    .mergeMap(() => {
-      return Observable.from([
-        new WarningsActions.FetchAction({
-          warningType: "Flood"
-        }),
-        new WarningsActions.FetchAction({
-          warningType: "Landslide"
-        }),
-        new WarningsActions.FetchAction({
-          warningType: "Avalanche"
-        })
-      ]);
-    });
-
-  @Effect()
   fetchWarnings$: Observable<Action> = this._actions$
-    .ofType(WarningsActions.FETCH)
+    .ofType(WarningsActions.FETCH_WARNING_TYPE)
     .map(toPayload)
     .do(payload =>
       console.log("[Warnings] Fetch", payload.warningType, " \n", new Date())

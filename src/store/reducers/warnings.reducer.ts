@@ -40,7 +40,7 @@ export function reducer(
   action: WarningsActions.All
 ): State {
   if (
-    action.type === WarningsActions.FETCH_ALL ||
+    action.type === WarningsActions.FETCH_SECTION ||
     !action.payload ||
     !action.payload.warningType
   ) {
@@ -55,7 +55,7 @@ export function reducer(
   let error = { ...state.error };
 
   switch (action.type) {
-    case WarningsActions.FETCH:
+    case WarningsActions.FETCH_WARNING_TYPE:
       fetching[warningType] = true;
 
       if (!isAvalanche) {
