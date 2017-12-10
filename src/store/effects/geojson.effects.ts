@@ -1,21 +1,17 @@
 import { Injectable } from "@angular/core";
-import { Action, Store } from "@ngrx/store";
+import { Action } from "@ngrx/store";
 import { Actions, toPayload, Effect } from "@ngrx/effects";
 import { Observable } from "rxjs/Observable";
 import * as geojsonActions from "./../actions/geojson.actions";
 import * as UISectionsActions from "./../actions/ui-sections.actions";
 import { GeojsonService } from "../services/geojson.service";
 import { of } from "rxjs/observable/of";
-import { Platform } from "ionic-angular";
-import * as fromRoot from "./../../store/reducers";
 
 @Injectable()
 export class GeojsonEffects {
   constructor(
     private _actions$: Actions,
-    private _geojsonService: GeojsonService,
-    private _platform: Platform,
-    private _store: Store<fromRoot.State>
+    private _geojsonService: GeojsonService
   ) {}
 
   @Effect()

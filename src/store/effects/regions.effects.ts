@@ -1,25 +1,17 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
-import { Platform } from "ionic-angular";
 import { of } from "rxjs/observable/of";
 import { Effect, Actions, toPayload } from "@ngrx/effects";
-import { Action, Store } from "@ngrx/store";
+import { Action } from "@ngrx/store";
 
-import * as fromRoot from "./../../store/reducers";
 import * as regionsActions from "./../actions/regions.actions";
 import * as UISectionsActions from "./../actions/ui-sections.actions";
 
 import { DataService } from "../services/data.service";
-import { SectionType } from "../models/Section";
 
 @Injectable()
 export class RegionsEffects {
-  constructor(
-    private _actions$: Actions,
-    private _dataService: DataService,
-    private _platform: Platform,
-    private _store: Store<fromRoot.State>
-  ) {}
+  constructor(private _actions$: Actions, private _dataService: DataService) {}
 
   @Effect()
   refreshSection$: Observable<Action> = this._actions$
