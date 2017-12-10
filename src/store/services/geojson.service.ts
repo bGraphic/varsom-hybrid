@@ -8,8 +8,9 @@ import { RegionImportance } from "../models/Region";
 @Injectable()
 export class GeojsonService {
   private API_GEOJSON_PATHS: { [k in SectionType]?: string } = {
-    Avalanche: "/assets/geojson/regions.geojson",
-    FloodLandslide: "/assets/geojson/counties.geojson"
+    // Must be relative otherwise it will not work on Android
+    Avalanche: "assets/geojson/regions.geojson",
+    FloodLandslide: "assets/geojson/counties.geojson"
   };
 
   constructor(private _http: Http) {}
