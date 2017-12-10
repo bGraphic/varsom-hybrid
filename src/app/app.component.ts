@@ -70,12 +70,6 @@ export class MyApp {
       this._splashScreen.hide();
     });
 
-    // this.selectedSection$.subscribe(section => {
-    //   this._store.dispatch(
-    //     new UISectionActions.RefreshSection({ section: section })
-    //   );
-    // });
-
     this.externalLinks$ = this._translateService.get("MENU.EXTERNAL.ITEMS");
     this.contactLinks$ = this._translateService.get("MENU.CONTACT_INFO.ITEMS");
     this.logoLinks$ = this._translateService

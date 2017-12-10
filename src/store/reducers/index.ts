@@ -237,7 +237,6 @@ const getAllTimestamp = createSelector(
   getWarningState,
   fromWarnings.getAllTimestamp
 );
-
 const getSegmentTimestamp = createSelector(
   getAllTimestamp,
   getSelectedSegment,

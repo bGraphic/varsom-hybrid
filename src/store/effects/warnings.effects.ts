@@ -2,7 +2,8 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
 import { of } from "rxjs/observable/of";
 import { Effect, Actions, toPayload } from "@ngrx/effects";
-import { Action } from "@ngrx/store";
+import { Action, Store } from "@ngrx/store";
+import { Platform } from "ionic-angular";
 
 import * as WarningsActions from "./../actions/warnings.actions";
 import * as UISectionsActions from "./../actions/ui-sections.actions";
