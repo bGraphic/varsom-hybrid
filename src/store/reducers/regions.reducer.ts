@@ -23,8 +23,6 @@ const counties: Region[] = Array(20).fill(<Region>{
   importance: RegionImportance.A
 });
 
-console.log(counties);
-
 const initialState: State = {
   regions: {
     Avalanche: regions,
