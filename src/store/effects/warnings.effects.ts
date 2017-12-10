@@ -5,33 +5,13 @@ import { Effect, Actions, toPayload } from "@ngrx/effects";
 import { Action } from "@ngrx/store";
 
 import * as WarningsActions from "./../actions/warnings.actions";
-import * as UISectionsActions from "./../actions/ui-sections.actions";
 
 import { DataService } from "../services/data.service";
 import { SectionType } from "../models/Section";
-import { REFRESH } from "../../config/config";
 
 @Injectable()
 export class WarningsEffects {
   constructor(private _actions$: Actions, private _dataService: DataService) {}
-
-  @Effect()
-  refreshSection$: Observable<Action> = this._actions$
-    .ofType(UISectionsActions.REFRESH_SECTION, UISectionsActions.SELECT_SECTION)
-    .map(toPayload)
-    .do(payload =>
-      console.log(
-        "[Warnings] Refresh Section",
-        payload.section,
-        " \n",
-        new Date()
-      )
-    )
-    .switchMap(payload =>
-      Observable.timer(0, REFRESH).mapTo(
-        new WarningsActions.FetchSectionAction(payload)
-      )
-    );
 
   @Effect()
   fetchSectionWarnings$: Observable<Action> = this._actions$

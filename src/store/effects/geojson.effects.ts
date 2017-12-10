@@ -2,10 +2,10 @@ import { Injectable } from "@angular/core";
 import { Action } from "@ngrx/store";
 import { Actions, toPayload, Effect } from "@ngrx/effects";
 import { Observable } from "rxjs/Observable";
-import * as geojsonActions from "./../actions/geojson.actions";
-import * as UISectionsActions from "./../actions/ui-sections.actions";
 import { GeojsonService } from "../services/geojson.service";
 import { of } from "rxjs/observable/of";
+
+import * as GeojsonActions from "./../actions/geojson.actions";
 
 @Injectable()
 export class GeojsonEffects {
@@ -15,33 +15,15 @@ export class GeojsonEffects {
   ) {}
 
   @Effect()
-  refreshSection$: Observable<Action> = this._actions$
-    .ofType(UISectionsActions.REFRESH_SECTION, UISectionsActions.SELECT_SECTION)
-    .map(toPayload)
-    .do(payload =>
-      console.log(
-        "[Geojson] Refresh Section",
-        payload.section,
-        " \n",
-        new Date()
-      )
-    )
-    .map(payload => {
-      return new geojsonActions.FetchAction({
-        sectionType: payload.section
-      });
-    });
-
-  @Effect()
   fetchRegions$: Observable<Action> = this._actions$
-    .ofType(geojsonActions.FETCH_ALL)
+    .ofType(GeojsonActions.FETCH_ALL)
     .do(payload => console.log("[Geojson] Fetch All \n", new Date()))
     .mergeMap(() => {
       return Observable.from([
-        new geojsonActions.FetchAction({
+        new GeojsonActions.FetchAction({
           sectionType: "FloodLandslide"
         }),
-        new geojsonActions.FetchAction({
+        new GeojsonActions.FetchAction({
           sectionType: "Avalanche"
         })
       ]);
@@ -49,7 +31,7 @@ export class GeojsonEffects {
 
   @Effect()
   fetchGeojsonObjects$: Observable<Action> = this._actions$
-    .ofType(geojsonActions.FETCH)
+    .ofType(GeojsonActions.FETCH)
     .map(toPayload)
     .do(payload =>
       console.log("[Geosjon] Fetch \n", payload.sectionType, new Date())
@@ -60,14 +42,14 @@ export class GeojsonEffects {
       return group$
         .switchMap(payload => this._geojsonService.fetchGeojson(group$.key))
         .map(features => {
-          return new geojsonActions.FetchCompleteAction({
+          return new GeojsonActions.FetchCompleteAction({
             sectionType: group$.key,
             features
           });
         })
         .catch(error => {
           return of(
-            new geojsonActions.FetchErrorAction({
+            new GeojsonActions.FetchErrorAction({
               sectionType: group$.key,
               error: error
             })
