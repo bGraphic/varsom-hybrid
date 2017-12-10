@@ -9,8 +9,7 @@ import * as UISectionsActions from "./../actions/ui-sections.actions";
 
 import { DataService } from "../services/data.service";
 import { SectionType } from "../models/Section";
-
-const REFRESH = 30000; // 30 seconds
+import { REFRESH } from "../../config/config";
 
 @Injectable()
 export class WarningsEffects {
