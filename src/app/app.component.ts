@@ -15,6 +15,12 @@ import * as UISectionActions from "./../store/actions/ui-sections.actions";
 import { OverviewPage } from "../pages/overview/overview";
 import { SectionType } from "../store/models/Section";
 
+interface ExternalLink {
+  url: string;
+  label?: string;
+  description?: string;
+}
+
 @Component({
   templateUrl: "app.html"
 })
@@ -23,16 +29,8 @@ export class MyApp {
   rootPage: any;
   sections$: Observable<SectionType[]>;
   selectedSection$: Observable<SectionType>;
-  externalLinks$: Observable<{
-    url: string;
-    label: string;
-    description: string;
-  }>;
-  contactLinks$: Observable<{
-    url: string;
-    label: string;
-    description: string;
-  }>;
+  externalLinks$: Observable<ExternalLink[]>;
+  contactLinks$: Observable<ExternalLink[]>;
   logoLinks$: Observable<
     {
       header: string;

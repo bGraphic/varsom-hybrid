@@ -50,6 +50,12 @@
       "HEADER": "Lenker til varsom.no",
       "ITEMS": [
         {
+          "url": "https://abonner.varsom.no/",
+          "label": "Abonner på naturfarevarsler",
+          "description":
+            "Få beskjed på sms og/eller epost om varslingsendringer ved å sette opp et skreddersydd abbonement."
+        },
+        {
           "url": "http://www.varsom.no/isvarsling/",
           "label": "Isvarsling",
           "description": "Beskrivelse av isforholdene i hele landet."
