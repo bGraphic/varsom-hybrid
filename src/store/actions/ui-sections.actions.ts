@@ -4,6 +4,7 @@ import { SectionType } from "../models/Section";
 
 export const SELECT_SECTION = "[UI Sections] Selected Section";
 export const SELECT_SEGMENT = "[UI Sections] Select Segment";
+export const REFRESH_SECTION = "[UI Sections] Refresh Section";
 
 export class SelectSection implements Action {
   readonly type = SELECT_SECTION;
@@ -15,4 +16,9 @@ export class SelectSegment implements Action {
   constructor(public payload: { segment: WarningType }) {}
 }
 
-export type All = SelectSection | SelectSegment;
+export class RefreshSection implements Action {
+  readonly type = REFRESH_SECTION;
+  constructor(public payload: { section: SectionType }) {}
+}
+
+export type All = SelectSection | SelectSegment | RefreshSection;

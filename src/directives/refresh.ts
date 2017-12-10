@@ -1,9 +1,8 @@
-import { Directive, Output, HostListener } from "@angular/core";
-import { Subscription } from "rxjs";
+import { Directive, HostListener } from "@angular/core";
 import { Store } from "@ngrx/store";
 
 import * as fromRoot from "./../store/reducers";
-import * as WarningsActions from "./../store/actions/warnings.actions";
+import * as UISectionActions from "./../store/actions/ui-sections.actions";
 import { Observable } from "rxjs/Observable";
 import { SectionType } from "../store/models/Section";
 
@@ -19,18 +18,9 @@ export class RefreshDirective {
   @HostListener("ionRefresh", ["$event"])
   doRefresh(refresher) {
     this._section$.first().subscribe(section => {
-      if (section === "Avalanche") {
-        this._store.dispatch(
-          new WarningsActions.FetchAction({ warningType: "Avalanche" })
-        );
-      } else {
-        this._store.dispatch(
-          new WarningsActions.FetchAction({ warningType: "Flood" })
-        );
-        this._store.dispatch(
-          new WarningsActions.FetchAction({ warningType: "Landslide" })
-        );
-      }
+      this._store.dispatch(
+        new UISectionActions.RefreshSection({ section: section })
+      );
 
       this._fetching$
         // Also react to section changes

@@ -143,5 +143,17 @@
     "FLOOD": "Flom",
     "LANDSLIDE": "Jordskred",
     "AVALANCHE": "Snøskred"
+  },
+  "ERROR_ALERT": {
+    "WARNINGS": {
+      "FLOOD": "Henting av flomvarsler feilet.",
+      "LANDSLIDE": "Henting av jordskredvarsler feilet.",
+      "AVALANCHE": "Henting av snøkredvarsler feilet."
+    },
+    "REGIONS": {
+      "FLOODLANDSLIDE": "Henting av fylker feilet.",
+      "AVALANCHE": "Henting av snøskredsregioner feilet."
+    },
+    "TIMEAGO": " Sist hentet for {{ timeago }}."
   }
 }

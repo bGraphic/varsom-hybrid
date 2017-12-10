@@ -11,8 +11,6 @@ import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import * as fromRoot from "./../store/reducers";
 import * as UISectionActions from "./../store/actions/ui-sections.actions";
-import * as WarningsActions from "./../store/actions/warnings.actions";
-import * as RegionsActions from "./../store/actions/regions.actions";
 
 import { OverviewPage } from "../pages/overview/overview";
 import { SectionType } from "../store/models/Section";
@@ -55,11 +53,22 @@ export class MyApp {
     this._translateService.use("no_nb");
     moment.locale("nb");
 
-    this.initializeApp();
-    // this.initializeData();
+    this.platform.ready().then(() => {
+      this._statusBar.styleDefault();
+      this._translateService.get("BACK").subscribe((res: string) => {
+        this._config.set("ios", "backButtonText", res);
+      });
+    });
 
     this.sections$ = this._store.select(fromRoot.getSections);
-    this.selectedSection$ = this._store.select(fromRoot.getSelectedSection);
+    this.selectedSection$ = this._store
+      .select(fromRoot.getSelectedSection)
+      .filter(section => !!section);
+
+    this.selectedSection$.first().subscribe(section => {
+      this.rootPage = OverviewPage;
+      this._splashScreen.hide();
+    });
 
     this.externalLinks$ = this._translateService.get("MENU.EXTERNAL.ITEMS");
     this.contactLinks$ = this._translateService.get("MENU.CONTACT_INFO.ITEMS");
@@ -74,41 +83,6 @@ export class MyApp {
           return logos;
         }, []);
       });
-
-    this.selectedSection$
-      .filter(section => !!section)
-      .first()
-      .subscribe(section => {
-        this.rootPage = OverviewPage;
-        this._splashScreen.hide();
-      });
-  }
-
-  private initializeApp() {
-    this.platform.ready().then(() => {
-      this._statusBar.styleDefault();
-      this._translateService.get("BACK").subscribe((res: string) => {
-        this._config.set("ios", "backButtonText", res);
-      });
-    });
-  }
-
-  private initializeData() {
-    this._store.dispatch(
-      new RegionsActions.FetchAction({ sectionType: "Avalanche" })
-    );
-    this._store.dispatch(
-      new RegionsActions.FetchAction({ sectionType: "FloodLandslide" })
-    );
-    this._store.dispatch(
-      new WarningsActions.FetchAction({ warningType: "Avalanche" })
-    );
-    this._store.dispatch(
-      new WarningsActions.FetchAction({ warningType: "Flood" })
-    );
-    this._store.dispatch(
-      new WarningsActions.FetchAction({ warningType: "Landslide" })
-    );
   }
 
   selectSection(section: SectionType) {

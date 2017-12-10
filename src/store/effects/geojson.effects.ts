@@ -1,30 +1,41 @@
 import { Injectable } from "@angular/core";
-import { Action, Store } from "@ngrx/store";
+import { Action } from "@ngrx/store";
 import { Actions, toPayload, Effect } from "@ngrx/effects";
 import { Observable } from "rxjs/Observable";
-import * as regionsActions from "./../actions/regions.actions";
 import * as geojsonActions from "./../actions/geojson.actions";
+import * as UISectionsActions from "./../actions/ui-sections.actions";
 import { GeojsonService } from "../services/geojson.service";
 import { of } from "rxjs/observable/of";
-import { Platform } from "ionic-angular";
-import * as fromRoot from "./../../store/reducers";
 
 @Injectable()
 export class GeojsonEffects {
   constructor(
     private _actions$: Actions,
-    private _geojsonService: GeojsonService,
-    private _platform: Platform,
-    private _store: Store<fromRoot.State>
-  ) {
-    this._platform.ready().then(() => {
-      this._store.dispatch(new geojsonActions.FetchAllAction());
+    private _geojsonService: GeojsonService
+  ) {}
+
+  @Effect()
+  refreshSection$: Observable<Action> = this._actions$
+    .ofType(UISectionsActions.REFRESH_SECTION, UISectionsActions.SELECT_SECTION)
+    .map(toPayload)
+    .do(payload =>
+      console.log(
+        "[Geojson] Refresh Section",
+        payload.section,
+        " \n",
+        new Date()
+      )
+    )
+    .map(payload => {
+      return new geojsonActions.FetchAction({
+        sectionType: payload.section
+      });
     });
-  }
 
   @Effect()
   fetchRegions$: Observable<Action> = this._actions$
     .ofType(geojsonActions.FETCH_ALL)
+    .do(payload => console.log("[Geojson] Fetch All \n", new Date()))
     .mergeMap(() => {
       return Observable.from([
         new geojsonActions.FetchAction({

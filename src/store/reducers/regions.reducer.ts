@@ -1,5 +1,5 @@
 import * as RegionsActions from "../actions/regions.actions";
-import { Region } from "../models/Region";
+import { Region, RegionImportance } from "../models/Region";
 import { SectionType } from "../models/Section";
 
 export interface State {
@@ -9,10 +9,24 @@ export interface State {
   error: { [k in SectionType]?: any | null };
 }
 
+const regions: Region[] = Array(20).fill(<Region>{
+  name: "",
+  id: "0000",
+  type: "AvalancheRegion",
+  importance: RegionImportance.A
+});
+
+const counties: Region[] = Array(20).fill(<Region>{
+  name: "",
+  id: "00",
+  type: "County",
+  importance: RegionImportance.A
+});
+
 const initialState: State = {
   regions: {
-    Avalanche: [],
-    FloodLandslide: []
+    Avalanche: regions,
+    FloodLandslide: counties
   },
   fetching: {
     Avalanche: false,
@@ -82,5 +96,5 @@ export function reducer(
 }
 
 export const getAll = (state: State) => state.regions;
-export const getFetching = (state: State) => state.fetching;
-export const getTimestamp = (state: State) => state.timestamp;
+export const getAllFetching = (state: State) => state.fetching;
+export const getAllTimestamp = (state: State) => state.timestamp;
