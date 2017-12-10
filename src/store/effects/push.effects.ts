@@ -2,12 +2,13 @@ import { Injectable } from "@angular/core";
 import { Action, Store } from "@ngrx/store";
 import { Actions, toPayload, Effect } from "@ngrx/effects";
 import { Observable } from "rxjs/Observable";
-import { Push } from "@ionic/cloud-angular";
 import { DataService } from "../services/data.service";
 
 import * as fromRoot from "./../../store/reducers";
 import * as PushActions from "./../actions/push.actions";
 import * as FavoritesActions from "./../actions/favorites.actions";
+import { Push, PushToken } from "@ionic/cloud-angular";
+import { Platform } from "ionic-angular";
 
 @Injectable()
 export class PushEffects {
@@ -15,22 +16,30 @@ export class PushEffects {
     private _actions$: Actions,
     private _push: Push,
     private _store: Store<fromRoot.State>,
-    private _dataService: DataService
-  ) {}
-
-  @Effect()
-  register$: Observable<Action> = this._actions$
-    .ofType(PushActions.REGISTER)
-    .startWith(new PushActions.RegisterAction())
-    .switchMapTo(
-      Observable.from(this._push.register())
-        .map(token => {
-          return new PushActions.RegistrationSuceededAction(token);
+    private _dataService: DataService,
+    private _platform: Platform
+  ) {
+    this._platform.ready().then(() => {
+      this._push
+        .register()
+        .then((t: PushToken) => {
+          return this._push.saveToken(t);
+        })
+        .then((t: PushToken) => {
+          this._store.dispatch(new PushActions.RegistrationSuceededAction(t));
         })
         .catch(error => {
-          return Observable.of(new PushActions.ErrorAction(error));
-        })
-    );
+          this._store.dispatch(new PushActions.ErrorAction(error));
+        });
+    });
+  }
+
+  @Effect({ dispatch: false })
+  registerSucess$: Observable<Action> = this._actions$
+    .ofType(PushActions.REGISTER_SUCESS)
+    .map(toPayload)
+    .do(token => console.log("[Push] Registration sucess", token))
+    .mapTo(null);
 
   @Effect()
   subscribe$: Observable<Action> = this._actions$
@@ -104,14 +113,6 @@ export class PushEffects {
       });
     })
     .mergeAll();
-
-  @Effect({ dispatch: false })
-  registerSucess$: Observable<Action> = this._actions$
-    .ofType(PushActions.REGISTER_SUCESS)
-    .map(toPayload)
-    .switchMap(token =>
-      Observable.from(this._push.saveToken(token)).mapTo(null)
-    );
 
   @Effect({ dispatch: false })
   error$: Observable<Action> = this._actions$
