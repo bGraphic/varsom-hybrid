@@ -1,6 +1,5 @@
 // http://ionicframework.com/docs/v2/theming/
 
-
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -22,7 +21,11 @@ ion-label p {
 }
 
 .bar-button.active {
-  color: #{map-get($colors, 'secondary')};
+  color: #{map-get($colors, "secondary")};
+}
+
+.item-block {
+  border-radius: 0;
 }
 
 // NVE globals
@@ -37,7 +40,6 @@ $warning-icon-size: 40px;
 }
 
 .logos {
-
   color: white;
   text-align: center;
   margin-top: 6rem;
@@ -77,7 +79,6 @@ $warning-icon-size: 40px;
 }
 
 .nve-avalanche-rose {
-
   width: 200px;
   height: 100px;
 
@@ -114,21 +115,19 @@ $warning-icon-size: 40px;
     stroke: #69797a;
     fill: #69797a;
   }
-
 }
 
 nve-warning-badge ion-badge {
   height: $warning-badge-size;
   width: $warning-badge-size;
   line-height: $warning-badge-size;
-  color: #FFF !important;
+  color: #fff !important;
   font-weight: bold;
   font-size: 1.7rem;
   padding: 0;
 }
 
 .nve-menu {
-
   button .label {
     padding-top: 0.5em;
     padding-bottom: 0.5em;
@@ -139,7 +138,7 @@ nve-warning-badge ion-badge {
     width: $warning-icon-size;
     line-height: $warning-badge-size !important;
     border-radius: 50%;
-    border: 1px solid #{map-get($colors, 'light')};
+    border: 1px solid #{map-get($colors, "light")};
     text-align: center;
   }
 
@@ -150,11 +149,12 @@ nve-warning-badge ion-badge {
   .active,
   .activated {
     .nve-menu-icon {
-      border-color: #{map-get($colors, 'secondary')};
+      border-color: #{map-get($colors, "secondary")};
     }
   }
 
-  h3, p {
+  h3,
+  p {
     white-space: normal;
   }
 
