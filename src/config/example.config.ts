@@ -48,7 +48,3 @@ export const ionicCloud = {
     }
   }
 };
-
-export const store = {
-  storeFreeze: true
-};
