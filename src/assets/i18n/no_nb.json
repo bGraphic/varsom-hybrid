@@ -32,6 +32,7 @@
   "AVAL_TRIGGER_SIMPLE": "Utløsningsårsak",
   "AVAL_PROPAGATION": "Utbredelse",
   "AVAL_PROBABILITY": "Sannsynlighet",
+  "SNOW_SURFACE": "Snødekkehistorikk",
   "UPDATE": {
     "TITLE": "Ny versjon tilgjengelig",
     "MESSAGE": {
