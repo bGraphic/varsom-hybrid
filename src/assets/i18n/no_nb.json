@@ -25,7 +25,7 @@
   "DANGER_LEVEL": "Faregrad",
   "AVALANCHE_DANGER": "Skredfarevurdering",
   "AVALANCHE_WARNING": "Snødekkevurdering",
-  "ALPINE_WEATHER": "Fjellvær",
+  "MOUNTAIN_WEATHER": "Fjellvær",
   "AVALANCHE_PROBLEMS": "Skredproblem(er)",
   "AVALANCHE_TYPE": "Skredtype",
   "DESTRUCTIVE_SIZE_EXT": "Skredstørrelse",
