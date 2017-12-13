@@ -47,7 +47,8 @@ export class OverviewPage {
   ngOnInit() {
     this.isMapFullscreen$ = this._store
       .select(fromRoot.getMapSettings)
-      .map(mapSetting => mapSetting.isFullscreen);
+      .map(mapSetting => mapSetting.isFullscreen)
+      .distinctUntilChanged();
 
     this.segments$ = this._store.select(fromRoot.getSegments);
 
@@ -55,32 +56,43 @@ export class OverviewPage {
 
     this.region$ = this._store.select(fromRoot.getRegion(this.regionId));
 
-    this.section$ = this._store.select(fromRoot.getSelectedSection);
+    this.section$ = this._store
+      .select(fromRoot.getSelectedSection)
+      .distinctUntilChanged();
 
     this.fetching$ = this._store.select(fromRoot.getSectionFetching);
+  }
+
+  ionViewDidEnter() {
+    if (!this.hasMap) return;
 
     this._resizeSubscription = Observable.combineLatest(
       this.section$,
       this.isMapFullscreen$
     ).subscribe(([section, isFullscreen]) => {
-      if (this.content) {
-        this.content.resize();
-        this.content.scrollToTop();
-      }
+      this.content.resize();
+      this.content.scrollToTop();
 
-      const contentTop = section === "Avalanche" ? 55 : 111; // this.content.contentTop;
-
-      if (isFullscreen) {
-        this.mapOffset = -contentTop;
-      } else {
-        const height = contentTop + this.content.contentHeight;
-        this.mapOffset = -(height * 0.15 + height * 0.35 / 2); // - this.content.contentTop);
-      }
+      // Hack to make it happen after resize is done
+      setTimeout(() => {
+        this.calculateOffset(section, isFullscreen);
+      }, 0);
     });
   }
 
-  ngOnDestroy() {
-    this._resizeSubscription.unsubscribe();
+  calculateOffset(section: SectionType, isFullscreen: boolean) {
+    if (isFullscreen) {
+      this.mapOffset = -this.content.contentTop;
+    } else {
+      const height = this.content.contentTop + this.content.contentHeight;
+      this.mapOffset = -(height * 0.15 + height * 0.35 / 2);
+    }
+  }
+
+  ionViewWillLeave() {
+    if (this.hasMap) {
+      this._resizeSubscription.unsubscribe();
+    }
   }
 
   title(region: Region, sectionType: SectionType) {
