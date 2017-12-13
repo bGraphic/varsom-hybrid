@@ -1,5 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { Warning, WarningType } from "../../store/models/Warning";
+import { TranslateService } from "@ngx-translate/core";
 
 enum Type {
   RainFall = 10,
@@ -38,6 +39,8 @@ export class MountainWeather {
   @Input() weather: Weather;
   measurmentTypeIds: number[];
 
+  constructor(private _translateService: TranslateService) {}
+
   ngOnChanges() {
     console.log(this.weather.MeasurementTypes);
     this.measurmentTypeIds = this.weather.MeasurementTypes.filter(
@@ -52,9 +55,14 @@ export class MountainWeather {
   }
 
   transformToString(id: number): string {
-    let { label, description } = stringFactory[id](
+    const { labelKey, descriptionKey, descriptionValues } = stringFactory[id](
       this.weather.MeasurementTypes
     );
+
+    const label = labelKey ? this._translateService.instant(labelKey) : "";
+    const description = descriptionKey
+      ? this._translateService.instant(descriptionKey, descriptionValues)
+      : "";
 
     return `${label}: ${description}`;
   }
@@ -63,42 +71,46 @@ export class MountainWeather {
 const stringFactory = {
   [Type.RainFall]: (
     measurementTypes: MeasurementType[]
-  ): { label: string; description: string } => {
+  ): { labelKey: string; descriptionKey: string; descriptionValues: any } => {
     const type = findType(measurementTypes, Type.RainFall);
     const from = parseInt(subTypeValue(type, SubType.RainFallFrom));
     const to = parseInt(subTypeValue(type, SubType.RainFallTo));
-    let desc = `${from} mm i døgnet, opp mot ${to} mm i mest utsatt område`;
+    let key = "RAINFALL.LONG";
 
     if (from === 0 && to === 0) {
-      desc = `0 mm i døgnet`;
+      key = "RAINFALL.NONE";
     } else if (to - from < 5) {
-      desc = `${from} - ${to} mm i døgnet`;
+      key = "RAINFALL.SHORT";
     }
 
     return {
-      label: type.Name,
-      description: desc
+      labelKey: type.Name,
+      descriptionKey: key,
+      descriptionValues: { from, to }
     };
   },
   [Type.Wind]: (measurementTypes: MeasurementType[]) => {
     const type = findType(measurementTypes, Type.Wind);
     return {
-      label: type.Name,
-      description: ""
+      labelKey: type.Name,
+      descriptionKey: null,
+      descriptionValues: {}
     };
   },
   [Type.Temperature]: (measurementTypes: MeasurementType[]) => {
     const type = findType(measurementTypes, Type.Temperature);
     return {
-      label: type.Name,
-      description: ""
+      labelKey: type.Name,
+      descriptionKey: null,
+      descriptionValues: {}
     };
   },
   [Type.ZeroIsoterm]: (measurementTypes: MeasurementType[]) => {
     const type = findType(measurementTypes, Type.ZeroIsoterm);
     return {
-      label: type.Name,
-      description: ""
+      labelKey: type.Name,
+      descriptionKey: null,
+      descriptionValues: {}
     };
   }
 };

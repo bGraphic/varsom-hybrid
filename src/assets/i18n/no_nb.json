@@ -33,6 +33,11 @@
   "AVAL_PROPAGATION": "Utbredelse",
   "AVAL_PROBABILITY": "Sannsynlighet",
   "SNOW_SURFACE": "Snødekkehistorikk",
+  "RAINFALL": {
+    "NONE": "0 mm i døgnet",
+    "SHORT": "{{from}} - {{to}} mm i døgnet",
+    "LONG": "{{from}} mm i døgnet, opp mot {{to}} mm i mest utsatt område"
+  },
   "UPDATE": {
     "TITLE": "Ny versjon tilgjengelig",
     "MESSAGE": {
