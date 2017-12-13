@@ -31,10 +31,13 @@
 
   <ion-item *ngFor="let problem of warning.meta.AvalancheProblems">
     <h2>{{ problem.AvalancheProblemTypeName }}</h2>
-    <p [innerHTML]="problem.AvalCauseName"></p>
+    <p class="subtitle" [innerHTML]="problem.AvalCauseName"></p>
+    <p [innerHTML]="problem.AvalancheAdvice"></p>
+
     <nve-avalanche-rose [validExpositions]="problem.ValidExpositions" [exposedHeight1]="problem.ExposedHeight1" [exposedHeight2]="problem.ExposedHeight2"
       [exposedHeightFill]="problem.ExposedHeightFill">
     </nve-avalanche-rose>
+
     <p>
       <strong>{{ 'AVALANCHE_TYPE' | translate }}:</strong> {{ problem.AvalancheTypeName}}
       <br/>
@@ -46,8 +49,5 @@
       <br/>
       <strong>{{ 'AVAL_PROBABILITY' | translate }}:</strong> {{ problem.AvalProbabilityName}}
     </p>
-
-    <p [innerHTML]="problem.AvalancheAdvice"></p>
-
   </ion-item>
 </ion-item-group>
