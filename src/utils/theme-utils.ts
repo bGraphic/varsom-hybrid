@@ -17,7 +17,7 @@ export class ThemeUtils {
     if (rating >= 0 && rating < this.RATING_COLORS.length) {
       return this.RATING_COLORS[rating];
     } else {
-      return "transparent";
+      return this.RATING_COLORS[0];
     }
   }
 }

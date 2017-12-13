@@ -1,0 +1,96 @@
+.overview-header {
+  ion-spinner {
+    height: 0.7em;
+  }
+}
+
+.overview-page {
+  .map-controls {
+    top: 0;
+    right: 0;
+    position: absolute;
+    padding: 6px;
+
+    button {
+      background: color($colors, light);
+      display: block;
+      transition: opacity 250ms ease-in-out;
+      opacity: 0;
+      pointer-events: none;
+
+      &.show {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      &.button-ios {
+        margin: 6px;
+        width: 34px;
+      }
+
+      &.button-md {
+        margin: 6px;
+        box-shadow: none;
+        width: 34px;
+      }
+    }
+  }
+
+  .map {
+    transition: top 200ms ease-in-out !important;
+    position: absolute;
+    top: 0;
+    left: -100px;
+    right: -100px;
+    height: 100vh;
+    z-index: -1;
+  }
+
+  .overview-list-offset {
+    pointer-events: none;
+    transition: height 250ms ease-in-out !important;
+    height: 35vh;
+
+    &.fullscreen {
+      height: 100%;
+    }
+  }
+
+  .overview-list {
+    background: $list-background-color;
+    min-height: 100%;
+  }
+
+  ion-list {
+    &.list-ios {
+      .list-header {
+        background: $list-background-color;
+      }
+    }
+
+    .label {
+      p {
+        white-space: normal;
+      }
+    }
+
+    .item-inner {
+      padding-right: 16px !important;
+    }
+
+    ion-list-header ion-note {
+      width: $warning-badge-size;
+      text-align: center;
+      overflow: hidden;
+      font-size: 10px;
+      font-weight: normal;
+      color: $text-color;
+    }
+
+    ion-list-header ion-note,
+    nve-warning-badge {
+      margin-right: 0 !important;
+      margin-left: 8px !important;
+    }
+  }
+}

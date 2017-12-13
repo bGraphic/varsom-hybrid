@@ -1,0 +1,53 @@
+<ion-item-group>
+  <button ion-item (click)="onSelect.emit({ warningType: warningType, warningIndex: warningIndex })">
+    <nve-warning-badge item-right [level]="rating(warning)"></nve-warning-badge>
+    <h2 *ngIf="warningType !== 'Avalanche'">{{ warningType | uppercase | translate }}</h2>
+    <h2 *ngIf="warningType === 'Avalanche' && warning">
+      <span *ngIf="warning.meta.DangerLevelName">Faregrad {{ warning.meta.DangerLevelName }}</span>
+      <span *ngIf="!warning.meta.DangerLevelName">{{ warning.meta.MainText }}</span>
+    </h2>
+
+    <p *ngIf="warningType !== 'Avalanche' && warning && warning.meta.MainText">{{ warning.meta.MainText }}</p>
+    <p *ngIf="warningType === 'Avalanche' && warning && warning.meta.DangerLevelName && warning.meta.MainText">{{ warning.meta.MainText }}</p>
+
+    <p class="meta" *ngIf="warning && warning.meta.CauseList && warning.meta.CauseList.length > 0">
+      <strong>{{ 'CAUSE' | translate }}:</strong>
+      <span *ngFor="let cause of warning.meta.CauseList">{{cause.Name}}</span>
+    </p>
+    <p class="meta" *ngIf="warning && warning.meta.LandSlideTypeList && warning.meta.LandSlideTypeList.length > 0">
+      <strong>{{ 'LANDSLIDE_TYPE' | translate }}:</strong>
+      <span *ngFor="let type of warning.meta.LandSlideTypeList">{{type.Name}}</span>
+    </p>
+    <p class="published" *ngIf="warning">
+      {{ 'PUBLISHED' | translate }}: {{ warning.meta.PublishTime | amDateFormat:'D. MMM [kl.] HH:mm' }}
+    </p>
+  </button>
+</ion-item-group>
+
+<ion-item-group *ngIf="warning && warning.meta.AvalancheProblems && warning.meta.AvalancheProblems.length > 0 ">
+  <ion-item-divider *ngIf="warning.meta.AvalancheProblems">
+    {{ 'AVALANCHE_PROBLEMS' | translate }}
+  </ion-item-divider>
+
+  <ion-item *ngFor="let problem of warning.meta.AvalancheProblems">
+    <h2>{{ problem.AvalancheProblemTypeName }}</h2>
+    <p [innerHTML]="problem.AvalCauseName"></p>
+    <nve-avalanche-rose [validExpositions]="problem.ValidExpositions" [exposedHeight1]="problem.ExposedHeight1" [exposedHeight2]="problem.ExposedHeight2"
+      [exposedHeightFill]="problem.ExposedHeightFill">
+    </nve-avalanche-rose>
+    <p>
+      <strong>{{ 'AVALANCHE_TYPE' | translate }}:</strong> {{ problem.AvalancheTypeName}}
+      <br/>
+      <strong>{{ 'DESTRUCTIVE_SIZE_EXT' | translate }}:</strong> {{ problem.DestructiveSizeExtName}}
+      <br/>
+      <strong>{{ 'AVAL_TRIGGER_SIMPLE' | translate }}:</strong> {{ problem.AvalTriggerSimpleName}}
+      <br/>
+      <strong>{{ 'AVAL_PROPAGATION' | translate }}:</strong> {{ problem.AvalPropagationName}}
+      <br/>
+      <strong>{{ 'AVAL_PROBABILITY' | translate }}:</strong> {{ problem.AvalProbabilityName}}
+    </p>
+
+    <p [innerHTML]="problem.AvalancheAdvice"></p>
+
+  </ion-item>
+</ion-item-group>

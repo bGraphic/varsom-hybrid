@@ -17,32 +17,38 @@ import { EffectsModule } from "@ngrx/effects";
 import { MyApp } from "./app.component";
 import { firebase, ionicCloud } from "./../config/config";
 
-import { FloodLandslideListPage } from "../pages/list/flood-landslide-list";
-import { AvalancheListPage } from "../pages/list/avalanche-list";
-import { AreaDetailsPage } from "../pages/area-details/area-details";
-import { WarningDetailsPage } from "../pages/warning-details/warning-details";
+import { OverviewPage } from "../pages/overview/overview";
+import { OverviewMap } from "../pages/overview/overview-map";
+import { OverviewList } from "../pages/overview/overview-list";
+import { OverviewListSection } from "../pages/overview/overview-list-section";
+import { OverviewSegments } from "../pages/overview/overview-segments";
+import { OverviewMapControls } from "../pages/overview/overview-map-controls";
+import { RegionPage } from "../pages/region/region";
+import { RegionWarning } from "../pages/region/region-warning";
+import { WarningPage } from "../pages/warning/warning";
+import { WarningDetails } from "../pages/warning/warning-details";
 import { WarningBadge } from "../partials/warning-badge";
 
-import { DataService } from "../providers/data";
-import { ForecastService } from "../providers/forecasts";
-import { FavoriteService } from "../providers/favorites";
-import { PushService } from "../providers/push";
-import { SettingService } from "../providers/settings";
-import { AppVersionService } from "../providers/app-version";
-import { GeoJsonService } from "../providers/geojson";
-import { StorageService } from "../providers/storage";
+import { DataService } from "../store/services/data.service";
+import { GeojsonService } from "../store/services/geojson.service";
 
 import { reducer } from "./../store/reducers";
+import { AppVersionsEffects } from "../store/effects/app-versions.effects";
 import { LocationEffects } from "./../store/effects/location.effects";
-
-import {
-  FilterForecastsPipe,
-  FavoriteForecastsPipe,
-  ForecastsTimeframePipe
-} from "../pipes/forecasts";
+import { LocalStorageEffects } from "../store/effects/localstorage.effects";
+import { WarningsEffects } from "./../store/effects/warnings.effects";
+import { RegionsEffects } from "../store/effects/regions.effects";
+import { GeojsonEffects } from "../store/effects/geojson.effects";
+import { PushEffects } from "../store/effects/push.effects";
+import { UIUpdateAlertEffects } from "../store/effects/ui-update-alert.effects";
+import { UIPushAlertsEffects } from "../store/effects/ui-push-alerts.effects";
+import { UIErrorAlertsEffects } from "../store/effects/ui-error-alerts.effects";
+import { UISubscriptionAlertsEffects } from "../store/effects/ui-subscription-alerts.effects";
+import { UISectionsEffects } from "../store/effects/ui-sections.effects";
 
 import { MapDirective } from "../directives/map";
 import { FavoriteDirective } from "../directives/favorite";
+import { RefreshDirective } from "../directives/refresh";
 import { AvalancheRose } from "../partials/avalanche-rose";
 
 import { AppVersion } from "@ionic-native/app-version";
@@ -59,17 +65,21 @@ export function createTranslateLoader(http: Http) {
 @NgModule({
   declarations: [
     MyApp,
-    FloodLandslideListPage,
-    AvalancheListPage,
-    AreaDetailsPage,
-    WarningDetailsPage,
+    OverviewPage,
+    OverviewMap,
+    OverviewMapControls,
+    OverviewSegments,
+    OverviewList,
+    OverviewListSection,
+    RegionPage,
+    RegionWarning,
+    WarningPage,
+    WarningDetails,
     WarningBadge,
     MapDirective,
     AvalancheRose,
     FavoriteDirective,
-    FilterForecastsPipe,
-    FavoriteForecastsPipe,
-    ForecastsTimeframePipe
+    RefreshDirective
   ],
   imports: [
     BrowserModule,
@@ -77,7 +87,18 @@ export function createTranslateLoader(http: Http) {
     CloudModule.forRoot(ionicCloud),
     IonicStorageModule.forRoot(),
     StoreModule.provideStore(reducer),
+    EffectsModule.run(GeojsonEffects),
+    EffectsModule.run(RegionsEffects),
+    EffectsModule.run(WarningsEffects),
     EffectsModule.run(LocationEffects),
+    EffectsModule.run(LocalStorageEffects),
+    EffectsModule.run(AppVersionsEffects),
+    EffectsModule.run(UIUpdateAlertEffects),
+    EffectsModule.run(PushEffects),
+    EffectsModule.run(UIPushAlertsEffects),
+    EffectsModule.run(UIErrorAlertsEffects),
+    EffectsModule.run(UISubscriptionAlertsEffects),
+    EffectsModule.run(UISectionsEffects),
     HttpModule,
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     AngularFireModule.initializeApp(firebase),
@@ -92,13 +113,7 @@ export function createTranslateLoader(http: Http) {
     MomentModule
   ],
   bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
-    FloodLandslideListPage,
-    AvalancheListPage,
-    AreaDetailsPage,
-    WarningDetailsPage
-  ],
+  entryComponents: [MyApp, OverviewPage, RegionPage, WarningPage],
   providers: [
     AppVersion,
     Diagnostic,
@@ -106,15 +121,8 @@ export function createTranslateLoader(http: Http) {
     InAppBrowser,
     SplashScreen,
     StatusBar,
-    Geolocation,
-    ForecastService,
     DataService,
-    SettingService,
-    FavoriteService,
-    PushService,
-    AppVersionService,
-    GeoJsonService,
-    StorageService,
+    GeojsonService,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })

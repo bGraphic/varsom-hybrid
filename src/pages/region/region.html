@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar color="light">
+    <ion-title>{{ title(region$ | async) }}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only [nveFavorite]="regionId">
+        <ion-icon name="star"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content class="region-page">
+
+  <ion-refresher nveRefresher>
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list *ngFor="let warningIndex of [0,1,2]">
+
+    <ion-list-header>
+      {{ listHeader((warnings$ | async), warningIndex) | amDateFormat:'dddd D. MMMM' | uppercase }}
+    </ion-list-header>
+
+    <region-warning *ngFor="let warningType of warningTypes(region$ | async)" [warningType]="warningType" [warningIndex]="warningIndex"
+      [warnings]="warnings$ | async" (onSelect)="onWarningSelect($event)">
+
+    </region-warning>
+
+  </ion-list>
+</ion-content>

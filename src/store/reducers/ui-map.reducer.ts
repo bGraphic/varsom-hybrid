@@ -9,29 +9,20 @@ const DEFAULT_POSITION = {
 };
 const USER_POSITION_ZOOM = 6;
 
-interface MapState {
+export interface State {
   center: Position;
-  zoom: number;
-  fullscreen: boolean;
-  centered: boolean;
+  zoomLevel: number;
+  isFullscreen: boolean;
+  isCentered: boolean;
   recenter: Date;
 }
 
-export interface State {
-  [key: string]: MapState;
-}
-
-const initialMapState: MapState = {
-  center: DEFAULT_POSITION,
-  zoom: DEFAULT_POSITION_ZOOM,
-  fullscreen: false,
-  centered: true,
-  recenter: null
-};
-
 const initialState: State = {
-  FLOOD_LANDSLIDE: initialMapState,
-  AVALANCHE: initialMapState
+  center: DEFAULT_POSITION,
+  zoomLevel: DEFAULT_POSITION_ZOOM,
+  isFullscreen: false,
+  isCentered: true,
+  recenter: null
 };
 
 export function reducer(
@@ -40,54 +31,37 @@ export function reducer(
 ) {
   switch (action.type) {
     case LocationActions.POSITION_UPDATED:
-      return Object.keys(state).reduce((prev, key) => {
-        prev[key] = Object.assign(
-          { ...state[key] },
-          {
-            center: action.payload,
-            zoom: USER_POSITION_ZOOM
-          }
-        );
-        return prev;
-      }, {});
+      return {
+        ...state,
+        center: action.payload,
+        zoom: USER_POSITION_ZOOM
+      };
     case UIMapActions.REQUEST_RECENTER:
-      return Object.keys(state).reduce((prev, key) => {
-        prev[key] = Object.assign(
-          { ...state[key] },
-          {
-            recenter:
-              key === action.payload.mapKey ? new Date() : state[key].recenter
-          }
-        );
-        return prev;
-      }, {});
+      return {
+        ...state,
+        recenter: new Date()
+      };
     case UIMapActions.IS_CENTERED_UPDATE:
-      return Object.keys(state).reduce((prev, key) => {
-        prev[key] = Object.assign(
-          { ...state[key] },
-          {
-            centered:
-              key === action.payload.mapKey
-                ? action.payload.isCentered
-                : state[key].centered
-          }
-        );
-        return prev;
-      }, {});
+      return {
+        ...state,
+        isCentered: action.payload.isCentered
+      };
     case UIMapActions.TOOGLE_FULLSCREEN:
-      return Object.keys(state).reduce((prev, key) => {
-        prev[key] = Object.assign(
-          { ...state[key] },
-          {
-            fullscreen:
-              key === action.payload.mapKey
-                ? !state[key].fullscreen
-                : state[key].fullscreen
-          }
-        );
-        return prev;
-      }, {});
+      return {
+        ...state,
+        isFullscreen: !state.isFullscreen
+      };
     default:
       return state;
   }
 }
+
+export const getSettings = (state: State) => {
+  let settings = { ...state };
+  delete settings.recenter;
+  return settings;
+};
+
+export const getRecenterRequests = (state: State) => {
+  return state.recenter;
+};
