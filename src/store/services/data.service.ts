@@ -35,8 +35,9 @@ export class DataService {
           return acc.concat(transformFunction(json));
         }, []);
       })
-      .catch((res: any) => {
-        return Observable.throw(res.json().error || "api.nve.no error");
+      .catch((error: any) => {
+        console.log("error");
+        return Observable.throw(error || "api.nve.no error");
       });
   }
 
@@ -101,7 +102,7 @@ function transformToWarning(json: any): Warning[] {
 }
 
 function extractMunicipalities(json: any): Region[] {
-  if (json.hasOwnProperty("MunicipalityList")) {
+  if (json.hasOwnProperty("MunicipalityList") && json.MunicipalityList) {
     return json.MunicipalityList.reduce(
       (acc, json) => acc.concat(transformToRegion(json)),
       []
