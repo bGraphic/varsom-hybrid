@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { Warning, WarningType } from "../../store/models/Warning";
+import { Warning } from "../../store/models/Warning";
 import { TranslateService } from "@ngx-translate/core";
 import * as moment from "moment";
 
@@ -53,7 +53,7 @@ export class MountainWeather {
   ngOnChanges() {
     console.log("weather", this.warning.meta.MountainWeather);
 
-    const weather = this.warning.meta.MountainWeather;
+    const weather: Weather = this.warning.meta.MountainWeather;
 
     if (!weather) {
       this.descriptions = [];
