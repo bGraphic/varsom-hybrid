@@ -51,8 +51,6 @@ export class MountainWeather {
   constructor(private _translateService: TranslateService) {}
 
   ngOnChanges() {
-    console.log("weather", this.warning.meta.MountainWeather);
-
     const weather: Weather = this.warning.meta.MountainWeather;
 
     if (!weather) {
