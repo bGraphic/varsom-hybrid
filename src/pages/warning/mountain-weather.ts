@@ -85,7 +85,7 @@ export class MountainWeather {
 
       if (weather.CloudCoverName) {
         this.descriptions.push(
-          `${this._translateService.instant("CLOUD_COVER")}: ${
+          `<strong>${this._translateService.instant("CLOUD_COVER")}:</strong> ${
             weather.CloudCoverName
           }`
         );
@@ -124,7 +124,6 @@ export class MountainWeather {
         `TIME.${descriptionValues.beginTime}`,
         {
           dayOfWeek: moment(date)
-            .add(1, "day")
             .format("dddd")
             .toLowerCase()
         }
@@ -136,7 +135,7 @@ export class MountainWeather {
       ? this._translateService.instant(descriptionKey, descriptionValues)
       : "";
 
-    return `${label}: ${description}`;
+    return `<strong>${label}:</strong> ${description}`;
   }
 }
 

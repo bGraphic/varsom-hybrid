@@ -27,10 +27,23 @@
   }
 
   .label {
+    strong {
+      font-weight: 500;
+    }
+
     h2,
     p,
-    li {
+    ul {
       white-space: normal;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+
+      li {
+        margin: 5px 0;
+      }
     }
 
     h2 {
@@ -48,10 +61,6 @@
     p {
       font-size: 1.6rem;
       line-height: 1.4;
-
-      strong {
-        font-weight: 500;
-      }
 
       span {
         &:after {
