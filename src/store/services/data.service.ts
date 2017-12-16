@@ -36,7 +36,6 @@ export class DataService {
         }, []);
       })
       .catch((error: any) => {
-        console.log("error");
         return Observable.throw(error || "api.nve.no error");
       });
   }

@@ -141,7 +141,6 @@ export class AvalancheRose {
 
   createCake(radius, cx, cy, activeSectors) {
     let n = activeSectors.length;
-    console.log("active sectors length", n);
     let sectorAngle = 360 / n;
     let x1 = cx;
     let y1 = cy - radius;
