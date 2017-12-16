@@ -47,6 +47,10 @@
     "CHANGE_LONG":
       "{{strength1}} fra {{direction1}}, endring til {{strength2}} fra {{direction2}} {{beginTime}}"
   },
+  "TEMPERATURE": {
+    "SHORT": "{{from}} °C til {{to}} °C",
+    "LONG": "{{from}} °C til {{to}} °C på {{masl}} moh"
+  },
   "DIRECTION": {
     "N": "nord",
     "NE": "nordøst",

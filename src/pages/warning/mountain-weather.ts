@@ -16,7 +16,10 @@ enum SubType {
   RainFallTo = 60,
   WindStrength = 20,
   WindDirection = 50,
-  BeginTime = 100
+  BeginTime = 100,
+  TemperatureFrom = 30,
+  TemperatureTo = 40,
+  TemperatureMasl = 90
 }
 
 interface MeasurementType {
@@ -185,10 +188,23 @@ const stringFactory = {
   },
   [Type.Temperature]: (measurementTypes: MeasurementType[]) => {
     const type = findType(measurementTypes, Type.Temperature);
+    const from = subTypeValue(type, SubType.TemperatureFrom);
+    const to = subTypeValue(type, SubType.TemperatureTo);
+    const masl = subTypeValue(type, SubType.TemperatureMasl);
+
+    let key = "TEMPERATURE.LONG";
+    if (!masl) {
+      key = "TEMPERATURE.SHORT";
+    }
+
     return {
       labelKey: type.Name,
-      descriptionKey: null,
-      descriptionValues: {}
+      descriptionKey: key,
+      descriptionValues: {
+        from,
+        to,
+        masl
+      }
     };
   },
   [Type.ZeroIsoterm]: (measurementTypes: MeasurementType[]) => {
