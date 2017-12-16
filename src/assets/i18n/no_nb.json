@@ -68,8 +68,8 @@
     "NW": "nordvest"
   },
   "TIME": {
-    "0": "natt til {{dayOfWeek}}",
-    "6": "om formiddagen",
+    "00": "natt til {{dayOfWeek}}",
+    "06": "om formiddagen",
     "12": "om ettermiddagen",
     "18": "om kvelden"
   },
