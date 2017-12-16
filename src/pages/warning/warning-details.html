@@ -25,9 +25,13 @@
       <h2>{{ 'AVALANCHE_WARNING' | translate }}</h2>
       <p [innerHTML]="warning.meta.AvalancheWarning"></p>
     </ion-item>
-    <ion-item *ngIf="warning.meta.AlpineWeather">
-      <h2>{{ 'ALPINE_WEATHER' | translate }}</h2>
-      <p [innerHTML]="warning.meta.AlpineWeather"></p>
+    <ion-item *ngIf="warning.meta.SnowSurface">
+      <h2>{{ 'SNOW_SURFACE' | translate }}</h2>
+      <p [innerHTML]="warning.meta.SnowSurface"></p>
+    </ion-item>
+    <ion-item *ngIf="warning.meta.MountainWeather">
+      <h2>{{ 'MOUNTAIN_WEATHER' | translate }}</h2>
+      <mountain-weather [warning]="warning"></mountain-weather>
     </ion-item>
     <ion-item>
       <p class="published">

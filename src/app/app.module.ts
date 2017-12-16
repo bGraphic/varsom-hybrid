@@ -28,6 +28,7 @@ import { RegionWarning } from "../pages/region/region-warning";
 import { WarningPage } from "../pages/warning/warning";
 import { WarningDetails } from "../pages/warning/warning-details";
 import { WarningBadge } from "../partials/warning-badge";
+import { MountainWeather } from "../pages/warning/mountain-weather";
 
 import { DataService } from "../store/services/data.service";
 import { GeojsonService } from "../store/services/geojson.service";
@@ -76,6 +77,7 @@ export function createTranslateLoader(http: Http) {
     WarningPage,
     WarningDetails,
     WarningBadge,
+    MountainWeather,
     MapDirective,
     AvalancheRose,
     FavoriteDirective,

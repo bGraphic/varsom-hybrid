@@ -25,13 +25,54 @@
   "DANGER_LEVEL": "Faregrad",
   "AVALANCHE_DANGER": "Skredfarevurdering",
   "AVALANCHE_WARNING": "Snødekkevurdering",
-  "ALPINE_WEATHER": "Fjellvær",
+  "MOUNTAIN_WEATHER": "Fjellvær",
   "AVALANCHE_PROBLEMS": "Skredproblem(er)",
   "AVALANCHE_TYPE": "Skredtype",
   "DESTRUCTIVE_SIZE_EXT": "Skredstørrelse",
   "AVAL_TRIGGER_SIMPLE": "Utløsningsårsak",
   "AVAL_PROPAGATION": "Utbredelse",
   "AVAL_PROBABILITY": "Sannsynlighet",
+  "SNOW_SURFACE": "Snødekkehistorikk",
+  "CLOUD_COVER": "Skydekke",
+  "RAINFALL": {
+    "NONE": "0 mm i døgnet",
+    "SHORT": "{{from}} - {{to}} mm i døgnet",
+    "LONG": "{{from}} mm i døgnet, opp mot {{to}} mm i mest utsatt område"
+  },
+  "WIND": {
+    "SHORT": "{{strength1}}",
+    "LONG": "{{strength1}} fra {{direction1}}",
+    "CHANGE_SHORT":
+      "{{strength1}} fra {{direction1}}, endring til {{strength2}} fra {{direction2}}",
+    "CHANGE_LONG":
+      "{{strength1}} fra {{direction1}}, endring til {{strength2}} fra {{direction2}} {{beginTime}}"
+  },
+  "TEMPERATURE": {
+    "SHORT": "{{from}} °C til {{to}} °C",
+    "LONG": "{{from}} °C til {{to}} °C på {{masl}} moh"
+  },
+  "ZERO_ISOTERM": {
+    "LABEL": "Plussgrader",
+    "SHORT": "Opp til {{masl}} moh",
+    "LONG": "Opp til {{masl}} moh {{beginTime}}",
+    "TOP": "Til topps {{0}}"
+  },
+  "DIRECTION": {
+    "N": "nord",
+    "NE": "nordøst",
+    "E": "øst",
+    "SE": "sørøst",
+    "S": "sør",
+    "SW": "sørvest",
+    "W": "vest",
+    "NW": "nordvest"
+  },
+  "TIME": {
+    "00": "natt til {{dayOfWeek}}",
+    "06": "om formiddagen",
+    "12": "om ettermiddagen",
+    "18": "om kvelden"
+  },
   "UPDATE": {
     "TITLE": "Ny versjon tilgjengelig",
     "MESSAGE": {
