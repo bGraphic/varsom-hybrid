@@ -32,6 +32,7 @@ export class OverviewPage {
   mapOffset: number;
 
   private _resizeSubscription: Subscription;
+  private _scrollToTopSubscription: Subscription;
 
   constructor(
     private _navCtrl: NavController,
@@ -61,23 +62,24 @@ export class OverviewPage {
       .distinctUntilChanged();
 
     this.fetching$ = this._store.select(fromRoot.getSectionFetching);
-  }
 
-  ionViewDidEnter() {
-    if (!this.hasMap) return;
-
-    this._resizeSubscription = Observable.combineLatest(
-      this.section$,
-      this.isMapFullscreen$
-    ).subscribe(([section, isFullscreen]) => {
-      this.content.resize();
+    this._scrollToTopSubscription = this.section$.subscribe(() => {
       this.content.scrollToTop();
-
-      // Hack to make it happen after resize is done
-      setTimeout(() => {
-        this.calculateOffset(section, isFullscreen);
-      }, 0);
     });
+
+    if (this.hasMap) {
+      this._resizeSubscription = Observable.combineLatest(
+        this.section$,
+        this.isMapFullscreen$
+      ).subscribe(([section, isFullscreen]) => {
+        this.content.resize();
+
+        // Hack to make it happen after resize is done
+        setTimeout(() => {
+          this.calculateOffset(section, isFullscreen);
+        }, 0);
+      });
+    }
   }
 
   calculateOffset(section: SectionType, isFullscreen: boolean) {
@@ -89,9 +91,13 @@ export class OverviewPage {
     }
   }
 
-  ionViewWillLeave() {
-    if (this.hasMap) {
+  ngOnDestroy() {
+    if (this._resizeSubscription) {
       this._resizeSubscription.unsubscribe();
+    }
+
+    if (this._scrollToTopSubscription) {
+      this._scrollToTopSubscription.unsubscribe();
     }
   }
 
