@@ -25,9 +25,9 @@ export class RegionPage {
 
   ngOnInit() {
     this.region$ = this._store.select(fromRoot.getRegion(this.regionId));
-    this.warnings$ = this._store
-      .select(fromRoot.getRegionWarnings(this.regionId))
-      .do(warnings => console.log("Warnings", warnings));
+    this.warnings$ = this._store.select(
+      fromRoot.getRegionWarnings(this.regionId)
+    );
   }
 
   title(region: Region) {
@@ -68,8 +68,5 @@ export class RegionPage {
       warningType: warningType,
       warningIndex: warningIndex
     });
-    console.log(
-      `Go to warning of type ${warningType} and day index ${warningIndex}`
-    );
   }
 }

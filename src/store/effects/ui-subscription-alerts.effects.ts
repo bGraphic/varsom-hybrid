@@ -22,9 +22,7 @@ export class UISubscriptionAlertsEffects {
   register$: Observable<Action> = this._actions$
     .ofType(FavoritesAction.ADD)
     .map(toPayload)
-    .do(payload => console.log("SUB 1", payload))
     .filter(payload => !Array.isArray(payload))
-    .do(payload => console.log("SUB 2", payload))
     .map(() => this._createAndPresentAlert())
     .mapTo(null);
 

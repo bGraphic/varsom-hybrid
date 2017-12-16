@@ -32,7 +32,6 @@ export class FavoriteDirective {
     this._isFavoriteSubscription = this._store
       .select(fromRoot.isFavorite(this.regionId))
       .subscribe(isFavorite => {
-        console.log("Favorite", isFavorite);
         this._isFavorite = isFavorite;
         this._updateIcon();
       });

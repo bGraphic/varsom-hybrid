@@ -36,7 +36,6 @@ export class DataService {
         }, []);
       })
       .catch((error: any) => {
-        console.log("error");
         return Observable.throw(error || "api.nve.no error");
       });
   }
@@ -88,7 +87,7 @@ function transformToRegion(json: any): Region[] {
   const name = extractRegionName(json);
   const type = extractRegionType(id);
   const importance = extractImportance(json);
-  const municipalities = extractMunicipalities(json);
+  const municipalities = type === "County" ? extractMunicipalities(json) : [];
 
   const region: Region = { id, name, type, importance };
   return [region, ...municipalities];
