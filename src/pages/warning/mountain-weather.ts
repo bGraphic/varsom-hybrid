@@ -1,6 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { Warning, WarningType } from "../../store/models/Warning";
 import { TranslateService } from "@ngx-translate/core";
+import * as moment from "moment";
 
 enum Type {
   RainFall = 10,
@@ -12,7 +13,10 @@ enum Type {
 
 enum SubType {
   RainFallFrom = 70,
-  RainFallTo = 60
+  RainFallTo = 60,
+  WindStrength = 20,
+  WindDirection = 50,
+  BeginTime = 100
 }
 
 interface MeasurementType {
@@ -29,6 +33,8 @@ interface MeasurementType {
 
 interface Weather {
   MeasurementTypes: MeasurementType[];
+  Comment?: string;
+  CloudCoverName?: string;
 }
 
 @Component({
@@ -36,28 +42,83 @@ interface Weather {
   templateUrl: "mountain-weather.html"
 })
 export class MountainWeather {
-  @Input() weather: Weather;
-  measurmentTypeIds: number[];
+  @Input() warning: Warning;
+  descriptions: string[];
 
   constructor(private _translateService: TranslateService) {}
 
   ngOnChanges() {
-    console.log(this.weather.MeasurementTypes);
-    this.measurmentTypeIds = this.weather.MeasurementTypes.filter(
-      type => type.Id !== Type.WindDirection
-    )
-      .filter(
-        type =>
-          !!type.MeasurementSubTypes && type.MeasurementSubTypes.length > 0
-      )
-      .sort((a, b) => (a.SortOrder > b.SortOrder ? 1 : -1))
-      .map(type => type.Id);
+    console.log("weather", this.warning.meta.MountainWeather);
+
+    const weather = this.warning.meta.MountainWeather;
+
+    if (!weather) {
+      this.descriptions = [];
+    } else {
+      const measurementTypes = weather.MeasurementTypes;
+      const measurmentIds = measurementTypes
+        // Filter out WindDirection as it is added to Direction
+        .filter(type => type.Id !== Type.WindDirection)
+        // Filter out those with no SubTypes
+        .filter(
+          type =>
+            !!type.MeasurementSubTypes && type.MeasurementSubTypes.length > 0
+        )
+        // Sort according to sort order
+        .sort((a, b) => (a.SortOrder > b.SortOrder ? 1 : -1))
+        // Resurn only ids
+        .map(type => type.Id);
+
+      this.descriptions = measurmentIds.map(id =>
+        this._transformToString(id, measurementTypes, this.warning.date)
+      );
+
+      if (weather.CloudCoverName) {
+        this.descriptions.push(
+          `${this._translateService.instant("CLOUD_COVER")}: ${
+            weather.CloudCoverName
+          }`
+        );
+      }
+
+      if (weather.Comment) {
+        this.descriptions.push(weather.Comment);
+      }
+    }
   }
 
-  transformToString(id: number): string {
-    const { labelKey, descriptionKey, descriptionValues } = stringFactory[id](
-      this.weather.MeasurementTypes
+  _transformToString(
+    id: Type,
+    measurementTypes: MeasurementType[],
+    date: Date
+  ): string {
+    let { labelKey, descriptionKey, descriptionValues } = stringFactory[id](
+      measurementTypes
     );
+
+    if (descriptionValues.direction1) {
+      descriptionValues.direction1 = this._translateService.instant(
+        `DIRECTION.${descriptionValues.direction1}`
+      );
+    }
+
+    if (descriptionValues.direction2) {
+      descriptionValues.direction2 = this._translateService.instant(
+        `DIRECTION.${descriptionValues.direction2}`
+      );
+    }
+
+    if (descriptionValues.beginTime) {
+      descriptionValues.beginTime = this._translateService.instant(
+        `TIME.${descriptionValues.beginTime}`,
+        {
+          dayOfWeek: moment(date)
+            .add(1, "day")
+            .format("dddd")
+            .toLowerCase()
+        }
+      );
+    }
 
     const label = labelKey ? this._translateService.instant(labelKey) : "";
     const description = descriptionKey
@@ -90,11 +151,36 @@ const stringFactory = {
     };
   },
   [Type.Wind]: (measurementTypes: MeasurementType[]) => {
-    const type = findType(measurementTypes, Type.Wind);
+    const type1 = findType(measurementTypes, Type.Wind);
+    const strength1 = subTypeValue(type1, SubType.WindStrength);
+    const direction1 = subTypeValue(type1, SubType.WindDirection);
+
+    let key = "WIND.LONG";
+    if (!direction1) {
+      key = "WIND.SHORT";
+    }
+
+    const type2 = findType(measurementTypes, Type.WindDirection);
+    const strength2 = subTypeValue(type2, SubType.WindStrength);
+    const direction2 = subTypeValue(type2, SubType.WindDirection);
+    const beginTime = String(subTypeValue(type2, SubType.BeginTime));
+
+    if (strength2 && direction2 && beginTime) {
+      key = "WIND.CHANGE_LONG";
+    } else if (strength2 && direction2) {
+      key = "WIND.CHANGE_SHORT";
+    }
+
     return {
-      labelKey: type.Name,
-      descriptionKey: null,
-      descriptionValues: {}
+      labelKey: type1.Name,
+      descriptionKey: key,
+      descriptionValues: {
+        strength1,
+        direction1,
+        strength2: strength2 ? strength2.toLocaleLowerCase() : strength2,
+        direction2,
+        beginTime
+      }
     };
   },
   [Type.Temperature]: (measurementTypes: MeasurementType[]) => {

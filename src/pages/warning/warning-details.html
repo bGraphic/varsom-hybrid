@@ -31,7 +31,7 @@
     </ion-item>
     <ion-item *ngIf="warning.meta.MountainWeather">
       <h2>{{ 'MOUNTAIN_WEATHER' | translate }}</h2>
-      <mountain-weather [weather]="warning.meta.MountainWeather"></mountain-weather>
+      <mountain-weather [warning]="warning"></mountain-weather>
     </ion-item>
     <ion-item>
       <p class="published">

@@ -33,10 +33,35 @@
   "AVAL_PROPAGATION": "Utbredelse",
   "AVAL_PROBABILITY": "Sannsynlighet",
   "SNOW_SURFACE": "Snødekkehistorikk",
+  "CLOUD_COVER": "Skydekke",
   "RAINFALL": {
     "NONE": "0 mm i døgnet",
     "SHORT": "{{from}} - {{to}} mm i døgnet",
     "LONG": "{{from}} mm i døgnet, opp mot {{to}} mm i mest utsatt område"
+  },
+  "WIND": {
+    "SHORT": "{{strength1}}",
+    "LONG": "{{strength1}} fra {{direction1}}",
+    "CHANGE_SHORT":
+      "{{strength1}} fra {{direction1}}, endring til {{strength2}} fra {{direction2}}",
+    "CHANGE_LONG":
+      "{{strength1}} fra {{direction1}}, endring til {{strength2}} fra {{direction2}} {{beginTime}}"
+  },
+  "DIRECTION": {
+    "N": "nord",
+    "NE": "nordøst",
+    "E": "øst",
+    "SE": "sørøst",
+    "S": "sør",
+    "SW": "sørvest",
+    "W": "vest",
+    "NW": "nordvest"
+  },
+  "TIME": {
+    "0": "natt til {{dayOfWeek}}",
+    "6": "om formiddagen",
+    "12": "om ettermiddagen",
+    "18": "om kvelden"
   },
   "UPDATE": {
     "TITLE": "Ny versjon tilgjengelig",
