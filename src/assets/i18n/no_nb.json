@@ -51,6 +51,12 @@
     "SHORT": "{{from}} °C til {{to}} °C",
     "LONG": "{{from}} °C til {{to}} °C på {{masl}} moh"
   },
+  "ZERO_ISOTERM": {
+    "LABEL": "Plussgrader",
+    "SHORT": "Opp til {{masl}} moh",
+    "LONG": "Opp til {{masl}} moh {{beginTime}}",
+    "TOP": "Til topps {{0}}"
+  },
   "DIRECTION": {
     "N": "nord",
     "NE": "nordøst",

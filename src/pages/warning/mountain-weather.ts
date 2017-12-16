@@ -12,14 +12,14 @@ enum Type {
 }
 
 enum SubType {
-  RainFallFrom = 70,
-  RainFallTo = 60,
   WindStrength = 20,
-  WindDirection = 50,
-  BeginTime = 100,
   TemperatureFrom = 30,
   TemperatureTo = 40,
-  TemperatureMasl = 90
+  WindDirection = 50,
+  RainFallTo = 60,
+  RainFallFrom = 70,
+  Masl = 90,
+  BeginTime = 100
 }
 
 interface MeasurementType {
@@ -190,7 +190,7 @@ const stringFactory = {
     const type = findType(measurementTypes, Type.Temperature);
     const from = subTypeValue(type, SubType.TemperatureFrom);
     const to = subTypeValue(type, SubType.TemperatureTo);
-    const masl = subTypeValue(type, SubType.TemperatureMasl);
+    const masl = subTypeValue(type, SubType.Masl);
 
     let key = "TEMPERATURE.LONG";
     if (!masl) {
@@ -209,10 +209,26 @@ const stringFactory = {
   },
   [Type.ZeroIsoterm]: (measurementTypes: MeasurementType[]) => {
     const type = findType(measurementTypes, Type.ZeroIsoterm);
+    const masl = subTypeValue(type, SubType.Masl);
+    const beginTime = subTypeValue(type, SubType.BeginTime);
+    const maslInt = masl ? parseInt(masl) : 0;
+
+    let key = "ZERO_ISOTERM.LONG";
+    if (!beginTime) {
+      key = "ZERO_ISOTERM.SHORT";
+    }
+
+    if (maslInt >= 2500 && beginTime) {
+      key = "ZERO_ISOTERM.TOP";
+    }
+
     return {
-      labelKey: type.Name,
-      descriptionKey: null,
-      descriptionValues: {}
+      labelKey: "ZERO_ISOTERM.LABEL",
+      descriptionKey: key,
+      descriptionValues: {
+        masl: String(maslInt),
+        beginTime
+      }
     };
   }
 };
