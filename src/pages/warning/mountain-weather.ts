@@ -72,9 +72,16 @@ export class MountainWeather {
         // Resurn only ids
         .map(type => type.Id);
 
-      this.descriptions = measurmentIds.map(id =>
-        this._transformToString(id, measurementTypes, this.warning.date)
-      );
+      this.descriptions = measurmentIds
+        .map(id =>
+          this._transformToStringDescription(
+            id,
+            measurementTypes,
+            this.warning.date
+          )
+        )
+        // Filter out null descriptions
+        .filter(description => !!description);
 
       if (weather.CloudCoverName) {
         this.descriptions.push(
@@ -90,14 +97,15 @@ export class MountainWeather {
     }
   }
 
-  _transformToString(
+  _transformToStringDescription(
     id: Type,
     measurementTypes: MeasurementType[],
     date: Date
   ): string {
-    let { labelKey, descriptionKey, descriptionValues } = stringFactory[id](
-      measurementTypes
-    );
+    const descriptionMap = descriptionFactory[id](measurementTypes);
+    if (!descriptionMap) return null;
+
+    let { labelKey, descriptionKey, descriptionValues } = descriptionMap;
 
     if (descriptionValues.direction1) {
       descriptionValues.direction1 = this._translateService.instant(
@@ -132,15 +140,15 @@ export class MountainWeather {
   }
 }
 
-const stringFactory = {
+const descriptionFactory = {
   [Type.RainFall]: (
     measurementTypes: MeasurementType[]
   ): { labelKey: string; descriptionKey: string; descriptionValues: any } => {
     const type = findType(measurementTypes, Type.RainFall);
     const from = parseInt(subTypeValue(type, SubType.RainFallFrom));
     const to = parseInt(subTypeValue(type, SubType.RainFallTo));
-    let key = "RAINFALL.LONG";
 
+    let key = "RAINFALL.LONG";
     if (from === 0 && to === 0) {
       key = "RAINFALL.NONE";
     } else if (to - from < 5) {
@@ -158,6 +166,8 @@ const stringFactory = {
     const strength1 = subTypeValue(type1, SubType.WindStrength);
     const direction1 = subTypeValue(type1, SubType.WindDirection);
 
+    if (!strength1) return null;
+
     let key = "WIND.LONG";
     if (!direction1) {
       key = "WIND.SHORT";
@@ -166,7 +176,7 @@ const stringFactory = {
     const type2 = findType(measurementTypes, Type.WindDirection);
     const strength2 = subTypeValue(type2, SubType.WindStrength);
     const direction2 = subTypeValue(type2, SubType.WindDirection);
-    const beginTime = String(subTypeValue(type2, SubType.BeginTime));
+    const beginTime = subTypeValue(type2, SubType.BeginTime);
 
     if (strength2 && direction2 && beginTime) {
       key = "WIND.CHANGE_LONG";
@@ -192,6 +202,8 @@ const stringFactory = {
     const to = subTypeValue(type, SubType.TemperatureTo);
     const masl = subTypeValue(type, SubType.Masl);
 
+    if (!from || !to) return null;
+
     let key = "TEMPERATURE.LONG";
     if (!masl) {
       key = "TEMPERATURE.SHORT";
@@ -211,14 +223,15 @@ const stringFactory = {
     const type = findType(measurementTypes, Type.ZeroIsoterm);
     const masl = subTypeValue(type, SubType.Masl);
     const beginTime = subTypeValue(type, SubType.BeginTime);
-    const maslInt = masl ? parseInt(masl) : 0;
+
+    if (!masl || masl === "0") return null;
 
     let key = "ZERO_ISOTERM.LONG";
     if (!beginTime) {
       key = "ZERO_ISOTERM.SHORT";
     }
 
-    if (maslInt >= 2500 && beginTime) {
+    if (parseInt(masl) >= 2500 && beginTime) {
       key = "ZERO_ISOTERM.TOP";
     }
 
@@ -226,7 +239,7 @@ const stringFactory = {
       labelKey: "ZERO_ISOTERM.LABEL",
       descriptionKey: key,
       descriptionValues: {
-        masl: String(maslInt),
+        masl: masl,
         beginTime
       }
     };
