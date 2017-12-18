@@ -1,3 +1,6 @@
+export const OSLO_COUNTY_ID = "03";
+export const OSLO_MUNICIPALITY_ID = "0301";
+
 export type RegionType = "AvalancheRegion" | "County" | "Municipality";
 
 export enum RegionImportance {

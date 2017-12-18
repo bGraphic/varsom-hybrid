@@ -9,7 +9,11 @@ import { RegionPage } from "../region/region";
 
 import * as fromRoot from "./../../store/reducers";
 import * as UISectionActions from "./../../store/actions/ui-sections.actions";
-import { Region } from "../../store/models/Region";
+import {
+  Region,
+  OSLO_COUNTY_ID,
+  OSLO_MUNICIPALITY_ID
+} from "../../store/models/Region";
 import { SectionType } from "../../store/models/Section";
 import { WarningType } from "../../store/models/Warning";
 
@@ -120,7 +124,9 @@ export class OverviewPage {
       .select(fromRoot.getRegion(regionId))
       .first()
       .subscribe(region => {
-        if (region.type === "County") {
+        if (region.id === OSLO_COUNTY_ID) {
+          this._pushForecastPage(OSLO_MUNICIPALITY_ID);
+        } else if (region.type === "County") {
           this._pushOverviewPage(regionId);
         } else {
           this._pushForecastPage(regionId);
