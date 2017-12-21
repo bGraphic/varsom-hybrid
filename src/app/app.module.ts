@@ -53,7 +53,6 @@ import { RefreshDirective } from "../directives/refresh";
 import { AvalancheRose } from "../partials/avalanche-rose";
 
 import { AppVersion } from "@ionic-native/app-version";
-import { Diagnostic } from "@ionic-native/diagnostic";
 import { Geolocation } from "@ionic-native/geolocation";
 import { InAppBrowser } from "@ionic-native/in-app-browser";
 import { SplashScreen } from "@ionic-native/splash-screen";
@@ -118,7 +117,6 @@ export function createTranslateLoader(http: Http) {
   entryComponents: [MyApp, OverviewPage, RegionPage, WarningPage],
   providers: [
     AppVersion,
-    Diagnostic,
     Geolocation,
     InAppBrowser,
     SplashScreen,
