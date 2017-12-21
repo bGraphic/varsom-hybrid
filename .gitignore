@@ -8,6 +8,7 @@ src/config/*
 *.apk
 resources/
 !resources/*.ai
+.sourcemaps
 
 *~
 *.sw[mnpcod]
