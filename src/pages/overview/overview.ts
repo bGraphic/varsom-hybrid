@@ -70,7 +70,9 @@ export class OverviewPage {
     this._scrollToTopSubscription = this.section$.subscribe(() => {
       this.content.scrollToTop();
     });
+  }
 
+  ionViewDidEnter() {
     if (this.hasMap) {
       this._resizeSubscription = Observable.combineLatest(
         this.section$,
@@ -86,22 +88,24 @@ export class OverviewPage {
     }
   }
 
+  ionViewDidLeave() {
+    if (this._resizeSubscription) {
+      this._resizeSubscription.unsubscribe();
+    }
+  }
+
+  ngOnDestroy() {
+    if (this._scrollToTopSubscription) {
+      this._scrollToTopSubscription.unsubscribe();
+    }
+  }
+
   calculateOffset(section: SectionType, isFullscreen: boolean) {
     if (isFullscreen) {
       this.mapOffset = -this.content.contentTop;
     } else {
       const height = this.content.contentTop + this.content.contentHeight;
       this.mapOffset = -(height * 0.15 + height * 0.35 / 2);
-    }
-  }
-
-  ngOnDestroy() {
-    if (this._resizeSubscription) {
-      this._resizeSubscription.unsubscribe();
-    }
-
-    if (this._scrollToTopSubscription) {
-      this._scrollToTopSubscription.unsubscribe();
     }
   }
 

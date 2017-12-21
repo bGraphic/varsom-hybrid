@@ -6,7 +6,7 @@ import {
   EventEmitter,
   ElementRef
 } from "@angular/core";
-import "leaflet";
+import L from "leaflet";
 
 const TILE = "http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png";
 const MIN_ZOOM = 4;
@@ -26,8 +26,9 @@ export class MapDirective {
   private _map: L.Map;
   private _geojsonLayer: L.GeoJSON;
   private _marker: L.CircleMarker;
-  private _centering: boolean = true;
+  private _centering: boolean = false;
   private _centered: boolean = true;
+  private _test: boolean = true;
 
   constructor(private _el: ElementRef) {}
 
@@ -39,11 +40,17 @@ export class MapDirective {
 
   ngOnChanges(changes) {
     if (changes.geoJsonData) {
-      this.updateGeoJsonData();
+      if (
+        changes.geoJsonData.currentValue !== changes.geoJsonData.previousValue
+      ) {
+        this.updateGeoJsonData();
+      }
     }
 
     if (changes.marker) {
-      this.updateMapMarker();
+      if (changes.marker.currentValue !== changes.marker.previousValue) {
+        this.updateMapMarker();
+      }
     }
 
     if (changes.center && this._centered) {
@@ -52,8 +59,13 @@ export class MapDirective {
       }
     }
 
-    if (changes.recenterRequest && changes.recenterRequest.currentValue) {
-      this.updateMapCenter();
+    if (changes.recenterRequest) {
+      if (
+        changes.recenterRequest.currentValue !==
+        changes.recenterRequest.previousValue
+      ) {
+        this.updateMapCenter();
+      }
     }
   }
 
@@ -67,14 +79,10 @@ export class MapDirective {
     });
 
     this._map.on("movestart", event => {
-      this._centered = this._centering;
-      this.onIsCenteredUpdate.emit(this._centered);
-    });
-
-    this._map.on("moveend", event => {
-      this._centered = this._centering;
-      this.onIsCenteredUpdate.emit(this._centered);
-      this._centering = false;
+      if (!this._centering) {
+        this._centered = false;
+        this.onIsCenteredUpdate.emit(false);
+      }
     });
 
     L.tileLayer(TILE, {}).addTo(this._map);
@@ -86,6 +94,13 @@ export class MapDirective {
     }
     this._map.stop();
     this._centering = true;
+
+    this._map.once("moveend", event => {
+      this._centering = false;
+      this._centered = true;
+      this.onIsCenteredUpdate.emit(true);
+    });
+
     this._map.setView(
       new L.LatLng(this.center.latitude, this.center.longitude),
       this.zoomLevel

@@ -34,7 +34,7 @@ export function reducer(
       return {
         ...state,
         center: action.payload,
-        zoom: USER_POSITION_ZOOM
+        zoomLevel: USER_POSITION_ZOOM
       };
     case UIMapActions.REQUEST_RECENTER:
       return {

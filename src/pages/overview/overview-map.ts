@@ -28,6 +28,8 @@ export class OverviewMap {
 
     this.settings$ = this._store.select(fromRoot.getMapSettings);
 
+    this.settings$.subscribe(settings => console.log(settings));
+
     this.recenterRequests$ = this._store.select(
       fromRoot.getMapRecenterRequests
     );
@@ -38,6 +40,7 @@ export class OverviewMap {
   }
 
   onIsCenteredUpdate($event) {
+    console.log("Event", $event);
     this._store.dispatch(
       new UIMapActions.IsCenteredUpdate({
         isCentered: $event
