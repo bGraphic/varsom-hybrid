@@ -256,12 +256,12 @@ export const getOverviewMapForecasts = () =>
         const forecast = forecasts.find(
           forecast => forecast.regionId === feature.properties.regionId
         );
-        const isRegionB = forecast
-          ? forecast.regionImportance === RegionImportance.B
-          : feature.properties.type === "B";
+        const isRegionA = forecast
+          ? forecast.regionImportance === RegionImportance.A
+          : feature.properties.regionImportance === RegionImportance.A;
         const properties = {
           ...feature.properties,
-          display: !isRegionB || forecast.highestRating > 1,
+          display: isRegionA || (forecast && forecast.highestRating > 0),
           color: forecast
             ? ThemeUtils.colorForRating(forecast.highestRating)
             : ThemeUtils.colorForRating(0)
