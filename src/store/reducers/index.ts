@@ -28,7 +28,12 @@ import * as fromMapUIState from "./ui-map.reducer";
 import * as fromSectionsUIState from "./ui-sections.reducer";
 import * as fromWarnings from "./warnings.reducer";
 import { ThemeUtils } from "../../utils/theme-utils";
-import { RegionImportance } from "../models/Region";
+import {
+  RegionImportance,
+  TRONDELAG,
+  SOUTH_TRONDELAG,
+  NORTH_TRONDELAG
+} from "../models/Region";
 import { WarningType, RegionWarnings } from "../models/Warning";
 import { Forecast } from "../models/Forecast";
 /**
@@ -253,9 +258,14 @@ export const getOverviewMapForecasts = () =>
     getSectionGeojson,
     (forecasts, geojson) => {
       return geojson.map(feature => {
-        const forecast = forecasts.find(
-          forecast => forecast.regionId === feature.properties.regionId
-        );
+        const forecast = forecasts.find(forecast => {
+          let featureRegionId = feature.properties.regionId;
+          featureRegionId =
+            featureRegionId === SOUTH_TRONDELAG ? TRONDELAG : featureRegionId;
+          featureRegionId =
+            featureRegionId === NORTH_TRONDELAG ? TRONDELAG : featureRegionId;
+          return featureRegionId === forecast.regionId;
+        });
         const isRegionA = forecast
           ? forecast.regionImportance === RegionImportance.A
           : feature.properties.regionImportance === RegionImportance.A;
@@ -354,7 +364,7 @@ const getSectionForecasts = createSelector(
         }, -1),
         warnings: highestWarnings,
         // Trondelag is now id 50, but location 16
-        sortIndex: region.id === "50" ? "16" : region.id
+        sortIndex: region.id === TRONDELAG ? SOUTH_TRONDELAG : region.id
       };
     });
   }
