@@ -184,6 +184,8 @@ const getSectionRegions = createSelector(
 
 export const getRegion = (regionId: string) =>
   createSelector(getSectionRegions, regions => {
+    regionId = regionId === SOUTH_TRONDELAG ? TRONDELAG : regionId;
+    regionId = regionId === NORTH_TRONDELAG ? TRONDELAG : regionId;
     return regions.find(region => region.id === regionId);
   });
 
