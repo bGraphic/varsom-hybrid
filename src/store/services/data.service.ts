@@ -131,12 +131,12 @@ function extractWarningRegionId(json): string {
 
 function extractRegionType(regionId: string): RegionType {
   const id = parseInt(regionId);
-  if (id >= 3000) {
-    return "AvalancheRegion";
-  } else if (id >= 100) {
-    return "Municipality";
-  } else {
+  if (id < 100) {
     return "County";
+  } else if (id >= 3000 && id < 5000) {
+    return "AvalancheRegion";
+  } else {
+    return "Municipality";
   }
 }
 
