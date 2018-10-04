@@ -8,4 +8,5 @@ export interface Forecast {
   regionImportance: RegionImportance;
   highestRating: number;
   warnings: Warning[];
+  sortIndex?: string;
 }

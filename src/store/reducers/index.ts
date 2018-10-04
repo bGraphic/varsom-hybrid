@@ -313,17 +313,20 @@ export const getOverviewListForecasts = (regionId: string) =>
         .sort((forecastA, forecastB) => {
           if (section === "Avalanche") {
             // North to south sorting for avalanche regions
+            // Sort index is region id
             // Region "3001": "Svalbard øst" north
             // Region "3046": "Østfold" south
-            return forecastA.regionId > forecastB.regionId ? 1 : -1;
+            return forecastA.sortIndex > forecastB.sortIndex ? 1 : -1;
           } else if (regionId) {
             // Alphabetical sorting for municipalities
             return forecastA.regionName > forecastB.regionName ? 1 : -1;
           } else {
             // North to south sorting for counties
+            // Sort index is region id, except for Trondelag where
+            // 50 is excanged for 16 when forecast is created
             // County "20": "Finnmark", north
             // County "01": "Østfold", south
-            return forecastA.regionId > forecastB.regionId ? -1 : 1;
+            return forecastA.sortIndex > forecastB.sortIndex ? -1 : 1;
           }
         });
     }
@@ -349,7 +352,9 @@ const getSectionForecasts = createSelector(
         highestRating: highestWarnings.reduce((acc, warning) => {
           return acc > warning.rating ? acc : warning.rating;
         }, -1),
-        warnings: highestWarnings
+        warnings: highestWarnings,
+        // Trondelag is now id 50, but location 16
+        sortIndex: region.id === "50" ? "16" : region.id
       };
     });
   }
