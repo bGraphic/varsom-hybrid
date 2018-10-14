@@ -15,6 +15,10 @@ export const NVE_API = {
   }
 };
 
+export const FIREBASE_PATHS = {
+  AppVersion: "api/app_release"
+};
+
 export const REFRESH = 30000;
 
 export const firebase = {
