@@ -8,7 +8,6 @@ import { RegionType, Region, RegionImportance } from "../models/Region";
 import { SectionType } from "../models/Section";
 import { LatestAppVersion } from "../models/AppVersion";
 import { AngularFireDatabase } from "angularfire2/database";
-import * as moment from "moment";
 
 @Injectable()
 export class DataService {
@@ -55,30 +54,6 @@ export class DataService {
         forced: object.hard
       };
     });
-  }
-
-  addPushTokenForRegion(pushToken: string, regionId: string) {
-    if (!pushToken) {
-      return;
-    }
-
-    let item = this._db.object(
-      "/subscriptions/id" + regionId + "/" + pushToken
-    );
-    item
-      .set(moment().format())
-      .then(() => console.log("Added push token to ", regionId));
-  }
-
-  removePushTokenForArea(pushToken: string, regionId: string) {
-    if (!pushToken) {
-      return;
-    }
-
-    let item = this._db.object(
-      "/subscriptions/id" + regionId + "/" + pushToken
-    );
-    item.remove().then(() => console.log("Removed push token from ", regionId));
   }
 }
 
