@@ -28,7 +28,12 @@ import * as fromMapUIState from "./ui-map.reducer";
 import * as fromSectionsUIState from "./ui-sections.reducer";
 import * as fromWarnings from "./warnings.reducer";
 import { ThemeUtils } from "../../utils/theme-utils";
-import { RegionImportance } from "../models/Region";
+import {
+  RegionImportance,
+  TRONDELAG,
+  SOUTH_TRONDELAG,
+  NORTH_TRONDELAG
+} from "../models/Region";
 import { WarningType, RegionWarnings } from "../models/Warning";
 import { Forecast } from "../models/Forecast";
 /**
@@ -179,6 +184,8 @@ const getSectionRegions = createSelector(
 
 export const getRegion = (regionId: string) =>
   createSelector(getSectionRegions, regions => {
+    regionId = regionId === SOUTH_TRONDELAG ? TRONDELAG : regionId;
+    regionId = regionId === NORTH_TRONDELAG ? TRONDELAG : regionId;
     return regions.find(region => region.id === regionId);
   });
 
@@ -253,9 +260,14 @@ export const getOverviewMapForecasts = () =>
     getSectionGeojson,
     (forecasts, geojson) => {
       return geojson.map(feature => {
-        const forecast = forecasts.find(
-          forecast => forecast.regionId === feature.properties.regionId
-        );
+        const forecast = forecasts.find(forecast => {
+          let featureRegionId = feature.properties.regionId;
+          featureRegionId =
+            featureRegionId === SOUTH_TRONDELAG ? TRONDELAG : featureRegionId;
+          featureRegionId =
+            featureRegionId === NORTH_TRONDELAG ? TRONDELAG : featureRegionId;
+          return featureRegionId === forecast.regionId;
+        });
         const isRegionA = forecast
           ? forecast.regionImportance === RegionImportance.A
           : feature.properties.regionImportance === RegionImportance.A;
@@ -313,17 +325,20 @@ export const getOverviewListForecasts = (regionId: string) =>
         .sort((forecastA, forecastB) => {
           if (section === "Avalanche") {
             // North to south sorting for avalanche regions
+            // Sort index is region id
             // Region "3001": "Svalbard øst" north
             // Region "3046": "Østfold" south
-            return forecastA.regionId > forecastB.regionId ? 1 : -1;
+            return forecastA.sortIndex > forecastB.sortIndex ? 1 : -1;
           } else if (regionId) {
             // Alphabetical sorting for municipalities
             return forecastA.regionName > forecastB.regionName ? 1 : -1;
           } else {
             // North to south sorting for counties
+            // Sort index is region id, except for Trondelag where
+            // 50 is excanged for 16 when forecast is created
             // County "20": "Finnmark", north
             // County "01": "Østfold", south
-            return forecastA.regionId > forecastB.regionId ? -1 : 1;
+            return forecastA.sortIndex > forecastB.sortIndex ? -1 : 1;
           }
         });
     }
@@ -349,7 +364,9 @@ const getSectionForecasts = createSelector(
         highestRating: highestWarnings.reduce((acc, warning) => {
           return acc > warning.rating ? acc : warning.rating;
         }, -1),
-        warnings: highestWarnings
+        warnings: highestWarnings,
+        // Trondelag is now id 50, but location 16
+        sortIndex: region.id === TRONDELAG ? SOUTH_TRONDELAG : region.id
       };
     });
   }

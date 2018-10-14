@@ -131,9 +131,9 @@ export class OverviewPage {
         if (region.id === OSLO_COUNTY_ID) {
           this._pushForecastPage(OSLO_MUNICIPALITY_ID);
         } else if (region.type === "County") {
-          this._pushOverviewPage(regionId);
+          this._pushOverviewPage(region.id);
         } else {
-          this._pushForecastPage(regionId);
+          this._pushForecastPage(region.id);
         }
       });
   }
