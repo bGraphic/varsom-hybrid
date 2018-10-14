@@ -40,9 +40,7 @@ import { LocalStorageEffects } from "../store/effects/localstorage.effects";
 import { WarningsEffects } from "./../store/effects/warnings.effects";
 import { RegionsEffects } from "../store/effects/regions.effects";
 import { GeojsonEffects } from "../store/effects/geojson.effects";
-import { PushEffects } from "../store/effects/push.effects";
 import { UIUpdateAlertEffects } from "../store/effects/ui-update-alert.effects";
-import { UIPushAlertsEffects } from "../store/effects/ui-push-alerts.effects";
 import { UIErrorAlertsEffects } from "../store/effects/ui-error-alerts.effects";
 import { UISubscriptionAlertsEffects } from "../store/effects/ui-subscription-alerts.effects";
 import { UISectionsEffects } from "../store/effects/ui-sections.effects";
@@ -95,8 +93,6 @@ export function createTranslateLoader(http: Http) {
     EffectsModule.run(LocalStorageEffects),
     EffectsModule.run(AppVersionsEffects),
     EffectsModule.run(UIUpdateAlertEffects),
-    EffectsModule.run(PushEffects),
-    EffectsModule.run(UIPushAlertsEffects),
     EffectsModule.run(UIErrorAlertsEffects),
     EffectsModule.run(UISubscriptionAlertsEffects),
     EffectsModule.run(UISectionsEffects),

@@ -22,7 +22,6 @@ import * as fromAppVersions from "./app-versions.reducer";
 import * as fromFavorites from "./favorites.reducer";
 import * as fromGeojson from "./geojson.reducer";
 import * as fromLocation from "./location.reducer";
-import * as fromPush from "./push.reducer";
 import * as fromRegions from "./regions.reducer";
 import * as fromMapUIState from "./ui-map.reducer";
 import * as fromSectionsUIState from "./ui-sections.reducer";
@@ -44,7 +43,6 @@ export interface State {
   appVersions: fromAppVersions.State;
   favorites: fromFavorites.State;
   geojson: fromGeojson.State;
-  push: fromPush.State;
   regions: fromRegions.State;
   location: fromLocation.State;
   mapUI: fromMapUIState.State;
@@ -64,7 +62,6 @@ const reducers = {
   favorites: fromFavorites.reducer,
   geojson: fromGeojson.reducer,
   regions: fromRegions.reducer,
-  push: fromPush.reducer,
   location: fromLocation.reducer,
   mapUI: fromMapUIState.reducer,
   sectionsUI: fromSectionsUIState.reducer,
@@ -164,11 +161,6 @@ const getSectionGeojson = createSelector(
     return geojson[section];
   }
 );
-
-// Push
-
-const getPushState = (state: State) => state.push;
-export const getPushToken = createSelector(getPushState, fromPush.getPushToken);
 
 // Regions
 

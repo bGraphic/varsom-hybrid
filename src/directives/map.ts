@@ -28,7 +28,6 @@ export class MapDirective {
   private _marker: L.CircleMarker;
   private _centering: boolean = false;
   private _centered: boolean = true;
-  private _test: boolean = true;
 
   constructor(private _el: ElementRef) {}
 
