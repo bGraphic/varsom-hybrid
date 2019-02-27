@@ -47,8 +47,8 @@ const featureToRegionId = (feature: any): string => {
   if (feature.hasOwnProperty("properties")) {
     if (feature.properties.hasOwnProperty("fylkesnr")) {
       id = Number(feature.properties.fylkesnr);
-    } else if (feature.properties.hasOwnProperty("omraadeid")) {
-      id = Number(feature.properties.omraadeid);
+    } else if (feature.properties.hasOwnProperty("omradeID")) {
+      id = Number(feature.properties.omradeID);
     }
   }
 
@@ -61,8 +61,8 @@ const featureToRegionId = (feature: any): string => {
 
 const featureToRegionImportance = (feature): RegionImportance => {
   if (feature.hasOwnProperty("properties")) {
-    if (feature.properties.hasOwnProperty("regiontype")) {
-      return feature.properties.regiontype === "B"
+    if (feature.properties.hasOwnProperty("regionType")) {
+      return feature.properties.regionType === "B"
         ? RegionImportance.B
         : RegionImportance.A;
     }
